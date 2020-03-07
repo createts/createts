@@ -1,0 +1,1 @@
+{"version":3,"file":"ImageRegistry.d.ts","sourceRoot":"","sources":["../../../src/resource/ImageRegistry.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,YAAY,CAAC;AAEpD,qBAAa,aAAc,SAAQ,QAAQ,CAAC,gBAAgB,CAAC;IAC3D,IAAI,CAAC,IAAI,EAAE,YAAY,CAAC,gBAAgB,CAAC,GAAG,GAAG;IAuB/C,MAAM,CAAC,QAAQ,CAAC,eAAe,EAAE,aAAa,CAAuB;CACtE"}

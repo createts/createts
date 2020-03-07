@@ -1,0 +1,1 @@
+{"version":3,"file":"CSSTokenizer.d.ts","sourceRoot":"","sources":["../../../src/parser/CSSTokenizer.ts"],"names":[],"mappings":"AAcA,qBAAa,YAAY;IACvB,OAAO,CAAC,QAAQ,CAAc;gBAElB,QAAQ,GAAE,MAAW;IAQjC,OAAO,CAAC,UAAU;IAYX,QAAQ,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,EAAE;CAoD3C"}

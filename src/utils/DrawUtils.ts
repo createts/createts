@@ -1,0 +1,256 @@
+import { Color } from '../base/Color';
+import { RoundRect } from '../base/RoundRect';
+import { XObject } from '../components/XObject';
+import { Overflow } from '../style/Style';
+
+/**
+ * A class contains static draw util methods.
+ */
+export class DrawUtils {
+  /**
+   * Prevent creating instance.
+   */
+  private constructor() {}
+
+  /**
+   * Draws an element to canvas, it takes 3 steps:
+   *
+   * 1. Draw background (if any).
+   * 1. Draw border and calculate the clip.
+   * 1. Draw content.
+   *
+   * @param element The element to be drawn.
+   * @param ctx The rendering context of target canvas.
+   */
+  public static drawElement(element: XObject, ctx: CanvasRenderingContext2D) {
+    const style = element.style;
+    if (style.compositeOperation) {
+      ctx.globalCompositeOperation = style.compositeOperation;
+    }
+
+    // Step 1, caculate border.
+    const topWidth = style.borderTop ? style.borderTop.width : 0;
+    const rightWidth = style.borderRight ? style.borderRight.width : 0;
+    const bottomWidth = style.borderBottom ? style.borderBottom.width : 0;
+    const leftWidth = style.borderLeft ? style.borderLeft.width : 0;
+    const outerRect = new RoundRect()
+      .applySize(element.rect.width, element.rect.height)
+      .applyRadius(
+        style.borderRadiusTop,
+        style.borderRadiusRight,
+        style.borderRadiusBottom,
+        style.borderRadiusLeft
+      );
+    let innerRect: RoundRect;
+    if (topWidth > 0 || rightWidth > 0 || bottomWidth > 0 || leftWidth > 0) {
+      innerRect = outerRect.applyBorder(topWidth, rightWidth, bottomWidth, leftWidth);
+    } else {
+      innerRect = outerRect;
+    }
+
+    // Step 2, draw shadow.
+    if (style.shadow && style.shadow.isEnable()) {
+      ctx.save();
+      ctx.shadowBlur = style.shadow.blur;
+      ctx.shadowColor = style.shadow.color.toString();
+      ctx.shadowOffsetX = style.shadow.offsetX;
+      ctx.shadowOffsetY = style.shadow.offsetY;
+
+      const x = Math.abs(style.shadow.offsetX) + style.shadow.blur;
+      const y = Math.abs(style.shadow.offsetY) + style.shadow.blur;
+      const shadowRect = new RoundRect(
+        outerRect.x1 - x,
+        outerRect.y1 - y,
+        outerRect.x2 + x,
+        outerRect.y2 + y
+      );
+
+      ctx.beginPath();
+      shadowRect.makePath(ctx, true, true);
+      outerRect.makePath(ctx, false, false);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      outerRect.makePath(ctx, true, true);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Step 3, draw background.
+    ctx.save();
+    element.drawBackground(ctx, outerRect, innerRect);
+    ctx.restore();
+
+    // Step 4, draw border
+    if (topWidth > 0 || rightWidth > 0 || bottomWidth > 0 || leftWidth > 0) {
+      const topColor = style.borderTop ? style.borderTop.color : undefined;
+      const rightColor = style.borderRight ? style.borderRight.color : undefined;
+      const bottomColor = style.borderBottom ? style.borderBottom.color : undefined;
+      const leftColor = style.borderLeft ? style.borderLeft.color : undefined;
+
+      const colors: Color[] = [];
+      if (topColor) {
+        colors.push(topColor);
+      }
+      if (rightColor) {
+        colors.push(rightColor);
+      }
+      if (bottomColor) {
+        colors.push(bottomColor);
+      }
+      if (leftColor) {
+        colors.push(leftColor);
+      }
+      const color = colors[0];
+      let sameColor = true;
+      for (let i = 1; i < colors.length; ++i) {
+        if (!color.equals(colors[i])) {
+          sameColor = false;
+        }
+      }
+
+      if (sameColor) {
+        ctx.beginPath();
+        outerRect.makePath(ctx, true, true);
+        innerRect.makePath(ctx, false, false);
+        ctx.closePath();
+        ctx.fillStyle = color.toString();
+        ctx.fill();
+      } else {
+        if (leftColor) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(outerRect.x1, outerRect.y1);
+          if (!topColor) {
+            ctx.lineTo(innerRect.x1 + innerRect.leftTopRadiusX, outerRect.y1);
+          }
+          ctx.lineTo(
+            innerRect.x1 + innerRect.leftTopRadiusX,
+            innerRect.y1 + innerRect.leftTopRadiusY
+          );
+          ctx.lineTo(
+            innerRect.x1 + innerRect.leftBottomRadiusX,
+            innerRect.y2 - innerRect.leftBottomRadiusY
+          );
+          if (!bottomColor) {
+            ctx.lineTo(innerRect.x1 + innerRect.leftBottomRadiusX, outerRect.y2);
+          }
+          ctx.lineTo(outerRect.x1, outerRect.y2);
+          ctx.closePath();
+          ctx.clip();
+
+          ctx.beginPath();
+          outerRect.makePath(ctx, true, true);
+          innerRect.makePath(ctx, false, false);
+          ctx.closePath();
+          ctx.fillStyle = leftColor.toString();
+          ctx.fill();
+          ctx.restore();
+        }
+        if (topColor) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(outerRect.x2, outerRect.y1);
+          if (!rightColor) {
+            ctx.lineTo(outerRect.x2, outerRect.y1 + outerRect.rightTopRadiusY);
+          }
+          ctx.lineTo(
+            innerRect.x2 - innerRect.rightTopRadiusX,
+            innerRect.y1 + innerRect.rightTopRadiusY
+          );
+          ctx.lineTo(
+            innerRect.x1 + innerRect.leftTopRadiusX,
+            innerRect.y1 + innerRect.leftTopRadiusY
+          );
+          if (!leftColor) {
+            ctx.lineTo(outerRect.x1, outerRect.y1 + outerRect.leftTopRadiusY);
+          }
+          ctx.lineTo(outerRect.x1, outerRect.y1);
+          ctx.closePath();
+          ctx.clip();
+
+          ctx.beginPath();
+          outerRect.makePath(ctx, true, true);
+          innerRect.makePath(ctx, false, false);
+          ctx.closePath();
+          ctx.fillStyle = topColor.toString();
+          ctx.fill();
+          ctx.restore();
+        }
+        if (rightColor) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(outerRect.x2, outerRect.y2);
+          if (!bottomColor) {
+            ctx.lineTo(outerRect.x2 - outerRect.rightBottomRadiusX, outerRect.y2);
+          }
+          ctx.lineTo(
+            innerRect.x2 - innerRect.rightBottomRadiusX,
+            innerRect.y2 - innerRect.rightBottomRadiusY
+          );
+          ctx.lineTo(
+            innerRect.x2 - innerRect.rightTopRadiusX,
+            innerRect.y1 + innerRect.rightTopRadiusY
+          );
+          if (!topColor) {
+            ctx.lineTo(innerRect.x2 - innerRect.rightTopRadiusX, outerRect.y1);
+          }
+          ctx.lineTo(outerRect.x2, outerRect.y1);
+          ctx.closePath();
+          ctx.clip();
+
+          ctx.beginPath();
+          outerRect.makePath(ctx, true, true);
+          innerRect.makePath(ctx, false, false);
+          ctx.closePath();
+          ctx.fillStyle = rightColor.toString();
+          ctx.fill();
+          ctx.restore();
+        }
+        if (bottomColor) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(outerRect.x1, outerRect.y2);
+          if (!leftColor) {
+            ctx.lineTo(outerRect.x1, outerRect.y2 - outerRect.leftBottomRadiusY);
+          }
+          ctx.lineTo(
+            innerRect.x1 + innerRect.leftBottomRadiusX,
+            innerRect.y2 - innerRect.leftBottomRadiusY
+          );
+          ctx.lineTo(
+            innerRect.x2 - innerRect.rightBottomRadiusX,
+            innerRect.y2 - innerRect.rightBottomRadiusY
+          );
+          if (!rightColor) {
+            ctx.lineTo(outerRect.x2, outerRect.y2 - outerRect.rightBottomRadiusY);
+          }
+          ctx.lineTo(outerRect.x2, outerRect.y2);
+          ctx.closePath();
+          ctx.clip();
+
+          ctx.beginPath();
+          outerRect.makePath(ctx, true, true);
+          innerRect.makePath(ctx, false, false);
+          ctx.closePath();
+          ctx.fillStyle = bottomColor.toString();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    // Step 6, draw content
+    if (element.style.overflow === Overflow.HIDDEN) {
+      ctx.save();
+      innerRect.clip(ctx);
+      element.drawContent(ctx);
+      ctx.restore();
+    } else {
+      element.drawContent(ctx);
+    }
+  }
+}

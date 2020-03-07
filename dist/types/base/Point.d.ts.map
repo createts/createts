@@ -1,0 +1,1 @@
+{"version":3,"file":"Point.d.ts","sourceRoot":"","sources":["../../../src/base/Point.ts"],"names":[],"mappings":"AAGA,qBAAa,KAAK;IAIT,CAAC,EAAE,MAAM,CAAC;IAIV,CAAC,EAAE,MAAM,CAAC;gBAOL,CAAC,EAAE,MAAM,EAAE,CAAC,EAAE,MAAM;IAWzB,MAAM,CAAC,IAAI,EAAE,KAAK,GAAG,OAAO;IAQ5B,KAAK,IAAI,KAAK;CAGtB"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"ApngRegistry.d.ts","sourceRoot":"","sources":["../../../src/resource/ApngRegistry.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,sBAAsB,CAAC;AAGpD,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,YAAY,CAAC;AAEpD,qBAAa,YAAa,SAAQ,QAAQ,CAAC,YAAY,CAAC;IACtD,IAAI,CAAC,IAAI,EAAE,YAAY,CAAC,YAAY,CAAC,GAAG,GAAG;IAoC3C,MAAM,CAAC,QAAQ,CAAC,eAAe,EAAE,YAAY,CAAsB;CACpE"}

@@ -1,0 +1,2666 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Color | createts</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">createts</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_base_color_.html">&quot;base/Color&quot;</a>
+				</li>
+				<li>
+					<a href="_base_color_.color.html">Color</a>
+				</li>
+			</ul>
+			<h1>Class Color</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This class represents an immutable color value. It uses the sRGB (standard Red-Green-Blue) system, along with an
+							alpha value ranging from transparent (0.0f) and opaque (1.0f). Further information about sRGB can be found at
+						<a href="http://www.w3.org/pub/WWW/Graphics/Color/sRGB.html">http://www.w3.org/pub/WWW/Graphics/Color/sRGB.html</a>.</p>
+					</div>
+					<p>Static method Color.of can be used to parse a string to a Color object, and it supports 4 types of format:</p>
+					<ol>
+						<li>hex value starts from &#39;#&#39;<ol>
+								<li>Hexadecimal notation: <code>#RRGGBB[AA]</code>: R (red), G (green), B (blue), and A (alpha) are hexadecimal characters (0–9, A–F). A is optional. For example, <code>#ff0000</code> is equivalent to <code>#ff0000ff</code>.</li>
+								<li>Hexadecimal notation: <code>#RGB[A]</code>: R (red), G (green), B (blue), and A (alpha) are hexadecimal characters (0–9, A–F). A is optional. The three-digit notation (#RGB) is a shorter version of the six-digit form (#RRGGBB). For example, #f09 is the same color as #ff0099. Likewise, the four-digit RGB notation (#RGBA) is a shorter version of the eight-digit form (#RRGGBBAA). For example, <code>#0f38</code> is the same color as <code>#00ff3388</code>.<pre><code class="language-typescript"><span class="hljs-keyword">const</span> white = Color.of(<span class="hljs-string">'#fff'</span>);
+<span class="hljs-keyword">const</span> black = Color.of(<span class="hljs-string">'#000000ff'</span>);</code></pre>
+								</li>
+							</ol>
+						</li>
+						<li>named color: there are 150 pre-defined named colors, also see <a href='https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Color_keywords'>https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Color_keywords</a>.<pre><code class="language-typescript"><span class="hljs-keyword">const</span> white1 = Color.WHITE;
+<span class="hljs-keyword">const</span> white2 = Color.of(<span class="hljs-string">'white'</span>);</code></pre>
+						</li>
+						<li>Functional notation: rgb[a](R, G, B[, A]), R (red), G (green), and B (blue) can be either <number>s or <percentage>s, where the number 255 corresponds to 100%. A (alpha) can be a <number> between 0 and 1, or a <percentage>, where the number 1 corresponds to 100% (full opacity).<pre><code class="language-typescript"><span class="hljs-keyword">const</span> white1 = Color.of(<span class="hljs-string">'rgb(255, 255, 255)'</span>);
+<span class="hljs-keyword">const</span> white2 = Color.of(<span class="hljs-string">'rgba(100%, 255, 255, 1)'</span>);</code></pre>
+						</li>
+					</ol>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Color</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_base_color_.color.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_base_color_.color.html#a" class="tsd-kind-icon">a</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_base_color_.color.html#b" class="tsd-kind-icon">b</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_base_color_.color.html#g" class="tsd-kind-icon">g</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_base_color_.color.html#r" class="tsd-kind-icon">r</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#aliceblue" class="tsd-kind-icon">ALICEBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#antiquewhite" class="tsd-kind-icon">ANTIQUEWHITE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#aqua" class="tsd-kind-icon">AQUA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#aquamarine" class="tsd-kind-icon">AQUAMARINE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#azure" class="tsd-kind-icon">AZURE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#beige" class="tsd-kind-icon">BEIGE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#bisque" class="tsd-kind-icon">BISQUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#black" class="tsd-kind-icon">BLACK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#blanchedalmond" class="tsd-kind-icon">BLANCHEDALMOND</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#blue" class="tsd-kind-icon">BLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#blueviolet" class="tsd-kind-icon">BLUEVIOLET</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#brown" class="tsd-kind-icon">BROWN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#burlywood" class="tsd-kind-icon">BURLYWOOD</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#cadetblue" class="tsd-kind-icon">CADETBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#chartreuse" class="tsd-kind-icon">CHARTREUSE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#chocolate" class="tsd-kind-icon">CHOCOLATE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#coral" class="tsd-kind-icon">CORAL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#cornflowerblue" class="tsd-kind-icon">CORNFLOWERBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#cornsilk" class="tsd-kind-icon">CORNSILK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#crimson" class="tsd-kind-icon">CRIMSON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#cyan" class="tsd-kind-icon">CYAN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkblue" class="tsd-kind-icon">DARKBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkcyan" class="tsd-kind-icon">DARKCYAN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkgoldenrod" class="tsd-kind-icon">DARKGOLDENROD</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkgray" class="tsd-kind-icon">DARKGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkgreen" class="tsd-kind-icon">DARKGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkgrey" class="tsd-kind-icon">DARKGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkkhaki" class="tsd-kind-icon">DARKKHAKI</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkmagenta" class="tsd-kind-icon">DARKMAGENTA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkolivegreen" class="tsd-kind-icon">DARKOLIVEGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkorange" class="tsd-kind-icon">DARKORANGE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkorchid" class="tsd-kind-icon">DARKORCHID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkred" class="tsd-kind-icon">DARKRED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darksalmon" class="tsd-kind-icon">DARKSALMON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkseagreen" class="tsd-kind-icon">DARKSEAGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkslateblue" class="tsd-kind-icon">DARKSLATEBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkslategray" class="tsd-kind-icon">DARKSLATEGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkslategrey" class="tsd-kind-icon">DARKSLATEGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkturquoise" class="tsd-kind-icon">DARKTURQUOISE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#darkviolet" class="tsd-kind-icon">DARKVIOLET</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#deeppink" class="tsd-kind-icon">DEEPPINK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#deepskyblue" class="tsd-kind-icon">DEEPSKYBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#dimgray" class="tsd-kind-icon">DIMGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#dimgrey" class="tsd-kind-icon">DIMGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#dodgerblue" class="tsd-kind-icon">DODGERBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#firebrick" class="tsd-kind-icon">FIREBRICK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#floralwhite" class="tsd-kind-icon">FLORALWHITE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#forestgreen" class="tsd-kind-icon">FORESTGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#fuchsia" class="tsd-kind-icon">FUCHSIA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#gainsboro" class="tsd-kind-icon">GAINSBORO</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#ghostwhite" class="tsd-kind-icon">GHOSTWHITE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#gold" class="tsd-kind-icon">GOLD</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#goldenrod" class="tsd-kind-icon">GOLDENROD</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#gray" class="tsd-kind-icon">GRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#green" class="tsd-kind-icon">GREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#greenyellow" class="tsd-kind-icon">GREENYELLOW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#grey" class="tsd-kind-icon">GREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#honeydew" class="tsd-kind-icon">HONEYDEW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#hotpink" class="tsd-kind-icon">HOTPINK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#indianred" class="tsd-kind-icon">INDIANRED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#indigo" class="tsd-kind-icon">INDIGO</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#ivory" class="tsd-kind-icon">IVORY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#khaki" class="tsd-kind-icon">KHAKI</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lavender" class="tsd-kind-icon">LAVENDER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lavenderblush" class="tsd-kind-icon">LAVENDERBLUSH</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lawngreen" class="tsd-kind-icon">LAWNGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lemonchiffon" class="tsd-kind-icon">LEMONCHIFFON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightblue" class="tsd-kind-icon">LIGHTBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightcoral" class="tsd-kind-icon">LIGHTCORAL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightcyan" class="tsd-kind-icon">LIGHTCYAN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightgoldenrodyellow" class="tsd-kind-icon">LIGHTGOLDENRODYELLOW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightgray" class="tsd-kind-icon">LIGHTGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightgreen" class="tsd-kind-icon">LIGHTGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightgrey" class="tsd-kind-icon">LIGHTGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightpink" class="tsd-kind-icon">LIGHTPINK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightsalmon" class="tsd-kind-icon">LIGHTSALMON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightseagreen" class="tsd-kind-icon">LIGHTSEAGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightskyblue" class="tsd-kind-icon">LIGHTSKYBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightslategray" class="tsd-kind-icon">LIGHTSLATEGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightslategrey" class="tsd-kind-icon">LIGHTSLATEGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightsteelblue" class="tsd-kind-icon">LIGHTSTEELBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lightyellow" class="tsd-kind-icon">LIGHTYELLOW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#lime" class="tsd-kind-icon">LIME</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#limegreen" class="tsd-kind-icon">LIMEGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#linen" class="tsd-kind-icon">LINEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#magenta" class="tsd-kind-icon">MAGENTA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#maroon" class="tsd-kind-icon">MAROON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumaquamarine" class="tsd-kind-icon">MEDIUMAQUAMARINE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumblue" class="tsd-kind-icon">MEDIUMBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumorchid" class="tsd-kind-icon">MEDIUMORCHID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumpurple" class="tsd-kind-icon">MEDIUMPURPLE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumseagreen" class="tsd-kind-icon">MEDIUMSEAGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumslateblue" class="tsd-kind-icon">MEDIUMSLATEBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumspringgreen" class="tsd-kind-icon">MEDIUMSPRINGGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumturquoise" class="tsd-kind-icon">MEDIUMTURQUOISE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mediumvioletred" class="tsd-kind-icon">MEDIUMVIOLETRED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#midnightblue" class="tsd-kind-icon">MIDNIGHTBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mintcream" class="tsd-kind-icon">MINTCREAM</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#mistyrose" class="tsd-kind-icon">MISTYROSE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#moccasin" class="tsd-kind-icon">MOCCASIN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#navajowhite" class="tsd-kind-icon">NAVAJOWHITE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#navy" class="tsd-kind-icon">NAVY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#none" class="tsd-kind-icon">NONE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#oldlace" class="tsd-kind-icon">OLDLACE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#olive" class="tsd-kind-icon">OLIVE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#olivedrab" class="tsd-kind-icon">OLIVEDRAB</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#orange" class="tsd-kind-icon">ORANGE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#orangered" class="tsd-kind-icon">ORANGERED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#orchid" class="tsd-kind-icon">ORCHID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#palegoldenrod" class="tsd-kind-icon">PALEGOLDENROD</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#palegreen" class="tsd-kind-icon">PALEGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#paleturquoise" class="tsd-kind-icon">PALETURQUOISE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#palevioletred" class="tsd-kind-icon">PALEVIOLETRED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#papayawhip" class="tsd-kind-icon">PAPAYAWHIP</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#peachpuff" class="tsd-kind-icon">PEACHPUFF</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#peru" class="tsd-kind-icon">PERU</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#pink" class="tsd-kind-icon">PINK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#plum" class="tsd-kind-icon">PLUM</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#powderblue" class="tsd-kind-icon">POWDERBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#purple" class="tsd-kind-icon">PURPLE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#rebeccapurple" class="tsd-kind-icon">REBECCAPURPLE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#red" class="tsd-kind-icon">RED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#rosybrown" class="tsd-kind-icon">ROSYBROWN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#royalblue" class="tsd-kind-icon">ROYALBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#saddlebrown" class="tsd-kind-icon">SADDLEBROWN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#salmon" class="tsd-kind-icon">SALMON</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#sandybrown" class="tsd-kind-icon">SANDYBROWN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#seagreen" class="tsd-kind-icon">SEAGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#seashell" class="tsd-kind-icon">SEASHELL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#sienna" class="tsd-kind-icon">SIENNA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#silver" class="tsd-kind-icon">SILVER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#skyblue" class="tsd-kind-icon">SKYBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#slateblue" class="tsd-kind-icon">SLATEBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#slategray" class="tsd-kind-icon">SLATEGRAY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#slategrey" class="tsd-kind-icon">SLATEGREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#snow" class="tsd-kind-icon">SNOW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#springgreen" class="tsd-kind-icon">SPRINGGREEN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#steelblue" class="tsd-kind-icon">STEELBLUE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#tan" class="tsd-kind-icon">TAN</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#teal" class="tsd-kind-icon">TEAL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#thistle" class="tsd-kind-icon">THISTLE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#tomato" class="tsd-kind-icon">TOMATO</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#transparent" class="tsd-kind-icon">TRANSPARENT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#turquoise" class="tsd-kind-icon">TURQUOISE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#violet" class="tsd-kind-icon">VIOLET</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#wheat" class="tsd-kind-icon">WHEAT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#white" class="tsd-kind-icon">WHITE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#whitesmoke" class="tsd-kind-icon">WHITESMOKE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#yellow" class="tsd-kind-icon">YELLOW</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#yellowgreen" class="tsd-kind-icon">YELLOWGREEN</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_color_.color.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_color_.color.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_color_.color.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_base_color_.color.html#fromhex" class="tsd-kind-icon">from<wbr>Hex</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_base_color_.color.html#of" class="tsd-kind-icon">of</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_base_color_.color.html#parsecolorvalue" class="tsd-kind-icon">parse<wbr>Color<wbr>Value</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Color<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, a<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L298">base/Color.ts:298</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Constructs and initializes a color object with given arguments of sRGB and alpha.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>r: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The color red, normalizes to 0 if it is smaller than 0, 255 if it is bigger than 255.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>g: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The color green, normalizes to 0 if it is smaller than 0, 255 if it is bigger than 255.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>b: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The color blue, normalizes to 0 if it is smaller than 0, 255 if it is bigger than 255.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> a: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The alpha value, normalizes to 0 if it is smaller than 0, 1 if it is bigger than 1.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="a" class="tsd-anchor"></a>
+					<h3>a</h3>
+					<div class="tsd-signature tsd-kind-icon">a<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L298">base/Color.ts:298</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The alpha value. This is in the range 0.0f - 1.0f, and the default value is 1.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="b" class="tsd-anchor"></a>
+					<h3>b</h3>
+					<div class="tsd-signature tsd-kind-icon">b<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L294">base/Color.ts:294</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> The color blue. In the default sRGB space.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="g" class="tsd-anchor"></a>
+					<h3>g</h3>
+					<div class="tsd-signature tsd-kind-icon">g<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L290">base/Color.ts:290</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> The color green. In the default sRGB space.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="r" class="tsd-anchor"></a>
+					<h3>r</h3>
+					<div class="tsd-signature tsd-kind-icon">r<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L286">base/Color.ts:286</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> The color red. In the default sRGB space.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="aliceblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ALICEBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">ALICEBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F0F8FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L32">base/Color.ts:32</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="antiquewhite" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ANTIQUEWHITE</h3>
+					<div class="tsd-signature tsd-kind-icon">ANTIQUEWHITE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FAEBD7&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L33">base/Color.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="aqua" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> AQUA</h3>
+					<div class="tsd-signature tsd-kind-icon">AQUA<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00FFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L34">base/Color.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="aquamarine" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> AQUAMARINE</h3>
+					<div class="tsd-signature tsd-kind-icon">AQUAMARINE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#7FFFD4&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L35">base/Color.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="azure" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> AZURE</h3>
+					<div class="tsd-signature tsd-kind-icon">AZURE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F0FFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L36">base/Color.ts:36</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="beige" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BEIGE</h3>
+					<div class="tsd-signature tsd-kind-icon">BEIGE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F5F5DC&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L37">base/Color.ts:37</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="bisque" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BISQUE</h3>
+					<div class="tsd-signature tsd-kind-icon">BISQUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFE4C4&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L38">base/Color.ts:38</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="black" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BLACK</h3>
+					<div class="tsd-signature tsd-kind-icon">BLACK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#000000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L39">base/Color.ts:39</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="blanchedalmond" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BLANCHEDALMOND</h3>
+					<div class="tsd-signature tsd-kind-icon">BLANCHEDALMOND<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFEBCD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L40">base/Color.ts:40</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="blue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">BLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#0000FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L41">base/Color.ts:41</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="blueviolet" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BLUEVIOLET</h3>
+					<div class="tsd-signature tsd-kind-icon">BLUEVIOLET<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#8A2BE2&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L42">base/Color.ts:42</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="brown" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BROWN</h3>
+					<div class="tsd-signature tsd-kind-icon">BROWN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#A52A2A&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L43">base/Color.ts:43</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="burlywood" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> BURLYWOOD</h3>
+					<div class="tsd-signature tsd-kind-icon">BURLYWOOD<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DEB887&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L44">base/Color.ts:44</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="cadetblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CADETBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">CADETBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#5F9EA0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L45">base/Color.ts:45</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="chartreuse" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CHARTREUSE</h3>
+					<div class="tsd-signature tsd-kind-icon">CHARTREUSE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#7FFF00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L46">base/Color.ts:46</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="chocolate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CHOCOLATE</h3>
+					<div class="tsd-signature tsd-kind-icon">CHOCOLATE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#D2691E&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L47">base/Color.ts:47</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="coral" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CORAL</h3>
+					<div class="tsd-signature tsd-kind-icon">CORAL<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF7F50&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L48">base/Color.ts:48</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="cornflowerblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CORNFLOWERBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">CORNFLOWERBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#6495ED&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L49">base/Color.ts:49</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="cornsilk" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CORNSILK</h3>
+					<div class="tsd-signature tsd-kind-icon">CORNSILK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFF8DC&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L50">base/Color.ts:50</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="crimson" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CRIMSON</h3>
+					<div class="tsd-signature tsd-kind-icon">CRIMSON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DC143C&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L51">base/Color.ts:51</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="cyan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> CYAN</h3>
+					<div class="tsd-signature tsd-kind-icon">CYAN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00FFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L52">base/Color.ts:52</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00008B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L53">base/Color.ts:53</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkcyan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKCYAN</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKCYAN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#008B8B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L54">base/Color.ts:54</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkgoldenrod" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKGOLDENROD</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKGOLDENROD<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#B8860B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L55">base/Color.ts:55</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkgray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#A9A9A9&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L56">base/Color.ts:56</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#006400&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L58">base/Color.ts:58</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkgrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#A9A9A9&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L57">base/Color.ts:57</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkkhaki" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKKHAKI</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKKHAKI<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#BDB76B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L59">base/Color.ts:59</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkmagenta" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKMAGENTA</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKMAGENTA<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#8B008B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L60">base/Color.ts:60</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkolivegreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKOLIVEGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKOLIVEGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#556B2F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L61">base/Color.ts:61</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkorange" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKORANGE</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKORANGE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF8C00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L62">base/Color.ts:62</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkorchid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKORCHID</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKORCHID<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#9932CC&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L63">base/Color.ts:63</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkred" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKRED</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKRED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#8B0000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L64">base/Color.ts:64</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darksalmon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKSALMON</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKSALMON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#E9967A&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L65">base/Color.ts:65</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkseagreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKSEAGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKSEAGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#8FBC8F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L66">base/Color.ts:66</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkslateblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKSLATEBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKSLATEBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#483D8B&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L67">base/Color.ts:67</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkslategray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKSLATEGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKSLATEGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#2F4F4F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L68">base/Color.ts:68</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkslategrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKSLATEGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKSLATEGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#2F4F4F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L69">base/Color.ts:69</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkturquoise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKTURQUOISE</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKTURQUOISE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00CED1&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L70">base/Color.ts:70</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="darkviolet" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DARKVIOLET</h3>
+					<div class="tsd-signature tsd-kind-icon">DARKVIOLET<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#9400D3&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L71">base/Color.ts:71</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="deeppink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DEEPPINK</h3>
+					<div class="tsd-signature tsd-kind-icon">DEEPPINK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF1493&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L72">base/Color.ts:72</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="deepskyblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DEEPSKYBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">DEEPSKYBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00BFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L73">base/Color.ts:73</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="dimgray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DIMGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">DIMGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#696969&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L74">base/Color.ts:74</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="dimgrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DIMGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">DIMGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#696969&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L75">base/Color.ts:75</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="dodgerblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DODGERBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">DODGERBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#1E90FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L76">base/Color.ts:76</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="firebrick" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> FIREBRICK</h3>
+					<div class="tsd-signature tsd-kind-icon">FIREBRICK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#B22222&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L77">base/Color.ts:77</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="floralwhite" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> FLORALWHITE</h3>
+					<div class="tsd-signature tsd-kind-icon">FLORALWHITE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFAF0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L78">base/Color.ts:78</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="forestgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> FORESTGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">FORESTGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#228B22&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L79">base/Color.ts:79</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="fuchsia" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> FUCHSIA</h3>
+					<div class="tsd-signature tsd-kind-icon">FUCHSIA<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF00FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L80">base/Color.ts:80</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="gainsboro" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GAINSBORO</h3>
+					<div class="tsd-signature tsd-kind-icon">GAINSBORO<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DCDCDC&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L81">base/Color.ts:81</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="ghostwhite" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GHOSTWHITE</h3>
+					<div class="tsd-signature tsd-kind-icon">GHOSTWHITE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F8F8FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L82">base/Color.ts:82</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="gold" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GOLD</h3>
+					<div class="tsd-signature tsd-kind-icon">GOLD<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFD700&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L83">base/Color.ts:83</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="goldenrod" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GOLDENROD</h3>
+					<div class="tsd-signature tsd-kind-icon">GOLDENROD<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DAA520&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L84">base/Color.ts:84</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="gray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">GRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#808080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L85">base/Color.ts:85</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="green" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">GREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#008000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L87">base/Color.ts:87</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="greenyellow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GREENYELLOW</h3>
+					<div class="tsd-signature tsd-kind-icon">GREENYELLOW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#ADFF2F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L88">base/Color.ts:88</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="grey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> GREY</h3>
+					<div class="tsd-signature tsd-kind-icon">GREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#808080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L86">base/Color.ts:86</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="honeydew" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> HONEYDEW</h3>
+					<div class="tsd-signature tsd-kind-icon">HONEYDEW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F0FFF0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L89">base/Color.ts:89</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="hotpink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> HOTPINK</h3>
+					<div class="tsd-signature tsd-kind-icon">HOTPINK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF69B4&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L90">base/Color.ts:90</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="indianred" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> INDIANRED</h3>
+					<div class="tsd-signature tsd-kind-icon">INDIANRED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#CD5C5C&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L91">base/Color.ts:91</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="indigo" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> INDIGO</h3>
+					<div class="tsd-signature tsd-kind-icon">INDIGO<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#4B0082&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L92">base/Color.ts:92</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="ivory" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> IVORY</h3>
+					<div class="tsd-signature tsd-kind-icon">IVORY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFFF0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L93">base/Color.ts:93</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="khaki" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> KHAKI</h3>
+					<div class="tsd-signature tsd-kind-icon">KHAKI<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F0E68C&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L94">base/Color.ts:94</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lavender" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LAVENDER</h3>
+					<div class="tsd-signature tsd-kind-icon">LAVENDER<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#E6E6FA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L95">base/Color.ts:95</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lavenderblush" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LAVENDERBLUSH</h3>
+					<div class="tsd-signature tsd-kind-icon">LAVENDERBLUSH<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFF0F5&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L96">base/Color.ts:96</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lawngreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LAWNGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">LAWNGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#7CFC00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L97">base/Color.ts:97</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lemonchiffon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LEMONCHIFFON</h3>
+					<div class="tsd-signature tsd-kind-icon">LEMONCHIFFON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFACD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L98">base/Color.ts:98</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#ADD8E6&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L99">base/Color.ts:99</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightcoral" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTCORAL</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTCORAL<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F08080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L100">base/Color.ts:100</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightcyan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTCYAN</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTCYAN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#E0FFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L101">base/Color.ts:101</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightgoldenrodyellow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTGOLDENRODYELLOW</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTGOLDENRODYELLOW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FAFAD2&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L102">base/Color.ts:102</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightgray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#D3D3D3&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L103">base/Color.ts:103</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#90EE90&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L105">base/Color.ts:105</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightgrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#D3D3D3&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L104">base/Color.ts:104</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightpink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTPINK</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTPINK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFB6C1&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L106">base/Color.ts:106</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightsalmon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSALMON</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSALMON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFA07A&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L107">base/Color.ts:107</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightseagreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSEAGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSEAGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#20B2AA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L108">base/Color.ts:108</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightskyblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSKYBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSKYBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#87CEFA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L109">base/Color.ts:109</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightslategray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSLATEGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSLATEGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#778899&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L110">base/Color.ts:110</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightslategrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSLATEGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSLATEGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#778899&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L111">base/Color.ts:111</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightsteelblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTSTEELBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTSTEELBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#B0C4DE&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L112">base/Color.ts:112</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lightyellow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIGHTYELLOW</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTYELLOW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFFE0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L113">base/Color.ts:113</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="lime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIME</h3>
+					<div class="tsd-signature tsd-kind-icon">LIME<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00FF00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L114">base/Color.ts:114</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="limegreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LIMEGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">LIMEGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#32CD32&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L115">base/Color.ts:115</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="linen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> LINEN</h3>
+					<div class="tsd-signature tsd-kind-icon">LINEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FAF0E6&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L116">base/Color.ts:116</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="magenta" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MAGENTA</h3>
+					<div class="tsd-signature tsd-kind-icon">MAGENTA<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF00FF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L117">base/Color.ts:117</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="maroon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MAROON</h3>
+					<div class="tsd-signature tsd-kind-icon">MAROON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#800000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L118">base/Color.ts:118</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumaquamarine" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMAQUAMARINE</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMAQUAMARINE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#66CDAA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L119">base/Color.ts:119</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#0000CD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L120">base/Color.ts:120</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumorchid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMORCHID</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMORCHID<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#BA55D3&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L121">base/Color.ts:121</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumpurple" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMPURPLE</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMPURPLE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#9370DB&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L122">base/Color.ts:122</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumseagreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMSEAGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMSEAGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#3CB371&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L123">base/Color.ts:123</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumslateblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMSLATEBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMSLATEBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#7B68EE&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L124">base/Color.ts:124</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumspringgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMSPRINGGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMSPRINGGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00FA9A&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L125">base/Color.ts:125</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumturquoise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMTURQUOISE</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMTURQUOISE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#48D1CC&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L126">base/Color.ts:126</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mediumvioletred" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MEDIUMVIOLETRED</h3>
+					<div class="tsd-signature tsd-kind-icon">MEDIUMVIOLETRED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#C71585&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L127">base/Color.ts:127</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="midnightblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MIDNIGHTBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">MIDNIGHTBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#191970&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L128">base/Color.ts:128</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mintcream" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MINTCREAM</h3>
+					<div class="tsd-signature tsd-kind-icon">MINTCREAM<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F5FFFA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L129">base/Color.ts:129</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="mistyrose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MISTYROSE</h3>
+					<div class="tsd-signature tsd-kind-icon">MISTYROSE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFE4E1&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L130">base/Color.ts:130</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="moccasin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> MOCCASIN</h3>
+					<div class="tsd-signature tsd-kind-icon">MOCCASIN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFE4B5&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L131">base/Color.ts:131</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="navajowhite" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> NAVAJOWHITE</h3>
+					<div class="tsd-signature tsd-kind-icon">NAVAJOWHITE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFDEAD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L132">base/Color.ts:132</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="navy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> NAVY</h3>
+					<div class="tsd-signature tsd-kind-icon">NAVY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#000080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L133">base/Color.ts:133</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="none" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> NONE</h3>
+					<div class="tsd-signature tsd-kind-icon">NONE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFF00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L180">base/Color.ts:180</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="oldlace" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> OLDLACE</h3>
+					<div class="tsd-signature tsd-kind-icon">OLDLACE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FDF5E6&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L134">base/Color.ts:134</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="olive" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> OLIVE</h3>
+					<div class="tsd-signature tsd-kind-icon">OLIVE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#808000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L135">base/Color.ts:135</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="olivedrab" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> OLIVEDRAB</h3>
+					<div class="tsd-signature tsd-kind-icon">OLIVEDRAB<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#6B8E23&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L136">base/Color.ts:136</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="orange" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ORANGE</h3>
+					<div class="tsd-signature tsd-kind-icon">ORANGE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFA500&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L137">base/Color.ts:137</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="orangered" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ORANGERED</h3>
+					<div class="tsd-signature tsd-kind-icon">ORANGERED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF4500&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L138">base/Color.ts:138</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="orchid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ORCHID</h3>
+					<div class="tsd-signature tsd-kind-icon">ORCHID<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DA70D6&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L139">base/Color.ts:139</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="palegoldenrod" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PALEGOLDENROD</h3>
+					<div class="tsd-signature tsd-kind-icon">PALEGOLDENROD<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#EEE8AA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L140">base/Color.ts:140</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="palegreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PALEGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">PALEGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#98FB98&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L141">base/Color.ts:141</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="paleturquoise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PALETURQUOISE</h3>
+					<div class="tsd-signature tsd-kind-icon">PALETURQUOISE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#AFEEEE&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L142">base/Color.ts:142</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="palevioletred" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PALEVIOLETRED</h3>
+					<div class="tsd-signature tsd-kind-icon">PALEVIOLETRED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DB7093&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L143">base/Color.ts:143</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="papayawhip" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PAPAYAWHIP</h3>
+					<div class="tsd-signature tsd-kind-icon">PAPAYAWHIP<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFEFD5&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L144">base/Color.ts:144</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="peachpuff" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PEACHPUFF</h3>
+					<div class="tsd-signature tsd-kind-icon">PEACHPUFF<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFDAB9&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L145">base/Color.ts:145</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="peru" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PERU</h3>
+					<div class="tsd-signature tsd-kind-icon">PERU<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#CD853F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L146">base/Color.ts:146</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="pink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PINK</h3>
+					<div class="tsd-signature tsd-kind-icon">PINK<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFC0CB&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L147">base/Color.ts:147</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="plum" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PLUM</h3>
+					<div class="tsd-signature tsd-kind-icon">PLUM<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#DDA0DD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L148">base/Color.ts:148</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="powderblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> POWDERBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">POWDERBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#B0E0E6&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L149">base/Color.ts:149</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="purple" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> PURPLE</h3>
+					<div class="tsd-signature tsd-kind-icon">PURPLE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#800080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L150">base/Color.ts:150</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="rebeccapurple" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> REBECCAPURPLE</h3>
+					<div class="tsd-signature tsd-kind-icon">REBECCAPURPLE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#663399&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L151">base/Color.ts:151</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="red" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> RED</h3>
+					<div class="tsd-signature tsd-kind-icon">RED<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF0000&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L152">base/Color.ts:152</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="rosybrown" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ROSYBROWN</h3>
+					<div class="tsd-signature tsd-kind-icon">ROSYBROWN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#BC8F8F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L153">base/Color.ts:153</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="royalblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> ROYALBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">ROYALBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#4169E1&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L154">base/Color.ts:154</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="saddlebrown" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SADDLEBROWN</h3>
+					<div class="tsd-signature tsd-kind-icon">SADDLEBROWN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#8B4513&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L155">base/Color.ts:155</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="salmon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SALMON</h3>
+					<div class="tsd-signature tsd-kind-icon">SALMON<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FA8072&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L156">base/Color.ts:156</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="sandybrown" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SANDYBROWN</h3>
+					<div class="tsd-signature tsd-kind-icon">SANDYBROWN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F4A460&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L157">base/Color.ts:157</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="seagreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SEAGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">SEAGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#2E8B57&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L158">base/Color.ts:158</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="seashell" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SEASHELL</h3>
+					<div class="tsd-signature tsd-kind-icon">SEASHELL<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFF5EE&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L159">base/Color.ts:159</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="sienna" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SIENNA</h3>
+					<div class="tsd-signature tsd-kind-icon">SIENNA<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#A0522D&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L160">base/Color.ts:160</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="silver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SILVER</h3>
+					<div class="tsd-signature tsd-kind-icon">SILVER<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#C0C0C0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L161">base/Color.ts:161</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="skyblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SKYBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">SKYBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#87CEEB&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L162">base/Color.ts:162</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="slateblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SLATEBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">SLATEBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#6A5ACD&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L163">base/Color.ts:163</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="slategray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SLATEGRAY</h3>
+					<div class="tsd-signature tsd-kind-icon">SLATEGRAY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#708090&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L164">base/Color.ts:164</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="slategrey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SLATEGREY</h3>
+					<div class="tsd-signature tsd-kind-icon">SLATEGREY<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#708090&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L165">base/Color.ts:165</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="snow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SNOW</h3>
+					<div class="tsd-signature tsd-kind-icon">SNOW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFAFA&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L166">base/Color.ts:166</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="springgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> SPRINGGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">SPRINGGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#00FF7F&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L167">base/Color.ts:167</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="steelblue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> STEELBLUE</h3>
+					<div class="tsd-signature tsd-kind-icon">STEELBLUE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#4682B4&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L168">base/Color.ts:168</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tan" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TAN</h3>
+					<div class="tsd-signature tsd-kind-icon">TAN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#D2B48C&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L169">base/Color.ts:169</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="teal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TEAL</h3>
+					<div class="tsd-signature tsd-kind-icon">TEAL<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#008080&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L170">base/Color.ts:170</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="thistle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> THISTLE</h3>
+					<div class="tsd-signature tsd-kind-icon">THISTLE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#D8BFD8&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L171">base/Color.ts:171</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tomato" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TOMATO</h3>
+					<div class="tsd-signature tsd-kind-icon">TOMATO<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FF6347&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L172">base/Color.ts:172</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="transparent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TRANSPARENT</h3>
+					<div class="tsd-signature tsd-kind-icon">TRANSPARENT<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#0000&#x27;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L31">base/Color.ts:31</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="turquoise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TURQUOISE</h3>
+					<div class="tsd-signature tsd-kind-icon">TURQUOISE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#40E0D0&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L173">base/Color.ts:173</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="violet" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> VIOLET</h3>
+					<div class="tsd-signature tsd-kind-icon">VIOLET<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#EE82EE&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L174">base/Color.ts:174</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="wheat" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> WHEAT</h3>
+					<div class="tsd-signature tsd-kind-icon">WHEAT<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F5DEB3&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L175">base/Color.ts:175</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="white" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> WHITE</h3>
+					<div class="tsd-signature tsd-kind-icon">WHITE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFFFF&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L176">base/Color.ts:176</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="whitesmoke" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> WHITESMOKE</h3>
+					<div class="tsd-signature tsd-kind-icon">WHITESMOKE<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#F5F5F5&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L177">base/Color.ts:177</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="yellow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> YELLOW</h3>
+					<div class="tsd-signature tsd-kind-icon">YELLOW<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#FFFF00&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L178">base/Color.ts:178</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="yellowgreen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> YELLOWGREEN</h3>
+					<div class="tsd-signature tsd-kind-icon">YELLOWGREEN<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> = Color.of(&#x27;#9ACD32&#x27;)!</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L179">base/Color.ts:179</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clone" class="tsd-anchor"></a>
+					<h3>clone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L327">base/Color.ts:327</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new Color object with the same sRGB value as this object.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></h4>
+							<p>a clone of this instance</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="equals" class="tsd-anchor"></a>
+					<h3>equals</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>that<span class="tsd-signature-symbol">: </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L319">base/Color.ts:319</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Compare to the other color object.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>that: <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the object compare with</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>true if equals</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tostring" class="tsd-anchor"></a>
+					<h3>to<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L335">base/Color.ts:335</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a string representation of this Color object.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representation of this Color object</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="fromhex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> from<wbr>Hex</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Hex<span class="tsd-signature-symbol">(</span>hex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, silent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L247">base/Color.ts:247</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hex: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>silent: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="of" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> of</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, silent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L188">base/Color.ts:188</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Convert a string to a Color object.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a string present a color, see the spec above for format.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> silent: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_base_color_.color.html" class="tsd-signature-type">Color</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>A color object for valid value, otherwise returns undefined.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="parsecolorvalue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> parse<wbr>Color<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Color<wbr>Value<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Color.ts#L236">base/Color.ts:236</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>base: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_base_color_.html">&quot;base/<wbr>Color&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_base_color_.color.html" class="tsd-kind-icon">Color</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_base_color_.color.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_base_color_.color.html#a" class="tsd-kind-icon">a</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_base_color_.color.html#b" class="tsd-kind-icon">b</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_base_color_.color.html#g" class="tsd-kind-icon">g</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_base_color_.color.html#r" class="tsd-kind-icon">r</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#aliceblue" class="tsd-kind-icon">ALICEBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#antiquewhite" class="tsd-kind-icon">ANTIQUEWHITE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#aqua" class="tsd-kind-icon">AQUA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#aquamarine" class="tsd-kind-icon">AQUAMARINE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#azure" class="tsd-kind-icon">AZURE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#beige" class="tsd-kind-icon">BEIGE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#bisque" class="tsd-kind-icon">BISQUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#black" class="tsd-kind-icon">BLACK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#blanchedalmond" class="tsd-kind-icon">BLANCHEDALMOND</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#blue" class="tsd-kind-icon">BLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#blueviolet" class="tsd-kind-icon">BLUEVIOLET</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#brown" class="tsd-kind-icon">BROWN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#burlywood" class="tsd-kind-icon">BURLYWOOD</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#cadetblue" class="tsd-kind-icon">CADETBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#chartreuse" class="tsd-kind-icon">CHARTREUSE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#chocolate" class="tsd-kind-icon">CHOCOLATE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#coral" class="tsd-kind-icon">CORAL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#cornflowerblue" class="tsd-kind-icon">CORNFLOWERBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#cornsilk" class="tsd-kind-icon">CORNSILK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#crimson" class="tsd-kind-icon">CRIMSON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#cyan" class="tsd-kind-icon">CYAN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkblue" class="tsd-kind-icon">DARKBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkcyan" class="tsd-kind-icon">DARKCYAN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkgoldenrod" class="tsd-kind-icon">DARKGOLDENROD</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkgray" class="tsd-kind-icon">DARKGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkgreen" class="tsd-kind-icon">DARKGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkgrey" class="tsd-kind-icon">DARKGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkkhaki" class="tsd-kind-icon">DARKKHAKI</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkmagenta" class="tsd-kind-icon">DARKMAGENTA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkolivegreen" class="tsd-kind-icon">DARKOLIVEGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkorange" class="tsd-kind-icon">DARKORANGE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkorchid" class="tsd-kind-icon">DARKORCHID</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkred" class="tsd-kind-icon">DARKRED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darksalmon" class="tsd-kind-icon">DARKSALMON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkseagreen" class="tsd-kind-icon">DARKSEAGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkslateblue" class="tsd-kind-icon">DARKSLATEBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkslategray" class="tsd-kind-icon">DARKSLATEGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkslategrey" class="tsd-kind-icon">DARKSLATEGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkturquoise" class="tsd-kind-icon">DARKTURQUOISE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#darkviolet" class="tsd-kind-icon">DARKVIOLET</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#deeppink" class="tsd-kind-icon">DEEPPINK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#deepskyblue" class="tsd-kind-icon">DEEPSKYBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#dimgray" class="tsd-kind-icon">DIMGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#dimgrey" class="tsd-kind-icon">DIMGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#dodgerblue" class="tsd-kind-icon">DODGERBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#firebrick" class="tsd-kind-icon">FIREBRICK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#floralwhite" class="tsd-kind-icon">FLORALWHITE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#forestgreen" class="tsd-kind-icon">FORESTGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#fuchsia" class="tsd-kind-icon">FUCHSIA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#gainsboro" class="tsd-kind-icon">GAINSBORO</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#ghostwhite" class="tsd-kind-icon">GHOSTWHITE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#gold" class="tsd-kind-icon">GOLD</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#goldenrod" class="tsd-kind-icon">GOLDENROD</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#gray" class="tsd-kind-icon">GRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#green" class="tsd-kind-icon">GREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#greenyellow" class="tsd-kind-icon">GREENYELLOW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#grey" class="tsd-kind-icon">GREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#honeydew" class="tsd-kind-icon">HONEYDEW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#hotpink" class="tsd-kind-icon">HOTPINK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#indianred" class="tsd-kind-icon">INDIANRED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#indigo" class="tsd-kind-icon">INDIGO</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#ivory" class="tsd-kind-icon">IVORY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#khaki" class="tsd-kind-icon">KHAKI</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lavender" class="tsd-kind-icon">LAVENDER</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lavenderblush" class="tsd-kind-icon">LAVENDERBLUSH</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lawngreen" class="tsd-kind-icon">LAWNGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lemonchiffon" class="tsd-kind-icon">LEMONCHIFFON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightblue" class="tsd-kind-icon">LIGHTBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightcoral" class="tsd-kind-icon">LIGHTCORAL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightcyan" class="tsd-kind-icon">LIGHTCYAN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightgoldenrodyellow" class="tsd-kind-icon">LIGHTGOLDENRODYELLOW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightgray" class="tsd-kind-icon">LIGHTGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightgreen" class="tsd-kind-icon">LIGHTGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightgrey" class="tsd-kind-icon">LIGHTGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightpink" class="tsd-kind-icon">LIGHTPINK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightsalmon" class="tsd-kind-icon">LIGHTSALMON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightseagreen" class="tsd-kind-icon">LIGHTSEAGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightskyblue" class="tsd-kind-icon">LIGHTSKYBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightslategray" class="tsd-kind-icon">LIGHTSLATEGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightslategrey" class="tsd-kind-icon">LIGHTSLATEGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightsteelblue" class="tsd-kind-icon">LIGHTSTEELBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lightyellow" class="tsd-kind-icon">LIGHTYELLOW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#lime" class="tsd-kind-icon">LIME</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#limegreen" class="tsd-kind-icon">LIMEGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#linen" class="tsd-kind-icon">LINEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#magenta" class="tsd-kind-icon">MAGENTA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#maroon" class="tsd-kind-icon">MAROON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumaquamarine" class="tsd-kind-icon">MEDIUMAQUAMARINE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumblue" class="tsd-kind-icon">MEDIUMBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumorchid" class="tsd-kind-icon">MEDIUMORCHID</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumpurple" class="tsd-kind-icon">MEDIUMPURPLE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumseagreen" class="tsd-kind-icon">MEDIUMSEAGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumslateblue" class="tsd-kind-icon">MEDIUMSLATEBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumspringgreen" class="tsd-kind-icon">MEDIUMSPRINGGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumturquoise" class="tsd-kind-icon">MEDIUMTURQUOISE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mediumvioletred" class="tsd-kind-icon">MEDIUMVIOLETRED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#midnightblue" class="tsd-kind-icon">MIDNIGHTBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mintcream" class="tsd-kind-icon">MINTCREAM</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#mistyrose" class="tsd-kind-icon">MISTYROSE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#moccasin" class="tsd-kind-icon">MOCCASIN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#navajowhite" class="tsd-kind-icon">NAVAJOWHITE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#navy" class="tsd-kind-icon">NAVY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#none" class="tsd-kind-icon">NONE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#oldlace" class="tsd-kind-icon">OLDLACE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#olive" class="tsd-kind-icon">OLIVE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#olivedrab" class="tsd-kind-icon">OLIVEDRAB</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#orange" class="tsd-kind-icon">ORANGE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#orangered" class="tsd-kind-icon">ORANGERED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#orchid" class="tsd-kind-icon">ORCHID</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#palegoldenrod" class="tsd-kind-icon">PALEGOLDENROD</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#palegreen" class="tsd-kind-icon">PALEGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#paleturquoise" class="tsd-kind-icon">PALETURQUOISE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#palevioletred" class="tsd-kind-icon">PALEVIOLETRED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#papayawhip" class="tsd-kind-icon">PAPAYAWHIP</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#peachpuff" class="tsd-kind-icon">PEACHPUFF</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#peru" class="tsd-kind-icon">PERU</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#pink" class="tsd-kind-icon">PINK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#plum" class="tsd-kind-icon">PLUM</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#powderblue" class="tsd-kind-icon">POWDERBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#purple" class="tsd-kind-icon">PURPLE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#rebeccapurple" class="tsd-kind-icon">REBECCAPURPLE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#red" class="tsd-kind-icon">RED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#rosybrown" class="tsd-kind-icon">ROSYBROWN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#royalblue" class="tsd-kind-icon">ROYALBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#saddlebrown" class="tsd-kind-icon">SADDLEBROWN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#salmon" class="tsd-kind-icon">SALMON</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#sandybrown" class="tsd-kind-icon">SANDYBROWN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#seagreen" class="tsd-kind-icon">SEAGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#seashell" class="tsd-kind-icon">SEASHELL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#sienna" class="tsd-kind-icon">SIENNA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#silver" class="tsd-kind-icon">SILVER</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#skyblue" class="tsd-kind-icon">SKYBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#slateblue" class="tsd-kind-icon">SLATEBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#slategray" class="tsd-kind-icon">SLATEGRAY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#slategrey" class="tsd-kind-icon">SLATEGREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#snow" class="tsd-kind-icon">SNOW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#springgreen" class="tsd-kind-icon">SPRINGGREEN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#steelblue" class="tsd-kind-icon">STEELBLUE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#tan" class="tsd-kind-icon">TAN</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#teal" class="tsd-kind-icon">TEAL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#thistle" class="tsd-kind-icon">THISTLE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#tomato" class="tsd-kind-icon">TOMATO</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#transparent" class="tsd-kind-icon">TRANSPARENT</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#turquoise" class="tsd-kind-icon">TURQUOISE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#violet" class="tsd-kind-icon">VIOLET</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#wheat" class="tsd-kind-icon">WHEAT</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#white" class="tsd-kind-icon">WHITE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#whitesmoke" class="tsd-kind-icon">WHITESMOKE</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#yellow" class="tsd-kind-icon">YELLOW</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#yellowgreen" class="tsd-kind-icon">YELLOWGREEN</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_color_.color.html#clone" class="tsd-kind-icon">clone</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_color_.color.html#equals" class="tsd-kind-icon">equals</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_color_.color.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="_base_color_.color.html#fromhex" class="tsd-kind-icon">from<wbr>Hex</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_base_color_.color.html#of" class="tsd-kind-icon">of</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="_base_color_.color.html#parsecolorvalue" class="tsd-kind-icon">parse<wbr>Color<wbr>Value</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_base_color_.html#reg_hex" class="tsd-kind-icon">REG_<wbr>HEX</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_base_color_.html#reg_value" class="tsd-kind-icon">REG_<wbr>VALUE</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_base_color_.html#color_names" class="tsd-kind-icon">COLOR_<wbr>NAMES</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

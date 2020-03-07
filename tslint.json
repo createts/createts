@@ -1,0 +1,18 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "no-console": false,
+    "object-literal-sort-keys": false,
+    "member-access": false,
+    "ordered-imports": true,
+    "no-namespace": false,
+    "max-classes-per-file": false,
+    "forin": false,
+    "indent": [true, "spaces", 2],
+    "multiline-comment-style": ["error", "bare-block"],
+    "comment-format": [true, "check-space", "check-uppercase", "allow-trailing-lowercase"]
+  },
+  "linterOptions": {
+    "exclude": ["**/*.json", "node_modules"]
+  }
+}
