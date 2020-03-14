@@ -1,9 +1,10 @@
-import { Shadow } from '../';
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { Event, EventDispatcher } from '../base/Event';
 import { XObject } from '../components/XObject';
+import { Background } from '../style/Background';
 import { Border } from '../style/Border';
+import { Shadow } from '../style/Shadow';
 import { AlgorithmFactory, IAlgorithm } from './AlgorithmFactory';
 
 export enum AnimationValueType {
@@ -48,7 +49,7 @@ export interface IAnimationValues {
   [key: string]: number | string;
 }
 
-abstract class AnimationStep {
+export abstract class AnimationStep {
   readonly duration: number;
   readonly target: XObject;
   public endTime: number = 0;
@@ -58,22 +59,21 @@ abstract class AnimationStep {
     this.duration = duration;
   }
 
-  onStart(): AnimationStep {
-    return this;
+  // tslint:disable-next-line: no-empty
+  onStart() {}
+
+  // Returns true to ask stage to update the canvas.
+  onUpdate(percent: number): boolean {
+    return false;
   }
 
-  onUpdate(percent: number): AnimationStep {
-    return this;
-  }
-
-  onEnd(): AnimationStep {
-    return this;
-  }
+  // tslint:disable-next-line: no-empty
+  onEnd() {}
 }
 
 class WaitStep extends AnimationStep {}
 
-class AnimateStep extends AnimationStep {
+class StyleStep extends AnimationStep {
   algorithm: IAlgorithm;
   props: IAnimationValues;
   computed?: IAnimationStyleAttributes;
@@ -97,14 +97,13 @@ class AnimateStep extends AnimationStep {
     this.props = props;
   }
 
-  onStart(): AnimationStep {
+  onStart() {
     this.computed = this.target.style.getSnapshotForAnimation(this.target, this.props);
-    return this;
   }
 
-  onUpdate(percent: number): AnimationStep {
+  onUpdate(percent: number): boolean {
     if (!this.computed) {
-      return this;
+      return false;
     }
     for (const name in this.computed) {
       const attr: any = this.computed[name];
@@ -133,12 +132,20 @@ class AnimateStep extends AnimationStep {
             const from = attr.from as Color;
             const to = attr.to as Color;
             const v = this.algorithm.calclate(percent);
-            (this.target.style as any)[name] = new Color(
+            const color = new Color(
               from.r + (to.r - from.r) * v,
               from.g + (to.g - from.g) * v,
               from.b + (to.b - from.b) * v,
               from.a + (to.a - from.a) * v
             );
+            if (name === 'backgroundColor') {
+              if (!this.target.style.background) {
+                this.target.style.background = new Background();
+              }
+              this.target.style.background.color = color;
+            } else {
+              (this.target.style as any)[name] = color;
+            }
           }
           break;
         case AnimationValueType.BORDER:
@@ -178,15 +185,7 @@ class AnimateStep extends AnimationStep {
           break;
       }
     }
-    return this;
-  }
-
-  onEnd(): AnimationStep {
-    for (const name in this.computed) {
-      const attr = this.computed[name];
-      (this.target.style as any)[name] = attr.to;
-    }
-    return this;
+    return true;
   }
 }
 
@@ -196,25 +195,27 @@ class CallStep extends AnimationStep {
     super(target, 0);
     this.call = call;
   }
-  onEnd(): AnimationStep {
+  onEnd() {
     this.call();
-    return this;
   }
 }
 
 export enum AnimationState {
   RUNNING = 1,
-  COMPLETED = 2,
-  CANCELLED = 3
+  PAUSED = 2,
+  COMPLETED = 3,
+  CANCELLED = 4
 }
 
 export class Animation extends EventDispatcher<AnimateEvent> {
-  public loopAnimate: boolean = false;
+  public playTimes: number = 1;
   public state: AnimationState = AnimationState.RUNNING;
   public target: XObject;
 
   private steps: AnimationStep[] = [];
-  private startTime: number = 0;
+  private roundStartTime: number = 0;
+  private beginTime: number;
+  private pauseTime: number;
   private duration: number = 0;
 
   private currentStepIndex: number = 0;
@@ -224,8 +225,8 @@ export class Animation extends EventDispatcher<AnimateEvent> {
   constructor(target: XObject, loop?: boolean) {
     super();
     this.target = target;
-    this.loopAnimate = !!loop;
-    this.startTime = Date.now();
+    this.playTimes = loop ? 0 : 1;
+    this.roundStartTime = this.beginTime = Date.now();
     this.currentStepIndex = 0;
     this.state = AnimationState.RUNNING;
   }
@@ -238,13 +239,40 @@ export class Animation extends EventDispatcher<AnimateEvent> {
     });
   }
 
+  public pause(): boolean {
+    if (this.state === AnimationState.RUNNING) {
+      this.state = AnimationState.PAUSED;
+      this.pauseTime = Date.now();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public resume(): boolean {
+    if (this.state === AnimationState.PAUSED) {
+      const duration = Date.now() - this.pauseTime;
+      this.roundStartTime += duration;
+      this.beginTime += duration;
+      this.state = AnimationState.RUNNING;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public loop(loop: boolean): Animation {
-    this.loopAnimate = loop;
+    this.playTimes = loop ? 0 : 1;
     return this;
   }
 
-  public to(props: any, duration: number, algorithm: string | IAlgorithm): Animation {
-    this.addStep(new AnimateStep(this.target, props, algorithm, duration));
+  public times(times: number): Animation {
+    this.playTimes = times;
+    return this;
+  }
+
+  public to(props: any, duration: number, algorithm: string | IAlgorithm = 'linear'): Animation {
+    this.addStep(new StyleStep(this.target, props, algorithm, duration));
     return this;
   }
 
@@ -256,29 +284,43 @@ export class Animation extends EventDispatcher<AnimateEvent> {
     return this.addStep(new WaitStep(this.target, duration));
   }
 
-  public onInterval() {
+  public onInterval(): boolean {
     if (this.duration <= 0) {
-      return;
+      // This is an empty animation without any step.
+      return false;
     }
     const now = Date.now();
-    if (now < this.startTime) {
-      return;
+    if (now < this.roundStartTime) {
+      // The current time is before start time, this is usually caused by changing system time
+      // during animation playing, ignore this.
+      return false;
     }
 
-    let passed = now - this.startTime;
+    let passed = now - this.roundStartTime;
     const currentStep = this.steps[this.currentStepIndex];
 
     if (passed >= this.duration) {
       // To end
+      currentStep.onUpdate(1);
       currentStep.onEnd();
       for (
         ++this.currentStepIndex;
         this.currentStepIndex < this.steps.length;
         ++this.currentStepIndex
       ) {
-        this.steps[this.currentStepIndex].onStart().onEnd();
+        const step = this.steps[this.currentStepIndex];
+        step.onStart();
+        step.onUpdate(1);
+        step.onEnd();
       }
-      if (!this.loopAnimate) {
+
+      // Check whether to start a new round
+      let newRound = true;
+      if (this.playTimes > 0) {
+        newRound = this.playTimes * this.duration > now - this.beginTime;
+      }
+
+      if (!newRound) {
         this.currentStepIndex = this.steps.length - 1;
         this.onUpdateInternal(1, 1);
         this.state = AnimationState.COMPLETED;
@@ -293,7 +335,7 @@ export class Animation extends EventDispatcher<AnimateEvent> {
       } else {
         // New loop
         passed = passed % this.duration;
-        this.startTime = now - passed;
+        this.roundStartTime = now - passed;
         this.currentStepIndex = 0;
         while (true) {
           const step = this.steps[this.currentStepIndex];
@@ -303,6 +345,7 @@ export class Animation extends EventDispatcher<AnimateEvent> {
             this.onUpdateInternal(progress, passed / this.duration);
             break;
           } else {
+            step.onUpdate(1);
             step.onEnd();
             ++this.currentStepIndex;
           }
@@ -313,6 +356,7 @@ export class Animation extends EventDispatcher<AnimateEvent> {
         const progress = 1 - (currentStep.endTime - passed) / currentStep.duration;
         this.onUpdateInternal(progress, passed / this.duration);
       } else {
+        currentStep.onUpdate(1);
         currentStep.onEnd();
         ++this.currentStepIndex;
         while (true) {
@@ -323,12 +367,14 @@ export class Animation extends EventDispatcher<AnimateEvent> {
             this.onUpdateInternal(progress, passed / this.duration);
             break;
           } else {
+            step.onUpdate(1);
             step.onEnd();
             ++this.currentStepIndex;
           }
         }
       }
     }
+    return true;
   }
 
   public cancel() {
@@ -357,7 +403,7 @@ export class Animation extends EventDispatcher<AnimateEvent> {
     );
   }
 
-  private addStep(step: AnimationStep): Animation {
+  public addStep(step: AnimationStep): Animation {
     this.steps.push(step);
     this.duration += step.duration;
     step.endTime = this.duration;

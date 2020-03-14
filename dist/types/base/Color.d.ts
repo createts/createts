@@ -150,6 +150,7 @@ export declare class Color {
     static readonly YELLOWGREEN: Color;
     static readonly NONE: Color;
     static of(value: string, silent?: boolean): Color | undefined;
+    static random(includeAlpha: boolean): Color;
     private static parseColorValue;
     private static fromHex;
     readonly r: number;

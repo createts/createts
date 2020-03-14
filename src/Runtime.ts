@@ -1,4 +1,4 @@
-import { Point } from './base/Point';
+import { TouchItem } from './base/TouchItem';
 import { Stage } from './components/Stage';
 import { Font } from './style/Font';
 
@@ -11,8 +11,6 @@ interface IRuntime {
   measureTextWidth(text: string, font: Font): number;
   enableEvents(stage: Stage): void;
 }
-
-export type IFunc = () => void;
 
 class WebRuntime implements IRuntime {
   private globalCanvas?: HTMLCanvasElement;
@@ -27,22 +25,31 @@ class WebRuntime implements IRuntime {
 
   public enableEvents(stage: Stage) {
     stage.canvas.addEventListener('mousedown', (e: any) => {
-      this.handleEvent('mousedown', stage, e);
+      this.handleMouseEvent('mousedown', stage, e);
     });
     stage.canvas.addEventListener('mousemove', (e: any) => {
-      this.handleEvent('mousemove', stage, e);
+      this.handleMouseEvent('mousemove', stage, e);
     });
     stage.canvas.addEventListener('pressmove', (e: any) => {
-      this.handleEvent('mousemove', stage, e);
+      this.handleMouseEvent('mousemove', stage, e);
     });
     stage.canvas.addEventListener('mouseup', (e: any) => {
-      this.handleEvent('mouseup', stage, e);
+      this.handleMouseEvent('mouseup', stage, e);
     });
     stage.canvas.addEventListener('mouseenter', (e: any) => {
-      this.handleEvent('mouseenter', stage, e);
+      this.handleMouseEvent('mouseenter', stage, e);
     });
     stage.canvas.addEventListener('mouseleave', (e: any) => {
-      this.handleEvent('mouseleave', stage, e);
+      this.handleMouseEvent('mouseleave', stage, e);
+    });
+    stage.canvas.addEventListener('touchstart', (e: any) => {
+      this.handleTouchEvent('touchstart', stage, e);
+    });
+    stage.canvas.addEventListener('touchend', (e: any) => {
+      this.handleTouchEvent('touchend', stage, e);
+    });
+    stage.canvas.addEventListener('touchmove', (e: any) => {
+      this.handleTouchEvent('touchmove', stage, e);
     });
   }
 
@@ -74,12 +81,25 @@ class WebRuntime implements IRuntime {
     return this.globalCanvas;
   }
 
-  private handleEvent(type: string, stage: Stage, e: any) {
+  private handleMouseEvent(type: string, stage: Stage, e: any) {
     const scaleX = stage.canvas.width / stage.canvas.clientWidth;
     const scaleY = stage.canvas.height / stage.canvas.clientHeight;
+    // Translate to multiple touch event
     const x = e.offsetX * scaleX;
     const y = e.offsetY * scaleY;
-    stage.handleActionEvent(type, new Point(x, y), e);
+    stage.handleMouseEvent(type, [new TouchItem(0, x, y, 0, 0)], e);
+  }
+
+  private handleTouchEvent(type: string, stage: Stage, e: any) {
+    const scaleX = stage.canvas.width / stage.canvas.clientWidth;
+    const scaleY = stage.canvas.height / stage.canvas.clientHeight;
+    const touches = [];
+    for (const touch of e.touches) {
+      touches.push(
+        new TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0)
+      );
+    }
+    stage.handleMouseEvent(type, touches, e);
   }
 }
 
@@ -87,6 +107,5 @@ export class Runtime {
   public static get(): IRuntime {
     return this.runtime;
   }
-
   private static runtime = new WebRuntime();
 }

@@ -69,11 +69,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This class represents an basic object (XObject), contains id, style, cache and cache status,
+						etc.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">XObject</span>
@@ -109,7 +117,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xobject.html#actionstate" class="tsd-kind-icon">action<wbr>State</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_xobject_.xobject.html#cachecanvas" class="tsd-kind-icon">cache<wbr>Canvas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_xobject_.xobject.html#cachestate" class="tsd-kind-icon">cache<wbr>State</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xobject.html#eventenabled" class="tsd-kind-icon">event<wbr>Enabled</a></li>
@@ -181,13 +188,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L71">components/XObject.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L151">components/XObject.ts:151</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a XObject instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-signature-type">IXObjectOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The options to create this object.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h4>
@@ -197,25 +214,20 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="actionstate" class="tsd-anchor"></a>
-					<h3>action<wbr>State</h3>
-					<div class="tsd-signature tsd-kind-icon">action<wbr>State<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.actionstate.html" class="tsd-signature-type">ActionState</a><span class="tsd-signature-symbol"> = new ActionState()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L65">components/XObject.ts:65</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="cachecanvas" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> cache<wbr>Canvas</h3>
 					<div class="tsd-signature tsd-kind-icon">cache<wbr>Canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L70">components/XObject.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L144">components/XObject.ts:144</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The cached canvas.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="cachestate" class="tsd-anchor"></a>
@@ -223,9 +235,17 @@
 					<div class="tsd-signature tsd-kind-icon">cache<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../enums/_components_xobject_.cachestate.html" class="tsd-signature-type">CacheState</a><span class="tsd-signature-symbol"> = CacheState.DISABLED</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L71">components/XObject.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L151">components/XObject.ts:151</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Cache state, by default it is not cached.
+								Note that enabling cache does not always improve the performance, if this instance is a image
+								there is no performance gain, or its size is bigger but simple to draw, enabling cache may
+							hurt performance.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="eventenabled" class="tsd-anchor"></a>
@@ -233,9 +253,15 @@
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L64">components/XObject.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L122">components/XObject.ts:122</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Indicated whether event is enabled on this object or not.
+							Note that if event is not enabled, it not prevent bubbling up through its parents.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="id" class="tsd-anchor"></a>
@@ -243,9 +269,14 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L66">components/XObject.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L126">components/XObject.ts:126</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The string if of this object.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="parent" class="tsd-anchor"></a>
@@ -253,9 +284,14 @@
 					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L69">components/XObject.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L140">components/XObject.ts:140</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Parent object of this object.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="rect" class="tsd-anchor"></a>
@@ -263,9 +299,16 @@
 					<div class="tsd-signature tsd-kind-icon">rect<span class="tsd-signature-symbol">:</span> <a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a><span class="tsd-signature-symbol"> = new Rect(0, 0, 0, 0)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L68">components/XObject.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L136">components/XObject.ts:136</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The calculated location and size of this object.
+								Note: it is a computed result, do not change it manually, it maybe re-calculated in next
+							layout process.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="style" class="tsd-anchor"></a>
@@ -273,9 +316,14 @@
 					<div class="tsd-signature tsd-kind-icon">style<span class="tsd-signature-symbol">:</span> <a href="_style_style_.style.html" class="tsd-signature-type">Style</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L67">components/XObject.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L130">components/XObject.ts:130</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The style of this object.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -284,14 +332,14 @@
 					<a name="addeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L118">base/Event.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L118">base/Event.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,13 +356,13 @@
 									</div>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>a listener which be invoked if an event with this specified type is dispatching</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>current object itself for chain calls</p>
 						</li>
 					</ul>
@@ -329,9 +377,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L141">components/XObject.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L254">components/XObject.ts:254</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Enable cache for this element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -346,9 +399,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L244">components/XObject.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L435">components/XObject.ts:435</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates size of current object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -357,19 +415,27 @@
 					<a name="css" class="tsd-anchor"></a>
 					<h3>css</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">css<span class="tsd-signature-symbol">(</span>style<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">css<span class="tsd-signature-symbol">(</span>style<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L251">components/XObject.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L447">components/XObject.ts:447</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Applies the style map to current object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>style: <span class="tsd-signature-symbol">{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Style map to apply.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-index-signature">
 											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
@@ -377,7 +443,8 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -385,23 +452,32 @@
 					<a name="dispatchevent" class="tsd-anchor"></a>
 					<h3>dispatch<wbr>Event</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L91">components/XObject.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L179">components/XObject.ts:179</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Dispatches an event from current element and bubbles up through its parents.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a></h5>
+									<h5>event: <a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The event to be dispatched.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if the event is prevented, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -409,19 +485,27 @@
 					<a name="dodispatchevent" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> do<wbr>Dispatch<wbr>Event</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">do<wbr>Dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">do<wbr>Dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L407">components/XObject.ts:407</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L661">components/XObject.ts:661</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Do dispatch a touch event to a this element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a></h5>
+									<h5>event: <a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The event to be dispatched.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -438,16 +522,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L157">components/XObject.ts:157</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L284">components/XObject.ts:284</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draws the image to stage canvas.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of stage canvas.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> ignoreCache: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, always not use cache.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -464,19 +559,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L178">components/XObject.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L311">components/XObject.ts:311</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draws the background of this element to targeted canvas.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of targeted canvas.</p>
+									</div>
 								</li>
 								<li>
 									<h5>outerRect: <a href="_base_roundrect_.roundrect.html" class="tsd-signature-type">RoundRect</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the outer position of border of this element.</p>
+									</div>
 								</li>
 								<li>
 									<h5>innerRect: <a href="_base_roundrect_.roundrect.html" class="tsd-signature-type">RoundRect</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the inner position of border of this element.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -493,13 +602,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L184">components/XObject.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L321">components/XObject.ts:321</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draws content of this element to targeted canvas.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of targeted canvas.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -516,10 +633,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L81">components/XObject.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L238">components/XObject.ts:238</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the offscreen cache canvas.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>The offscreen cache canvas.</p>
 						</li>
 					</ul>
 				</section>
@@ -533,13 +656,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L226">components/XObject.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L405">components/XObject.ts:405</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates a Matrix2D object representing the combined transform of the object and all of its
+										parent Containers up to the stage. This can be used to transform positions between coordinate
+									spaces.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>returnsthe</dt>
+									<dd><p>combined matrix.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> matrix: <a href="_base_matrix2d_.matrix2d.html" class="tsd-signature-type">Matrix2D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A Matrix2D object to populate with the calculated values. If null, a new
+										Matrix2D object is returned.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_base_matrix2d_.matrix2d.html" class="tsd-signature-type">Matrix2D</a></h4>
@@ -556,10 +695,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L327">components/XObject.ts:327</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L556">components/XObject.ts:556</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns content height of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>content height of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -573,10 +718,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L337">components/XObject.ts:337</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L570">components/XObject.ts:570</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns content rect of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a></h4>
+							<p>content rect of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -590,10 +741,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L317">components/XObject.ts:317</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L542">components/XObject.ts:542</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns content width of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Content width of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -607,10 +764,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L277">components/XObject.ts:277</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L486">components/XObject.ts:486</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns height of this object, including content height, padding height and border height.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Height of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -624,10 +787,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L255">components/XObject.ts:255</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L456">components/XObject.ts:456</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns line height of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Line height of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -641,16 +810,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L209">components/XObject.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L380">components/XObject.ts:380</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a matrix based on this object&#39;s current transform.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> matrix: <a href="_base_matrix2d_.matrix2d.html" class="tsd-signature-type">Matrix2D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional. A Matrix2D object to populate with the calculated values.
+										If null, a new Matrix2D object is returned.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_base_matrix2d_.matrix2d.html" class="tsd-signature-type">Matrix2D</a></h4>
+							<p>A matrix representing this object&#39;s transform.</p>
 						</li>
 					</ul>
 				</section>
@@ -664,10 +843,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L383">components/XObject.ts:383</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L624">components/XObject.ts:624</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns outer height of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Outer height of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -681,10 +866,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L374">components/XObject.ts:374</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L611">components/XObject.ts:611</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns outer width of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Outer width of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -698,10 +889,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L289">components/XObject.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L506">components/XObject.ts:506</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns padding height of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Padding height of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -715,10 +912,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L297">components/XObject.ts:297</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L518">components/XObject.ts:518</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns padding rect of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a></h4>
+							<p>Padding rect of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -732,10 +935,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L281">components/XObject.ts:281</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L494">components/XObject.ts:494</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns padding width of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Padding width of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -749,10 +958,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L273">components/XObject.ts:273</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L478">components/XObject.ts:478</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns width of this object, including content width, padding width and border width.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Width of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -766,19 +981,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L198">components/XObject.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L354">components/XObject.ts:354</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms the specified x and y position from the stage coordinate space to the coordinate
+									space of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The x position in the source object to transform.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The y position in the source object to transform.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_base_point_.point.html" class="tsd-signature-type">Point</a></h4>
+							<p>A Point instance with x and y properties correlating to the transformed coordinates.</p>
 						</li>
 					</ul>
 				</section>
@@ -793,7 +1021,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L185">base/Event.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L185">base/Event.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -825,19 +1053,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L236">components/XObject.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L421">components/XObject.ts:421</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks the given location should trigger a click event or not.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The x position to test.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The y position to test.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if it should trigger a click event, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -851,9 +1091,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L149">components/XObject.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L271">components/XObject.ts:271</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Marks the cache is invalidate and update in next render cycle.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -868,10 +1113,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L137">components/XObject.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L247">components/XObject.ts:247</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether this element is cache enabled.
+									Note that it returns true for an invalidate cache state.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if it is cache enabled, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -885,16 +1137,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L392">components/XObject.ts:392</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L638">components/XObject.ts:638</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks it this object is a child of the given object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>element: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The object to check with.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if this object is a child of the given object, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -908,10 +1169,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L127">components/XObject.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L224">components/XObject.ts:224</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether this element is visible.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if it is visible, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -925,9 +1192,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L240">components/XObject.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L428">components/XObject.ts:428</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates size of current object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -942,19 +1214,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L194">components/XObject.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L343">components/XObject.ts:343</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms the specified x and y position from the coordinate space of this object to the
+									stage coordinate space.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The x position in the source object to transform.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The y position in the source object to transform.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_base_point_.point.html" class="tsd-signature-type">Point</a></h4>
+							<p>A Point instance with x and y properties correlating to the transformed coordinates.</p>
 						</li>
 					</ul>
 				</section>
@@ -968,22 +1253,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L204">components/XObject.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L369">components/XObject.ts:369</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms the specified x and y position from the coordinate space of this object to the
+									coordinate space of the target object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The x position in the source object to transform.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The y position on the source object to transform.</p>
+									</div>
 								</li>
 								<li>
 									<h5>target: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The target object to which the coordinates will be transformed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_base_point_.point.html" class="tsd-signature-type">Point</a></h4>
+							<p>Returns a Point instance with x and y properties correlating to the transformed
+							position in the target&#39;s coordinate space.</p>
 						</li>
 					</ul>
 				</section>
@@ -991,14 +1293,14 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L164">base/Event.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L164">base/Event.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1012,7 +1314,7 @@
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1023,14 +1325,14 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L135">base/Event.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L135">base/Event.ts:135</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1044,10 +1346,10 @@
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1061,9 +1363,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L85">components/XObject.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L168">components/XObject.ts:168</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This this element from its parent.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1079,7 +1386,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L172">base/Event.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L172">base/Event.ts:172</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1104,14 +1411,14 @@
 					<a name="removeeventlistener" class="tsd-anchor"></a>
 					<h3>remove<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L144">base/Event.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L144">base/Event.ts:144</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1128,7 +1435,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>a listener which te be removed.</p>
 									</div>
@@ -1148,10 +1455,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L403">components/XObject.ts:403</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L653">components/XObject.ts:653</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a string representation of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representation of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -1165,9 +1478,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L145">components/XObject.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L263">components/XObject.ts:263</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Disable cache for this element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1182,13 +1500,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L188">components/XObject.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L330">components/XObject.ts:330</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Applies this object&#39;s transformation and alpha to the specified context. This is typically
+									called prior to &#39;draw&#39; function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context to update.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1206,16 +1533,25 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L116">components/XObject.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L209">components/XObject.ts:209</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether there is any listener listens this type of event.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Event type to check.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>True if there is any listener of this event, false otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -1238,10 +1574,7 @@
 						<a href="../enums/_components_xobject_.cachestate.html" class="tsd-kind-icon">Cache<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.actionstate.html" class="tsd-kind-icon">Action<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.xactionevent.html" class="tsd-kind-icon">XAction<wbr>Event</a>
+						<a href="_components_xobject_.touchevent.html" class="tsd-kind-icon">Touch<wbr>Event</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -1250,9 +1583,6 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_components_xobject_.xobject.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xobject.html#actionstate" class="tsd-kind-icon">action<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_components_xobject_.xobject.html#cachecanvas" class="tsd-kind-icon">cache<wbr>Canvas</a>
@@ -1405,9 +1735,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_components_xobject_.iattributes.html" class="tsd-kind-icon">IAttributes</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-kind-icon">IXObject<wbr>Options</a>
 					</li>

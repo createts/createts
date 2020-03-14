@@ -3,36 +3,29 @@ import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
+import { TouchItem } from '../base/TouchItem';
 import { Style } from '../style/Style';
 import { Container } from './Container';
 import { Stage } from './Stage';
-export declare class ActionState {
-    pressed: boolean;
-    inBounds: boolean;
-}
-export declare class XActionEvent extends Event {
+export declare class TouchEvent extends Event {
     stage?: Stage;
     nativeEvent: any;
-    stageX: number;
-    stageY: number;
-    x: number;
-    y: number;
+    currentTouch?: TouchItem;
+    touches: TouchItem[];
     currentTarget: XObject;
     readonly srcElement: XObject;
-    constructor(target: XObject, type: string, bubbles?: boolean, cancelable?: boolean);
+    constructor(srcElement: XObject, type: string, bubbles?: boolean, currentTouch?: TouchItem, touches?: TouchItem[], cancelable?: boolean);
     toString(): string;
-}
-export interface IAttributes {
-    [key: string]: string;
 }
 export interface IXObjectOptions {
     style: Style;
-    attributes: IAttributes;
+    attributes: {
+        [key: string]: string;
+    };
     text?: string;
 }
-export declare class XObject extends EventDispatcher<XActionEvent> {
+export declare class XObject extends EventDispatcher<TouchEvent> {
     eventEnabled: boolean;
-    actionState: ActionState;
     id?: string;
     style: Style;
     rect: Rect;
@@ -40,11 +33,11 @@ export declare class XObject extends EventDispatcher<XActionEvent> {
     private cacheCanvas?;
     private cacheState;
     constructor(opt?: IXObjectOptions);
-    getCacheCanvas(): HTMLCanvasElement | undefined;
     remove(): void;
-    dispatchEvent(event: XActionEvent): boolean;
+    dispatchEvent(event: TouchEvent): boolean;
     willTrigger(type: string): boolean;
     isVisible(): boolean;
+    getCacheCanvas(): HTMLCanvasElement | undefined;
     isCached(): boolean;
     cache(): void;
     uncache(): void;
@@ -63,7 +56,7 @@ export declare class XObject extends EventDispatcher<XActionEvent> {
     calculateSize(): void;
     css(style: {
         [key: string]: string | number;
-    }): void;
+    }): XObject;
     getLineHeight(): number;
     getWidth(): number;
     getHeight(): number;

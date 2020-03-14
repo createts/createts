@@ -1,5 +1,5 @@
 import { Event, EventDispatcher } from '../base/Event';
-import { SpriteOption } from '../components/Sprite';
+import { SpriteSheet } from '../components/Sprite';
 export declare enum LoadState {
     LOADING = 1,
     LOADED = 2,
@@ -9,7 +9,7 @@ export declare enum ResourceType {
     IMAGE = 1,
     APNG = 2
 }
-declare type Resource = HTMLImageElement | SpriteOption;
+declare type Resource = HTMLImageElement | SpriteSheet;
 declare type Resolve = (resource: Resource) => void;
 declare type Reject = (error: any) => void;
 interface IPromiseHandler {

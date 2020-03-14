@@ -233,6 +233,20 @@ export class Color {
     return undefined;
   }
 
+  /**
+   * Create a random color.
+   * @param includeAlpha Indecate whether include alpha as well.
+   * @returns a random color instance.
+   */
+  public static random(includeAlpha: boolean): Color {
+    return new Color(
+      Math.random() * 255,
+      Math.random() * 255,
+      Math.random() * 255,
+      includeAlpha ? Math.random() * 1 : 1
+    );
+  }
+
   private static parseColorValue(value: string, base: number): number | undefined {
     if (!REG_VALUE.test(value)) {
       return undefined;

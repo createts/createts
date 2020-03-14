@@ -389,9 +389,9 @@ function () {
       return this.tx === 0 && this.ty === 0 && this.a === 1 && this.b === 0 && this.c === 0 && this.d === 1;
     }
     /**
-     * Checks whether two martixes are equal.
-     * The result is true if and only if the argument is a Martix2D object that has the same values.
-     * @param matrix the Object to compare with this Martix2D object.
+     * Checks whether two matrixes are equal.
+     * The result is true if and only if the argument is a Matrix2D object that has the same values.
+     * @param matrix the Object to compare with this Matrix2D object.
      * @returns true if the objects are equal; false otherwise.
      */
 
@@ -404,7 +404,7 @@ function () {
      * Transforms a point according to this matrix.
      * @param x The x component of the point to transform
      * @param y The y component of the point to transform
-     * @return the trnsformed point
+     * @return the transformed point
      */
 
   }, {

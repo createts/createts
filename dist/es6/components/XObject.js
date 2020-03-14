@@ -4,6 +4,8 @@ function _get(target, property, receiver) { if (typeof Reflect !== "undefined" &
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
@@ -18,8 +20,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Rect } from '../base/Rect';
@@ -27,53 +27,101 @@ import { Runtime } from '../Runtime';
 import { Display, Style } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
-export var ActionState = function ActionState() {
-  _classCallCheck(this, ActionState);
 
-  this.pressed = false;
-  this.inBounds = false;
-};
-export var XActionEvent =
+/**
+ * This class represents an event object for both touch event (in mobile devices) and mouse event
+ * (in desktop).
+ */
+export var TouchEvent =
 /*#__PURE__*/
 function (_Event) {
-  _inherits(XActionEvent, _Event);
+  _inherits(TouchEvent, _Event);
 
-  // TODO: change to support multiple touches.
-  // A reference to the currently registered target for the event. This is the object to which the
-  // event is currently slated to be sent. It's possible this has been changed along the way
-  // through retargeting.
-  function XActionEvent(target, type) {
+  /**
+   * The stage object of the target element.
+   */
+
+  /**
+   * The native event, note that the location of this event is not transferred to the stage.
+   */
+
+  /**
+   * TouchItem of this event, it contains location and identifier.
+   */
+
+  /**
+   * The list of remaining touch items of this target event, for example, in a multiple touch
+   * devices, when user touches with 2 figures already, and then touches the 3rd one, the element
+   * receives a 'touchdown' event, this 'touches' list contains all 3 touch items, and the
+   * information of 3rd figure is in 'currentTouch' field.
+   */
+
+  /**
+   * A reference to the currently registered target for the event. This is the object to which the
+   * event is currently slated to be sent. It's possible this has been changed along the way
+   * through re-targeting.
+   */
+
+  /**
+   * The source element of this event.
+   */
+
+  /**
+   * Creates an instance of TouchEvent.
+   * @param srcElement The source element of this event.
+   * @param type Event type.
+   * @param bubbles Indicates whether the event bubbles up through its parents or not.
+   * @param currentTouch Contains location and identifier of this touch event.
+   * @param touches Contains location and identifier of this touch event.
+   * @param cancelable Interface indicates whether the event can be canceled, and
+   * therefore prevented as if the event never happened.
+   */
+  function TouchEvent(srcElement, type) {
     var _this;
 
     var bubbles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    var cancelable = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    var currentTouch = arguments.length > 3 ? arguments[3] : undefined;
+    var touches = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
+    var cancelable = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
 
-    _classCallCheck(this, XActionEvent);
+    _classCallCheck(this, TouchEvent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(XActionEvent).call(this, type, bubbles, cancelable));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TouchEvent).call(this, type, bubbles, cancelable));
     _this.stage = void 0;
     _this.nativeEvent = null;
-    _this.stageX = -1;
-    _this.stageY = -1;
-    _this.x = -1;
-    _this.y = -1;
+    _this.currentTouch = void 0;
+    _this.touches = [];
     _this.currentTarget = void 0;
     _this.srcElement = void 0;
-    _this.srcElement = target;
-    _this.currentTarget = target;
+    _this.srcElement = srcElement;
+    _this.currentTouch = currentTouch;
+    _this.currentTarget = srcElement;
+    _this.touches = touches;
     return _this;
   }
+  /**
+   * Returns a string representation of this TouchEvent object.
+   * @returns a string representation of this TouchEvent object.
+   */
 
-  _createClass(XActionEvent, [{
+
+  _createClass(TouchEvent, [{
     key: "toString",
     value: function toString() {
-      return '[XActionEvent (type=' + this.type + ')]';
+      return '[TouchEvent (type=' + this.type + ')]';
     }
   }]);
 
-  return XActionEvent;
+  return TouchEvent;
 }(Event);
+/**
+ * Indicates the cache state of this object.
+ */
+
 var CacheState;
+/**
+ * Options to create an XObject instance.
+ */
 
 (function (CacheState) {
   CacheState[CacheState["DISABLED"] = 1] = "DISABLED";
@@ -81,11 +129,53 @@ var CacheState;
   CacheState[CacheState["INVALIDATE"] = 3] = "INVALIDATE";
 })(CacheState || (CacheState = {}));
 
+/**
+ * This class represents an basic object (XObject), contains id, style, cache and cache status,
+ * etc.
+ */
 export var XObject =
 /*#__PURE__*/
 function (_EventDispatcher) {
   _inherits(XObject, _EventDispatcher);
 
+  /**
+   * Indicated whether event is enabled on this object or not.
+   * Note that if event is not enabled, it not prevent bubbling up through its parents.
+   */
+
+  /**
+   * The string if of this object.
+   */
+
+  /**
+   * The style of this object.
+   */
+
+  /**
+   * The calculated location and size of this object.
+   * Note: it is a computed result, do not change it manually, it maybe re-calculated in next
+   * layout process.
+   */
+
+  /**
+   * Parent object of this object.
+   */
+
+  /**
+   * The cached canvas.
+   */
+
+  /**
+   * Cache state, by default it is not cached.
+   * Note that enabling cache does not always improve the performance, if this instance is a image
+   * there is no performance gain, or its size is bigger but simple to draw, enabling cache may
+   * hurt performance.
+   */
+
+  /**
+   * Creates a XObject instance.
+   * @param opt The options to create this object.
+   */
   function XObject(opt) {
     var _this2;
 
@@ -93,7 +183,6 @@ function (_EventDispatcher) {
 
     _this2 = _possibleConstructorReturn(this, _getPrototypeOf(XObject).call(this));
     _this2.eventEnabled = true;
-    _this2.actionState = new ActionState();
     _this2.id = undefined;
     _this2.style = void 0;
     _this2.rect = new Rect(0, 0, 0, 0);
@@ -108,19 +197,24 @@ function (_EventDispatcher) {
 
     return _this2;
   }
+  /**
+   * This this element from its parent.
+   */
+
 
   _createClass(XObject, [{
-    key: "getCacheCanvas",
-    value: function getCacheCanvas() {
-      return this.cacheCanvas;
-    }
-  }, {
     key: "remove",
     value: function remove() {
       if (this.parent) {
         this.parent.removeChild(this);
       }
     }
+    /**
+     * Dispatches an event from current element and bubbles up through its parents.
+     * @param event The event to be dispatched.
+     * @returns True if the event is prevented, false otherwise.
+     */
+
   }, {
     key: "dispatchEvent",
     value: function dispatchEvent(event) {
@@ -132,7 +226,7 @@ function (_EventDispatcher) {
         var queue = [element];
 
         while (element.parent) {
-          queue.push(element.parent);
+          if (element.eventEnabled) queue.push(element.parent);
           element = element.parent;
         } // Bubbling
 
@@ -151,6 +245,12 @@ function (_EventDispatcher) {
 
       return !event.defaultPrevented;
     }
+    /**
+     * Checks whether there is any listener listens this type of event.
+     * @param type Event type to check.
+     * @returns True if there is any listener of this event, false otherwise.
+     */
+
   }, {
     key: "willTrigger",
     value: function willTrigger(type) {
@@ -166,26 +266,62 @@ function (_EventDispatcher) {
 
       return false;
     }
+    /**
+     * Checks whether this element is visible.
+     * @returns True if it is visible, false otherwise.
+     */
+
   }, {
     key: "isVisible",
     value: function isVisible() {
       return !!(this.style.visible && this.style.display !== Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
     }
+    /**
+     * Returns the offscreen cache canvas.
+     * @returns The offscreen cache canvas.
+     */
+
+  }, {
+    key: "getCacheCanvas",
+    value: function getCacheCanvas() {
+      return this.cacheCanvas;
+    }
+    /**
+     * Checks whether this element is cache enabled.
+     * Note that it returns true for an invalidate cache state.
+     * @returns True if it is cache enabled, false otherwise.
+     */
+
   }, {
     key: "isCached",
     value: function isCached() {
       return this.cacheState !== CacheState.DISABLED;
     }
+    /**
+     * Enable cache for this element.
+     */
+
   }, {
     key: "cache",
     value: function cache() {
-      this.cacheState = CacheState.INVALIDATE;
+      if (this.cacheState !== CacheState.CACHED) {
+        this.cacheState = CacheState.INVALIDATE;
+      }
     }
+    /**
+     * Disable cache for this element.
+     */
+
   }, {
     key: "uncache",
     value: function uncache() {
       this.cacheState = CacheState.DISABLED;
+      delete this.cacheCanvas;
     }
+    /**
+     * Marks the cache is invalidate and update in next render cycle.
+     */
+
   }, {
     key: "invalidateCache",
     value: function invalidateCache() {
@@ -196,6 +332,12 @@ function (_EventDispatcher) {
 
       this.cacheState = CacheState.INVALIDATE;
     }
+    /**
+     * Draws the image to stage canvas.
+     * @param ctx The canvas rendering context of stage canvas.
+     * @param ignoreCache If true, always not use cache.
+     */
+
   }, {
     key: "draw",
     value: function draw(ctx) {
@@ -220,11 +362,17 @@ function (_EventDispatcher) {
         }
 
         ctx.drawImage(this.cacheCanvas, 0, 0, this.rect.width, this.rect.height);
-        return;
+      } else {
+        DrawUtils.drawElement(this, ctx);
       }
-
-      DrawUtils.drawElement(this, ctx);
     }
+    /**
+     * Draws the background of this element to targeted canvas.
+     * @param ctx The canvas rendering context of targeted canvas.
+     * @param outerRect the outer position of border of this element.
+     * @param innerRect the inner position of border of this element.
+     */
+
   }, {
     key: "drawBackground",
     value: function drawBackground(ctx, outerRect, innerRect) {
@@ -232,11 +380,22 @@ function (_EventDispatcher) {
         this.style.background.draw(this, ctx, outerRect, innerRect);
       }
     }
+    /**
+     * Draws content of this element to targeted canvas.
+     * @param ctx The canvas rendering context of targeted canvas.
+     */
+
   }, {
     key: "drawContent",
     value: function drawContent(ctx) {
       return;
     }
+    /**
+     * Applies this object's transformation and alpha to the specified context. This is typically
+     * called prior to 'draw' function.
+     * @param ctx The canvas rendering context to update.
+     */
+
   }, {
     key: "updateContext",
     value: function updateContext(ctx) {
@@ -244,22 +403,55 @@ function (_EventDispatcher) {
       ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
       ctx.globalAlpha *= this.style.alpha;
     }
+    /**
+     * Transforms the specified x and y position from the coordinate space of this object to the
+     * stage coordinate space.
+     * @param x The x position in the source object to transform.
+     * @param y The y position in the source object to transform.
+     * @returns A Point instance with x and y properties correlating to the transformed coordinates.
+     */
+
   }, {
     key: "localToGlobal",
     value: function localToGlobal(x, y) {
       return this.getConcatenatedMatrix().transformPoint(x, y);
     }
+    /**
+     * Transforms the specified x and y position from the stage coordinate space to the coordinate
+     * space of this object.
+     * @param x The x position in the source object to transform.
+     * @param y The y position in the source object to transform.
+     * @returns A Point instance with x and y properties correlating to the transformed coordinates.
+     */
+
   }, {
     key: "globalToLocal",
     value: function globalToLocal(x, y) {
       return this.getConcatenatedMatrix().invert().transformPoint(x, y);
     }
+    /**
+     * Transforms the specified x and y position from the coordinate space of this object to the
+     * coordinate space of the target object.
+     * @param x The x position in the source object to transform.
+     * @param y The y position on the source object to transform.
+     * @param target The target object to which the coordinates will be transformed.
+     * @returns Returns a Point instance with x and y properties correlating to the transformed
+     * position in the target's coordinate space.
+     */
+
   }, {
     key: "localToLocal",
     value: function localToLocal(x, y, target) {
       var pt = this.localToGlobal(x, y);
       return target.globalToLocal(pt.x, pt.y);
     }
+    /**
+     * Returns a matrix based on this object's current transform.
+     * @param matrix Optional. A Matrix2D object to populate with the calculated values.
+     * If null, a new Matrix2D object is returned.
+     * @return A matrix representing this object's transform.
+     */
+
   }, {
     key: "getMatrix",
     value: function getMatrix(matrix) {
@@ -268,6 +460,15 @@ function (_EventDispatcher) {
       var cy = this.style.perspectiveOriginY.getValue(this.rect.height);
       return mtx.appendTransform(this.rect.x + cx + this.style.transformX.getValue(this.rect.width), this.rect.y + cy + this.style.transformY.getValue(this.rect.height), this.style.scaleX, this.style.scaleY, this.style.rotation, this.style.skewX, this.style.skewY, cx, cy);
     }
+    /**
+     * Generates a Matrix2D object representing the combined transform of the object and all of its
+     * parent Containers up to the stage. This can be used to transform positions between coordinate
+     * spaces.
+     * @param matrix A Matrix2D object to populate with the calculated values. If null, a new
+     * Matrix2D object is returned.
+     * @returnsThe combined matrix.
+     */
+
   }, {
     key: "getConcatenatedMatrix",
     value: function getConcatenatedMatrix(matrix) {
@@ -281,16 +482,31 @@ function (_EventDispatcher) {
 
       return mtx;
     }
+    /**
+     * Checks the given location should trigger a click event or not.
+     * @param x The x position to test.
+     * @param y The y position to test.
+     * @returns True if it should trigger a click event, false otherwise.
+     */
+
   }, {
     key: "hitTest",
     value: function hitTest(x, y) {
       return x >= 0 && x < this.rect.width && y >= 0 && y < this.rect.height;
     }
+    /**
+     * Calculates size of current object.
+     */
+
   }, {
     key: "layout",
     value: function layout() {
       this.calculateSize();
     }
+    /**
+     * Calculates size of current object.
+     */
+
   }, {
     key: "calculateSize",
     value: function calculateSize() {
@@ -300,11 +516,23 @@ function (_EventDispatcher) {
 
       LayoutUtils.updateSize(this, this.parent.getWidth(), this.parent.getHeight());
     }
+    /**
+     * Applies the style map to current object.
+     * @param style Style map to apply.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "css",
     value: function css(style) {
       this.style.apply(style);
+      return this;
     }
+    /**
+     * Returns line height of this object.
+     * @returns Line height of this object.
+     */
+
   }, {
     key: "getLineHeight",
     value: function getLineHeight() {
@@ -324,26 +552,51 @@ function (_EventDispatcher) {
         }
       }
     }
+    /**
+     * Returns width of this object, including content width, padding width and border width.
+     * @returns Width of this object.
+     */
+
   }, {
     key: "getWidth",
     value: function getWidth() {
       return this.rect.width;
     }
+    /**
+     * Returns height of this object, including content height, padding height and border height.
+     * @returns Height of this object.
+     */
+
   }, {
     key: "getHeight",
     value: function getHeight() {
       return this.rect.height;
     }
+    /**
+     * Returns padding width of this object.
+     * @returns Padding width of this object.
+     */
+
   }, {
     key: "getPaddingWidth",
     value: function getPaddingWidth() {
       return this.rect.width - (this.style.borderLeft ? this.style.borderLeft.width : 0) - (this.style.borderRight ? this.style.borderRight.width : 0);
     }
+    /**
+     * Returns padding height of this object.
+     * @returns Padding height of this object.
+     */
+
   }, {
     key: "getPaddingHeight",
     value: function getPaddingHeight() {
       return this.rect.height - (this.style.borderTop ? this.style.borderTop.width : 0) - (this.style.borderBottom ? this.style.borderBottom.width : 0);
     }
+    /**
+     * Returns padding rect of this object.
+     * @returns Padding rect of this object.
+     */
+
   }, {
     key: "getPaddingRect",
     value: function getPaddingRect() {
@@ -369,16 +622,31 @@ function (_EventDispatcher) {
 
       return rect;
     }
+    /**
+     * Returns content width of this object.
+     * @returns Content width of this object.
+     */
+
   }, {
     key: "getContentWidth",
     value: function getContentWidth() {
       return this.rect.width - (this.style.paddingLeft ? this.style.paddingLeft.getValue(this.rect.width) : 0) - (this.style.paddingRight ? this.style.paddingRight.getValue(this.rect.width) : 0) - (this.style.borderLeft ? this.style.borderLeft.width : 0) - (this.style.borderRight ? this.style.borderRight.width : 0);
     }
+    /**
+     * Returns content height of this object.
+     * @returns content height of this object.
+     */
+
   }, {
     key: "getContentHeight",
     value: function getContentHeight() {
       return this.rect.height - (this.style.paddingTop ? this.style.paddingTop.getValue(this.rect.height) : 0) - (this.style.paddingBottom ? this.style.paddingBottom.getValue(this.rect.height) : 0) - (this.style.borderTop ? this.style.borderTop.width : 0) - (this.style.borderBottom ? this.style.borderBottom.width : 0);
     }
+    /**
+     * Returns content rect of this object.
+     * @returns content rect of this object.
+     */
+
   }, {
     key: "getContentRect",
     value: function getContentRect() {
@@ -424,18 +692,34 @@ function (_EventDispatcher) {
 
       return rect;
     }
+    /**
+     * Returns outer width of this object.
+     * @returns Outer width of this object.
+     */
+
   }, {
     key: "getOuterWidth",
     value: function getOuterWidth() {
       var parentWidth = this.parent ? this.parent.getWidth() : 0;
       return this.rect.width + (this.style.marginLeft ? this.style.marginLeft.getValue(parentWidth) : 0) + (this.style.marginRight ? this.style.marginRight.getValue(parentWidth) : 0);
     }
+    /**
+     * Returns outer height of this object.
+     * @returns Outer height of this object.
+     */
+
   }, {
     key: "getOuterHeight",
     value: function getOuterHeight() {
       var parentHeight = this.parent ? this.parent.getHeight() : 0;
       return this.rect.height + (this.style.marginTop ? this.style.marginTop.getValue(parentHeight) : 0) + (this.style.marginBottom ? this.style.marginBottom.getValue(parentHeight) : 0);
     }
+    /**
+     * Checks it this object is a child of the given object.
+     * @param element The object to check with.
+     * @returns True if this object is a child of the given object, false otherwise.
+     */
+
   }, {
     key: "isChildOf",
     value: function isChildOf(element) {
@@ -451,20 +735,60 @@ function (_EventDispatcher) {
 
       return false;
     }
+    /**
+     * Returns a string representation of this object.
+     * @returns a string representation of this object.
+     */
+
   }, {
     key: "toString",
     value: function toString() {
       return "[XObject (id=".concat(this.id, ")]");
     }
+    /**
+     * Do dispatch a touch event to a this element.
+     * @param event The event to be dispatched.
+     */
+
   }, {
     key: "doDispatchEvent",
     value: function doDispatchEvent(event) {
       event.currentTarget = this;
 
       if (event.stage) {
-        var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
-        event.x = pt.x;
-        event.y = pt.y;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = event.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var touch = _step.value;
+
+            var _pt = event.stage.localToLocal(touch.stageX, touch.stageY, this);
+
+            touch.x = _pt.x;
+            touch.y = _pt.y;
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        if (event.currentTouch) {
+          var pt = event.stage.localToLocal(event.currentTouch.stageX, event.currentTouch.stageY, this);
+          event.currentTouch.x = pt.x;
+          event.currentTouch.y = pt.y;
+        }
       }
 
       _get(_getPrototypeOf(XObject.prototype), "dispatchEvent", this).call(this, event);

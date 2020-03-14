@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Runtime = void 0;
 
-var _Point = require("./base/Point");
+var _TouchItem = require("./base/TouchItem");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -38,22 +38,31 @@ function () {
       var _this = this;
 
       stage.canvas.addEventListener('mousedown', function (e) {
-        _this.handleEvent('mousedown', stage, e);
+        _this.handleMouseEvent('mousedown', stage, e);
       });
       stage.canvas.addEventListener('mousemove', function (e) {
-        _this.handleEvent('mousemove', stage, e);
+        _this.handleMouseEvent('mousemove', stage, e);
       });
       stage.canvas.addEventListener('pressmove', function (e) {
-        _this.handleEvent('mousemove', stage, e);
+        _this.handleMouseEvent('mousemove', stage, e);
       });
       stage.canvas.addEventListener('mouseup', function (e) {
-        _this.handleEvent('mouseup', stage, e);
+        _this.handleMouseEvent('mouseup', stage, e);
       });
       stage.canvas.addEventListener('mouseenter', function (e) {
-        _this.handleEvent('mouseenter', stage, e);
+        _this.handleMouseEvent('mouseenter', stage, e);
       });
       stage.canvas.addEventListener('mouseleave', function (e) {
-        _this.handleEvent('mouseleave', stage, e);
+        _this.handleMouseEvent('mouseleave', stage, e);
+      });
+      stage.canvas.addEventListener('touchstart', function (e) {
+        _this.handleTouchEvent('touchstart', stage, e);
+      });
+      stage.canvas.addEventListener('touchend', function (e) {
+        _this.handleTouchEvent('touchend', stage, e);
+      });
+      stage.canvas.addEventListener('touchmove', function (e) {
+        _this.handleTouchEvent('touchmove', stage, e);
       });
     }
   }, {
@@ -91,13 +100,46 @@ function () {
       return this.globalCanvas;
     }
   }, {
-    key: "handleEvent",
-    value: function handleEvent(type, stage, e) {
+    key: "handleMouseEvent",
+    value: function handleMouseEvent(type, stage, e) {
       var scaleX = stage.canvas.width / stage.canvas.clientWidth;
-      var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+      var scaleY = stage.canvas.height / stage.canvas.clientHeight; // Translate to multiple touch event
+
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
-      stage.handleActionEvent(type, new _Point.Point(x, y), e);
+      stage.handleMouseEvent(type, [new _TouchItem.TouchItem(0, x, y, 0, 0)], e);
+    }
+  }, {
+    key: "handleTouchEvent",
+    value: function handleTouchEvent(type, stage, e) {
+      var scaleX = stage.canvas.width / stage.canvas.clientWidth;
+      var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+      var touches = [];
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var touch = _step.value;
+          touches.push(new _TouchItem.TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      stage.handleMouseEvent(type, touches, e);
     }
   }]);
 

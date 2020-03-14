@@ -5,7 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Sprite = void 0;
 
+var _Animation = require("../animation/Animation");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
+
+var _Stage = require("./Stage");
 
 var _XObject2 = require("./XObject");
 
@@ -27,194 +31,317 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var SpriteState;
+/**
+ * A class defines controls when an sprite render which frame during the animation life cycle.
+ * Not like a normal animation, the sprite frames are discrete, we only render the frame while goto
+ * next one.
+ */
+var SpriteAnimationStep =
+/*#__PURE__*/
+function (_AnimationStep) {
+  _inherits(SpriteAnimationStep, _AnimationStep);
 
-(function (SpriteState) {
-  SpriteState[SpriteState["STOPPED"] = 0] = "STOPPED";
-  SpriteState[SpriteState["PLAYING"] = 1] = "PLAYING";
-  SpriteState[SpriteState["PAUSED"] = 2] = "PAUSED";
-})(SpriteState || (SpriteState = {}));
+  /**
+   * The targeted sprite instance.
+   */
+
+  /**
+   * Create a SpriteAnimationStep instance with a sprite instance.
+   * @param sprite The targeted sprite instance.
+   */
+  function SpriteAnimationStep(sprite) {
+    var _this;
+
+    _classCallCheck(this, SpriteAnimationStep);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SpriteAnimationStep).call(this, sprite, sprite.spriteSheet.frames.length * 1000 / sprite.spriteSheet.fps));
+    _this.sprite = void 0;
+    _this.sprite = sprite;
+    return _this;
+  }
+  /**
+   * Calculates the current frame and decides need to update.
+   * @param percent the current process of an animation play cycle.
+   * @returns True if switch frame, false otherwise.
+   */
+
+
+  _createClass(SpriteAnimationStep, [{
+    key: "onUpdate",
+    value: function onUpdate(percent) {
+      if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
+        return false;
+      }
+
+      var index = Math.min(this.sprite.spriteSheet.frames.length - 1, Math.floor(this.sprite.spriteSheet.frames.length * percent));
+
+      if (index === this.sprite.currentFrame) {
+        return false;
+      } else {
+        this.sprite.currentFrame = index;
+        return true;
+      }
+    }
+  }]);
+
+  return SpriteAnimationStep;
+}(_Animation.AnimationStep);
+/**
+ * This class represents a sprite object, which plays a sequence of frames from a SpriteSheet
+ * instance.
+ *
+ * Code example:
+ * ```typescript
+ *  const sprite = new Sprite();
+ *  const spriteSheet = {
+ *    width: 480,
+ *    height: 400,
+ *    url: "./elephant.png",
+ *    fps: 20,
+ *    frames: []
+ *  };
+ *  for (let i = 0; i < 34; ++i) {
+ *    opt.frames.push({ x: 0, y: 400 * i });
+ *  }
+ *  sprite.setSpriteSheet(spriteSheet).play();
+ * ```
+ */
+
 
 var Sprite =
 /*#__PURE__*/
 function (_XObject) {
   _inherits(Sprite, _XObject);
 
+  /**
+   * The SpriteSheet instance to play back.
+   */
+
+  /**
+   * Index of current frame.
+   */
+
+  /**
+   * The animation instance to play the sprite sheet.
+   */
+
+  /**
+   * Create a sprite object, you need to call setSpriteSheet method after the instance was created.
+   * @param options The options to create this object.
+   */
   function Sprite(options) {
-    var _this;
+    var _this2;
 
     _classCallCheck(this, Sprite);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Sprite).call(this, options));
-    _this.option = void 0;
-    _this.currentFrame = 0;
-    _this.startTime = 0;
-    _this.pauseTime = 0;
-    _this.state = SpriteState.STOPPED;
-    _this.playTimes = 0;
-    return _this;
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Sprite).call(this, options));
+    _this2.spriteSheet = void 0;
+    _this2.currentFrame = 0;
+    _this2.animation = void 0;
+    return _this2;
   }
+  /**
+   * Set the SpriteSheet to let this Sprite instance know how to play.
+   * @param spriteSheet The SpriteSheet instance to be set.
+   * @returns The current instance. Useful for chaining method calls.
+   */
+
 
   _createClass(Sprite, [{
-    key: "setOption",
-    value: function setOption(option) {
-      this.option = option;
+    key: "setSpriteSheet",
+    value: function setSpriteSheet(spriteSheet) {
+      this.spriteSheet = spriteSheet;
 
-      if (this.option && this.option.url) {
-        _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.option.url, _ResourceRegistry.ResourceType.IMAGE);
+      if (this.spriteSheet && this.spriteSheet.url) {
+        _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, _ResourceRegistry.ResourceType.IMAGE);
       }
 
       return this;
     }
+    /**
+     * returns stage of this element, or undefined if this element is not attached to a stage.
+     * @returns Stage or undefined.
+     */
+
+  }, {
+    key: "getStage",
+    value: function getStage() {
+      var element = this;
+
+      while (element) {
+        if (element instanceof _Stage.Stage) {
+          return element;
+        }
+
+        element = element.parent;
+      }
+
+      return undefined;
+    }
+    /**
+     * Play the sprite for the specified times, -1 for infinite.
+     * @param times How many times to play this sprite, -1 for infinite.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "play",
     value: function play() {
+      var _this3 = this;
+
       var times = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
-      this.playTimes = times;
-      this.startTime = Date.now();
-      this.currentFrame = 0;
-      this.state = SpriteState.PLAYING;
-      this.dispatchEvent(new _XObject2.XActionEvent(this, 'play'));
+
+      if (this.animation) {
+        this.animation.cancel();
+        this.animation = undefined;
+      }
+
+      var stage = this.getStage();
+
+      if (stage) {
+        this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
+        this.animation.addEventListener('complete', function () {
+          return _this3.dispatchEvent(new _XObject2.TouchEvent(_this3, 'stop'));
+        });
+        this.dispatchEvent(new _XObject2.TouchEvent(this, 'play'));
+      }
+
       return this;
     }
+    /**
+     * Pause the current playing.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "pause",
     value: function pause() {
-      if (this.state === SpriteState.PLAYING) {
-        this.state = SpriteState.PAUSED;
-        this.pauseTime = Date.now();
-        this.dispatchEvent(new _XObject2.XActionEvent(this, 'pause'));
+      if (this.animation && this.animation.pause()) {
+        this.dispatchEvent(new _XObject2.TouchEvent(this, 'pause'));
       }
 
       return this;
     }
+    /**
+     * Resume the current playing.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "resume",
     value: function resume() {
-      if (this.state === SpriteState.PAUSED) {
-        this.state = SpriteState.PLAYING;
-        this.startTime = this.startTime + Date.now() - this.pauseTime;
-        this.dispatchEvent(new _XObject2.XActionEvent(this, 'resume'));
+      if (this.animation && this.animation.resume()) {
+        this.dispatchEvent(new _XObject2.TouchEvent(this, 'resume'));
       }
 
       return this;
     }
+    /**
+     * Stop the current playing.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "stop",
     value: function stop() {
-      if (this.state !== SpriteState.STOPPED) {
-        this.state = SpriteState.STOPPED;
-        this.dispatchEvent(new _XObject2.XActionEvent(this, 'stop'));
+      if (this.animation) {
+        this.animation.cancel();
+        this.animation = undefined;
       }
 
       return this;
     }
+    /**
+     * Alias of play method.
+     * @param times How many times to play this sprite, -1 for infinite.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "times",
     value: function times(_times) {
       return this.play(_times);
     }
+    /**
+     * Set the index of current frame.
+     * Please do not call this method while it is playing, it may be updated in next render time.
+     * @param currentFrame the index of the specified frame.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "setCurrentFrame",
     value: function setCurrentFrame(currentFrame) {
       this.currentFrame = currentFrame;
       return this;
     }
+    /**
+     * Move to next frame.
+     * Please do not call this method while it is playing, it may be updated in next render time.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "toNextFrame",
     value: function toNextFrame() {
-      this.currentFrame = (this.currentFrame + 1) % this.option.frames.length;
+      this.currentFrame = (this.currentFrame + 1) % this.spriteSheet.frames.length;
       return this;
     }
+    /**
+     * Move to previous frame.
+     * Please do not call this method while it is playing, it may be updated in next render time.
+     * @param currentFrame the index of the specified frame.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "toPreviousFrame",
     value: function toPreviousFrame() {
-      this.currentFrame = (this.currentFrame - 1 + this.option.frames.length) % this.option.frames.length;
+      this.currentFrame = (this.currentFrame - 1 + this.spriteSheet.frames.length) % this.spriteSheet.frames.length;
       return this;
     }
-  }, {
-    key: "updateFramePosition",
-    value: function updateFramePosition() {
-      if (this.state !== SpriteState.PLAYING || this.playTimes === 0 || !this.option || this.option.fps <= 0 || this.option.frames.length === 0) {
-        return false;
-      }
+    /**
+     * Draws content of this element to targeted canvas.
+     * @param ctx The canvas rendering context of targeted canvas.
+     */
 
-      var now = Date.now();
-
-      if (now < this.startTime) {
-        this.startTime = now;
-        this.currentFrame = 0;
-        return false;
-      }
-
-      var interval = 1000 / this.option.fps;
-      var pass = Math.floor((now - this.startTime) / interval);
-      this.currentFrame = pass % this.option.frames.length;
-
-      if (this.playTimes > 0 && pass >= this.option.frames.length * this.playTimes) {
-        this.currentFrame = this.option.frames.length - 1;
-        this.state = SpriteState.STOPPED;
-        return true;
-      }
-    }
   }, {
     key: "drawContent",
     value: function drawContent(ctx) {
-      if (!this.option || this.option.frames.length === 0) {
+      if (!this.spriteSheet || this.spriteSheet.frames.length === 0) {
         return;
       }
 
-      var end = this.updateFramePosition();
-      var frame = this.option.frames[this.currentFrame]; // Get image
+      var frame = this.spriteSheet.frames[this.currentFrame]; // Get image
 
       var rect = this.getContentRect();
       var image;
-      var srcX = 0;
-      var srcY = 0;
-      var srcWidth = this.option.width;
-      var srcHeight = this.option.height;
-      var destX = rect.x;
-      var destY = rect.y;
-      var destWidth = rect.width;
-      var destHeight = rect.height;
-      var scaleX = rect.width / this.option.width;
-      var scaleY = rect.height / this.option.height;
 
       if (frame.image) {
         image = frame.image;
-        destX += frame.x * scaleX;
-        destY += frame.y * scaleY;
-        destWidth = frame.width * scaleX;
-        destHeight = frame.height * scaleY;
-        srcX = 0;
-        srcY = 0;
-        srcWidth = frame.width;
-        srcHeight = frame.height;
       } else {
-        image = this.option.image || this.option.url && _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.option.url);
-
-        if (!image) {
-          return;
-        }
-
-        srcX = frame.x;
-        srcY = frame.y;
-        srcWidth = frame.width || this.option.width;
-        srcHeight = frame.height || this.option.height;
+        image = this.spriteSheet.image || this.spriteSheet.url && _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.spriteSheet.url);
       }
 
       if (!image) {
         return;
       }
 
+      var scaleX = rect.width / this.spriteSheet.width;
+      var scaleY = rect.height / this.spriteSheet.height;
+      var destX = frame.destX !== undefined ? frame.destX : 0;
+      var destY = frame.destY !== undefined ? frame.destY : 0;
+      var destWidth = frame.destWidth !== undefined ? frame.destWidth : this.spriteSheet.width - destX;
+      var destHeight = frame.destHeight !== undefined ? frame.destHeight : this.spriteSheet.height - destY;
+      var srcX = frame.srcX !== undefined ? frame.srcX : 0;
+      var srcY = frame.srcY !== undefined ? frame.srcY : 0;
+      var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
+      var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
+
       try {
-        ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX, destY, destWidth, destHeight);
+        ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
       } catch (e) {
         console.warn(this.currentFrame, e);
-      }
-
-      if (end) {
-        this.dispatchEvent(new _XObject2.XActionEvent(this, 'stop'));
       }
     }
   }]);

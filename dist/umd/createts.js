@@ -106,7 +106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Point_1 = __webpack_require__(/*! ./base/Point */ "./src/base/Point.ts");
+var TouchItem_1 = __webpack_require__(/*! ./base/TouchItem */ "./src/base/TouchItem.ts");
 var WebRuntime = (function () {
     function WebRuntime() {
     }
@@ -119,22 +119,31 @@ var WebRuntime = (function () {
     WebRuntime.prototype.enableEvents = function (stage) {
         var _this = this;
         stage.canvas.addEventListener('mousedown', function (e) {
-            _this.handleEvent('mousedown', stage, e);
+            _this.handleMouseEvent('mousedown', stage, e);
         });
         stage.canvas.addEventListener('mousemove', function (e) {
-            _this.handleEvent('mousemove', stage, e);
+            _this.handleMouseEvent('mousemove', stage, e);
         });
         stage.canvas.addEventListener('pressmove', function (e) {
-            _this.handleEvent('mousemove', stage, e);
+            _this.handleMouseEvent('mousemove', stage, e);
         });
         stage.canvas.addEventListener('mouseup', function (e) {
-            _this.handleEvent('mouseup', stage, e);
+            _this.handleMouseEvent('mouseup', stage, e);
         });
         stage.canvas.addEventListener('mouseenter', function (e) {
-            _this.handleEvent('mouseenter', stage, e);
+            _this.handleMouseEvent('mouseenter', stage, e);
         });
         stage.canvas.addEventListener('mouseleave', function (e) {
-            _this.handleEvent('mouseleave', stage, e);
+            _this.handleMouseEvent('mouseleave', stage, e);
+        });
+        stage.canvas.addEventListener('touchstart', function (e) {
+            _this.handleTouchEvent('touchstart', stage, e);
+        });
+        stage.canvas.addEventListener('touchend', function (e) {
+            _this.handleTouchEvent('touchend', stage, e);
+        });
+        stage.canvas.addEventListener('touchmove', function (e) {
+            _this.handleTouchEvent('touchmove', stage, e);
         });
     };
     WebRuntime.prototype.requestAnimationFrame = function (listener) {
@@ -163,12 +172,22 @@ var WebRuntime = (function () {
         }
         return this.globalCanvas;
     };
-    WebRuntime.prototype.handleEvent = function (type, stage, e) {
+    WebRuntime.prototype.handleMouseEvent = function (type, stage, e) {
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var x = e.offsetX * scaleX;
         var y = e.offsetY * scaleY;
-        stage.handleActionEvent(type, new Point_1.Point(x, y), e);
+        stage.handleMouseEvent(type, [new TouchItem_1.TouchItem(0, x, y, 0, 0)], e);
+    };
+    WebRuntime.prototype.handleTouchEvent = function (type, stage, e) {
+        var scaleX = stage.canvas.width / stage.canvas.clientWidth;
+        var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+        var touches = [];
+        for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
+            var touch = _a[_i];
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+        }
+        stage.handleMouseEvent(type, touches, e);
     };
     return WebRuntime;
 }());
@@ -606,11 +625,12 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = __webpack_require__(/*! ../ */ "./src/index.ts");
 var BaseValue_1 = __webpack_require__(/*! ../base/BaseValue */ "./src/base/BaseValue.ts");
 var Color_1 = __webpack_require__(/*! ../base/Color */ "./src/base/Color.ts");
 var Event_1 = __webpack_require__(/*! ../base/Event */ "./src/base/Event.ts");
+var Background_1 = __webpack_require__(/*! ../style/Background */ "./src/style/Background.ts");
 var Border_1 = __webpack_require__(/*! ../style/Border */ "./src/style/Border.ts");
+var Shadow_1 = __webpack_require__(/*! ../style/Shadow */ "./src/style/Shadow.ts");
 var AlgorithmFactory_1 = __webpack_require__(/*! ./AlgorithmFactory */ "./src/animation/AlgorithmFactory.ts");
 var AnimationValueType;
 (function (AnimationValueType) {
@@ -646,17 +666,14 @@ var AnimationStep = (function () {
         this.target = target;
         this.duration = duration;
     }
-    AnimationStep.prototype.onStart = function () {
-        return this;
-    };
+    AnimationStep.prototype.onStart = function () { };
     AnimationStep.prototype.onUpdate = function (percent) {
-        return this;
+        return false;
     };
-    AnimationStep.prototype.onEnd = function () {
-        return this;
-    };
+    AnimationStep.prototype.onEnd = function () { };
     return AnimationStep;
 }());
+exports.AnimationStep = AnimationStep;
 var WaitStep = (function (_super) {
     __extends(WaitStep, _super);
     function WaitStep() {
@@ -664,9 +681,9 @@ var WaitStep = (function (_super) {
     }
     return WaitStep;
 }(AnimationStep));
-var AnimateStep = (function (_super) {
-    __extends(AnimateStep, _super);
-    function AnimateStep(target, props, algorithm, duration) {
+var StyleStep = (function (_super) {
+    __extends(StyleStep, _super);
+    function StyleStep(target, props, algorithm, duration) {
         var _this = _super.call(this, target, duration) || this;
         if (typeof algorithm === 'string') {
             var algo = AlgorithmFactory_1.AlgorithmFactory.get(algorithm);
@@ -681,13 +698,12 @@ var AnimateStep = (function (_super) {
         _this.props = props;
         return _this;
     }
-    AnimateStep.prototype.onStart = function () {
+    StyleStep.prototype.onStart = function () {
         this.computed = this.target.style.getSnapshotForAnimation(this.target, this.props);
-        return this;
     };
-    AnimateStep.prototype.onUpdate = function (percent) {
+    StyleStep.prototype.onUpdate = function (percent) {
         if (!this.computed) {
-            return this;
+            return false;
         }
         for (var name_1 in this.computed) {
             var attr = this.computed[name_1];
@@ -713,7 +729,16 @@ var AnimateStep = (function (_super) {
                         var from = attr.from;
                         var to = attr.to;
                         var v = this.algorithm.calclate(percent);
-                        this.target.style[name_1] = new Color_1.Color(from.r + (to.r - from.r) * v, from.g + (to.g - from.g) * v, from.b + (to.b - from.b) * v, from.a + (to.a - from.a) * v);
+                        var color = new Color_1.Color(from.r + (to.r - from.r) * v, from.g + (to.g - from.g) * v, from.b + (to.b - from.b) * v, from.a + (to.a - from.a) * v);
+                        if (name_1 === 'backgroundColor') {
+                            if (!this.target.style.background) {
+                                this.target.style.background = new Background_1.Background();
+                            }
+                            this.target.style.background.color = color;
+                        }
+                        else {
+                            this.target.style[name_1] = color;
+                        }
                     }
                     break;
                 case AnimationValueType.BORDER:
@@ -729,21 +754,14 @@ var AnimateStep = (function (_super) {
                         var from = attr.from;
                         var to = attr.to;
                         var v = this.algorithm.calclate(percent);
-                        this.target.style[name_1] = new __1.Shadow(from.offsetX + (to.offsetX - from.offsetX) * v, from.offsetY + (to.offsetY - from.offsetY) * v, from.blur + (to.blur - from.blur) * v, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
+                        this.target.style[name_1] = new Shadow_1.Shadow(from.offsetX + (to.offsetX - from.offsetX) * v, from.offsetY + (to.offsetY - from.offsetY) * v, from.blur + (to.blur - from.blur) * v, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
                     }
                     break;
             }
         }
-        return this;
+        return true;
     };
-    AnimateStep.prototype.onEnd = function () {
-        for (var name_2 in this.computed) {
-            var attr = this.computed[name_2];
-            this.target.style[name_2] = attr.to;
-        }
-        return this;
-    };
-    return AnimateStep;
+    return StyleStep;
 }(AnimationStep));
 var CallStep = (function (_super) {
     __extends(CallStep, _super);
@@ -754,31 +772,31 @@ var CallStep = (function (_super) {
     }
     CallStep.prototype.onEnd = function () {
         this.call();
-        return this;
     };
     return CallStep;
 }(AnimationStep));
 var AnimationState;
 (function (AnimationState) {
     AnimationState[AnimationState["RUNNING"] = 1] = "RUNNING";
-    AnimationState[AnimationState["COMPLETED"] = 2] = "COMPLETED";
-    AnimationState[AnimationState["CANCELLED"] = 3] = "CANCELLED";
+    AnimationState[AnimationState["PAUSED"] = 2] = "PAUSED";
+    AnimationState[AnimationState["COMPLETED"] = 3] = "COMPLETED";
+    AnimationState[AnimationState["CANCELLED"] = 4] = "CANCELLED";
 })(AnimationState = exports.AnimationState || (exports.AnimationState = {}));
 var Animation = (function (_super) {
     __extends(Animation, _super);
     function Animation(target, loop) {
         var _this = _super.call(this) || this;
-        _this.loopAnimate = false;
+        _this.playTimes = 1;
         _this.state = AnimationState.RUNNING;
         _this.steps = [];
-        _this.startTime = 0;
+        _this.roundStartTime = 0;
         _this.duration = 0;
         _this.currentStepIndex = 0;
         _this.currentStepProgress = 0;
         _this.totalProgress = 0;
         _this.target = target;
-        _this.loopAnimate = !!loop;
-        _this.startTime = Date.now();
+        _this.playTimes = loop ? 0 : 1;
+        _this.roundStartTime = _this.beginTime = Date.now();
         _this.currentStepIndex = 0;
         _this.state = AnimationState.RUNNING;
         return _this;
@@ -791,12 +809,39 @@ var Animation = (function (_super) {
             });
         });
     };
+    Animation.prototype.pause = function () {
+        if (this.state === AnimationState.RUNNING) {
+            this.state = AnimationState.PAUSED;
+            this.pauseTime = Date.now();
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    Animation.prototype.resume = function () {
+        if (this.state === AnimationState.PAUSED) {
+            var duration = Date.now() - this.pauseTime;
+            this.roundStartTime += duration;
+            this.beginTime += duration;
+            this.state = AnimationState.RUNNING;
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     Animation.prototype.loop = function (loop) {
-        this.loopAnimate = loop;
+        this.playTimes = loop ? 0 : 1;
+        return this;
+    };
+    Animation.prototype.times = function (times) {
+        this.playTimes = times;
         return this;
     };
     Animation.prototype.to = function (props, duration, algorithm) {
-        this.addStep(new AnimateStep(this.target, props, algorithm, duration));
+        if (algorithm === void 0) { algorithm = 'linear'; }
+        this.addStep(new StyleStep(this.target, props, algorithm, duration));
         return this;
     };
     Animation.prototype.call = function (call) {
@@ -807,20 +852,28 @@ var Animation = (function (_super) {
     };
     Animation.prototype.onInterval = function () {
         if (this.duration <= 0) {
-            return;
+            return false;
         }
         var now = Date.now();
-        if (now < this.startTime) {
-            return;
+        if (now < this.roundStartTime) {
+            return false;
         }
-        var passed = now - this.startTime;
+        var passed = now - this.roundStartTime;
         var currentStep = this.steps[this.currentStepIndex];
         if (passed >= this.duration) {
+            currentStep.onUpdate(1);
             currentStep.onEnd();
             for (++this.currentStepIndex; this.currentStepIndex < this.steps.length; ++this.currentStepIndex) {
-                this.steps[this.currentStepIndex].onStart().onEnd();
+                var step = this.steps[this.currentStepIndex];
+                step.onStart();
+                step.onUpdate(1);
+                step.onEnd();
             }
-            if (!this.loopAnimate) {
+            var newRound = true;
+            if (this.playTimes > 0) {
+                newRound = this.playTimes * this.duration > now - this.beginTime;
+            }
+            if (!newRound) {
                 this.currentStepIndex = this.steps.length - 1;
                 this.onUpdateInternal(1, 1);
                 this.state = AnimationState.COMPLETED;
@@ -828,7 +881,7 @@ var Animation = (function (_super) {
             }
             else {
                 passed = passed % this.duration;
-                this.startTime = now - passed;
+                this.roundStartTime = now - passed;
                 this.currentStepIndex = 0;
                 while (true) {
                     var step = this.steps[this.currentStepIndex];
@@ -839,6 +892,7 @@ var Animation = (function (_super) {
                         break;
                     }
                     else {
+                        step.onUpdate(1);
                         step.onEnd();
                         ++this.currentStepIndex;
                     }
@@ -851,6 +905,7 @@ var Animation = (function (_super) {
                 this.onUpdateInternal(progress, passed / this.duration);
             }
             else {
+                currentStep.onUpdate(1);
                 currentStep.onEnd();
                 ++this.currentStepIndex;
                 while (true) {
@@ -862,12 +917,14 @@ var Animation = (function (_super) {
                         break;
                     }
                     else {
+                        step.onUpdate(1);
                         step.onEnd();
                         ++this.currentStepIndex;
                     }
                 }
             }
         }
+        return true;
     };
     Animation.prototype.cancel = function () {
         this.state = AnimationState.CANCELLED;
@@ -928,8 +985,14 @@ var AnimationFactory = (function () {
     };
     AnimationFactory.prototype.onInterval = function () {
         var size = this.animations.length;
+        if (size === 0) {
+            return false;
+        }
+        var updated = false;
         for (var i = 0; i < size; ++i) {
-            this.animations[i].onInterval();
+            if (this.animations[i].onInterval()) {
+                updated = true;
+            }
         }
         for (var i = this.animations.length - 1; i >= 0; --i) {
             var animation = this.animations[i];
@@ -938,6 +1001,7 @@ var AnimationFactory = (function () {
                 this.animations.splice(i, 1);
             }
         }
+        return updated;
     };
     return AnimationFactory;
 }());
@@ -1101,6 +1165,9 @@ var Color = (function () {
             console.warn('invalid color value:' + value);
         }
         return undefined;
+    };
+    Color.random = function (includeAlpha) {
+        return new Color(Math.random() * 255, Math.random() * 255, Math.random() * 255, includeAlpha ? Math.random() * 1 : 1);
     };
     Color.parseColorValue = function (value, base) {
         if (!REG_VALUE.test(value)) {
@@ -2024,6 +2091,41 @@ exports.RoundRect = RoundRect;
 
 /***/ }),
 
+/***/ "./src/base/TouchItem.ts":
+/*!*******************************!*\
+  !*** ./src/base/TouchItem.ts ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TouchItem = (function () {
+    function TouchItem(identifier, stageX, stageY, x, y) {
+        this.identifier = identifier;
+        this.stageX = stageX;
+        this.stageY = stageY;
+        this.x = x;
+        this.y = y;
+    }
+    TouchItem.prototype.equals = function (that) {
+        return (this.identifier === this.identifier &&
+            this.stageX === that.stageX &&
+            this.stageY === this.stageY &&
+            this.x === that.x &&
+            this.y === this.y);
+    };
+    TouchItem.prototype.clone = function () {
+        return new TouchItem(this.identifier, this.stageX, this.stageY, this.x, this.y);
+    };
+    return TouchItem;
+}());
+exports.TouchItem = TouchItem;
+
+
+/***/ }),
+
 /***/ "./src/components/Apng.ts":
 /*!********************************!*\
   !*** ./src/components/Apng.ts ***!
@@ -2056,7 +2158,7 @@ var Apng = (function (_super) {
         if (options && options.attributes) {
             if (options.attributes.src) {
                 ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceRegistry_1.ResourceType.APNG).then(function (opt) {
-                    _this.setOption(opt).play();
+                    _this.setSpriteSheet(opt).play();
                 });
             }
         }
@@ -2097,8 +2199,8 @@ var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var Container = (function (_super) {
     __extends(Container, _super);
-    function Container() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function Container(opt) {
+        var _this = _super.call(this, opt) || this;
         _this.children = [];
         return _this;
     }
@@ -2142,7 +2244,7 @@ var Container = (function (_super) {
             var idx = this.children.indexOf(child);
             this.children.splice(idx, 1);
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.XActionEvent(child, 'moved', false));
+            child.dispatchEvent(new XObject_1.TouchEvent(child, 'moved', false));
             return this;
         }
         else {
@@ -2151,7 +2253,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.XActionEvent(child, 'added', false));
+            child.dispatchEvent(new XObject_1.TouchEvent(child, 'added', false));
             return this;
         }
     };
@@ -2181,7 +2283,7 @@ var Container = (function (_super) {
                 this.children.splice(index, 0, child);
                 this.children.splice(current, 1);
             }
-            child.dispatchEvent(new XObject_1.XActionEvent(child, 'moved', false));
+            child.dispatchEvent(new XObject_1.TouchEvent(child, 'moved', false));
             return this;
         }
         else {
@@ -2190,7 +2292,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.splice(index, 0, child);
-            child.dispatchEvent(new XObject_1.XActionEvent(child, 'added', false));
+            child.dispatchEvent(new XObject_1.TouchEvent(child, 'added', false));
             return this;
         }
     };
@@ -2202,7 +2304,7 @@ var Container = (function (_super) {
         else {
             this.children.splice(idx, 1);
             child.parent = undefined;
-            child.dispatchEvent(new XObject_1.XActionEvent(child, 'removed', false));
+            child.dispatchEvent(new XObject_1.TouchEvent(child, 'removed', false));
             return child;
         }
     };
@@ -2212,7 +2314,7 @@ var Container = (function (_super) {
         }
         var child = this.children[index];
         this.children.splice(index, 1);
-        child.dispatchEvent(new XObject_1.XActionEvent(child, 'removed', false));
+        child.dispatchEvent(new XObject_1.TouchEvent(child, 'removed', false));
         return child;
     };
     Container.prototype.removeAllChildren = function () {
@@ -2245,8 +2347,8 @@ var Container = (function (_super) {
         var o2 = this.children[index2];
         this.children[index1] = o2;
         this.children[index2] = o1;
-        o1.dispatchEvent(new XObject_1.XActionEvent(o1, 'moved', false));
-        o2.dispatchEvent(new XObject_1.XActionEvent(o2, 'moved', false));
+        o1.dispatchEvent(new XObject_1.TouchEvent(o1, 'moved', false));
+        o2.dispatchEvent(new XObject_1.TouchEvent(o2, 'moved', false));
         return this;
     };
     Container.prototype.swapChildren = function (child1, child2) {
@@ -2480,61 +2582,92 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var Animation_1 = __webpack_require__(/*! ../animation/Animation */ "./src/animation/Animation.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
+var Stage_1 = __webpack_require__(/*! ./Stage */ "./src/components/Stage.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
-var SpriteState;
-(function (SpriteState) {
-    SpriteState[SpriteState["STOPPED"] = 0] = "STOPPED";
-    SpriteState[SpriteState["PLAYING"] = 1] = "PLAYING";
-    SpriteState[SpriteState["PAUSED"] = 2] = "PAUSED";
-})(SpriteState || (SpriteState = {}));
+var SpriteAnimationStep = (function (_super) {
+    __extends(SpriteAnimationStep, _super);
+    function SpriteAnimationStep(sprite) {
+        var _this = _super.call(this, sprite, (sprite.spriteSheet.frames.length * 1000) / sprite.spriteSheet.fps) || this;
+        _this.sprite = sprite;
+        return _this;
+    }
+    SpriteAnimationStep.prototype.onUpdate = function (percent) {
+        if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
+            return false;
+        }
+        var index = Math.min(this.sprite.spriteSheet.frames.length - 1, Math.floor(this.sprite.spriteSheet.frames.length * percent));
+        if (index === this.sprite.currentFrame) {
+            return false;
+        }
+        else {
+            this.sprite.currentFrame = index;
+            return true;
+        }
+    };
+    return SpriteAnimationStep;
+}(Animation_1.AnimationStep));
 var Sprite = (function (_super) {
     __extends(Sprite, _super);
     function Sprite(options) {
         var _this = _super.call(this, options) || this;
         _this.currentFrame = 0;
-        _this.startTime = 0;
-        _this.pauseTime = 0;
-        _this.state = SpriteState.STOPPED;
-        _this.playTimes = 0;
         return _this;
     }
-    Sprite.prototype.setOption = function (option) {
-        this.option = option;
-        if (this.option && this.option.url) {
-            ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.option.url, ResourceRegistry_1.ResourceType.IMAGE);
+    Sprite.prototype.setSpriteSheet = function (spriteSheet) {
+        this.spriteSheet = spriteSheet;
+        if (this.spriteSheet && this.spriteSheet.url) {
+            ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceRegistry_1.ResourceType.IMAGE);
         }
         return this;
     };
+    Sprite.prototype.getStage = function () {
+        var element = this;
+        while (element) {
+            if (element instanceof Stage_1.Stage) {
+                return element;
+            }
+            element = element.parent;
+        }
+        return undefined;
+    };
     Sprite.prototype.play = function (times) {
+        var _this = this;
         if (times === void 0) { times = -1; }
-        this.playTimes = times;
-        this.startTime = Date.now();
-        this.currentFrame = 0;
-        this.state = SpriteState.PLAYING;
-        this.dispatchEvent(new XObject_1.XActionEvent(this, 'play'));
+        if (this.animation) {
+            this.animation.cancel();
+            this.animation = undefined;
+        }
+        var stage = this.getStage();
+        if (stage) {
+            this.animation = stage
+                .animate(this)
+                .addStep(new SpriteAnimationStep(this))
+                .times(times);
+            this.animation.addEventListener('complete', function () {
+                return _this.dispatchEvent(new XObject_1.TouchEvent(_this, 'stop'));
+            });
+            this.dispatchEvent(new XObject_1.TouchEvent(this, 'play'));
+        }
         return this;
     };
     Sprite.prototype.pause = function () {
-        if (this.state === SpriteState.PLAYING) {
-            this.state = SpriteState.PAUSED;
-            this.pauseTime = Date.now();
-            this.dispatchEvent(new XObject_1.XActionEvent(this, 'pause'));
+        if (this.animation && this.animation.pause()) {
+            this.dispatchEvent(new XObject_1.TouchEvent(this, 'pause'));
         }
         return this;
     };
     Sprite.prototype.resume = function () {
-        if (this.state === SpriteState.PAUSED) {
-            this.state = SpriteState.PLAYING;
-            this.startTime = this.startTime + Date.now() - this.pauseTime;
-            this.dispatchEvent(new XObject_1.XActionEvent(this, 'resume'));
+        if (this.animation && this.animation.resume()) {
+            this.dispatchEvent(new XObject_1.TouchEvent(this, 'resume'));
         }
         return this;
     };
     Sprite.prototype.stop = function () {
-        if (this.state !== SpriteState.STOPPED) {
-            this.state = SpriteState.STOPPED;
-            this.dispatchEvent(new XObject_1.XActionEvent(this, 'stop'));
+        if (this.animation) {
+            this.animation.cancel();
+            this.animation = undefined;
         }
         return this;
     };
@@ -2546,89 +2679,47 @@ var Sprite = (function (_super) {
         return this;
     };
     Sprite.prototype.toNextFrame = function () {
-        this.currentFrame = (this.currentFrame + 1) % this.option.frames.length;
+        this.currentFrame = (this.currentFrame + 1) % this.spriteSheet.frames.length;
         return this;
     };
     Sprite.prototype.toPreviousFrame = function () {
         this.currentFrame =
-            (this.currentFrame - 1 + this.option.frames.length) % this.option.frames.length;
+            (this.currentFrame - 1 + this.spriteSheet.frames.length) % this.spriteSheet.frames.length;
         return this;
     };
-    Sprite.prototype.updateFramePosition = function () {
-        if (this.state !== SpriteState.PLAYING ||
-            this.playTimes === 0 ||
-            !this.option ||
-            this.option.fps <= 0 ||
-            this.option.frames.length === 0) {
-            return false;
-        }
-        var now = Date.now();
-        if (now < this.startTime) {
-            this.startTime = now;
-            this.currentFrame = 0;
-            return false;
-        }
-        var interval = 1000 / this.option.fps;
-        var pass = Math.floor((now - this.startTime) / interval);
-        this.currentFrame = pass % this.option.frames.length;
-        if (this.playTimes > 0 && pass >= this.option.frames.length * this.playTimes) {
-            this.currentFrame = this.option.frames.length - 1;
-            this.state = SpriteState.STOPPED;
-            return true;
-        }
-    };
     Sprite.prototype.drawContent = function (ctx) {
-        if (!this.option || this.option.frames.length === 0) {
+        if (!this.spriteSheet || this.spriteSheet.frames.length === 0) {
             return;
         }
-        var end = this.updateFramePosition();
-        var frame = this.option.frames[this.currentFrame];
+        var frame = this.spriteSheet.frames[this.currentFrame];
         var rect = this.getContentRect();
         var image;
-        var srcX = 0;
-        var srcY = 0;
-        var srcWidth = this.option.width;
-        var srcHeight = this.option.height;
-        var destX = rect.x;
-        var destY = rect.y;
-        var destWidth = rect.width;
-        var destHeight = rect.height;
-        var scaleX = rect.width / this.option.width;
-        var scaleY = rect.height / this.option.height;
         if (frame.image) {
             image = frame.image;
-            destX += frame.x * scaleX;
-            destY += frame.y * scaleY;
-            destWidth = frame.width * scaleX;
-            destHeight = frame.height * scaleY;
-            srcX = 0;
-            srcY = 0;
-            srcWidth = frame.width;
-            srcHeight = frame.height;
         }
         else {
             image =
-                this.option.image ||
-                    (this.option.url && ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.option.url));
-            if (!image) {
-                return;
-            }
-            srcX = frame.x;
-            srcY = frame.y;
-            srcWidth = frame.width || this.option.width;
-            srcHeight = frame.height || this.option.height;
+                this.spriteSheet.image ||
+                    (this.spriteSheet.url && ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.spriteSheet.url));
         }
         if (!image) {
             return;
         }
+        var scaleX = rect.width / this.spriteSheet.width;
+        var scaleY = rect.height / this.spriteSheet.height;
+        var destX = frame.destX !== undefined ? frame.destX : 0;
+        var destY = frame.destY !== undefined ? frame.destY : 0;
+        var destWidth = frame.destWidth !== undefined ? frame.destWidth : this.spriteSheet.width - destX;
+        var destHeight = frame.destHeight !== undefined ? frame.destHeight : this.spriteSheet.height - destY;
+        var srcX = frame.srcX !== undefined ? frame.srcX : 0;
+        var srcY = frame.srcY !== undefined ? frame.srcY : 0;
+        var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
+        var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
         try {
-            ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX, destY, destWidth, destHeight);
+            ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
         }
         catch (e) {
             console.warn(this.currentFrame, e);
-        }
-        if (end) {
-            this.dispatchEvent(new XObject_1.XActionEvent(this, 'stop'));
         }
     };
     return Sprite;
@@ -2662,6 +2753,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var AnimationFactory_1 = __webpack_require__(/*! ../animation/AnimationFactory */ "./src/animation/AnimationFactory.ts");
+var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Runtime_1 = __webpack_require__(/*! ../Runtime */ "./src/Runtime.ts");
 var Ticker_1 = __webpack_require__(/*! ../Ticker */ "./src/Ticker.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
@@ -2672,6 +2764,60 @@ var StageLayoutPolicy;
     StageLayoutPolicy["NEVER"] = "never";
     StageLayoutPolicy["ALWAYS"] = "always";
 })(StageLayoutPolicy = exports.StageLayoutPolicy || (exports.StageLayoutPolicy = {}));
+var StageUpdatePolicy;
+(function (StageUpdatePolicy) {
+    StageUpdatePolicy["NEVER"] = "never";
+    StageUpdatePolicy["IN_ANIMATION"] = "in_animation";
+    StageUpdatePolicy["ALWAYS"] = "always";
+})(StageUpdatePolicy = exports.StageUpdatePolicy || (exports.StageUpdatePolicy = {}));
+var TouchedObjectSet = (function () {
+    function TouchedObjectSet() {
+        this.objects = [];
+    }
+    TouchedObjectSet.prototype.contains = function (identifier) {
+        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+            var item = _a[_i];
+            if (item.touch.identifier === identifier) {
+                return true;
+            }
+        }
+        return false;
+    };
+    TouchedObjectSet.prototype.get = function (identifier) {
+        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+            var item = _a[_i];
+            if (item.touch.identifier === identifier) {
+                return item;
+            }
+        }
+        return undefined;
+    };
+    TouchedObjectSet.prototype.add = function (object, touch) {
+        this.objects.push({
+            object: object,
+            touch: touch
+        });
+    };
+    TouchedObjectSet.prototype.remove = function (identifier) {
+        for (var i = 0; i < this.objects.length; ++i) {
+            if (this.objects[i].touch.identifier === identifier) {
+                this.objects.splice(i, 1);
+                return;
+            }
+        }
+    };
+    TouchedObjectSet.prototype.getTouches = function (object) {
+        var result = [];
+        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+            var item = _a[_i];
+            if (item.object === object) {
+                result.push(item.touch);
+            }
+        }
+        return result;
+    };
+    return TouchedObjectSet;
+}());
 var Stage = (function (_super) {
     __extends(Stage, _super);
     function Stage(canvas, option) {
@@ -2679,11 +2825,14 @@ var Stage = (function (_super) {
         var _this = _super.call(this) || this;
         _this.option = {
             fps: 60,
-            layoutPolicy: StageLayoutPolicy.NEVER,
+            layoutPolicy: StageLayoutPolicy.ALWAYS,
+            updatePolicy: StageUpdatePolicy.IN_ANIMATION,
             autoClear: true
         };
-        _this.hovedChildren = [];
+        _this.touchedChildren = new TouchedObjectSet();
+        _this.hoverChildren = new TouchedObjectSet();
         _this.started = false;
+        _this.needUpdate = false;
         for (var k in option) {
             _this.option[k] = option[k];
         }
@@ -2700,50 +2849,51 @@ var Stage = (function (_super) {
         _this.enableEvents();
         _this.ticker = new Ticker_1.Ticker(_this.option.fps);
         _this.animationFactory = new AnimationFactory_1.AnimationFactory();
-        _this.ticker.addEventListener('tick', function (_) {
-            _this.animationFactory.onInterval();
-        });
+        _this.resourceRegistry = new ResourceRegistry_1.ResourceRegistry();
         return _this;
     }
+    Stage.prototype.updateOnce = function () {
+        this.needUpdate = true;
+    };
     Stage.prototype.start = function () {
         var _this = this;
         if (!this.started) {
             this.started = true;
             this.layout();
-            this.ticker.addEventListener('tick', function (time) {
-                _this.update();
+            this.needUpdate = true;
+            this.ticker.addEventListener('tick', function (_) {
+                if (_this.animationFactory.onInterval()) {
+                    _this.needUpdate = true;
+                }
+                if (_this.needUpdate || _this.option.updatePolicy === StageUpdatePolicy.ALWAYS) {
+                    _this.update();
+                    _this.needUpdate = false;
+                }
             });
         }
     };
     Stage.prototype.enableEvents = function () {
         Runtime_1.Runtime.get().enableEvents(this);
     };
-    Stage.prototype.reportHovedChild = function (child) {
-        for (var _i = 0, _a = this.hovedChildren; _i < _a.length; _i++) {
-            var c = _a[_i];
-            if (c === child) {
-                return;
-            }
-        }
-        this.hovedChildren.push(child);
-    };
-    Stage.prototype.handleActionEvent = function (type, pt, e) {
+    Stage.prototype.handleMouseEvent = function (type, touches, e) {
         if (!this.isVisible()) {
             return;
         }
-        pt = this.globalToLocal(pt.x, pt.y);
         switch (type) {
             case 'mousedown':
-                this.handleTouchDownEvent(pt, e);
+            case 'touchstart':
+                this.handleTouchStartEvent(touches, e);
                 break;
             case 'mouseup':
-                this.handleTouchUpEvent(pt, e);
+                this.handleTouchEndEvent([], e);
+                break;
+            case 'touchend':
+                this.handleTouchEndEvent(touches, e);
                 break;
             case 'mousemove':
-                this.handleTouchMoveEvent(pt, e);
-                break;
+            case 'touchmove':
             case 'mouseleave':
-                this.handleMouseLeaveEvent(pt, e);
+                this.onTouchMove(touches, e);
                 break;
         }
     };
@@ -2782,100 +2932,124 @@ var Stage = (function (_super) {
     Stage.prototype.toString = function () {
         return "[Stage (id=" + this.id + ")]";
     };
-    Stage.prototype.dispatchActionEvent = function (element, type, bubble, pt, e) {
-        var event = new XObject_1.XActionEvent(element, type, bubble);
+    Stage.prototype.dispatchTouchEvent = function (element, type, bubble, currentTouch, e) {
+        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, this.touchedChildren.getTouches(element), true);
         event.stage = this;
-        event.stageX = pt.x;
-        event.stageY = pt.y;
         event.nativeEvent = e;
         element.dispatchEvent(event);
     };
-    Stage.prototype.handleMouseLeaveEvent = function (pt, e) {
-        for (var _i = 0, _a = this.hovedChildren; _i < _a.length; _i++) {
-            var child = _a[_i];
-            child.actionState.inBounds = false;
-            this.dispatchActionEvent(child, 'leave', false, pt, e);
-        }
-        this.hovedChildren = [];
+    Stage.prototype.dispatchNonCancellableTouchEvent = function (element, type, bubble, currentTouch, e) {
+        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, this.touchedChildren.getTouches(element), false);
+        event.stage = this;
+        event.nativeEvent = e;
+        element.dispatchEvent(event);
     };
-    Stage.prototype.handleTouchDownEvent = function (pt, e) {
-        var ele = this.getObjectUnderPoint(pt.x, pt.y, true);
-        if (ele) {
-            this.dispatchActionEvent(ele, 'pressdown', true, pt, e);
-            this.pressedChild = ele;
-        }
-        else {
-            this.pressedChild = undefined;
-        }
-    };
-    Stage.prototype.handleTouchUpEvent = function (pt, e) {
-        var ele = this.getObjectUnderPoint(pt.x, pt.y, true);
-        if (ele) {
-            this.dispatchActionEvent(ele, 'touchup', true, pt, e);
-        }
-        if (this.pressedChild) {
-            this.pressedChild.actionState.pressed = false;
-            this.dispatchActionEvent(this.pressedChild, 'pressup', true, pt, e);
-            if (ele) {
-                if (ele === this.pressedChild || this.pressedChild.isChildOf(ele)) {
-                    this.dispatchActionEvent(ele, 'click', true, pt, e);
+    Stage.prototype.onTouchMove = function (touches, e) {
+        var movedTouches = [];
+        for (var _i = 0, touches_1 = touches; _i < touches_1.length; _i++) {
+            var touch = touches_1[_i];
+            var item = this.touchedChildren.get(touch.identifier);
+            if (item) {
+                if (item.touch.stageX !== touch.stageX || item.touch.stageY !== touch.stageY) {
+                    item.touch = touch;
+                    movedTouches.push(touch);
                 }
             }
+            else {
+                movedTouches.push(touch);
+            }
         }
-        this.pressedChild = undefined;
-    };
-    Stage.prototype.handleTouchMoveEvent = function (pt, e) {
-        pt = this.globalToLocal(pt.x, pt.y);
-        var ele = this.getObjectUnderPoint(pt.x, pt.y, true);
-        if (ele) {
-            var hoved = [];
-            var current = ele;
-            var cursor = void 0;
-            while (current) {
-                if (!current.actionState.inBounds) {
-                    current.actionState.inBounds = true;
-                    this.dispatchActionEvent(current, 'enter', false, pt, e);
-                }
-                hoved.push(current);
-                if (cursor === undefined && current.style.cursor) {
-                    cursor = current.style.cursor;
-                }
-                current = current.parent;
+        for (var _a = 0, movedTouches_1 = movedTouches; _a < movedTouches_1.length; _a++) {
+            var touch = movedTouches_1[_a];
+            var pt = this.globalToLocal(touch.stageX, touch.stageY);
+            var element = this.getObjectUnderPoint(pt.x, pt.y, true);
+            if (element) {
+                this.dispatchTouchEvent(element, 'move', true, touch, e);
             }
-            if (this.canvas.style) {
-                this.canvas.style.cursor = cursor || 'auto';
+            var touchedItem = this.touchedChildren.get(touch.identifier);
+            if (touchedItem) {
+                this.dispatchTouchEvent(touchedItem.object, 'pressmove', true, touchedItem.touch, e);
             }
-            this.dispatchActionEvent(ele, 'move', true, pt, e);
-            for (var _i = 0, _a = this.hovedChildren; _i < _a.length; _i++) {
-                var child = _a[_i];
-                var found = false;
-                for (var _b = 0, hoved_1 = hoved; _b < hoved_1.length; _b++) {
-                    var h = hoved_1[_b];
-                    if (h === child) {
-                        found = true;
-                        break;
+            var hovedItem = this.hoverChildren.get(touch.identifier);
+            if (hovedItem && element) {
+                if (hovedItem.object !== element) {
+                    var enterElement = element;
+                    var leaveElement = hovedItem.object;
+                    hovedItem.object = element;
+                    hovedItem.touch = touch;
+                    while (leaveElement) {
+                        if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
+                            break;
+                        }
+                        this.dispatchTouchEvent(leaveElement, 'leave', false, touch, e);
+                        leaveElement = leaveElement.parent;
+                    }
+                    while (enterElement && enterElement !== leaveElement) {
+                        this.dispatchTouchEvent(enterElement, 'enter', false, touch, e);
+                        enterElement = enterElement.parent;
                     }
                 }
-                if (!found) {
-                    child.actionState.inBounds = false;
-                    this.dispatchActionEvent(child, 'leave', false, pt, e);
+            }
+            else if (element) {
+                this.hoverChildren.add(element, touch);
+                this.dispatchNonCancellableTouchEvent(element, 'enter', true, touch, e);
+            }
+            else if (hovedItem) {
+                this.hoverChildren.remove(touch.identifier);
+                this.dispatchNonCancellableTouchEvent(hovedItem.object, 'leave', true, touch, e);
+            }
+        }
+    };
+    Stage.prototype.handleTouchStartEvent = function (touches, e) {
+        var newTouches = new TouchedObjectSet();
+        for (var _i = 0, touches_2 = touches; _i < touches_2.length; _i++) {
+            var touch = touches_2[_i];
+            if (!this.touchedChildren.contains(touch.identifier)) {
+                var element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
+                if (element) {
+                    newTouches.add(element, touch);
+                    this.touchedChildren.add(element, touch);
                 }
             }
-            this.hovedChildren = hoved;
         }
-        else {
-            if (this.canvas.style) {
-                this.canvas.style.cursor = this.style.cursor || 'auto';
-            }
-            for (var _c = 0, _d = this.hovedChildren; _c < _d.length; _c++) {
-                var child = _d[_c];
-                child.actionState.inBounds = false;
-                this.dispatchActionEvent(child, 'leave', false, pt, e);
-            }
-            this.hovedChildren.length = 0;
+        for (var _a = 0, _b = newTouches.objects; _a < _b.length; _a++) {
+            var item = _b[_a];
+            this.dispatchTouchEvent(item.object, 'touchdown', true, item.touch, e);
         }
-        if (this.pressedChild) {
-            this.dispatchActionEvent(this.pressedChild, 'pressmove', true, pt, e);
+        this.onTouchMove(touches, e);
+    };
+    Stage.prototype.handleTouchEndEvent = function (touches, e) {
+        this.onTouchMove(touches, e);
+        var endedTouches = new TouchedObjectSet();
+        for (var _i = 0, _a = this.touchedChildren.objects; _i < _a.length; _i++) {
+            var item = _a[_i];
+            var exists = false;
+            for (var _b = 0, touches_3 = touches; _b < touches_3.length; _b++) {
+                var touch = touches_3[_b];
+                if (touch.identifier === item.touch.identifier) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                endedTouches.add(item.object, item.touch);
+            }
+        }
+        for (var _c = 0, _d = endedTouches.objects; _c < _d.length; _c++) {
+            var item = _d[_c];
+            this.touchedChildren.remove(item.touch.identifier);
+            this.hoverChildren.remove(item.touch.identifier);
+        }
+        for (var _e = 0, _f = endedTouches.objects; _e < _f.length; _e++) {
+            var item = _f[_e];
+            var element = this.getObjectUnderPoint(item.touch.stageX, item.touch.stageY, true);
+            if (element) {
+                this.dispatchTouchEvent(element, 'touchup', true, item.touch, e);
+            }
+            this.dispatchTouchEvent(item.object, 'pressup', true, item.touch, e);
+            if (element === item.object || item.object.isChildOf(element)) {
+                this.dispatchTouchEvent(element, 'click', true, item.touch, e);
+            }
         }
     };
     return Stage;
@@ -3037,35 +3211,27 @@ var Runtime_1 = __webpack_require__(/*! ../Runtime */ "./src/Runtime.ts");
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
-var ActionState = (function () {
-    function ActionState() {
-        this.pressed = false;
-        this.inBounds = false;
-    }
-    return ActionState;
-}());
-exports.ActionState = ActionState;
-var XActionEvent = (function (_super) {
-    __extends(XActionEvent, _super);
-    function XActionEvent(target, type, bubbles, cancelable) {
+var TouchEvent = (function (_super) {
+    __extends(TouchEvent, _super);
+    function TouchEvent(srcElement, type, bubbles, currentTouch, touches, cancelable) {
         if (bubbles === void 0) { bubbles = true; }
+        if (touches === void 0) { touches = []; }
         if (cancelable === void 0) { cancelable = true; }
         var _this = _super.call(this, type, bubbles, cancelable) || this;
         _this.nativeEvent = null;
-        _this.stageX = -1;
-        _this.stageY = -1;
-        _this.x = -1;
-        _this.y = -1;
-        _this.srcElement = target;
-        _this.currentTarget = target;
+        _this.touches = [];
+        _this.srcElement = srcElement;
+        _this.currentTouch = currentTouch;
+        _this.currentTarget = srcElement;
+        _this.touches = touches;
         return _this;
     }
-    XActionEvent.prototype.toString = function () {
-        return '[XActionEvent (type=' + this.type + ')]';
+    TouchEvent.prototype.toString = function () {
+        return '[TouchEvent (type=' + this.type + ')]';
     };
-    return XActionEvent;
+    return TouchEvent;
 }(Event_1.Event));
-exports.XActionEvent = XActionEvent;
+exports.TouchEvent = TouchEvent;
 var CacheState;
 (function (CacheState) {
     CacheState[CacheState["DISABLED"] = 1] = "DISABLED";
@@ -3077,7 +3243,6 @@ var XObject = (function (_super) {
     function XObject(opt) {
         var _this = _super.call(this) || this;
         _this.eventEnabled = true;
-        _this.actionState = new ActionState();
         _this.id = undefined;
         _this.rect = new Rect_1.Rect(0, 0, 0, 0);
         _this.cacheState = CacheState.DISABLED;
@@ -3087,9 +3252,6 @@ var XObject = (function (_super) {
         }
         return _this;
     }
-    XObject.prototype.getCacheCanvas = function () {
-        return this.cacheCanvas;
-    };
     XObject.prototype.remove = function () {
         if (this.parent) {
             this.parent.removeChild(this);
@@ -3103,7 +3265,8 @@ var XObject = (function (_super) {
             var element = this;
             var queue = [element];
             while (element.parent) {
-                queue.push(element.parent);
+                if (element.eventEnabled)
+                    queue.push(element.parent);
                 element = element.parent;
             }
             for (var _i = 0, queue_1 = queue; _i < queue_1.length; _i++) {
@@ -3134,14 +3297,20 @@ var XObject = (function (_super) {
             this.style.scaleX > 0 &&
             this.style.scaleY > 0);
     };
+    XObject.prototype.getCacheCanvas = function () {
+        return this.cacheCanvas;
+    };
     XObject.prototype.isCached = function () {
         return this.cacheState !== CacheState.DISABLED;
     };
     XObject.prototype.cache = function () {
-        this.cacheState = CacheState.INVALIDATE;
+        if (this.cacheState !== CacheState.CACHED) {
+            this.cacheState = CacheState.INVALIDATE;
+        }
     };
     XObject.prototype.uncache = function () {
         this.cacheState = CacheState.DISABLED;
+        delete this.cacheCanvas;
     };
     XObject.prototype.invalidateCache = function () {
         if (this.cacheState === CacheState.DISABLED) {
@@ -3167,9 +3336,10 @@ var XObject = (function (_super) {
                 this.cacheState = CacheState.CACHED;
             }
             ctx.drawImage(this.cacheCanvas, 0, 0, this.rect.width, this.rect.height);
-            return;
         }
-        DrawUtils_1.DrawUtils.drawElement(this, ctx);
+        else {
+            DrawUtils_1.DrawUtils.drawElement(this, ctx);
+        }
     };
     XObject.prototype.drawBackground = function (ctx, outerRect, innerRect) {
         if (this.style.background) {
@@ -3225,6 +3395,7 @@ var XObject = (function (_super) {
     };
     XObject.prototype.css = function (style) {
         this.style.apply(style);
+        return this;
     };
     XObject.prototype.getLineHeight = function () {
         if (this.style.font) {
@@ -3357,9 +3528,17 @@ var XObject = (function (_super) {
     XObject.prototype.doDispatchEvent = function (event) {
         event.currentTarget = this;
         if (event.stage) {
-            var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
-            event.x = pt.x;
-            event.y = pt.y;
+            for (var _i = 0, _a = event.touches; _i < _a.length; _i++) {
+                var touch = _a[_i];
+                var pt = event.stage.localToLocal(touch.stageX, touch.stageY, this);
+                touch.x = pt.x;
+                touch.y = pt.y;
+            }
+            if (event.currentTouch) {
+                var pt = event.stage.localToLocal(event.currentTouch.stageX, event.currentTouch.stageY, this);
+                event.currentTouch.x = pt.x;
+                event.currentTouch.y = pt.y;
+            }
         }
         _super.prototype.dispatchEvent.call(this, event);
     };
@@ -3450,11 +3629,9 @@ exports.XEvent = Event_1.Event;
 var Event_2 = __webpack_require__(/*! ./base/Event */ "./src/base/Event.ts");
 exports.EventDispatcher = Event_2.EventDispatcher;
 var XObject_1 = __webpack_require__(/*! ./components/XObject */ "./src/components/XObject.ts");
-exports.ActionState = XObject_1.ActionState;
+exports.XActionEvent = XObject_1.TouchEvent;
 var XObject_2 = __webpack_require__(/*! ./components/XObject */ "./src/components/XObject.ts");
-exports.XActionEvent = XObject_2.XActionEvent;
-var XObject_3 = __webpack_require__(/*! ./components/XObject */ "./src/components/XObject.ts");
-exports.XObject = XObject_3.XObject;
+exports.XObject = XObject_2.XObject;
 var Text_1 = __webpack_require__(/*! ./components/Text */ "./src/components/Text.ts");
 exports.Text = Text_1.Text;
 var Container_1 = __webpack_require__(/*! ./components/Container */ "./src/components/Container.ts");
@@ -4406,8 +4583,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = __webpack_require__(/*! ../ */ "./src/index.ts");
 var Event_1 = __webpack_require__(/*! ../base/Event */ "./src/base/Event.ts");
+var ApngParser_1 = __webpack_require__(/*! ../parser/ApngParser */ "./src/parser/ApngParser.ts");
 var Loader_1 = __webpack_require__(/*! ./Loader */ "./src/resource/Loader.ts");
 var LoadState;
 (function (LoadState) {
@@ -4509,7 +4686,7 @@ var ResourceRegistry = (function (_super) {
         var loader = new Loader_1.Loader(item.url, 'GET', 'arraybuffer');
         loader
             .on('load', function (e) {
-            var apng = __1.ApngParser.parse(e.response);
+            var apng = ApngParser_1.ApngParser.parse(e.response);
             var opt = {
                 width: apng.width,
                 height: apng.height,
@@ -4521,10 +4698,10 @@ var ResourceRegistry = (function (_super) {
             for (var _i = 0, _a = apng.frames; _i < _a.length; _i++) {
                 var frame = _a[_i];
                 opt.frames.push({
-                    x: frame.left,
-                    y: frame.top,
-                    width: frame.width,
-                    height: frame.height,
+                    destX: frame.left,
+                    destY: frame.top,
+                    destWidth: frame.width,
+                    destHeight: frame.height,
                     image: frame.image
                 });
             }
@@ -5050,7 +5227,7 @@ var Background = (function () {
         return idx >= arr.length ? defaultVal : arr[idx];
     };
     Background.prototype.setColor = function (value) {
-        this.color = Color_1.Color.of(value);
+        this.color = value instanceof Color_1.Color ? value : Color_1.Color.of(value);
     };
     Background.prototype.setAttachment = function (value) {
         var parts = Background.split(value);
@@ -5863,18 +6040,32 @@ var Style = (function () {
                 case 'transformY':
                     this[key] = value === 'auto' ? BaseValue_1.BaseValue.of('50%') : BaseValue_1.BaseValue.of(value);
                     break;
-                case 'alpha':
-                case 'rotation':
-                    this[key] = parseFloat(value) || 0;
-                    break;
                 case 'scaleX':
                 case 'scaleY':
-                    this[key] = parseFloat(value) || 1;
-                    break;
                 case 'skewX':
                 case 'skewY':
-                    this[key] = parseFloat(value) || 0;
+                case 'alpha':
+                case 'aspectRatio':
+                case 'rotation': {
+                    var numberValue = parseFloat(value);
+                    if (isNaN(numberValue)) {
+                        console.warn("invalid " + key + " value: " + value);
+                    }
+                    else {
+                        this[key] = numberValue;
+                    }
                     break;
+                }
+                case 'scale': {
+                    var numberValue = parseFloat(value);
+                    if (isNaN(numberValue)) {
+                        console.warn("invalid " + key + " value: " + value);
+                    }
+                    else {
+                        this.scaleX = this.scaleY = numberValue;
+                    }
+                    break;
+                }
                 case 'visible':
                     this.visible = value === 'true';
                     break;
@@ -5966,12 +6157,19 @@ var Style = (function () {
                     }
                     this.font.variant = EnumUtils_1.EnumUtils.fromString(Font_1.FontVariant, value, Font_1.FontVariant.NORMAL);
                     break;
-                case 'fontSize':
-                    if (!this.font) {
-                        this.font = new Font_1.Font();
+                case 'fontSize': {
+                    var numberValue = parseFloat(value);
+                    if (isNaN(numberValue)) {
+                        console.warn("invalid " + key + " value: " + value);
                     }
-                    this.font.size = parseFloat(value) || 16;
+                    else {
+                        if (!this.font) {
+                            this.font = new Font_1.Font();
+                        }
+                        this.font.size = numberValue;
+                    }
                     break;
+                }
                 case 'lineHeight':
                     this.lineHeight = LineHeight_1.LineHeight.of(value);
                 case 'textAlign':
@@ -6007,9 +6205,6 @@ var Style = (function () {
                     break;
                 case 'compositeOperation':
                     this.compositeOperation = value;
-                    break;
-                case 'aspectRatio':
-                    this.aspectRatio = parseFloat(value) || undefined;
                     break;
                 case 'filter':
                     this.filter = value;
@@ -6144,11 +6339,14 @@ var Style = (function () {
             case 'skewX':
             case 'skewY':
             case 'aspectRatio':
-                result[key] = {
-                    from: this[key],
-                    to: typeof to === 'string' ? parseFloat(to) : to,
-                    type: Animation_1.AnimationValueType.NUMBER
-                };
+                var numberTo = typeof to === 'string' ? parseFloat(to) : to;
+                if (!isNaN(numberTo)) {
+                    result[key] = {
+                        from: this[key],
+                        to: numberTo,
+                        type: Animation_1.AnimationValueType.NUMBER
+                    };
+                }
                 break;
             case 'transformX':
             case 'width':
@@ -6201,6 +6399,17 @@ var Style = (function () {
                 if (color) {
                     result[key] = {
                         from: this[key],
+                        to: color,
+                        type: Animation_1.AnimationValueType.COLOR
+                    };
+                }
+                break;
+            }
+            case 'backgroundColor': {
+                var color = Color_1.Color.of(to + '');
+                if (color) {
+                    result[key] = {
+                        from: (this.background && this.background.color) || Color_1.Color.WHITE,
                         to: color,
                         type: Animation_1.AnimationValueType.COLOR
                     };

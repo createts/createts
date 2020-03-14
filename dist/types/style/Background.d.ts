@@ -1,3 +1,5 @@
+import { BaseValue } from '../base/BaseValue';
+import { Color } from '../base/Color';
 import { RoundRect } from '../base/RoundRect';
 import { XObject } from '../components/XObject';
 export declare enum BackgroundAttachment {
@@ -8,6 +10,22 @@ export declare enum BackgroundRepeat {
     NO_REPEAT = "no-repeat",
     SPACE = "space",
     ROUND = "round"
+}
+interface IBackgroundSource extends ICloneable<IBackgroundSource> {
+    getSource(width: number, height: number): any;
+    toString(): string;
+    destory(): void;
+}
+interface ICloneable<T> {
+    clone(): T;
+}
+declare class BackgroundRepeatPair implements ICloneable<BackgroundRepeatPair> {
+    static of(value: string): BackgroundRepeatPair | undefined;
+    static toBaseValue(value: string): BaseValue;
+    x: BackgroundRepeat;
+    y: BackgroundRepeat;
+    constructor(x: BackgroundRepeat, y: BackgroundRepeat);
+    clone(): BackgroundRepeatPair;
 }
 export declare enum BackgroundClip {
     BORDER_BOX = "border-box",
@@ -26,6 +44,14 @@ export declare enum BackgroundSizeType {
     COVER = 3,
     CONTAIN = 4
 }
+declare class BackgroundSizePair implements ICloneable<BackgroundSizePair> {
+    static of(value: string): BackgroundSizePair;
+    static toBaseValue(value: string): BaseValue;
+    x: BaseValue;
+    y: BaseValue;
+    constructor(x: BaseValue, y: BaseValue);
+    clone(): BackgroundSizePair;
+}
 export declare class Background {
     static of(value: string): Background | undefined;
     private static trimParameter;
@@ -35,16 +61,16 @@ export declare class Background {
     private static copyArray;
     private static cloneArray;
     private static getFromArray;
-    private color?;
-    private attachment;
-    private image;
-    private repeat;
-    private clip;
-    private origin;
-    private size;
-    private position;
-    private blendMode;
-    setColor(value: string): void;
+    color?: Color;
+    attachment: BackgroundAttachment[];
+    image: (IBackgroundSource | undefined)[];
+    repeat: BackgroundRepeatPair[];
+    clip: BackgroundClip[];
+    origin: BackgroundOrigin[];
+    size: BackgroundSizePair[];
+    position: BackgroundSizePair[];
+    blendMode: string[];
+    setColor(value: string | Color): void;
     setAttachment(value: string): void;
     setImage(value: string): void;
     setBlendMode(value: string): void;
@@ -57,4 +83,5 @@ export declare class Background {
     clone(): Background;
     private drawImage;
 }
+export {};
 //# sourceMappingURL=Background.d.ts.map

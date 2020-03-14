@@ -388,7 +388,7 @@ function () {
   _createClass(Background, [{
     key: "setColor",
     value: function setColor(value) {
-      this.color = Color.of(value);
+      this.color = value instanceof Color ? value : Color.of(value);
     }
   }, {
     key: "setAttachment",

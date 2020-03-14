@@ -29,7 +29,7 @@ function (_Sprite) {
     if (options && options.attributes) {
       if (options.attributes.src) {
         ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.APNG).then(function (opt) {
-          _this.setOption(opt).play();
+          _this.setSpriteSheet(opt).play();
         });
       }
     }

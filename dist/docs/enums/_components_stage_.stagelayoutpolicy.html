@@ -69,6 +69,18 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An enum to identify how the stage instance do layout during the update process:</p>
+					</div>
+					<ol>
+						<li><strong>NEVER</strong>: stage does not re-layout during updating, you must call &#39;layout&#39; method explicitly
+						while children status changes.</li>
+						<li><strong>ALWAYS</strong>: stage instance calls &#39;layout&#39; method in each &#39;update&#39; operation.</li>
+					</ol>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -91,7 +103,7 @@
 					<div class="tsd-signature tsd-kind-icon">ALWAYS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;always&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/Stage.ts#L13">components/Stage.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L20">components/Stage.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -101,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">NEVER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;never&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/Stage.ts#L12">components/Stage.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L19">components/Stage.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -135,11 +147,20 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="_components_stage_.stageupdatepolicy.html" class="tsd-kind-icon">Stage<wbr>Update<wbr>Policy</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_components_stage_.stage.html" class="tsd-kind-icon">Stage</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_components_stage_.touchedobjectset.html" class="tsd-kind-icon">Touched<wbr>Object<wbr>Set</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_components_stage_.html#stageoptions" class="tsd-kind-icon">Stage<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_components_stage_.html#touchedobject" class="tsd-kind-icon">Touched<wbr>Object</a>
 					</li>
 				</ul>
 			</nav>

@@ -1,6 +1,7 @@
-import { XObject } from './XObject';
+import { IXObjectOptions, XObject } from './XObject';
 export declare class Container extends XObject {
     readonly children: XObject[];
+    constructor(opt?: IXObjectOptions);
     findById(id: string): XObject | undefined;
     drawContent(ctx: CanvasRenderingContext2D): void;
     addChild(child: XObject): Container;

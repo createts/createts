@@ -233,20 +233,37 @@ function () {
             this[_key] = value === 'auto' ? BaseValue.of('50%') : BaseValue.of(value);
             break;
 
-          case 'alpha':
-          case 'rotation':
-            this[_key] = parseFloat(value) || 0;
-            break;
-
           case 'scaleX':
           case 'scaleY':
-            this[_key] = parseFloat(value) || 1;
-            break;
-
           case 'skewX':
           case 'skewY':
-            this[_key] = parseFloat(value) || 0;
-            break;
+          case 'alpha':
+          case 'aspectRatio':
+          case 'rotation':
+            {
+              var numberValue = parseFloat(value);
+
+              if (isNaN(numberValue)) {
+                console.warn("invalid ".concat(_key, " value: ").concat(value));
+              } else {
+                this[_key] = numberValue;
+              }
+
+              break;
+            }
+
+          case 'scale':
+            {
+              var _numberValue = parseFloat(value);
+
+              if (isNaN(_numberValue)) {
+                console.warn("invalid ".concat(_key, " value: ").concat(value));
+              } else {
+                this.scaleX = this.scaleY = _numberValue;
+              }
+
+              break;
+            }
 
           case 'visible':
             this.visible = value === 'true';
@@ -372,12 +389,21 @@ function () {
             break;
 
           case 'fontSize':
-            if (!this.font) {
-              this.font = new Font();
-            }
+            {
+              var _numberValue2 = parseFloat(value);
 
-            this.font.size = parseFloat(value) || 16;
-            break;
+              if (isNaN(_numberValue2)) {
+                console.warn("invalid ".concat(_key, " value: ").concat(value));
+              } else {
+                if (!this.font) {
+                  this.font = new Font();
+                }
+
+                this.font.size = _numberValue2;
+              }
+
+              break;
+            }
 
           case 'lineHeight':
             this.lineHeight = LineHeight.of(value);
@@ -423,10 +449,6 @@ function () {
 
           case 'compositeOperation':
             this.compositeOperation = value;
-            break;
-
-          case 'aspectRatio':
-            this.aspectRatio = parseFloat(value) || undefined;
             break;
 
           case 'filter':
@@ -603,11 +625,16 @@ function () {
         case 'skewX':
         case 'skewY':
         case 'aspectRatio':
-          result[key] = {
-            from: this[key],
-            to: typeof to === 'string' ? parseFloat(to) : to,
-            type: AnimationValueType.NUMBER
-          };
+          var numberTo = typeof to === 'string' ? parseFloat(to) : to;
+
+          if (!isNaN(numberTo)) {
+            result[key] = {
+              from: this[key],
+              to: numberTo,
+              type: AnimationValueType.NUMBER
+            };
+          }
+
           break;
 
         case 'transformX':
@@ -671,6 +698,21 @@ function () {
               result[key] = {
                 from: this[key],
                 to: color,
+                type: AnimationValueType.COLOR
+              };
+            }
+
+            break;
+          }
+
+        case 'backgroundColor':
+          {
+            var _color = Color.of(to + '');
+
+            if (_color) {
+              result[key] = {
+                from: this.background && this.background.color || Color.WHITE,
+                to: _color,
                 type: AnimationValueType.COLOR
               };
             }

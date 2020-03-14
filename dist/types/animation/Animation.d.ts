@@ -1,9 +1,9 @@
-import { Shadow } from '../';
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { Event, EventDispatcher } from '../base/Event';
 import { XObject } from '../components/XObject';
 import { Border } from '../style/Border';
+import { Shadow } from '../style/Shadow';
 import { IAlgorithm } from './AlgorithmFactory';
 export declare enum AnimationValueType {
     NUMBER = 1,
@@ -33,30 +33,45 @@ export interface IAnimationStyleAttributes {
 export interface IAnimationValues {
     [key: string]: number | string;
 }
+export declare abstract class AnimationStep {
+    readonly duration: number;
+    readonly target: XObject;
+    endTime: number;
+    constructor(target: XObject, duration: number);
+    onStart(): void;
+    onUpdate(percent: number): boolean;
+    onEnd(): void;
+}
 export declare enum AnimationState {
     RUNNING = 1,
-    COMPLETED = 2,
-    CANCELLED = 3
+    PAUSED = 2,
+    COMPLETED = 3,
+    CANCELLED = 4
 }
 export declare class Animation extends EventDispatcher<AnimateEvent> {
-    loopAnimate: boolean;
+    playTimes: number;
     state: AnimationState;
     target: XObject;
     private steps;
-    private startTime;
+    private roundStartTime;
+    private beginTime;
+    private pauseTime;
     private duration;
     private currentStepIndex;
     private currentStepProgress;
     private totalProgress;
     constructor(target: XObject, loop?: boolean);
     toPromise(): Promise<AnimateEvent>;
+    pause(): boolean;
+    resume(): boolean;
     loop(loop: boolean): Animation;
-    to(props: any, duration: number, algorithm: string | IAlgorithm): Animation;
+    times(times: number): Animation;
+    to(props: any, duration: number, algorithm?: string | IAlgorithm): Animation;
     call(call: () => any): Animation;
     wait(duration: number): Animation;
-    onInterval(): void;
+    onInterval(): boolean;
     cancel(): void;
     private onUpdateInternal;
-    private addStep;
+    addStep(step: AnimationStep): Animation;
 }
 //# sourceMappingURL=Animation.d.ts.map

@@ -202,18 +202,30 @@ export class Style {
         case 'transformY':
           this[key] = value === 'auto' ? BaseValue.of('50%') : BaseValue.of(value);
           break;
-        case 'alpha':
-        case 'rotation':
-          this[key] = parseFloat(value) || 0;
-          break;
         case 'scaleX':
         case 'scaleY':
-          this[key] = parseFloat(value) || 1;
-          break;
         case 'skewX':
         case 'skewY':
-          this[key] = parseFloat(value) || 0;
+        case 'alpha':
+        case 'aspectRatio':
+        case 'rotation': {
+          const numberValue = parseFloat(value);
+          if (isNaN(numberValue)) {
+            console.warn(`invalid ${key} value: ${value}`);
+          } else {
+            this[key] = numberValue;
+          }
           break;
+        }
+        case 'scale': {
+          const numberValue = parseFloat(value);
+          if (isNaN(numberValue)) {
+            console.warn(`invalid ${key} value: ${value}`);
+          } else {
+            this.scaleX = this.scaleY = numberValue;
+          }
+          break;
+        }
         case 'visible':
           this.visible = value === 'true';
           break;
@@ -309,12 +321,18 @@ export class Style {
             FontVariant.NORMAL
           );
           break;
-        case 'fontSize':
-          if (!this.font) {
-            this.font = new Font();
+        case 'fontSize': {
+          const numberValue = parseFloat(value);
+          if (isNaN(numberValue)) {
+            console.warn(`invalid ${key} value: ${value}`);
+          } else {
+            if (!this.font) {
+              this.font = new Font();
+            }
+            this.font.size = numberValue;
           }
-          this.font.size = parseFloat(value) || 16;
           break;
+        }
         case 'lineHeight':
           this.lineHeight = LineHeight.of(value);
         case 'textAlign':
@@ -352,9 +370,6 @@ export class Style {
           break;
         case 'compositeOperation':
           this.compositeOperation = value;
-          break;
-        case 'aspectRatio':
-          this.aspectRatio = parseFloat(value) || undefined;
           break;
         case 'filter':
           this.filter = value;
@@ -505,11 +520,14 @@ export class Style {
       case 'skewX':
       case 'skewY':
       case 'aspectRatio':
-        result[key] = {
-          from: this[key],
-          to: typeof to === 'string' ? parseFloat(to) : to,
-          type: AnimationValueType.NUMBER
-        };
+        const numberTo = typeof to === 'string' ? parseFloat(to) : to;
+        if (!isNaN(numberTo)) {
+          result[key] = {
+            from: this[key],
+            to: numberTo,
+            type: AnimationValueType.NUMBER
+          };
+        }
         break;
       case 'transformX':
       case 'width':
@@ -560,6 +578,17 @@ export class Style {
         if (color) {
           result[key] = {
             from: this[key],
+            to: color,
+            type: AnimationValueType.COLOR
+          };
+        }
+        break;
+      }
+      case 'backgroundColor': {
+        const color = Color.of(to + '');
+        if (color) {
+          result[key] = {
+            from: (this.background && this.background.color) || Color.WHITE,
             to: color,
             type: AnimationValueType.COLOR
           };

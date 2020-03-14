@@ -70,23 +70,18 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Enumerations</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported"><a href="../enums/_components_sprite_.spritestate.html" class="tsd-kind-icon">Sprite<wbr>State</a></li>
-							</ul>
-						</section>
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_components_sprite_.sprite.html" class="tsd-kind-icon">Sprite</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_components_sprite_.spriteanimationstep.html" class="tsd-kind-icon">Sprite<wbr>Animation<wbr>Step</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_components_sprite_.html#spriteframe" class="tsd-kind-icon">Sprite<wbr>Frame</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_components_sprite_.html#spriteoption" class="tsd-kind-icon">Sprite<wbr>Option</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_components_sprite_.html#spritesheet" class="tsd-kind-icon">Sprite<wbr>Sheet</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,62 +92,175 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="spriteframe" class="tsd-anchor"></a>
 					<h3>Sprite<wbr>Frame</h3>
-					<div class="tsd-signature tsd-kind-icon">Sprite<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">Sprite<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>destHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>destWidth<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>destX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>destY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">; </span>srcHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>srcWidth<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>srcX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>srcY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/Sprite.ts#L4">components/Sprite.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Sprite.ts#L41">components/Sprite.ts:41</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The definition of sprite frame.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> dest<wbr>Height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The height to draw the image in the destination canvas. This allows scaling of the drawn image.
+										If not specified, the image is not scaled in height when drawn.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> dest<wbr>Width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The width to draw the image in the destination canvas. This allows scaling of the drawn image.
+										If not specified, the image is not scaled in width when drawn.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> destX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The x-axis coordinate in the destination canvas at which to place the top-left corner of the
+											source image.
+										If not specified,, the default value is 0.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> destY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The y-axis coordinate in the destination canvas at which to place the top-left corner of the
+											source image.
+										If not specified,, the default value is 0.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HTMLImageElement</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>An element to draw into the context.
+										If not specified, use the image in SpriteOption.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> src<wbr>Height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The height of the sub-rectangle of the source image to draw into the destination context.
+											Same as srcWidth, if not specified, the entire rectangle from the coordinates specified by sx
+										and sy to the bottom-right corner of the image is used.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> src<wbr>Width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The width of the sub-rectangle of the source image to draw into the destination context.
+											If not specified, the entire rectangle from the coordinates specified by sx and sy to the
+										bottom-right corner of the image is used.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> srcX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The x-axis coordinate of the top left corner of the sub-rectangle of the source image to draw
+											into the destination context.
+										If not specified, the default value is 0.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> srcY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The y-axis coordinate of the top left corner of the sub-rectangle of the source image to draw
+											into the destination context.
+										If not specified,, the default value is 0.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="spriteoption" class="tsd-anchor"></a>
-					<h3>Sprite<wbr>Option</h3>
-					<div class="tsd-signature tsd-kind-icon">Sprite<wbr>Option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fps<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frames<span class="tsd-signature-symbol">: </span><a href="_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="spritesheet" class="tsd-anchor"></a>
+					<h3>Sprite<wbr>Sheet</h3>
+					<div class="tsd-signature tsd-kind-icon">Sprite<wbr>Sheet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fps<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frames<span class="tsd-signature-symbol">: </span><a href="_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/Sprite.ts#L12">components/Sprite.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Sprite.ts#L9">components/Sprite.ts:9</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The definition of sprite, a sprite contains size, fps, image and frames.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>fps<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The fps controls the playing speed of this sprite.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>frames<span class="tsd-signature-symbol">: </span><a href="_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>A list of frame definitions.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The original height of this sprite.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5>image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> image<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HTMLImageElement</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The image to draw into the context.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The source of image which contains pictures of each frame, it is optional, the image can be
+										defined at each frame instead of have one big image contains all.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The original width of this sprite.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -172,17 +280,17 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../enums/_components_sprite_.spritestate.html" class="tsd-kind-icon">Sprite<wbr>State</a>
-					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_components_sprite_.sprite.html" class="tsd-kind-icon">Sprite</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_components_sprite_.spriteanimationstep.html" class="tsd-kind-icon">Sprite<wbr>Animation<wbr>Step</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_components_sprite_.html#spriteframe" class="tsd-kind-icon">Sprite<wbr>Frame</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="_components_sprite_.html#spriteoption" class="tsd-kind-icon">Sprite<wbr>Option</a>
+						<a href="_components_sprite_.html#spritesheet" class="tsd-kind-icon">Sprite<wbr>Sheet</a>
 					</li>
 				</ul>
 			</nav>

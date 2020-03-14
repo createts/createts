@@ -19,10 +19,17 @@ export class AnimationFactory {
     }
   }
 
-  public onInterval() {
+  public onInterval(): boolean {
     const size = this.animations.length;
+    if (size === 0) {
+      return false;
+    }
+
+    let updated = false;
     for (let i = 0; i < size; ++i) {
-      this.animations[i].onInterval();
+      if (this.animations[i].onInterval()) {
+        updated = true;
+      }
     }
     for (let i = this.animations.length - 1; i >= 0; --i) {
       const animation = this.animations[i];
@@ -33,6 +40,7 @@ export class AnimationFactory {
         this.animations.splice(i, 1);
       }
     }
+    return updated;
   }
 
   private animations: Animation[] = [];

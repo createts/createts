@@ -219,16 +219,10 @@ Object.defineProperty(exports, "EventDispatcher", {
     return _Event.EventDispatcher;
   }
 });
-Object.defineProperty(exports, "ActionState", {
-  enumerable: true,
-  get: function get() {
-    return _XObject.ActionState;
-  }
-});
 Object.defineProperty(exports, "XActionEvent", {
   enumerable: true,
   get: function get() {
-    return _XObject.XActionEvent;
+    return _XObject.TouchEvent;
   }
 });
 Object.defineProperty(exports, "XObject", {
@@ -261,10 +255,16 @@ Object.defineProperty(exports, "Sprite", {
     return _Sprite.Sprite;
   }
 });
-Object.defineProperty(exports, "SpriteOption", {
+Object.defineProperty(exports, "SpriteSheet", {
   enumerable: true,
   get: function get() {
-    return _Sprite.SpriteOption;
+    return _Sprite.SpriteSheet;
+  }
+});
+Object.defineProperty(exports, "SpriteFrame", {
+  enumerable: true,
+  get: function get() {
+    return _Sprite.SpriteFrame;
   }
 });
 Object.defineProperty(exports, "Parser", {

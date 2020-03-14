@@ -38,7 +38,7 @@ function (_Sprite) {
     if (options && options.attributes) {
       if (options.attributes.src) {
         _ResourceRegistry.ResourceRegistry.DefaultInstance.add(options.attributes.src, _ResourceRegistry.ResourceType.APNG).then(function (opt) {
-          _this.setOption(opt).play();
+          _this.setSpriteSheet(opt).play();
         });
       }
     }

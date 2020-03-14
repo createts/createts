@@ -105,6 +105,17 @@ function () {
 
       return undefined;
     }
+    /**
+     * Create a random color.
+     * @param includeAlpha Indecate whether include alpha as well.
+     * @returns a random color instance.
+     */
+
+  }, {
+    key: "random",
+    value: function random(includeAlpha) {
+      return new Color(Math.random() * 255, Math.random() * 255, Math.random() * 255, includeAlpha ? Math.random() * 1 : 1);
+    }
   }, {
     key: "parseColorValue",
     value: function parseColorValue(value, base) {

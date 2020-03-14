@@ -1,1 +1,1 @@
-{"version":3,"file":"Apng.d.ts","sourceRoot":"","sources":["../../../src/components/Apng.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAgB,MAAM,UAAU,CAAC;AAChD,OAAO,EAAE,eAAe,EAAE,MAAM,WAAW,CAAC;AAE5C,qBAAa,IAAK,SAAQ,MAAM;gBAClB,OAAO,CAAC,EAAE,eAAe;CAYtC"}
+{"version":3,"file":"Apng.d.ts","sourceRoot":"","sources":["../../../src/components/Apng.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAe,MAAM,UAAU,CAAC;AAC/C,OAAO,EAAE,eAAe,EAAE,MAAM,WAAW,CAAC;AAE5C,qBAAa,IAAK,SAAQ,MAAM;gBAClB,OAAO,CAAC,EAAE,eAAe;CAYtC"}

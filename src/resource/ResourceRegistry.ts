@@ -1,6 +1,6 @@
-import { ApngParser } from '../';
 import { Event, EventDispatcher } from '../base/Event';
-import { SpriteOption } from '../components/Sprite';
+import { SpriteSheet } from '../components/Sprite';
+import { ApngParser } from '../parser/ApngParser';
 import { Loader } from './Loader';
 
 export enum LoadState {
@@ -14,7 +14,7 @@ export enum ResourceType {
   APNG = 2
 }
 
-type Resource = HTMLImageElement | SpriteOption;
+type Resource = HTMLImageElement | SpriteSheet;
 type Resolve = (resource: Resource) => void;
 type Reject = (error: any) => void;
 
@@ -116,7 +116,7 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
     loader
       .on('load', e => {
         const apng = ApngParser.parse(e.response);
-        const opt: SpriteOption = {
+        const opt: SpriteSheet = {
           width: apng.width,
           height: apng.height,
           fps: (apng.frames.length * 1000) / apng.duration,
@@ -126,10 +126,10 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
         };
         for (const frame of apng.frames) {
           opt.frames.push({
-            x: frame.left,
-            y: frame.top,
-            width: frame.width,
-            height: frame.height,
+            destX: frame.left,
+            destY: frame.top,
+            destWidth: frame.width,
+            destHeight: frame.height,
             image: frame.image
           });
         }

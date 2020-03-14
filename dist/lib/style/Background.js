@@ -412,7 +412,7 @@ function () {
   _createClass(Background, [{
     key: "setColor",
     value: function setColor(value) {
-      this.color = _Color.Color.of(value);
+      this.color = value instanceof _Color.Color ? value : _Color.Color.of(value);
     }
   }, {
     key: "setAttachment",

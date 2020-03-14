@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>XActionEvent | createts</title>
+	<title>TouchEvent | createts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,16 +59,24 @@
 					<a href="../modules/_components_xobject_.html">&quot;components/XObject&quot;</a>
 				</li>
 				<li>
-					<a href="_components_xobject_.xactionevent.html">XActionEvent</a>
+					<a href="_components_xobject_.touchevent.html">TouchEvent</a>
 				</li>
 			</ul>
-			<h1>Class XActionEvent</h1>
+			<h1>Class TouchEvent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This class represents an event object for both touch event (in mobile devices) and mouse event
+						(in desktop).</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -76,7 +84,7 @@
 						<a href="_base_event_.event.html" class="tsd-signature-type">Event</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">XActionEvent</span>
+								<span class="target">TouchEvent</span>
 							</li>
 						</ul>
 					</li>
@@ -89,36 +97,34 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_components_xobject_.xactionevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_components_xobject_.touchevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#bubbles" class="tsd-kind-icon">bubbles</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#cancelable" class="tsd-kind-icon">cancelable</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#immediatepropagationstopped" class="tsd-kind-icon">immediate<wbr>Propagation<wbr>Stopped</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#nativeevent" class="tsd-kind-icon">native<wbr>Event</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#stage" class="tsd-kind-icon">stage</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#stagex" class="tsd-kind-icon">stageX</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#stagey" class="tsd-kind-icon">stageY</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.xactionevent.html#y" class="tsd-kind-icon">y</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#bubbles" class="tsd-kind-icon">bubbles</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#cancelable" class="tsd-kind-icon">cancelable</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#currenttouch" class="tsd-kind-icon">current<wbr>Touch</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#immediatepropagationstopped" class="tsd-kind-icon">immediate<wbr>Propagation<wbr>Stopped</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#nativeevent" class="tsd-kind-icon">native<wbr>Event</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#stage" class="tsd-kind-icon">stage</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.touchevent.html#touches" class="tsd-kind-icon">touches</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#stopimmediatepropagation" class="tsd-kind-icon">stop<wbr>Immediate<wbr>Propagation</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.xactionevent.html#stoppropagation" class="tsd-kind-icon">stop<wbr>Propagation</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_components_xobject_.xactionevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#stopimmediatepropagation" class="tsd-kind-icon">stop<wbr>Immediate<wbr>Propagation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_xobject_.touchevent.html#stoppropagation" class="tsd-kind-icon">stop<wbr>Propagation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_components_xobject_.touchevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 							</ul>
 						</section>
 					</div>
@@ -130,32 +136,74 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new XAction<wbr>Event<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, bubbles<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, cancelable<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Touch<wbr>Event<span class="tsd-signature-symbol">(</span>srcElement<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, bubbles<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, currentTouch<span class="tsd-signature-symbol">?: </span><a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a>, touches<span class="tsd-signature-symbol">?: </span><a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span>, cancelable<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L34">components/XObject.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L49">components/XObject.ts:49</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of TouchEvent.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>target: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<h5>srcElement: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The source element of this event.</p>
+										</div>
+									</div>
 								</li>
 								<li>
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Event type.</p>
+										</div>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> bubbles: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Indicates whether the event bubbles up through its parents or not.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> currentTouch: <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Contains location and identifier of this touch event.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> touches: <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Contains location and identifier of this touch event.</p>
+										</div>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cancelable: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Interface indicates whether the event can be canceled, and
+											therefore prevented as if the event never happened.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xactionevent.html" class="tsd-signature-type">XActionEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.touchevent.html" class="tsd-signature-type">TouchEvent</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -169,7 +217,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#bubbles">bubbles</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L30">base/Event.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L30">base/Event.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,7 +234,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#cancelable">cancelable</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L37">base/Event.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L37">base/Event.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,9 +251,31 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Target<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L32">components/XObject.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L44">components/XObject.ts:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the currently registered target for the event. This is the object to which the
+								event is currently slated to be sent. It&#39;s possible this has been changed along the way
+							through re-targeting.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currenttouch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> current<wbr>Touch</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Touch<span class="tsd-signature-symbol">:</span> <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L30">components/XObject.ts:30</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TouchItem of this event, it contains location and identifier.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="defaultprevented" class="tsd-anchor"></a>
@@ -214,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#defaultprevented">defaultPrevented</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L8">base/Event.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L8">base/Event.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -230,7 +300,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#immediatepropagationstopped">immediatePropagationStopped</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L19">base/Event.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L19">base/Event.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -245,9 +315,14 @@
 					<div class="tsd-signature tsd-kind-icon">native<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L21">components/XObject.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L26">components/XObject.ts:26</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The native event, note that the location of this event is not transferred to the stage.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagationstopped" class="tsd-anchor"></a>
@@ -256,7 +331,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#propagationstopped">propagationStopped</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L14">base/Event.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L14">base/Event.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -272,9 +347,14 @@
 					<div class="tsd-signature tsd-kind-icon">src<wbr>Element<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L34">components/XObject.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L49">components/XObject.ts:49</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The source element of this event.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="stage" class="tsd-anchor"></a>
@@ -282,29 +362,14 @@
 					<div class="tsd-signature tsd-kind-icon">stage<span class="tsd-signature-symbol">:</span> <a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L20">components/XObject.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L22">components/XObject.ts:22</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="stagex" class="tsd-anchor"></a>
-					<h3>stageX</h3>
-					<div class="tsd-signature tsd-kind-icon">stageX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L24">components/XObject.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="stagey" class="tsd-anchor"></a>
-					<h3>stageY</h3>
-					<div class="tsd-signature tsd-kind-icon">stageY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L25">components/XObject.ts:25</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The stage object of the target element.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="timestamp" class="tsd-anchor"></a>
@@ -313,13 +378,31 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#timestamp">timeStamp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L43">base/Event.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L43">base/Event.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Time stamp of eventThe timeStamp read-only property of the Event interface returns the time (in milliseconds) at
 							which the event was created.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="touches" class="tsd-anchor"></a>
+					<h3>touches</h3>
+					<div class="tsd-signature tsd-kind-icon">touches<span class="tsd-signature-symbol">:</span> <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L37">components/XObject.ts:37</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The list of remaining touch items of this target event, for example, in a multiple touch
+								devices, when user touches with 2 figures already, and then touches the 3rd one, the element
+								receives a &#39;touchdown&#39; event, this &#39;touches&#39; list contains all 3 touch items, and the
+							information of 3rd figure is in &#39;currentTouch&#39; field.</p>
 						</div>
 					</div>
 				</section>
@@ -330,7 +413,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L24">base/Event.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L24">base/Event.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -338,26 +421,6 @@
 							<p>Type  of event</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L26">components/XObject.ts:26</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L27">components/XObject.ts:27</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -373,7 +436,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#preventdefault">preventDefault</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L67">base/Event.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L67">base/Event.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +464,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#stopimmediatepropagation">stopImmediatePropagation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L87">base/Event.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L87">base/Event.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -428,7 +491,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#stoppropagation">stopPropagation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/base/Event.ts#L75">base/Event.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/base/Event.ts#L75">base/Event.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -452,10 +515,16 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L42">components/XObject.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/XObject.ts#L80">components/XObject.ts:80</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a string representation of this TouchEvent object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representation of this TouchEvent object.</p>
 						</li>
 					</ul>
 				</section>
@@ -477,73 +546,64 @@
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../enums/_components_xobject_.cachestate.html" class="tsd-kind-icon">Cache<wbr>State</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.actionstate.html" class="tsd-kind-icon">Action<wbr>State</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.xactionevent.html" class="tsd-kind-icon">XAction<wbr>Event</a>
+						<a href="_components_xobject_.touchevent.html" class="tsd-kind-icon">Touch<wbr>Event</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_components_xobject_.xactionevent.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_components_xobject_.touchevent.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#bubbles" class="tsd-kind-icon">bubbles</a>
+								<a href="_components_xobject_.touchevent.html#bubbles" class="tsd-kind-icon">bubbles</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#cancelable" class="tsd-kind-icon">cancelable</a>
+								<a href="_components_xobject_.touchevent.html#cancelable" class="tsd-kind-icon">cancelable</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a>
+								<a href="_components_xobject_.touchevent.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_xobject_.touchevent.html#currenttouch" class="tsd-kind-icon">current<wbr>Touch</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a>
+								<a href="_components_xobject_.touchevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#immediatepropagationstopped" class="tsd-kind-icon">immediate<wbr>Propagation<wbr>Stopped</a>
+								<a href="_components_xobject_.touchevent.html#immediatepropagationstopped" class="tsd-kind-icon">immediate<wbr>Propagation<wbr>Stopped</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#nativeevent" class="tsd-kind-icon">native<wbr>Event</a>
+								<a href="_components_xobject_.touchevent.html#nativeevent" class="tsd-kind-icon">native<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a>
+								<a href="_components_xobject_.touchevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a>
+								<a href="_components_xobject_.touchevent.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#stage" class="tsd-kind-icon">stage</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#stagex" class="tsd-kind-icon">stageX</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#stagey" class="tsd-kind-icon">stageY</a>
+								<a href="_components_xobject_.touchevent.html#stage" class="tsd-kind-icon">stage</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a>
+								<a href="_components_xobject_.touchevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_xobject_.touchevent.html#touches" class="tsd-kind-icon">touches</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#type" class="tsd-kind-icon">type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#x" class="tsd-kind-icon">x</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.xactionevent.html#y" class="tsd-kind-icon">y</a>
+								<a href="_components_xobject_.touchevent.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a>
+								<a href="_components_xobject_.touchevent.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#stopimmediatepropagation" class="tsd-kind-icon">stop<wbr>Immediate<wbr>Propagation</a>
+								<a href="_components_xobject_.touchevent.html#stopimmediatepropagation" class="tsd-kind-icon">stop<wbr>Immediate<wbr>Propagation</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_xobject_.xactionevent.html#stoppropagation" class="tsd-kind-icon">stop<wbr>Propagation</a>
+								<a href="_components_xobject_.touchevent.html#stoppropagation" class="tsd-kind-icon">stop<wbr>Propagation</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_components_xobject_.xactionevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+								<a href="_components_xobject_.touchevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
 							</li>
 						</ul>
 					</li>
@@ -551,9 +611,6 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="_components_xobject_.xobject.html" class="tsd-kind-icon">XObject</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_components_xobject_.iattributes.html" class="tsd-kind-icon">IAttributes</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-kind-icon">IXObject<wbr>Options</a>

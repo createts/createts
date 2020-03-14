@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ActionState | createts</title>
+	<title>StageUpdatePolicy | createts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,60 +56,76 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_components_xobject_.html">&quot;components/XObject&quot;</a>
+					<a href="../modules/_components_stage_.html">&quot;components/Stage&quot;</a>
 				</li>
 				<li>
-					<a href="_components_xobject_.actionstate.html">ActionState</a>
+					<a href="_components_stage_.stageupdatepolicy.html">StageUpdatePolicy</a>
 				</li>
 			</ul>
-			<h1>Class ActionState</h1>
+			<h1>Enumeration StageUpdatePolicy</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">ActionState</span>
-					</li>
-				</ul>
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An enum to identify how the stage instance update the canvas for each ticker callback:</p>
+					</div>
+					<ol>
+						<li><strong>NEVER</strong>: stage never update the canvas, you must call stage.update method manually to
+						update the canvas.</li>
+						<li><strong>IN_ANIMATION</strong>: stage only update canvas during the animation.</li>
+						<li><strong>ALWAYS</strong>: stage update canvas in each ticker callback.</li>
+					</ol>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.actionstate.html#inbounds" class="tsd-kind-icon">in<wbr>Bounds</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_xobject_.actionstate.html#pressed" class="tsd-kind-icon">pressed</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_components_stage_.stageupdatepolicy.html#always" class="tsd-kind-icon">ALWAYS</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_components_stage_.stageupdatepolicy.html#in_animation" class="tsd-kind-icon">IN_<wbr>ANIMATION</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_components_stage_.stageupdatepolicy.html#never" class="tsd-kind-icon">NEVER</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="inbounds" class="tsd-anchor"></a>
-					<h3>in<wbr>Bounds</h3>
-					<div class="tsd-signature tsd-kind-icon">in<wbr>Bounds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="always" class="tsd-anchor"></a>
+					<h3>ALWAYS</h3>
+					<div class="tsd-signature tsd-kind-icon">ALWAYS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;always&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L16">components/XObject.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L34">components/Stage.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="pressed" class="tsd-anchor"></a>
-					<h3>pressed</h3>
-					<div class="tsd-signature tsd-kind-icon">pressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="in_animation" class="tsd-anchor"></a>
+					<h3>IN_<wbr>ANIMATION</h3>
+					<div class="tsd-signature tsd-kind-icon">IN_<wbr>ANIMATION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;in_animation&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/XObject.ts#L15">components/XObject.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L33">components/Stage.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="never" class="tsd-anchor"></a>
+					<h3>NEVER</h3>
+					<div class="tsd-signature tsd-kind-icon">NEVER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;never&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L32">components/Stage.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -122,41 +138,44 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_components_xobject_.html">&quot;components/XObject&quot;</a>
+						<a href="../modules/_components_stage_.html">&quot;components/<wbr>Stage&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../enums/_components_xobject_.cachestate.html" class="tsd-kind-icon">Cache<wbr>State</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="_components_stage_.stagelayoutpolicy.html" class="tsd-kind-icon">Stage<wbr>Layout<wbr>Policy</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.actionstate.html" class="tsd-kind-icon">Action<wbr>State</a>
+					<li class="current tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="_components_stage_.stageupdatepolicy.html" class="tsd-kind-icon">Stage<wbr>Update<wbr>Policy</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.actionstate.html#inbounds" class="tsd-kind-icon">in<wbr>Bounds</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="_components_stage_.stageupdatepolicy.html#always" class="tsd-kind-icon">ALWAYS</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_components_xobject_.actionstate.html#pressed" class="tsd-kind-icon">pressed</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="_components_stage_.stageupdatepolicy.html#in_animation" class="tsd-kind-icon">IN_<wbr>ANIMATION</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="_components_stage_.stageupdatepolicy.html#never" class="tsd-kind-icon">NEVER</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.xactionevent.html" class="tsd-kind-icon">XAction<wbr>Event</a>
+						<a href="../classes/_components_stage_.stage.html" class="tsd-kind-icon">Stage</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_components_xobject_.xobject.html" class="tsd-kind-icon">XObject</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_components_stage_.touchedobjectset.html" class="tsd-kind-icon">Touched<wbr>Object<wbr>Set</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_components_xobject_.iattributes.html" class="tsd-kind-icon">IAttributes</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_components_stage_.html#stageoptions" class="tsd-kind-icon">Stage<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-kind-icon">IXObject<wbr>Options</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_components_stage_.html#touchedobject" class="tsd-kind-icon">Touched<wbr>Object</a>
 					</li>
 				</ul>
 			</nav>

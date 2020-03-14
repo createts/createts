@@ -1,5 +1,5 @@
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
-import { Sprite, SpriteOption } from './Sprite';
+import { Sprite, SpriteSheet } from './Sprite';
 import { IXObjectOptions } from './XObject';
 
 export class Apng extends Sprite {
@@ -8,8 +8,8 @@ export class Apng extends Sprite {
     if (options && options.attributes) {
       if (options.attributes.src) {
         ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.APNG).then(
-          (opt: SpriteOption) => {
-            this.setOption(opt).play();
+          (opt: SpriteSheet) => {
+            this.setSpriteSheet(opt).play();
           }
         );
       }

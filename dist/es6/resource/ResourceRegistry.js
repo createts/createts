@@ -16,8 +16,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-import { ApngParser } from '../';
 import { Event, EventDispatcher } from '../base/Event';
+import { ApngParser } from '../parser/ApngParser';
 import { Loader } from './Loader';
 export var LoadState;
 
@@ -201,10 +201,10 @@ function (_EventDispatcher) {
           for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var frame = _step2.value;
             opt.frames.push({
-              x: frame.left,
-              y: frame.top,
-              width: frame.width,
-              height: frame.height,
+              destX: frame.left,
+              destY: frame.top,
+              destWidth: frame.width,
+              destHeight: frame.height,
               image: frame.image
             });
           }

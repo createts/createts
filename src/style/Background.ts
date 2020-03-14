@@ -457,18 +457,18 @@ export class Background {
     return idx >= arr.length ? defaultVal : arr[idx];
   }
 
-  private color?: Color;
-  private attachment: BackgroundAttachment[] = [];
-  private image: (IBackgroundSource | undefined)[] = [];
-  private repeat: BackgroundRepeatPair[] = [];
-  private clip: BackgroundClip[] = [];
-  private origin: BackgroundOrigin[] = [];
-  private size: BackgroundSizePair[] = [];
-  private position: BackgroundSizePair[] = [];
-  private blendMode: string[] = [];
+  public color?: Color;
+  public attachment: BackgroundAttachment[] = [];
+  public image: (IBackgroundSource | undefined)[] = [];
+  public repeat: BackgroundRepeatPair[] = [];
+  public clip: BackgroundClip[] = [];
+  public origin: BackgroundOrigin[] = [];
+  public size: BackgroundSizePair[] = [];
+  public position: BackgroundSizePair[] = [];
+  public blendMode: string[] = [];
 
-  public setColor(value: string) {
-    this.color = Color.of(value);
+  public setColor(value: string | Color) {
+    this.color = value instanceof Color ? value : Color.of(value);
   }
 
   public setAttachment(value: string) {

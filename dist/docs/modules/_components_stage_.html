@@ -74,18 +74,21 @@
 							<h3>Enumerations</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum tsd-parent-kind-external-module"><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-kind-icon">Stage<wbr>Layout<wbr>Policy</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-external-module"><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-kind-icon">Stage<wbr>Update<wbr>Policy</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_components_stage_.stage.html" class="tsd-kind-icon">Stage</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_components_stage_.touchedobjectset.html" class="tsd-kind-icon">Touched<wbr>Object<wbr>Set</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_components_stage_.html#stageoptions" class="tsd-kind-icon">Stage<wbr>Options</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="_components_stage_.html#touchedobject" class="tsd-kind-icon">Touched<wbr>Object</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,31 +99,91 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="stageoptions" class="tsd-anchor"></a>
 					<h3>Stage<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>updatePolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/pengcheng/createts/blob/f077514/src/components/Stage.ts#L16">components/Stage.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L40">components/Stage.ts:40</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Options for constructing a stage object.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> auto<wbr>Clear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>if true, clear the canvas at beginning of each update time, otherwise drawing on top of
+										previous drawn canvas.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Frames per second, it defines the frequency of the stage drawing the canvas.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> layout<wbr>Policy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Layout policy, see the enum definition of StageLayoutPolicy.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The override styles while constructing a stage object.</p>
+									</div>
+								</div>
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter-index-signature">
 										<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									</li>
 								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> update<wbr>Policy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Update policy, see the enum definition of StageUpdatePolicy.</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="touchedobject" class="tsd-anchor"></a>
+					<h3>Touched<wbr>Object</h3>
+					<div class="tsd-signature tsd-kind-icon">Touched<wbr>Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>object<span class="tsd-signature-symbol">: </span><a href="../classes/_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">; </span>touch<span class="tsd-signature-symbol">: </span><a href="../classes/_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L67">components/Stage.ts:67</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A pair to hold a XObject instance and a TouchItem instance.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>object<span class="tsd-signature-symbol">: </span><a href="../classes/_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>touch<span class="tsd-signature-symbol">: </span><a href="../classes/_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
 							</li>
 						</ul>
 					</div>
@@ -143,11 +206,20 @@
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-kind-icon">Stage<wbr>Layout<wbr>Policy</a>
 					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-kind-icon">Stage<wbr>Update<wbr>Policy</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_components_stage_.stage.html" class="tsd-kind-icon">Stage</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_components_stage_.touchedobjectset.html" class="tsd-kind-icon">Touched<wbr>Object<wbr>Set</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_components_stage_.html#stageoptions" class="tsd-kind-icon">Stage<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_components_stage_.html#touchedobject" class="tsd-kind-icon">Touched<wbr>Object</a>
 					</li>
 				</ul>
 			</nav>

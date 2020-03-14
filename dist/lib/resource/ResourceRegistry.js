@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ResourceRegistry = exports.ResourceType = exports.LoadState = void 0;
 
-var _ = require("../");
-
 var _Event2 = require("../base/Event");
+
+var _ApngParser = require("../parser/ApngParser");
 
 var _Loader = require("./Loader");
 
@@ -196,7 +196,7 @@ function (_EventDispatcher) {
 
       var loader = new _Loader.Loader(item.url, 'GET', 'arraybuffer');
       loader.on('load', function (e) {
-        var apng = _.ApngParser.parse(e.response);
+        var apng = _ApngParser.ApngParser.parse(e.response);
 
         var opt = {
           width: apng.width,
@@ -214,10 +214,10 @@ function (_EventDispatcher) {
           for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var frame = _step2.value;
             opt.frames.push({
-              x: frame.left,
-              y: frame.top,
-              width: frame.width,
-              height: frame.height,
+              destX: frame.left,
+              destY: frame.top,
+              destWidth: frame.width,
+              destHeight: frame.height,
               image: frame.image
             });
           }

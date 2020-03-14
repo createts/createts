@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Animation = exports.AnimationState = exports.AnimateEvent = exports.AnimateEventType = exports.AnimationValueType = void 0;
-
-var _ = require("../");
+exports.Animation = exports.AnimationState = exports.AnimationStep = exports.AnimateEvent = exports.AnimateEventType = exports.AnimationValueType = void 0;
 
 var _BaseValue = require("../base/BaseValue");
 
@@ -13,7 +11,11 @@ var _Color = require("../base/Color");
 
 var _Event2 = require("../base/Event");
 
+var _Background = require("../style/Background");
+
 var _Border = require("../style/Border");
+
+var _Shadow = require("../style/Shadow");
 
 var _AlgorithmFactory = require("./AlgorithmFactory");
 
@@ -97,27 +99,28 @@ function () {
     this.endTime = 0;
     this.target = target;
     this.duration = duration;
-  }
+  } // tslint:disable-next-line: no-empty
+
 
   _createClass(AnimationStep, [{
     key: "onStart",
-    value: function onStart() {
-      return this;
-    }
+    value: function onStart() {} // Returns true to ask stage to update the canvas.
+
   }, {
     key: "onUpdate",
     value: function onUpdate(percent) {
-      return this;
-    }
+      return false;
+    } // tslint:disable-next-line: no-empty
+
   }, {
     key: "onEnd",
-    value: function onEnd() {
-      return this;
-    }
+    value: function onEnd() {}
   }]);
 
   return AnimationStep;
 }();
+
+exports.AnimationStep = AnimationStep;
 
 var WaitStep =
 /*#__PURE__*/
@@ -133,17 +136,17 @@ function (_AnimationStep) {
   return WaitStep;
 }(AnimationStep);
 
-var AnimateStep =
+var StyleStep =
 /*#__PURE__*/
 function (_AnimationStep2) {
-  _inherits(AnimateStep, _AnimationStep2);
+  _inherits(StyleStep, _AnimationStep2);
 
-  function AnimateStep(target, props, algorithm, duration) {
+  function StyleStep(target, props, algorithm, duration) {
     var _this2;
 
-    _classCallCheck(this, AnimateStep);
+    _classCallCheck(this, StyleStep);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(AnimateStep).call(this, target, duration));
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(StyleStep).call(this, target, duration));
     _this2.algorithm = void 0;
     _this2.props = void 0;
     _this2.computed = void 0;
@@ -164,17 +167,16 @@ function (_AnimationStep2) {
     return _this2;
   }
 
-  _createClass(AnimateStep, [{
+  _createClass(StyleStep, [{
     key: "onStart",
     value: function onStart() {
       this.computed = this.target.style.getSnapshotForAnimation(this.target, this.props);
-      return this;
     }
   }, {
     key: "onUpdate",
     value: function onUpdate(percent) {
       if (!this.computed) {
-        return this;
+        return false;
       }
 
       for (var name in this.computed) {
@@ -202,7 +204,17 @@ function (_AnimationStep2) {
               var _from2 = attr.from;
               var _to2 = attr.to;
               var v = this.algorithm.calclate(percent);
-              this.target.style[name] = new _Color.Color(_from2.r + (_to2.r - _from2.r) * v, _from2.g + (_to2.g - _from2.g) * v, _from2.b + (_to2.b - _from2.b) * v, _from2.a + (_to2.a - _from2.a) * v);
+              var color = new _Color.Color(_from2.r + (_to2.r - _from2.r) * v, _from2.g + (_to2.g - _from2.g) * v, _from2.b + (_to2.b - _from2.b) * v, _from2.a + (_to2.a - _from2.a) * v);
+
+              if (name === 'backgroundColor') {
+                if (!this.target.style.background) {
+                  this.target.style.background = new _Background.Background();
+                }
+
+                this.target.style.background.color = color;
+              } else {
+                this.target.style[name] = color;
+              }
             }
             break;
 
@@ -224,27 +236,17 @@ function (_AnimationStep2) {
 
               var _v2 = this.algorithm.calclate(percent);
 
-              this.target.style[name] = new _.Shadow(_from4.offsetX + (_to4.offsetX - _from4.offsetX) * _v2, _from4.offsetY + (_to4.offsetY - _from4.offsetY) * _v2, _from4.blur + (_to4.blur - _from4.blur) * _v2, new _Color.Color(_from4.color.r + (_to4.color.r - _from4.color.r) * _v2, _from4.color.g + (_to4.color.g - _from4.color.g) * _v2, _from4.color.b + (_to4.color.b - _from4.color.b) * _v2, _from4.color.a + (_to4.color.a - _from4.color.a) * _v2));
+              this.target.style[name] = new _Shadow.Shadow(_from4.offsetX + (_to4.offsetX - _from4.offsetX) * _v2, _from4.offsetY + (_to4.offsetY - _from4.offsetY) * _v2, _from4.blur + (_to4.blur - _from4.blur) * _v2, new _Color.Color(_from4.color.r + (_to4.color.r - _from4.color.r) * _v2, _from4.color.g + (_to4.color.g - _from4.color.g) * _v2, _from4.color.b + (_to4.color.b - _from4.color.b) * _v2, _from4.color.a + (_to4.color.a - _from4.color.a) * _v2));
             }
             break;
         }
       }
 
-      return this;
-    }
-  }, {
-    key: "onEnd",
-    value: function onEnd() {
-      for (var name in this.computed) {
-        var attr = this.computed[name];
-        this.target.style[name] = attr.to;
-      }
-
-      return this;
+      return true;
     }
   }]);
 
-  return AnimateStep;
+  return StyleStep;
 }(AnimationStep);
 
 var CallStep =
@@ -267,7 +269,6 @@ function (_AnimationStep3) {
     key: "onEnd",
     value: function onEnd() {
       this.call();
-      return this;
     }
   }]);
 
@@ -279,8 +280,9 @@ exports.AnimationState = AnimationState;
 
 (function (AnimationState) {
   AnimationState[AnimationState["RUNNING"] = 1] = "RUNNING";
-  AnimationState[AnimationState["COMPLETED"] = 2] = "COMPLETED";
-  AnimationState[AnimationState["CANCELLED"] = 3] = "CANCELLED";
+  AnimationState[AnimationState["PAUSED"] = 2] = "PAUSED";
+  AnimationState[AnimationState["COMPLETED"] = 3] = "COMPLETED";
+  AnimationState[AnimationState["CANCELLED"] = 4] = "CANCELLED";
 })(AnimationState || (exports.AnimationState = AnimationState = {}));
 
 var Animation =
@@ -294,18 +296,20 @@ function (_EventDispatcher) {
     _classCallCheck(this, Animation);
 
     _this4 = _possibleConstructorReturn(this, _getPrototypeOf(Animation).call(this));
-    _this4.loopAnimate = false;
+    _this4.playTimes = 1;
     _this4.state = AnimationState.RUNNING;
     _this4.target = void 0;
     _this4.steps = [];
-    _this4.startTime = 0;
+    _this4.roundStartTime = 0;
+    _this4.beginTime = void 0;
+    _this4.pauseTime = void 0;
     _this4.duration = 0;
     _this4.currentStepIndex = 0;
     _this4.currentStepProgress = 0;
     _this4.totalProgress = 0;
     _this4.target = target;
-    _this4.loopAnimate = !!loop;
-    _this4.startTime = Date.now();
+    _this4.playTimes = loop ? 0 : 1;
+    _this4.roundStartTime = _this4.beginTime = Date.now();
     _this4.currentStepIndex = 0;
     _this4.state = AnimationState.RUNNING;
     return _this4;
@@ -323,15 +327,46 @@ function (_EventDispatcher) {
       });
     }
   }, {
+    key: "pause",
+    value: function pause() {
+      if (this.state === AnimationState.RUNNING) {
+        this.state = AnimationState.PAUSED;
+        this.pauseTime = Date.now();
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "resume",
+    value: function resume() {
+      if (this.state === AnimationState.PAUSED) {
+        var duration = Date.now() - this.pauseTime;
+        this.roundStartTime += duration;
+        this.beginTime += duration;
+        this.state = AnimationState.RUNNING;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
     key: "loop",
     value: function loop(_loop) {
-      this.loopAnimate = _loop;
+      this.playTimes = _loop ? 0 : 1;
+      return this;
+    }
+  }, {
+    key: "times",
+    value: function times(_times) {
+      this.playTimes = _times;
       return this;
     }
   }, {
     key: "to",
-    value: function to(props, duration, algorithm) {
-      this.addStep(new AnimateStep(this.target, props, algorithm, duration));
+    value: function to(props, duration) {
+      var algorithm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'linear';
+      this.addStep(new StyleStep(this.target, props, algorithm, duration));
       return this;
     }
   }, {
@@ -348,27 +383,41 @@ function (_EventDispatcher) {
     key: "onInterval",
     value: function onInterval() {
       if (this.duration <= 0) {
-        return;
+        // This is an empty animation without any step.
+        return false;
       }
 
       var now = Date.now();
 
-      if (now < this.startTime) {
-        return;
+      if (now < this.roundStartTime) {
+        // The current time is before start time, this is usually caused by changing system time
+        // during animation playing, ignore this.
+        return false;
       }
 
-      var passed = now - this.startTime;
+      var passed = now - this.roundStartTime;
       var currentStep = this.steps[this.currentStepIndex];
 
       if (passed >= this.duration) {
         // To end
+        currentStep.onUpdate(1);
         currentStep.onEnd();
 
         for (++this.currentStepIndex; this.currentStepIndex < this.steps.length; ++this.currentStepIndex) {
-          this.steps[this.currentStepIndex].onStart().onEnd();
+          var step = this.steps[this.currentStepIndex];
+          step.onStart();
+          step.onUpdate(1);
+          step.onEnd();
+        } // Check whether to start a new round
+
+
+        var newRound = true;
+
+        if (this.playTimes > 0) {
+          newRound = this.playTimes * this.duration > now - this.beginTime;
         }
 
-        if (!this.loopAnimate) {
+        if (!newRound) {
           this.currentStepIndex = this.steps.length - 1;
           this.onUpdateInternal(1, 1);
           this.state = AnimationState.COMPLETED;
@@ -376,19 +425,23 @@ function (_EventDispatcher) {
         } else {
           // New loop
           passed = passed % this.duration;
-          this.startTime = now - passed;
+          this.roundStartTime = now - passed;
           this.currentStepIndex = 0;
 
           while (true) {
-            var step = this.steps[this.currentStepIndex];
-            step.onStart();
+            var _step = this.steps[this.currentStepIndex];
 
-            if (step.endTime > passed) {
-              var progress = 1 - (step.endTime - passed) / step.duration;
+            _step.onStart();
+
+            if (_step.endTime > passed) {
+              var progress = 1 - (_step.endTime - passed) / _step.duration;
               this.onUpdateInternal(progress, passed / this.duration);
               break;
             } else {
-              step.onEnd();
+              _step.onUpdate(1);
+
+              _step.onEnd();
+
               ++this.currentStepIndex;
             }
           }
@@ -399,27 +452,32 @@ function (_EventDispatcher) {
 
           this.onUpdateInternal(_progress, passed / this.duration);
         } else {
+          currentStep.onUpdate(1);
           currentStep.onEnd();
           ++this.currentStepIndex;
 
           while (true) {
-            var _step = this.steps[this.currentStepIndex];
+            var _step2 = this.steps[this.currentStepIndex];
 
-            _step.onStart();
+            _step2.onStart();
 
-            if (_step.endTime > passed && _step.duration > 0) {
-              var _progress2 = 1 - (_step.endTime - passed) / _step.duration;
+            if (_step2.endTime > passed && _step2.duration > 0) {
+              var _progress2 = 1 - (_step2.endTime - passed) / _step2.duration;
 
               this.onUpdateInternal(_progress2, passed / this.duration);
               break;
             } else {
-              _step.onEnd();
+              _step2.onUpdate(1);
+
+              _step2.onEnd();
 
               ++this.currentStepIndex;
             }
           }
         }
       }
+
+      return true;
     }
   }, {
     key: "cancel",

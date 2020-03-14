@@ -1,28 +1,31 @@
+import { Stage } from './Stage';
 import { IXObjectOptions, XObject } from './XObject';
-export declare type SpriteFrame = {
-    x: number;
-    y: number;
-    width?: number;
-    height?: number;
-    image: HTMLImageElement | undefined;
-};
-export declare type SpriteOption = {
+export declare type SpriteSheet = {
     width: number;
     height: number;
     fps: number;
-    url: string;
-    image: HTMLImageElement | undefined;
+    url?: string;
+    image?: HTMLImageElement;
     frames: SpriteFrame[];
 };
+export declare type SpriteFrame = {
+    srcX?: number;
+    srcY?: number;
+    srcWidth?: number;
+    srcHeight?: number;
+    destX?: number;
+    destY?: number;
+    destWidth?: number;
+    destHeight?: number;
+    image?: HTMLImageElement;
+};
 export declare class Sprite extends XObject {
-    private option?;
-    private currentFrame;
-    private startTime;
-    private pauseTime;
-    private state;
-    private playTimes;
+    spriteSheet?: SpriteSheet;
+    currentFrame: number;
+    private animation?;
     constructor(options?: IXObjectOptions);
-    setOption(option: SpriteOption): this;
+    setSpriteSheet(spriteSheet: SpriteSheet): Sprite;
+    getStage(): Stage | undefined;
     play(times?: number): Sprite;
     pause(): Sprite;
     resume(): Sprite;
@@ -31,7 +34,6 @@ export declare class Sprite extends XObject {
     setCurrentFrame(currentFrame: number): Sprite;
     toNextFrame(): Sprite;
     toPreviousFrame(): Sprite;
-    private updateFramePosition;
     drawContent(ctx: CanvasRenderingContext2D): void;
 }
 //# sourceMappingURL=Sprite.d.ts.map

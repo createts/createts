@@ -18,24 +18,18 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { Display, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
-import { XActionEvent, XObject } from './XObject';
+import { TouchEvent, XObject } from './XObject';
 export var Container =
 /*#__PURE__*/
 function (_XObject) {
   _inherits(Container, _XObject);
 
-  function Container() {
-    var _getPrototypeOf2;
-
+  function Container(opt) {
     var _this;
 
     _classCallCheck(this, Container);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Container)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Container).call(this, opt));
     _this.children = [];
     return _this;
   }
@@ -133,7 +127,7 @@ function (_XObject) {
         var idx = this.children.indexOf(child);
         this.children.splice(idx, 1);
         this.children.push(child);
-        child.dispatchEvent(new XActionEvent(child, 'moved', false));
+        child.dispatchEvent(new TouchEvent(child, 'moved', false));
         return this;
       } else {
         if (parent) {
@@ -142,15 +136,15 @@ function (_XObject) {
 
         child.parent = this;
         this.children.push(child);
-        child.dispatchEvent(new XActionEvent(child, 'added', false));
+        child.dispatchEvent(new TouchEvent(child, 'added', false));
         return this;
       }
     }
   }, {
     key: "addChildren",
     value: function addChildren() {
-      for (var _len2 = arguments.length, children = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        children[_key2] = arguments[_key2];
+      for (var _len = arguments.length, children = new Array(_len), _key = 0; _key < _len; _key++) {
+        children[_key] = arguments[_key];
       }
 
       for (var _i = 0, _children = children; _i < _children.length; _i++) {
@@ -180,7 +174,7 @@ function (_XObject) {
           this.children.splice(current, 1);
         }
 
-        child.dispatchEvent(new XActionEvent(child, 'moved', false));
+        child.dispatchEvent(new TouchEvent(child, 'moved', false));
         return this;
       } else {
         if (parent) {
@@ -189,7 +183,7 @@ function (_XObject) {
 
         child.parent = this;
         this.children.splice(index, 0, child);
-        child.dispatchEvent(new XActionEvent(child, 'added', false));
+        child.dispatchEvent(new TouchEvent(child, 'added', false));
         return this;
       }
     }
@@ -203,7 +197,7 @@ function (_XObject) {
       } else {
         this.children.splice(idx, 1);
         child.parent = undefined;
-        child.dispatchEvent(new XActionEvent(child, 'removed', false));
+        child.dispatchEvent(new TouchEvent(child, 'removed', false));
         return child;
       }
     }
@@ -216,7 +210,7 @@ function (_XObject) {
 
       var child = this.children[index];
       this.children.splice(index, 1);
-      child.dispatchEvent(new XActionEvent(child, 'removed', false));
+      child.dispatchEvent(new TouchEvent(child, 'removed', false));
       return child;
     }
   }, {
@@ -263,8 +257,8 @@ function (_XObject) {
       var o2 = this.children[index2];
       this.children[index1] = o2;
       this.children[index2] = o1;
-      o1.dispatchEvent(new XActionEvent(o1, 'moved', false));
-      o2.dispatchEvent(new XActionEvent(o2, 'moved', false));
+      o1.dispatchEvent(new TouchEvent(o1, 'moved', false));
+      o2.dispatchEvent(new TouchEvent(o2, 'moved', false));
       return this;
     }
   }, {

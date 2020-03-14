@@ -8,7 +8,6 @@ interface IRuntime {
     measureTextWidth(text: string, font: Font): number;
     enableEvents(stage: Stage): void;
 }
-export declare type IFunc = () => void;
 export declare class Runtime {
     static get(): IRuntime;
     private static runtime;

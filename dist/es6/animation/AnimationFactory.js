@@ -60,8 +60,16 @@ function () {
     value: function onInterval() {
       var size = this.animations.length;
 
+      if (size === 0) {
+        return false;
+      }
+
+      var updated = false;
+
       for (var i = 0; i < size; ++i) {
-        this.animations[i].onInterval();
+        if (this.animations[i].onInterval()) {
+          updated = true;
+        }
       }
 
       for (var _i = this.animations.length - 1; _i >= 0; --_i) {
@@ -71,6 +79,8 @@ function () {
           this.animations.splice(_i, 1);
         }
       }
+
+      return updated;
     }
   }]);
 

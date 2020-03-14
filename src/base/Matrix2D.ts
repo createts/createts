@@ -358,9 +358,9 @@ export class Matrix2D {
   }
 
   /**
-   * Checks whether two martixes are equal.
-   * The result is true if and only if the argument is a Martix2D object that has the same values.
-   * @param matrix the Object to compare with this Martix2D object.
+   * Checks whether two matrixes are equal.
+   * The result is true if and only if the argument is a Matrix2D object that has the same values.
+   * @param matrix the Object to compare with this Matrix2D object.
    * @returns true if the objects are equal; false otherwise.
    */
   equals(matrix: Matrix2D): boolean {
@@ -378,7 +378,7 @@ export class Matrix2D {
    * Transforms a point according to this matrix.
    * @param x The x component of the point to transform
    * @param y The y component of the point to transform
-   * @return the trnsformed point
+   * @return the transformed point
    */
   public transformPoint(x: number, y: number): Point {
     const pt = new Point(0, 0);
