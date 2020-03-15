@@ -63,9 +63,7 @@ function eq(value) {
   };
 }
 
-var Mocked =
-/*#__PURE__*/
-function () {
+var Mocked = /*#__PURE__*/function () {
   function Mocked() {
     _classCallCheck(this, Mocked);
 
@@ -199,9 +197,7 @@ function () {
  */
 
 
-var MockCanvasRenderingContext2D =
-/*#__PURE__*/
-function (_Mocked) {
+var MockCanvasRenderingContext2D = /*#__PURE__*/function (_Mocked) {
   _inherits(MockCanvasRenderingContext2D, _Mocked);
 
   function MockCanvasRenderingContext2D() {
@@ -456,9 +452,7 @@ function (_Mocked) {
 
 exports.MockCanvasRenderingContext2D = MockCanvasRenderingContext2D;
 
-var MockCanvas =
-/*#__PURE__*/
-function (_Mocked2) {
+var MockCanvas = /*#__PURE__*/function (_Mocked2) {
   _inherits(MockCanvas, _Mocked2);
 
   function MockCanvas() {

@@ -49,9 +49,7 @@ var IDAT = toUint32('IDAT');
 var fcTL = toUint32('fcTL');
 var fdAT = toUint32('fdAT');
 var IEND = toUint32('IEND');
-export var ApngParser =
-/*#__PURE__*/
-function () {
+export var ApngParser = /*#__PURE__*/function () {
   function ApngParser() {
     _classCallCheck(this, ApngParser);
   }

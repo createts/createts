@@ -45,9 +45,7 @@ exports.BackgroundRepeat = BackgroundRepeat;
 // Radial-gradient
 // repeating-linear-gradient
 // repeating-radial-gradient
-var URLSource =
-/*#__PURE__*/
-function () {
+var URLSource = /*#__PURE__*/function () {
   _createClass(URLSource, null, [{
     key: "of",
     value: function of(value) {
@@ -89,9 +87,7 @@ function () {
   return URLSource;
 }();
 
-var LinearGradientSource =
-/*#__PURE__*/
-function () {
+var LinearGradientSource = /*#__PURE__*/function () {
   _createClass(LinearGradientSource, null, [{
     key: "of",
     value: function of(value) {
@@ -246,9 +242,7 @@ function () {
   return LinearGradientSource;
 }();
 
-var BackgroundRepeatPair =
-/*#__PURE__*/
-function () {
+var BackgroundRepeatPair = /*#__PURE__*/function () {
   _createClass(BackgroundRepeatPair, null, [{
     key: "of",
     value: function of(value) {
@@ -339,9 +333,7 @@ exports.BackgroundSizeType = BackgroundSizeType;
   BackgroundSizeType[BackgroundSizeType["CONTAIN"] = 4] = "CONTAIN";
 })(BackgroundSizeType || (exports.BackgroundSizeType = BackgroundSizeType = {}));
 
-var BackgroundSizePair =
-/*#__PURE__*/
-function () {
+var BackgroundSizePair = /*#__PURE__*/function () {
   _createClass(BackgroundSizePair, null, [{
     key: "of",
     value: function of(value) {
@@ -392,9 +384,7 @@ var REG_IMAGE = /^(url|linear-gradient|radial-gradient|repeating-linear-gradient
 var REG_POSITION_X = /^(left|right|[0-9\.]+px|[0-9\.]+%)$/i;
 var REG_POSITION_Y = /^(top|bottom|[0-9\.]+px|[0-9\.]+%)$/i;
 
-var Background =
-/*#__PURE__*/
-function () {
+var Background = /*#__PURE__*/function () {
   function Background() {
     _classCallCheck(this, Background);
 

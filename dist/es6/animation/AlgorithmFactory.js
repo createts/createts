@@ -37,9 +37,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *
  * <em>Equations derived from work by Robert Penner.</em>
  */
-export var Linear =
-/*#__PURE__*/
-function () {
+export var Linear = /*#__PURE__*/function () {
   function Linear() {
     _classCallCheck(this, Linear);
   }
@@ -53,9 +51,7 @@ function () {
 
   return Linear;
 }();
-export var PowIn =
-/*#__PURE__*/
-function () {
+export var PowIn = /*#__PURE__*/function () {
   function PowIn(pow) {
     _classCallCheck(this, PowIn);
 
@@ -71,9 +67,7 @@ function () {
 
   return PowIn;
 }();
-export var PowOut =
-/*#__PURE__*/
-function () {
+export var PowOut = /*#__PURE__*/function () {
   function PowOut(pow) {
     _classCallCheck(this, PowOut);
 
@@ -89,9 +83,7 @@ function () {
 
   return PowOut;
 }();
-export var PowInOut =
-/*#__PURE__*/
-function () {
+export var PowInOut = /*#__PURE__*/function () {
   function PowInOut(pow) {
     _classCallCheck(this, PowInOut);
 
@@ -113,9 +105,7 @@ function () {
 
   return PowInOut;
 }();
-export var SineIn =
-/*#__PURE__*/
-function () {
+export var SineIn = /*#__PURE__*/function () {
   function SineIn() {
     _classCallCheck(this, SineIn);
   }
@@ -129,9 +119,7 @@ function () {
 
   return SineIn;
 }();
-export var SineOut =
-/*#__PURE__*/
-function () {
+export var SineOut = /*#__PURE__*/function () {
   function SineOut() {
     _classCallCheck(this, SineOut);
   }
@@ -145,9 +133,7 @@ function () {
 
   return SineOut;
 }();
-export var SineInOut =
-/*#__PURE__*/
-function () {
+export var SineInOut = /*#__PURE__*/function () {
   function SineInOut() {
     _classCallCheck(this, SineInOut);
   }
@@ -161,9 +147,7 @@ function () {
 
   return SineInOut;
 }();
-export var BackIn =
-/*#__PURE__*/
-function () {
+export var BackIn = /*#__PURE__*/function () {
   function BackIn(amount) {
     _classCallCheck(this, BackIn);
 
@@ -179,9 +163,7 @@ function () {
 
   return BackIn;
 }();
-export var BackOut =
-/*#__PURE__*/
-function () {
+export var BackOut = /*#__PURE__*/function () {
   function BackOut(amount) {
     _classCallCheck(this, BackOut);
 
@@ -197,9 +179,7 @@ function () {
 
   return BackOut;
 }();
-export var BackInOut =
-/*#__PURE__*/
-function () {
+export var BackInOut = /*#__PURE__*/function () {
   function BackInOut(amount) {
     _classCallCheck(this, BackInOut);
 
@@ -221,9 +201,7 @@ function () {
 
   return BackInOut;
 }();
-export var CircIn =
-/*#__PURE__*/
-function () {
+export var CircIn = /*#__PURE__*/function () {
   function CircIn() {
     _classCallCheck(this, CircIn);
   }
@@ -237,9 +215,7 @@ function () {
 
   return CircIn;
 }();
-export var CircOut =
-/*#__PURE__*/
-function () {
+export var CircOut = /*#__PURE__*/function () {
   function CircOut() {
     _classCallCheck(this, CircOut);
   }
@@ -253,9 +229,7 @@ function () {
 
   return CircOut;
 }();
-export var CircInOut =
-/*#__PURE__*/
-function () {
+export var CircInOut = /*#__PURE__*/function () {
   function CircInOut() {
     _classCallCheck(this, CircInOut);
   }
@@ -276,9 +250,7 @@ function () {
   return CircInOut;
 }();
 
-var Bounce =
-/*#__PURE__*/
-function () {
+var Bounce = /*#__PURE__*/function () {
   function Bounce() {
     _classCallCheck(this, Bounce);
   }
@@ -301,9 +273,7 @@ function () {
   return Bounce;
 }();
 
-export var BounceOut =
-/*#__PURE__*/
-function (_Bounce) {
+export var BounceOut = /*#__PURE__*/function (_Bounce) {
   _inherits(BounceOut, _Bounce);
 
   function BounceOut() {
@@ -321,9 +291,7 @@ function (_Bounce) {
 
   return BounceOut;
 }(Bounce);
-export var BounceIn =
-/*#__PURE__*/
-function (_Bounce2) {
+export var BounceIn = /*#__PURE__*/function (_Bounce2) {
   _inherits(BounceIn, _Bounce2);
 
   function BounceIn() {
@@ -341,9 +309,7 @@ function (_Bounce2) {
 
   return BounceIn;
 }(Bounce);
-export var BounceInOut =
-/*#__PURE__*/
-function (_BounceIn) {
+export var BounceInOut = /*#__PURE__*/function (_BounceIn) {
   _inherits(BounceInOut, _BounceIn);
 
   function BounceInOut() {
@@ -366,9 +332,7 @@ function (_BounceIn) {
   return BounceInOut;
 }(BounceIn);
 var PI2 = Math.PI * 2;
-export var ElasticIn =
-/*#__PURE__*/
-function () {
+export var ElasticIn = /*#__PURE__*/function () {
   function ElasticIn(amplitude, period) {
     _classCallCheck(this, ElasticIn);
 
@@ -391,9 +355,7 @@ function () {
 
   return ElasticIn;
 }();
-export var ElasticOut =
-/*#__PURE__*/
-function () {
+export var ElasticOut = /*#__PURE__*/function () {
   function ElasticOut(amplitude, period) {
     _classCallCheck(this, ElasticOut);
 
@@ -416,9 +378,7 @@ function () {
 
   return ElasticOut;
 }();
-export var ElasticInOut =
-/*#__PURE__*/
-function () {
+export var ElasticInOut = /*#__PURE__*/function () {
   function ElasticInOut(amplitude, period) {
     _classCallCheck(this, ElasticInOut);
 
@@ -467,9 +427,7 @@ function () {
  * AnimationFactory.create(component, true).to({rotation:360}, 1000), "quadInOut");
  */
 
-export var AlgorithmFactory =
-/*#__PURE__*/
-function () {
+export var AlgorithmFactory = /*#__PURE__*/function () {
   function AlgorithmFactory() {
     _classCallCheck(this, AlgorithmFactory);
   }

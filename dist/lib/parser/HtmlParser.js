@@ -42,9 +42,7 @@ var AttrState;
   AttrState[AttrState["VALUE_STARTED"] = 5] = "VALUE_STARTED";
 })(AttrState || (AttrState = {}));
 
-var HtmlParser =
-/*#__PURE__*/
-function () {
+var HtmlParser = /*#__PURE__*/function () {
   function HtmlParser() {
     _classCallCheck(this, HtmlParser);
   }

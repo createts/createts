@@ -14,9 +14,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { Event, EventDispatcher } from './Event';
 
-var MyEvent =
-/*#__PURE__*/
-function (_Event) {
+var MyEvent = /*#__PURE__*/function (_Event) {
   _inherits(MyEvent, _Event);
 
   function MyEvent() {
@@ -28,9 +26,7 @@ function (_Event) {
   return MyEvent;
 }(Event);
 
-var MyEventDispatcher =
-/*#__PURE__*/
-function (_EventDispatcher) {
+var MyEventDispatcher = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(MyEventDispatcher, _EventDispatcher);
 
   function MyEventDispatcher() {

@@ -25,9 +25,7 @@ var REG_NUMBER = /^([0-9]*\.?[0-9]*)$/;
 var REG_LENGTH = /^([0-9]*\.?[0-9]*)px$/i;
 var REG_PERCENT = /^([0-9]*\.?[0-9]*)%$/;
 
-var LineHeight =
-/*#__PURE__*/
-function () {
+var LineHeight = /*#__PURE__*/function () {
   _createClass(LineHeight, null, [{
     key: "of",
     value: function of(value) {

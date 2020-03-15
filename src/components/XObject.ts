@@ -3,13 +3,13 @@ import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
-import { TouchItem } from '../base/TouchItem';
 import { Runtime } from '../Runtime';
-import { Display, Style } from '../style/Style';
+import { Display, PointerEvents, Style } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
 import { Stage } from './Stage';
+import { TouchItem } from './TouchItem';
 
 /**
  * This class represents an event object for both touch event (in mobile devices) and mouse event
@@ -25,17 +25,25 @@ export class TouchEvent extends Event {
    */
   public nativeEvent: any = null;
   /**
-   * TouchItem of this event, it contains location and identifier.
+   * The identifier of this TouchItem, used to track a serial of touch events.
    */
-  public currentTouch?: TouchItem;
+  readonly identifier: number;
   /**
-   * The list of remaining touch items of this target event, for example, in a multiple touch
-   * devices, when user touches with 2 figures already, and then touches the 3rd one, the element
-   * receives a 'touchdown' event, this 'touches' list contains all 3 touch items, and the
-   * information of 3rd figure is in 'currentTouch' field.
+   * The X coordinate of this TouchItem in the stage.
    */
-  public touches: TouchItem[] = [];
-
+  readonly stageX: number;
+  /**
+   * The Y coordinate of this TouchItem in the stage.
+   */
+  readonly stageY: number;
+  /**
+   * The X coordinate of this TouchItem in the current element.
+   */
+  public x: number;
+  /**
+   * The Y coordinate of this TouchItem in the current element.
+   */
+  public y: number;
   /**
    * A reference to the currently registered target for the event. This is the object to which the
    * event is currently slated to be sent. It's possible this has been changed along the way
@@ -53,8 +61,7 @@ export class TouchEvent extends Event {
    * @param srcElement The source element of this event.
    * @param type Event type.
    * @param bubbles Indicates whether the event bubbles up through its parents or not.
-   * @param currentTouch Contains location and identifier of this touch event.
-   * @param touches Contains location and identifier of this touch event.
+   * @param touch Contains location and identifier of this touch event.
    * @param cancelable Interface indicates whether the event can be canceled, and
    * therefore prevented as if the event never happened.
    */
@@ -62,15 +69,19 @@ export class TouchEvent extends Event {
     srcElement: XObject,
     type: string,
     bubbles: boolean = true,
-    currentTouch?: TouchItem,
-    touches: TouchItem[] = [],
+    touch?: TouchItem,
     cancelable: boolean = true
   ) {
     super(type, bubbles, cancelable);
     this.srcElement = srcElement;
-    this.currentTouch = currentTouch;
+    if (touch) {
+      this.identifier = touch.identifier;
+      this.stageX = touch.stageX;
+      this.stageY = touch.stageY;
+      this.x = touch.x;
+      this.y = touch.y;
+    }
     this.currentTarget = srcElement;
-    this.touches = touches;
   }
 
   /**
@@ -115,11 +126,6 @@ export interface IXObjectOptions {
  * etc.
  */
 export class XObject extends EventDispatcher<TouchEvent> {
-  /**
-   * Indicated whether event is enabled on this object or not.
-   * Note that if event is not enabled, it not prevent bubbling up through its parents.
-   */
-  public eventEnabled: boolean = true;
   /**
    * The string if of this object.
    */
@@ -185,7 +191,7 @@ export class XObject extends EventDispatcher<TouchEvent> {
       const queue: XObject[] = [element];
 
       while (element.parent) {
-        if (element.eventEnabled) queue.push(element.parent);
+        queue.push(element.parent);
         element = element.parent;
       }
 
@@ -202,22 +208,6 @@ export class XObject extends EventDispatcher<TouchEvent> {
   }
 
   /**
-   * Checks whether there is any listener listens this type of event.
-   * @param type Event type to check.
-   * @returns True if there is any listener of this event, false otherwise.
-   */
-  public willTrigger(type: string): boolean {
-    let o: XObject | undefined = this;
-    while (o) {
-      if (o.hasEventListener(type)) {
-        return true;
-      }
-      o = o.parent;
-    }
-    return false;
-  }
-
-  /**
    * Checks whether this element is visible.
    * @returns True if it is visible, false otherwise.
    */
@@ -229,6 +219,14 @@ export class XObject extends EventDispatcher<TouchEvent> {
       this.style.scaleX > 0 &&
       this.style.scaleY > 0
     );
+  }
+
+  /**
+   * Checks whether this element enables pointer events.
+   * @returns True if it enables pointer events, false otherwise.
+   */
+  public isPointerEventsEnabled(): boolean {
+    return this.style.pointerEvents !== PointerEvents.NONE;
   }
 
   /**
@@ -661,19 +659,10 @@ export class XObject extends EventDispatcher<TouchEvent> {
   private doDispatchEvent(event: TouchEvent) {
     event.currentTarget = this;
     if (event.stage) {
-      for (const touch of event.touches) {
-        const pt = event.stage.localToLocal(touch.stageX, touch.stageY, this);
-        touch.x = pt.x;
-        touch.y = pt.y;
-      }
-      if (event.currentTouch) {
-        const pt = event.stage.localToLocal(
-          event.currentTouch.stageX,
-          event.currentTouch.stageY,
-          this
-        );
-        event.currentTouch.x = pt.x;
-        event.currentTouch.y = pt.y;
+      if (this.willTrigger(event.type)) {
+        const pt = event.stage.localToLocal(event.stageX, event.stageY, this);
+        event.x = pt.x;
+        event.y = pt.y;
       }
     }
     super.dispatchEvent(event);

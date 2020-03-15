@@ -14,9 +14,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * A class contains static string util methods.
  */
-var StringUtils =
-/*#__PURE__*/
-function () {
+var StringUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

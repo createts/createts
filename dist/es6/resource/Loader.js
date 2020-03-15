@@ -18,9 +18,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { Event, EventDispatcher } from '../base/Event';
 
-var LoaderEvent =
-/*#__PURE__*/
-function (_Event) {
+var LoaderEvent = /*#__PURE__*/function (_Event) {
   _inherits(LoaderEvent, _Event);
 
   function LoaderEvent(target, type, response) {
@@ -39,9 +37,7 @@ function (_Event) {
   return LoaderEvent;
 }(Event);
 
-export var Loader =
-/*#__PURE__*/
-function (_EventDispatcher) {
+export var Loader = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Loader, _EventDispatcher);
 
   function Loader(url) {

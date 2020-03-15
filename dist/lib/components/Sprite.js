@@ -36,9 +36,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
  * Not like a normal animation, the sprite frames are discrete, we only render the frame while goto
  * next one.
  */
-var SpriteAnimationStep =
-/*#__PURE__*/
-function (_AnimationStep) {
+var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
   _inherits(SpriteAnimationStep, _AnimationStep);
 
   /**
@@ -108,9 +106,7 @@ function (_AnimationStep) {
  */
 
 
-var Sprite =
-/*#__PURE__*/
-function (_XObject) {
+var Sprite = /*#__PURE__*/function (_XObject) {
   _inherits(Sprite, _XObject);
 
   /**

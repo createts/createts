@@ -1,9 +1,9 @@
 import { Animation } from '../animation/Animation';
 import { AnimationFactory } from '../animation/AnimationFactory';
-import { TouchItem } from '../base/TouchItem';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Ticker } from '../Ticker';
 import { Container } from './Container';
+import { TouchItem } from './TouchItem';
 import { XObject } from './XObject';
 export declare enum StageLayoutPolicy {
     NEVER = "never",
@@ -37,13 +37,14 @@ export declare class Stage extends Container {
     updateOnce(): void;
     start(): void;
     enableEvents(): void;
+    getPressedTouchItems(child?: XObject): TouchItem[];
     handleMouseEvent(type: string, touches: TouchItem[], e: any): void;
     update(): void;
     calculateSize(): void;
     animate(element: XObject, override?: boolean): Animation;
+    stopAnimation(element: XObject): void;
     toString(): string;
     private dispatchTouchEvent;
-    private dispatchNonCancellableTouchEvent;
     private onTouchMove;
     private handleTouchStartEvent;
     private handleTouchEndEvent;

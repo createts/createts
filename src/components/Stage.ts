@@ -1,11 +1,11 @@
 import { Animation } from '../animation/Animation';
 import { AnimationFactory } from '../animation/AnimationFactory';
-import { TouchItem } from '../base/TouchItem';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Runtime } from '../Runtime';
 import { Ticker } from '../Ticker';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
+import { TouchItem } from './TouchItem';
 import { TouchEvent, XObject } from './XObject';
 
 /**
@@ -62,21 +62,13 @@ export type StageOptions = {
 };
 
 /**
- * A pair to hold a XObject instance and a TouchItem instance.
- */
-type TouchedObject = {
-  object: XObject;
-  touch: TouchItem;
-};
-
-/**
- * A helper class for staging to hold the touch status of its children.
+ * A helper class for staging to hold the all touch status of this stage.
  */
 class TouchedObjectSet {
   /**
-   * A list of TouchedObject objects.
+   * A list of TouchItem objects.
    */
-  readonly objects: TouchedObject[] = [];
+  readonly touchItems: TouchItem[] = [];
 
   /**
    * Checks whether this instance contains a TouchItem with this touch identifier.
@@ -84,8 +76,8 @@ class TouchedObjectSet {
    * @returns True if this instance contains a TouchItem with same identifier, false otherwise.
    */
   public contains(identifier: number): boolean {
-    for (const item of this.objects) {
-      if (item.touch.identifier === identifier) {
+    for (const item of this.touchItems) {
+      if (item.identifier === identifier) {
         return true;
       }
     }
@@ -93,14 +85,13 @@ class TouchedObjectSet {
   }
 
   /**
-   * Gets TouchedObject instance by a given touch identifier.
+   * Gets TouchItem instance by a given touch identifier.
    * @param identifier Touch identifier to query.
-   * @returns TouchedObject object if this instance contains a TouchItem with same identifier,
-   * undefined otherwise.
+   * @returns TouchItem with same identifier, undefined if not found.
    */
-  public get(identifier: number): TouchedObject | undefined {
-    for (const item of this.objects) {
-      if (item.touch.identifier === identifier) {
+  public get(identifier: number): TouchItem | undefined {
+    for (const item of this.touchItems) {
+      if (item.identifier === identifier) {
         return item;
       }
     }
@@ -108,27 +99,23 @@ class TouchedObjectSet {
   }
 
   /**
-   * Puts a pair of XObject and TouchItem instances into current set, caller must make sure that
-   * only put the new TouchItem, this method does not check whether there is an existing pair
-   * contains same touch identifier.
-   * @param object The XObject instance.
+   * Puts a TouchItem instances into current set, caller must make sure that only put the new
+   * TouchItem, this method does not check whether there is an existing TouchItem contains same
+   * touch identifier.
    * @param touch  The TouchItem instance.
    */
-  public add(object: XObject, touch: TouchItem) {
-    this.objects.push({
-      object,
-      touch
-    });
+  public add(touch: TouchItem) {
+    this.touchItems.push(touch);
   }
 
   /**
-   * Removes the pair with same touch identifier.
-   * @param identifier The touch identifier used to find the pair to be removed.
+   * Removes the TouchItem with same touch identifier.
+   * @param identifier The touch identifier used to find the TouchItem to be removed.
    */
   public remove(identifier: number) {
-    for (let i = 0; i < this.objects.length; ++i) {
-      if (this.objects[i].touch.identifier === identifier) {
-        this.objects.splice(i, 1);
+    for (let i = 0; i < this.touchItems.length; ++i) {
+      if (this.touchItems[i].identifier === identifier) {
+        this.touchItems.splice(i, 1);
         return;
       }
     }
@@ -141,9 +128,9 @@ class TouchedObjectSet {
    */
   public getTouches(object: XObject): TouchItem[] {
     const result: TouchItem[] = [];
-    for (const item of this.objects) {
-      if (item.object === object) {
-        result.push(item.touch);
+    for (const item of this.touchItems) {
+      if (item.srcElement === object || item.srcElement.isChildOf(object)) {
+        result.push(item);
       }
     }
     return result;
@@ -300,7 +287,26 @@ export class Stage extends Container {
   }
 
   /**
-   * Handle the mouse/touch events from runtime.
+   * Returns a list of TouchItems pressed on a given element.
+   * @param child A child to find the pressed TouchItems, use stage itself if it is undefined.
+   * @returns A list of TouchItems pressed on this element.
+   */
+  public getPressedTouchItems(child?: XObject): TouchItem[] {
+    if (!child) child = this;
+    const touches = this.touchedChildren.getTouches(child);
+    const result = [];
+    for (const touch of touches) {
+      const cloned = touch.clone();
+      const pt = this.localToLocal(touch.stageX, touch.stageY, child);
+      cloned.x = pt.x;
+      cloned.y = pt.y;
+      result.push(cloned);
+    }
+    return result;
+  }
+
+  /**
+   * Handles the mouse/touch events from runtime.
    * @param type The type of this event.
    * @param touches The list of touches, if the event is a mouse event, the first touch item
    * contains mouse location and the identifier is always 0.
@@ -386,6 +392,22 @@ export class Stage extends Container {
   }
 
   /**
+   * A wrapper function to use this stage's animationFactory to stop animation for the given child.
+   *
+   * ```typescript
+   *
+   * const stage = ...;
+   * const element = ...;
+   *
+   * stage.stopAnimation(element);
+   * ```
+   * @param element The target element to create the animation for.
+   */
+  public stopAnimation(element: XObject) {
+    this.animationFactory.removeByTarget(element);
+  }
+
+  /**
    * Returns a string representation of this stage object.
    * @returns a string representation of this stage object.
    */
@@ -397,53 +419,20 @@ export class Stage extends Container {
    * Dispatch a touch event to a child element.
    * @param element The target element to receive this event.
    * @param type Event type.
-   * @param bubble Indicates whether the event bubbles up through its parents or not.
    * @param currentTouch It contains location and identifier of this event.
+   * @param bubble Indicates whether the event bubbles up through its parents or not.
+   * @param cancellable Indicates whether the event is cancellable or not.
    * @param e The native event.
    */
   private dispatchTouchEvent(
     element: XObject,
     type: string,
-    bubble: boolean,
     currentTouch: TouchItem,
+    bubble: boolean,
+    cancellable: boolean,
     e: any
   ) {
-    const event = new TouchEvent(
-      element,
-      type,
-      bubble,
-      currentTouch,
-      this.touchedChildren.getTouches(element),
-      true
-    );
-    event.stage = this;
-    event.nativeEvent = e;
-    element.dispatchEvent(event);
-  }
-
-  /**
-   * Dispatch a non-cancellable touch event to a child element.
-   * @param element The target element to receive this event.
-   * @param type Event type.
-   * @param bubble Indicates whether the event bubbles up through its parents or not.
-   * @param currentTouch It contains location and identifier of this event.
-   * @param e The native event.
-   */
-  private dispatchNonCancellableTouchEvent(
-    element: XObject,
-    type: string,
-    bubble: boolean,
-    currentTouch: TouchItem,
-    e: any
-  ) {
-    const event = new TouchEvent(
-      element,
-      type,
-      bubble,
-      currentTouch,
-      this.touchedChildren.getTouches(element),
-      false
-    );
+    const event = new TouchEvent(element, type, bubble, currentTouch, cancellable);
     event.stage = this;
     event.nativeEvent = e;
     element.dispatchEvent(event);
@@ -459,53 +448,53 @@ export class Stage extends Container {
     for (const touch of touches) {
       const item = this.touchedChildren.get(touch.identifier);
       if (item) {
-        if (item.touch.stageX !== touch.stageX || item.touch.stageY !== touch.stageY) {
-          item.touch = touch;
-          movedTouches.push(touch);
+        if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
+          item.stageX = touch.stageX;
+          item.stageY = touch.stageY;
+          movedTouches.push(item);
         }
       } else {
         movedTouches.push(touch);
       }
     }
-
     for (const touch of movedTouches) {
       const pt = this.globalToLocal(touch.stageX, touch.stageY);
       const element: XObject | undefined = this.getObjectUnderPoint(pt.x, pt.y, true);
       if (element) {
-        this.dispatchTouchEvent(element, 'move', true, touch, e);
+        this.dispatchTouchEvent(element, 'move', touch, true, true, e);
       }
       const touchedItem = this.touchedChildren.get(touch.identifier);
       if (touchedItem) {
-        this.dispatchTouchEvent(touchedItem.object, 'pressmove', true, touchedItem.touch, e);
+        this.dispatchTouchEvent(touchedItem.srcElement, 'pressmove', touch, true, true, e);
       }
-
       // Checks enter/leave
-      const hovedItem = this.hoverChildren.get(touch.identifier);
-      if (hovedItem && element) {
-        if (hovedItem.object !== element) {
+      const hoveredItem = this.hoverChildren.get(touch.identifier);
+      if (hoveredItem && element) {
+        if (hoveredItem.srcElement !== element) {
           let enterElement = element;
-          let leaveElement = hovedItem.object;
-          hovedItem.object = element;
-          hovedItem.touch = touch;
+          let leaveElement = hoveredItem.srcElement;
+          hoveredItem.srcElement = element;
+          hoveredItem.stageX = touch.stageX;
+          hoveredItem.stageY = touch.stageY;
           while (leaveElement) {
             if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
               break;
             }
-            this.dispatchTouchEvent(leaveElement, 'leave', false, touch, e);
+            this.dispatchTouchEvent(leaveElement, 'leave', hoveredItem, false, true, e);
             leaveElement = leaveElement.parent;
           }
-
           while (enterElement && enterElement !== leaveElement) {
-            this.dispatchTouchEvent(enterElement, 'enter', false, touch, e);
+            this.dispatchTouchEvent(enterElement, 'enter', hoveredItem, false, true, e);
             enterElement = enterElement.parent;
           }
         }
       } else if (element) {
-        this.hoverChildren.add(element, touch);
-        this.dispatchNonCancellableTouchEvent(element, 'enter', true, touch, e);
-      } else if (hovedItem) {
+        touch.srcElement = element;
+        this.hoverChildren.add(touch);
+        this.dispatchTouchEvent(element, 'enter', touch, true, false, e);
+      } else if (hoveredItem) {
         this.hoverChildren.remove(touch.identifier);
-        this.dispatchNonCancellableTouchEvent(hovedItem.object, 'leave', true, touch, e);
+        this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);
       }
     }
   }
@@ -521,14 +510,14 @@ export class Stage extends Container {
       if (!this.touchedChildren.contains(touch.identifier)) {
         const element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
         if (element) {
-          newTouches.add(element, touch);
-          this.touchedChildren.add(element, touch);
+          touch.srcElement = element;
+          newTouches.add(touch);
+          this.touchedChildren.add(touch);
         }
       }
     }
-
-    for (const item of newTouches.objects) {
-      this.dispatchTouchEvent(item.object, 'touchdown', true, item.touch, e);
+    for (const item of newTouches.touchItems) {
+      this.dispatchTouchEvent(item.srcElement, 'touchdown', item, true, true, e);
     }
     this.onTouchMove(touches, e);
   }
@@ -540,34 +529,31 @@ export class Stage extends Container {
    */
   private handleTouchEndEvent(touches: TouchItem[], e: any) {
     this.onTouchMove(touches, e);
-
     const endedTouches: TouchedObjectSet = new TouchedObjectSet();
-    for (const item of this.touchedChildren.objects) {
+    for (const item of this.touchedChildren.touchItems) {
       let exists = false;
       for (const touch of touches) {
-        if (touch.identifier === item.touch.identifier) {
+        if (touch.identifier === item.identifier) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        endedTouches.add(item.object, item.touch);
+        endedTouches.add(item);
       }
     }
-
-    for (const item of endedTouches.objects) {
-      this.touchedChildren.remove(item.touch.identifier);
-      this.hoverChildren.remove(item.touch.identifier);
+    for (const item of endedTouches.touchItems) {
+      this.touchedChildren.remove(item.identifier);
+      this.hoverChildren.remove(item.identifier);
     }
-
-    for (const item of endedTouches.objects) {
-      const element = this.getObjectUnderPoint(item.touch.stageX, item.touch.stageY, true);
+    for (const item of endedTouches.touchItems) {
+      const element = this.getObjectUnderPoint(item.stageX, item.stageY, true);
       if (element) {
-        this.dispatchTouchEvent(element, 'touchup', true, item.touch, e);
+        this.dispatchTouchEvent(element, 'touchup', item, true, true, e);
       }
-      this.dispatchTouchEvent(item.object, 'pressup', true, item.touch, e);
-      if (element === item.object || item.object.isChildOf(element)) {
-        this.dispatchTouchEvent(element, 'click', true, item.touch, e);
+      this.dispatchTouchEvent(item.srcElement, 'pressup', item, true, true, e);
+      if (element === item.srcElement || item.srcElement.isChildOf(element)) {
+        this.dispatchTouchEvent(element, 'click', item, true, true, e);
       }
     }
   }

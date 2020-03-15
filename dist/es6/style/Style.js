@@ -60,10 +60,15 @@ export var TextBorderPosition;
   TextBorderPosition["INNER"] = "inner";
 })(TextBorderPosition || (TextBorderPosition = {}));
 
+export var PointerEvents;
+
+(function (PointerEvents) {
+  PointerEvents["AUTO"] = "auto";
+  PointerEvents["NONE"] = "none";
+})(PointerEvents || (PointerEvents = {}));
+
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
-export var Style =
-/*#__PURE__*/
-function () {
+export var Style = /*#__PURE__*/function () {
   function Style() {
     _classCallCheck(this, Style);
 
@@ -114,6 +119,7 @@ function () {
     this.aspectRatio = void 0;
     this.filter = void 0;
     this.cursor = void 0;
+    this.pointerEvents = PointerEvents.AUTO;
     this.textBorder = void 0;
     this.textBorderPosition = TextBorderPosition.OUTER;
     this.textShadow = void 0;
@@ -464,6 +470,10 @@ function () {
             this.textBorderPosition = EnumUtils.fromString(TextBorderPosition, value, TextBorderPosition.OUTER);
             break;
 
+          case 'pointerEvents':
+            this.pointerEvents = EnumUtils.fromString(PointerEvents, value, PointerEvents.AUTO);
+            break;
+
           case 'cursor':
             this.cursor = value;
             break;
@@ -610,6 +620,7 @@ function () {
       cloned.aspectRatio = this.aspectRatio;
       cloned.filter = this.filter;
       cloned.cursor = this.cursor;
+      cloned.pointerEvents = this.pointerEvents;
       return cloned;
     }
   }, {

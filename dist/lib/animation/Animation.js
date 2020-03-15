@@ -56,9 +56,7 @@ exports.AnimateEventType = AnimateEventType;
   AnimateEventType["COMPLETE"] = "complete";
 })(AnimateEventType || (exports.AnimateEventType = AnimateEventType = {}));
 
-var AnimateEvent =
-/*#__PURE__*/
-function (_Event) {
+var AnimateEvent = /*#__PURE__*/function (_Event) {
   _inherits(AnimateEvent, _Event);
 
   function AnimateEvent(type, progress, currentStep, currentProgress) {
@@ -88,9 +86,7 @@ function (_Event) {
 
 exports.AnimateEvent = AnimateEvent;
 
-var AnimationStep =
-/*#__PURE__*/
-function () {
+var AnimationStep = /*#__PURE__*/function () {
   function AnimationStep(target, duration) {
     _classCallCheck(this, AnimationStep);
 
@@ -122,9 +118,7 @@ function () {
 
 exports.AnimationStep = AnimationStep;
 
-var WaitStep =
-/*#__PURE__*/
-function (_AnimationStep) {
+var WaitStep = /*#__PURE__*/function (_AnimationStep) {
   _inherits(WaitStep, _AnimationStep);
 
   function WaitStep() {
@@ -136,9 +130,7 @@ function (_AnimationStep) {
   return WaitStep;
 }(AnimationStep);
 
-var StyleStep =
-/*#__PURE__*/
-function (_AnimationStep2) {
+var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
   _inherits(StyleStep, _AnimationStep2);
 
   function StyleStep(target, props, algorithm, duration) {
@@ -249,9 +241,7 @@ function (_AnimationStep2) {
   return StyleStep;
 }(AnimationStep);
 
-var CallStep =
-/*#__PURE__*/
-function (_AnimationStep3) {
+var CallStep = /*#__PURE__*/function (_AnimationStep3) {
   _inherits(CallStep, _AnimationStep3);
 
   function CallStep(target, call) {
@@ -285,9 +275,7 @@ exports.AnimationState = AnimationState;
   AnimationState[AnimationState["CANCELLED"] = 4] = "CANCELLED";
 })(AnimationState || (exports.AnimationState = AnimationState = {}));
 
-var Animation =
-/*#__PURE__*/
-function (_EventDispatcher) {
+var Animation = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Animation, _EventDispatcher);
 
   function Animation(target, loop) {

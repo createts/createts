@@ -63,9 +63,7 @@ var fcTL = toUint32('fcTL');
 var fdAT = toUint32('fdAT');
 var IEND = toUint32('IEND');
 
-var ApngParser =
-/*#__PURE__*/
-function () {
+var ApngParser = /*#__PURE__*/function () {
   function ApngParser() {
     _classCallCheck(this, ApngParser);
   }

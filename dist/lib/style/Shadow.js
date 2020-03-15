@@ -19,9 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * The shadow property adds shadow effects around an element's frame. A shadow is described by X and Y offsets relative
  * to the element, blur and color.
  */
-var Shadow =
-/*#__PURE__*/
-function () {
+var Shadow = /*#__PURE__*/function () {
   _createClass(Shadow, null, [{
     key: "of",
 

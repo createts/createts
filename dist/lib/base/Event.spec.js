@@ -16,9 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var MyEvent =
-/*#__PURE__*/
-function (_Event) {
+var MyEvent = /*#__PURE__*/function (_Event) {
   _inherits(MyEvent, _Event);
 
   function MyEvent() {
@@ -30,9 +28,7 @@ function (_Event) {
   return MyEvent;
 }(_Event2.Event);
 
-var MyEventDispatcher =
-/*#__PURE__*/
-function (_EventDispatcher) {
+var MyEventDispatcher = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(MyEventDispatcher, _EventDispatcher);
 
   function MyEventDispatcher() {

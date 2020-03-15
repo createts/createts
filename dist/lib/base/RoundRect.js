@@ -17,9 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * This class represents an rectangle object which contains start point (x, y) and size (width, height) with radius in
  * four corners.
  */
-var RoundRect =
-/*#__PURE__*/
-function () {
+var RoundRect = /*#__PURE__*/function () {
   /**
    * The X coordinate of the left-top corner of the Rect.
    */

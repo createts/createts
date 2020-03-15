@@ -7,9 +7,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * A class that can be used to compute the CRC-32 of an Uint8Array.
  */
-export var CRC32 =
-/*#__PURE__*/
-function () {
+export var CRC32 = /*#__PURE__*/function () {
   function CRC32() {
     _classCallCheck(this, CRC32);
   }

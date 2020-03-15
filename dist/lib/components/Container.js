@@ -29,9 +29,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var Container =
-/*#__PURE__*/
-function (_XObject) {
+var Container = /*#__PURE__*/function (_XObject) {
   _inherits(Container, _XObject);
 
   function Container(opt) {
@@ -470,7 +468,7 @@ function (_XObject) {
       for (var i = children.length - 1; i >= 0; i--) {
         var child = children[i];
 
-        if (!child.isVisible() || eventEnabled && !child.eventEnabled) {
+        if (!child.isVisible() || eventEnabled && !child.isPointerEventsEnabled()) {
           continue;
         }
 

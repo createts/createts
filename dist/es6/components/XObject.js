@@ -24,7 +24,7 @@ import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Rect } from '../base/Rect';
 import { Runtime } from '../Runtime';
-import { Display, Style } from '../style/Style';
+import { Display, PointerEvents, Style } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
 
@@ -32,9 +32,7 @@ import { LayoutUtils } from '../utils/LayoutUtils';
  * This class represents an event object for both touch event (in mobile devices) and mouse event
  * (in desktop).
  */
-export var TouchEvent =
-/*#__PURE__*/
-function (_Event) {
+export var TouchEvent = /*#__PURE__*/function (_Event) {
   _inherits(TouchEvent, _Event);
 
   /**
@@ -46,14 +44,23 @@ function (_Event) {
    */
 
   /**
-   * TouchItem of this event, it contains location and identifier.
+   * The identifier of this TouchItem, used to track a serial of touch events.
    */
 
   /**
-   * The list of remaining touch items of this target event, for example, in a multiple touch
-   * devices, when user touches with 2 figures already, and then touches the 3rd one, the element
-   * receives a 'touchdown' event, this 'touches' list contains all 3 touch items, and the
-   * information of 3rd figure is in 'currentTouch' field.
+   * The X coordinate of this TouchItem in the stage.
+   */
+
+  /**
+   * The Y coordinate of this TouchItem in the stage.
+   */
+
+  /**
+   * The X coordinate of this TouchItem in the current element.
+   */
+
+  /**
+   * The Y coordinate of this TouchItem in the current element.
    */
 
   /**
@@ -71,8 +78,7 @@ function (_Event) {
    * @param srcElement The source element of this event.
    * @param type Event type.
    * @param bubbles Indicates whether the event bubbles up through its parents or not.
-   * @param currentTouch Contains location and identifier of this touch event.
-   * @param touches Contains location and identifier of this touch event.
+   * @param touch Contains location and identifier of this touch event.
    * @param cancelable Interface indicates whether the event can be canceled, and
    * therefore prevented as if the event never happened.
    */
@@ -80,23 +86,32 @@ function (_Event) {
     var _this;
 
     var bubbles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    var currentTouch = arguments.length > 3 ? arguments[3] : undefined;
-    var touches = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
-    var cancelable = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+    var touch = arguments.length > 3 ? arguments[3] : undefined;
+    var cancelable = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
 
     _classCallCheck(this, TouchEvent);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TouchEvent).call(this, type, bubbles, cancelable));
     _this.stage = void 0;
     _this.nativeEvent = null;
-    _this.currentTouch = void 0;
-    _this.touches = [];
+    _this.identifier = void 0;
+    _this.stageX = void 0;
+    _this.stageY = void 0;
+    _this.x = void 0;
+    _this.y = void 0;
     _this.currentTarget = void 0;
     _this.srcElement = void 0;
     _this.srcElement = srcElement;
-    _this.currentTouch = currentTouch;
+
+    if (touch) {
+      _this.identifier = touch.identifier;
+      _this.stageX = touch.stageX;
+      _this.stageY = touch.stageY;
+      _this.x = touch.x;
+      _this.y = touch.y;
+    }
+
     _this.currentTarget = srcElement;
-    _this.touches = touches;
     return _this;
   }
   /**
@@ -133,15 +148,8 @@ var CacheState;
  * This class represents an basic object (XObject), contains id, style, cache and cache status,
  * etc.
  */
-export var XObject =
-/*#__PURE__*/
-function (_EventDispatcher) {
+export var XObject = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(XObject, _EventDispatcher);
-
-  /**
-   * Indicated whether event is enabled on this object or not.
-   * Note that if event is not enabled, it not prevent bubbling up through its parents.
-   */
 
   /**
    * The string if of this object.
@@ -182,7 +190,6 @@ function (_EventDispatcher) {
     _classCallCheck(this, XObject);
 
     _this2 = _possibleConstructorReturn(this, _getPrototypeOf(XObject).call(this));
-    _this2.eventEnabled = true;
     _this2.id = undefined;
     _this2.style = void 0;
     _this2.rect = new Rect(0, 0, 0, 0);
@@ -226,7 +233,7 @@ function (_EventDispatcher) {
         var queue = [element];
 
         while (element.parent) {
-          if (element.eventEnabled) queue.push(element.parent);
+          queue.push(element.parent);
           element = element.parent;
         } // Bubbling
 
@@ -246,27 +253,6 @@ function (_EventDispatcher) {
       return !event.defaultPrevented;
     }
     /**
-     * Checks whether there is any listener listens this type of event.
-     * @param type Event type to check.
-     * @returns True if there is any listener of this event, false otherwise.
-     */
-
-  }, {
-    key: "willTrigger",
-    value: function willTrigger(type) {
-      var o = this;
-
-      while (o) {
-        if (o.hasEventListener(type)) {
-          return true;
-        }
-
-        o = o.parent;
-      }
-
-      return false;
-    }
-    /**
      * Checks whether this element is visible.
      * @returns True if it is visible, false otherwise.
      */
@@ -275,6 +261,16 @@ function (_EventDispatcher) {
     key: "isVisible",
     value: function isVisible() {
       return !!(this.style.visible && this.style.display !== Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
+    }
+    /**
+     * Checks whether this element enables pointer events.
+     * @returns True if it enables pointer events, false otherwise.
+     */
+
+  }, {
+    key: "isPointerEventsEnabled",
+    value: function isPointerEventsEnabled() {
+      return this.style.pointerEvents !== PointerEvents.NONE;
     }
     /**
      * Returns the offscreen cache canvas.
@@ -756,38 +752,10 @@ function (_EventDispatcher) {
       event.currentTarget = this;
 
       if (event.stage) {
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = event.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var touch = _step.value;
-
-            var _pt = event.stage.localToLocal(touch.stageX, touch.stageY, this);
-
-            touch.x = _pt.x;
-            touch.y = _pt.y;
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-              _iterator["return"]();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        if (event.currentTouch) {
-          var pt = event.stage.localToLocal(event.currentTouch.stageX, event.currentTouch.stageY, this);
-          event.currentTouch.x = pt.x;
-          event.currentTouch.y = pt.y;
+        if (this.willTrigger(event.type)) {
+          var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
+          event.x = pt.x;
+          event.y = pt.y;
         }
       }
 

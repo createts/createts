@@ -46,9 +46,7 @@ exports.ResourceType = ResourceType;
   ResourceType[ResourceType["APNG"] = 2] = "APNG";
 })(ResourceType || (exports.ResourceType = ResourceType = {}));
 
-var RegistryEvent =
-/*#__PURE__*/
-function (_Event) {
+var RegistryEvent = /*#__PURE__*/function (_Event) {
   _inherits(RegistryEvent, _Event);
 
   function RegistryEvent(type, progress) {
@@ -65,9 +63,7 @@ function (_Event) {
   return RegistryEvent;
 }(_Event2.Event);
 
-var ResourceRegistry =
-/*#__PURE__*/
-function (_EventDispatcher) {
+var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(ResourceRegistry, _EventDispatcher);
 
   function ResourceRegistry() {

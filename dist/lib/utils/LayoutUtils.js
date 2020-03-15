@@ -16,9 +16,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * A class contains static layout util methods.
  */
-var LayoutUtils =
-/*#__PURE__*/
-function () {
+var LayoutUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

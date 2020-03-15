@@ -1,5 +1,5 @@
-import { TouchItem } from './base/TouchItem';
 import { Stage } from './components/Stage';
+import { TouchItem } from './components/TouchItem';
 import { Font } from './style/Font';
 
 type AnimationFrameListener = (time: number) => void;
@@ -87,7 +87,7 @@ class WebRuntime implements IRuntime {
     // Translate to multiple touch event
     const x = e.offsetX * scaleX;
     const y = e.offsetY * scaleY;
-    stage.handleMouseEvent(type, [new TouchItem(0, x, y, 0, 0)], e);
+    stage.handleMouseEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
   }
 
   private handleTouchEvent(type: string, stage: Stage, e: any) {
@@ -96,7 +96,14 @@ class WebRuntime implements IRuntime {
     const touches = [];
     for (const touch of e.touches) {
       touches.push(
-        new TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0)
+        new TouchItem(
+          touch.identifier,
+          undefined,
+          touch.clientX * scaleX,
+          touch.clientY * scaleY,
+          0,
+          0
+        )
       );
     }
     stage.handleMouseEvent(type, touches, e);

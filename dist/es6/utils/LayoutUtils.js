@@ -9,9 +9,7 @@ import { BoxSizing } from '../style/Style';
  * A class contains static layout util methods.
  */
 
-export var LayoutUtils =
-/*#__PURE__*/
-function () {
+export var LayoutUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

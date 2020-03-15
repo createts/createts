@@ -7,9 +7,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * A point representing a location in (x,y) coordinate space, specified in integer precision.
  */
-export var Point =
-/*#__PURE__*/
-function () {
+export var Point = /*#__PURE__*/function () {
   /**
    * The X coordinate of this Point.
    */

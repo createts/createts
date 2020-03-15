@@ -35,6 +35,10 @@ export declare enum TextBorderPosition {
     OUTER = "outer",
     INNER = "inner"
 }
+export declare enum PointerEvents {
+    AUTO = "auto",
+    NONE = "none"
+}
 export declare class Style {
     static of(value: string): Style;
     width?: BaseValue;
@@ -84,6 +88,7 @@ export declare class Style {
     aspectRatio?: number;
     filter?: string;
     cursor?: string;
+    pointerEvents: PointerEvents;
     textBorder?: Border;
     textBorderPosition?: TextBorderPosition;
     textShadow?: Shadow;

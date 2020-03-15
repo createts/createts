@@ -279,7 +279,7 @@ export class Container extends XObject {
     const children = this.children;
     for (let i = children.length - 1; i >= 0; i--) {
       const child = children[i];
-      if (!child.isVisible() || (eventEnabled && !child.eventEnabled)) {
+      if (!child.isVisible() || (eventEnabled && !child.isPointerEventsEnabled())) {
         continue;
       }
       const pt = this.localToLocal(x, y, child);

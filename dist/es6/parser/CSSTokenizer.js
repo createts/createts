@@ -15,9 +15,7 @@ var State;
   State[State["FUNC"] = 2] = "FUNC";
 })(State || (State = {}));
 
-export var CSSTokenizer =
-/*#__PURE__*/
-function () {
+export var CSSTokenizer = /*#__PURE__*/function () {
   function CSSTokenizer() {
     var splitter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 

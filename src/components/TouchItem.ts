@@ -1,3 +1,5 @@
+import { XObject } from './XObject';
+
 /**
  * A TouchItem object representing an identifier to track a serial of touch events and location in
  * (x,y) coordinate space of current event.
@@ -10,11 +12,11 @@ export class TouchItem {
   /**
    * The X coordinate of this TouchItem in the stage.
    */
-  readonly stageX: number;
+  public stageX: number;
   /**
    * The Y coordinate of this TouchItem in the stage.
    */
-  readonly stageY: number;
+  public stageY: number;
   /**
    * The X coordinate of this TouchItem in the current element.
    */
@@ -25,14 +27,28 @@ export class TouchItem {
   public y: number;
 
   /**
+   * The first pressed element of this event.
+   */
+  public srcElement?: XObject;
+
+  /**
    * Constructs and initializes a TouchItem at the specified identifier and (x,y) location in the
    * coordinate space.
    * @param identifier the identifier of the newly constructed TouchItem
+   * @param srcElement the source element of the newly constructed TouchItem
    * @param x the X coordinate of the newly constructed TouchItem
    * @param y the Y coordinate of the newly constructed TouchItem
    */
-  constructor(identifier: number, stageX: number, stageY: number, x: number, y: number) {
+  constructor(
+    identifier: number,
+    srcElement?: XObject,
+    stageX?: number,
+    stageY?: number,
+    x?: number,
+    y?: number
+  ) {
     this.identifier = identifier;
+    this.srcElement = srcElement;
     this.stageX = stageX;
     this.stageY = stageY;
     this.x = x;
@@ -48,11 +64,12 @@ export class TouchItem {
    */
   public equals(that: TouchItem): boolean {
     return (
-      this.identifier === this.identifier &&
+      this.identifier === that.identifier &&
+      this.srcElement === that.srcElement &&
       this.stageX === that.stageX &&
-      this.stageY === this.stageY &&
+      this.stageY === that.stageY &&
       this.x === that.x &&
-      this.y === this.y
+      this.y === that.y
     );
   }
 
@@ -61,6 +78,13 @@ export class TouchItem {
    * @returns a clone of this instance.
    */
   public clone(): TouchItem {
-    return new TouchItem(this.identifier, this.stageX, this.stageY, this.x, this.y);
+    return new TouchItem(
+      this.identifier,
+      this.srcElement,
+      this.stageX,
+      this.stageY,
+      this.x,
+      this.y
+    );
   }
 }

@@ -19,9 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * EnumUtils.fromStringOrUndefined(TestEnum, 'v');  // undefined
  * ```
  */
-export var EnumUtils =
-/*#__PURE__*/
-function () {
+export var EnumUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

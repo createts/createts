@@ -44,9 +44,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *
  * <em>Equations derived from work by Robert Penner.</em>
  */
-var Linear =
-/*#__PURE__*/
-function () {
+var Linear = /*#__PURE__*/function () {
   function Linear() {
     _classCallCheck(this, Linear);
   }
@@ -63,9 +61,7 @@ function () {
 
 exports.Linear = Linear;
 
-var PowIn =
-/*#__PURE__*/
-function () {
+var PowIn = /*#__PURE__*/function () {
   function PowIn(pow) {
     _classCallCheck(this, PowIn);
 
@@ -84,9 +80,7 @@ function () {
 
 exports.PowIn = PowIn;
 
-var PowOut =
-/*#__PURE__*/
-function () {
+var PowOut = /*#__PURE__*/function () {
   function PowOut(pow) {
     _classCallCheck(this, PowOut);
 
@@ -105,9 +99,7 @@ function () {
 
 exports.PowOut = PowOut;
 
-var PowInOut =
-/*#__PURE__*/
-function () {
+var PowInOut = /*#__PURE__*/function () {
   function PowInOut(pow) {
     _classCallCheck(this, PowInOut);
 
@@ -132,9 +124,7 @@ function () {
 
 exports.PowInOut = PowInOut;
 
-var SineIn =
-/*#__PURE__*/
-function () {
+var SineIn = /*#__PURE__*/function () {
   function SineIn() {
     _classCallCheck(this, SineIn);
   }
@@ -151,9 +141,7 @@ function () {
 
 exports.SineIn = SineIn;
 
-var SineOut =
-/*#__PURE__*/
-function () {
+var SineOut = /*#__PURE__*/function () {
   function SineOut() {
     _classCallCheck(this, SineOut);
   }
@@ -170,9 +158,7 @@ function () {
 
 exports.SineOut = SineOut;
 
-var SineInOut =
-/*#__PURE__*/
-function () {
+var SineInOut = /*#__PURE__*/function () {
   function SineInOut() {
     _classCallCheck(this, SineInOut);
   }
@@ -189,9 +175,7 @@ function () {
 
 exports.SineInOut = SineInOut;
 
-var BackIn =
-/*#__PURE__*/
-function () {
+var BackIn = /*#__PURE__*/function () {
   function BackIn(amount) {
     _classCallCheck(this, BackIn);
 
@@ -210,9 +194,7 @@ function () {
 
 exports.BackIn = BackIn;
 
-var BackOut =
-/*#__PURE__*/
-function () {
+var BackOut = /*#__PURE__*/function () {
   function BackOut(amount) {
     _classCallCheck(this, BackOut);
 
@@ -231,9 +213,7 @@ function () {
 
 exports.BackOut = BackOut;
 
-var BackInOut =
-/*#__PURE__*/
-function () {
+var BackInOut = /*#__PURE__*/function () {
   function BackInOut(amount) {
     _classCallCheck(this, BackInOut);
 
@@ -258,9 +238,7 @@ function () {
 
 exports.BackInOut = BackInOut;
 
-var CircIn =
-/*#__PURE__*/
-function () {
+var CircIn = /*#__PURE__*/function () {
   function CircIn() {
     _classCallCheck(this, CircIn);
   }
@@ -277,9 +255,7 @@ function () {
 
 exports.CircIn = CircIn;
 
-var CircOut =
-/*#__PURE__*/
-function () {
+var CircOut = /*#__PURE__*/function () {
   function CircOut() {
     _classCallCheck(this, CircOut);
   }
@@ -296,9 +272,7 @@ function () {
 
 exports.CircOut = CircOut;
 
-var CircInOut =
-/*#__PURE__*/
-function () {
+var CircInOut = /*#__PURE__*/function () {
   function CircInOut() {
     _classCallCheck(this, CircInOut);
   }
@@ -321,9 +295,7 @@ function () {
 
 exports.CircInOut = CircInOut;
 
-var Bounce =
-/*#__PURE__*/
-function () {
+var Bounce = /*#__PURE__*/function () {
   function Bounce() {
     _classCallCheck(this, Bounce);
   }
@@ -346,9 +318,7 @@ function () {
   return Bounce;
 }();
 
-var BounceOut =
-/*#__PURE__*/
-function (_Bounce) {
+var BounceOut = /*#__PURE__*/function (_Bounce) {
   _inherits(BounceOut, _Bounce);
 
   function BounceOut() {
@@ -369,9 +339,7 @@ function (_Bounce) {
 
 exports.BounceOut = BounceOut;
 
-var BounceIn =
-/*#__PURE__*/
-function (_Bounce2) {
+var BounceIn = /*#__PURE__*/function (_Bounce2) {
   _inherits(BounceIn, _Bounce2);
 
   function BounceIn() {
@@ -392,9 +360,7 @@ function (_Bounce2) {
 
 exports.BounceIn = BounceIn;
 
-var BounceInOut =
-/*#__PURE__*/
-function (_BounceIn) {
+var BounceInOut = /*#__PURE__*/function (_BounceIn) {
   _inherits(BounceInOut, _BounceIn);
 
   function BounceInOut() {
@@ -420,9 +386,7 @@ function (_BounceIn) {
 exports.BounceInOut = BounceInOut;
 var PI2 = Math.PI * 2;
 
-var ElasticIn =
-/*#__PURE__*/
-function () {
+var ElasticIn = /*#__PURE__*/function () {
   function ElasticIn(amplitude, period) {
     _classCallCheck(this, ElasticIn);
 
@@ -448,9 +412,7 @@ function () {
 
 exports.ElasticIn = ElasticIn;
 
-var ElasticOut =
-/*#__PURE__*/
-function () {
+var ElasticOut = /*#__PURE__*/function () {
   function ElasticOut(amplitude, period) {
     _classCallCheck(this, ElasticOut);
 
@@ -476,9 +438,7 @@ function () {
 
 exports.ElasticOut = ElasticOut;
 
-var ElasticInOut =
-/*#__PURE__*/
-function () {
+var ElasticInOut = /*#__PURE__*/function () {
   function ElasticInOut(amplitude, period) {
     _classCallCheck(this, ElasticInOut);
 
@@ -530,9 +490,7 @@ function () {
 
 exports.ElasticInOut = ElasticInOut;
 
-var AlgorithmFactory =
-/*#__PURE__*/
-function () {
+var AlgorithmFactory = /*#__PURE__*/function () {
   function AlgorithmFactory() {
     _classCallCheck(this, AlgorithmFactory);
   }

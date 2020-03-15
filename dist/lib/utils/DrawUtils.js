@@ -18,9 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * A class contains static draw util methods.
  */
-var DrawUtils =
-/*#__PURE__*/
-function () {
+var DrawUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

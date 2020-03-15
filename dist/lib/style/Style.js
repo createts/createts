@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Style = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.TextAlign = exports.BoxSizing = void 0;
+exports.Style = exports.PointerEvents = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.TextAlign = exports.BoxSizing = void 0;
 
 var _Animation = require("../animation/Animation");
 
@@ -83,11 +83,17 @@ exports.TextBorderPosition = TextBorderPosition;
   TextBorderPosition["INNER"] = "inner";
 })(TextBorderPosition || (exports.TextBorderPosition = TextBorderPosition = {}));
 
+var PointerEvents;
+exports.PointerEvents = PointerEvents;
+
+(function (PointerEvents) {
+  PointerEvents["AUTO"] = "auto";
+  PointerEvents["NONE"] = "none";
+})(PointerEvents || (exports.PointerEvents = PointerEvents = {}));
+
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 
-var Style =
-/*#__PURE__*/
-function () {
+var Style = /*#__PURE__*/function () {
   function Style() {
     _classCallCheck(this, Style);
 
@@ -138,6 +144,7 @@ function () {
     this.aspectRatio = void 0;
     this.filter = void 0;
     this.cursor = void 0;
+    this.pointerEvents = PointerEvents.AUTO;
     this.textBorder = void 0;
     this.textBorderPosition = TextBorderPosition.OUTER;
     this.textShadow = void 0;
@@ -488,6 +495,10 @@ function () {
             this.textBorderPosition = _EnumUtils.EnumUtils.fromString(TextBorderPosition, value, TextBorderPosition.OUTER);
             break;
 
+          case 'pointerEvents':
+            this.pointerEvents = _EnumUtils.EnumUtils.fromString(PointerEvents, value, PointerEvents.AUTO);
+            break;
+
           case 'cursor':
             this.cursor = value;
             break;
@@ -634,6 +645,7 @@ function () {
       cloned.aspectRatio = this.aspectRatio;
       cloned.filter = this.filter;
       cloned.cursor = this.cursor;
+      cloned.pointerEvents = this.pointerEvents;
       return cloned;
     }
   }, {

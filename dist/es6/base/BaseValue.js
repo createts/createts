@@ -18,9 +18,7 @@ export var BaseValueUnit;
   BaseValueUnit[BaseValueUnit["PERCENTAGE"] = 2] = "PERCENTAGE";
 })(BaseValueUnit || (BaseValueUnit = {}));
 
-export var BaseValue =
-/*#__PURE__*/
-function () {
+export var BaseValue = /*#__PURE__*/function () {
   _createClass(BaseValue, null, [{
     key: "of",
 

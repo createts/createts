@@ -10,9 +10,7 @@ import { Rect } from '../base/Rect';
  * four corners.
  */
 
-export var RoundRect =
-/*#__PURE__*/
-function () {
+export var RoundRect = /*#__PURE__*/function () {
   /**
    * The X coordinate of the left-top corner of the Rect.
    */

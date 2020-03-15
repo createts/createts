@@ -19,9 +19,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 import { Display, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { TouchEvent, XObject } from './XObject';
-export var Container =
-/*#__PURE__*/
-function (_XObject) {
+export var Container = /*#__PURE__*/function (_XObject) {
   _inherits(Container, _XObject);
 
   function Container(opt) {
@@ -459,7 +457,7 @@ function (_XObject) {
       for (var i = children.length - 1; i >= 0; i--) {
         var child = children[i];
 
-        if (!child.isVisible() || eventEnabled && !child.eventEnabled) {
+        if (!child.isVisible() || eventEnabled && !child.isPointerEventsEnabled()) {
           continue;
         }
 

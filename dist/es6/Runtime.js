@@ -4,11 +4,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-import { TouchItem } from './base/TouchItem';
+import { TouchItem } from './components/TouchItem';
 
-var WebRuntime =
-/*#__PURE__*/
-function () {
+var WebRuntime = /*#__PURE__*/function () {
   function WebRuntime() {
     _classCallCheck(this, WebRuntime);
 
@@ -100,7 +98,7 @@ function () {
 
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
-      stage.handleMouseEvent(type, [new TouchItem(0, x, y, 0, 0)], e);
+      stage.handleMouseEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
     }
   }, {
     key: "handleTouchEvent",
@@ -115,7 +113,7 @@ function () {
       try {
         for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var touch = _step.value;
-          touches.push(new TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+          touches.push(new TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
         }
       } catch (err) {
         _didIteratorError = true;
@@ -139,9 +137,7 @@ function () {
   return WebRuntime;
 }();
 
-export var Runtime =
-/*#__PURE__*/
-function () {
+export var Runtime = /*#__PURE__*/function () {
   function Runtime() {
     _classCallCheck(this, Runtime);
   }

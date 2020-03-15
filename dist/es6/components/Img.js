@@ -19,9 +19,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 import { Rect } from '../base/Rect';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { XObject } from './XObject';
-export var Img =
-/*#__PURE__*/
-function (_XObject) {
+export var Img = /*#__PURE__*/function (_XObject) {
   _inherits(Img, _XObject);
 
   function Img(options) {

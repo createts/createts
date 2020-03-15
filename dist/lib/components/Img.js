@@ -29,9 +29,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var Img =
-/*#__PURE__*/
-function (_XObject) {
+var Img = /*#__PURE__*/function (_XObject) {
   _inherits(Img, _XObject);
 
   function Img(options) {

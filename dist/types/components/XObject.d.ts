@@ -3,18 +3,21 @@ import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
-import { TouchItem } from '../base/TouchItem';
 import { Style } from '../style/Style';
 import { Container } from './Container';
 import { Stage } from './Stage';
+import { TouchItem } from './TouchItem';
 export declare class TouchEvent extends Event {
     stage?: Stage;
     nativeEvent: any;
-    currentTouch?: TouchItem;
-    touches: TouchItem[];
+    readonly identifier: number;
+    readonly stageX: number;
+    readonly stageY: number;
+    x: number;
+    y: number;
     currentTarget: XObject;
     readonly srcElement: XObject;
-    constructor(srcElement: XObject, type: string, bubbles?: boolean, currentTouch?: TouchItem, touches?: TouchItem[], cancelable?: boolean);
+    constructor(srcElement: XObject, type: string, bubbles?: boolean, touch?: TouchItem, cancelable?: boolean);
     toString(): string;
 }
 export interface IXObjectOptions {
@@ -25,7 +28,6 @@ export interface IXObjectOptions {
     text?: string;
 }
 export declare class XObject extends EventDispatcher<TouchEvent> {
-    eventEnabled: boolean;
     id?: string;
     style: Style;
     rect: Rect;
@@ -35,8 +37,8 @@ export declare class XObject extends EventDispatcher<TouchEvent> {
     constructor(opt?: IXObjectOptions);
     remove(): void;
     dispatchEvent(event: TouchEvent): boolean;
-    willTrigger(type: string): boolean;
     isVisible(): boolean;
+    isPointerEventsEnabled(): boolean;
     getCacheCanvas(): HTMLCanvasElement | undefined;
     isCached(): boolean;
     cache(): void;

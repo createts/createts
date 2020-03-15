@@ -16,9 +16,7 @@ var DEG_TO_RAD = Math.PI / 180;
  * 	  0  0  1  ]
  */
 
-export var Matrix2D =
-/*#__PURE__*/
-function () {
+export var Matrix2D = /*#__PURE__*/function () {
   /**
    * Position (0, 0) in a 3x3 affine transformation matrix.
    */

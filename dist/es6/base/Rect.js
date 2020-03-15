@@ -14,9 +14,7 @@ var REG_RECT = /^\s*[0-9]+\s+[0-9]+\s+[0-9]+\s+[0-9]+\s*$/;
  * ```
  */
 
-export var Rect =
-/*#__PURE__*/
-function () {
+export var Rect = /*#__PURE__*/function () {
   _createClass(Rect, null, [{
     key: "of",
 

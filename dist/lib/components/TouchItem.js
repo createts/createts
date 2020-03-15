@@ -15,9 +15,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * A TouchItem object representing an identifier to track a serial of touch events and location in
  * (x,y) coordinate space of current event.
  */
-var TouchItem =
-/*#__PURE__*/
-function () {
+var TouchItem = /*#__PURE__*/function () {
   /**
    * The identifier of this TouchItem, used to track a serial of touch events.
    */
@@ -39,13 +37,18 @@ function () {
    */
 
   /**
+   * The first pressed element of this event.
+   */
+
+  /**
    * Constructs and initializes a TouchItem at the specified identifier and (x,y) location in the
    * coordinate space.
    * @param identifier the identifier of the newly constructed TouchItem
+   * @param srcElement the source element of the newly constructed TouchItem
    * @param x the X coordinate of the newly constructed TouchItem
    * @param y the Y coordinate of the newly constructed TouchItem
    */
-  function TouchItem(identifier, stageX, stageY, x, y) {
+  function TouchItem(identifier, srcElement, stageX, stageY, x, y) {
     _classCallCheck(this, TouchItem);
 
     this.identifier = void 0;
@@ -53,7 +56,9 @@ function () {
     this.stageY = void 0;
     this.x = void 0;
     this.y = void 0;
+    this.srcElement = void 0;
     this.identifier = identifier;
+    this.srcElement = srcElement;
     this.stageX = stageX;
     this.stageY = stageY;
     this.x = x;
@@ -71,7 +76,7 @@ function () {
   _createClass(TouchItem, [{
     key: "equals",
     value: function equals(that) {
-      return this.identifier === this.identifier && this.stageX === that.stageX && this.stageY === this.stageY && this.x === that.x && this.y === this.y;
+      return this.identifier === that.identifier && this.srcElement === that.srcElement && this.stageX === that.stageX && this.stageY === that.stageY && this.x === that.x && this.y === that.y;
     }
     /**
      * Creates a new TouchItem with the same location as this object.
@@ -81,7 +86,7 @@ function () {
   }, {
     key: "clone",
     value: function clone() {
-      return new TouchItem(this.identifier, this.stageX, this.stageY, this.x, this.y);
+      return new TouchItem(this.identifier, this.srcElement, this.stageX, this.stageY, this.x, this.y);
     }
   }]);
 

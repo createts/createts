@@ -19,9 +19,7 @@ var State;
   State[State["END"] = 6] = "END";
 })(State || (State = {}));
 
-export var FunctionParser =
-/*#__PURE__*/
-function () {
+export var FunctionParser = /*#__PURE__*/function () {
   function FunctionParser() {
     _classCallCheck(this, FunctionParser);
   }

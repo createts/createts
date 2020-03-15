@@ -29,9 +29,7 @@ import { TouchEvent, XObject } from './XObject';
  * Not like a normal animation, the sprite frames are discrete, we only render the frame while goto
  * next one.
  */
-var SpriteAnimationStep =
-/*#__PURE__*/
-function (_AnimationStep) {
+var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
   _inherits(SpriteAnimationStep, _AnimationStep);
 
   /**
@@ -101,9 +99,7 @@ function (_AnimationStep) {
  */
 
 
-export var Sprite =
-/*#__PURE__*/
-function (_XObject) {
+export var Sprite = /*#__PURE__*/function (_XObject) {
   _inherits(Sprite, _XObject);
 
   /**

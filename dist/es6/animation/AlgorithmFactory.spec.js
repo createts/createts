@@ -6,9 +6,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 import { AlgorithmFactory } from './AlgorithmFactory';
 test('should register and return algorithm object', function () {
-  var MyAlgo =
-  /*#__PURE__*/
-  function () {
+  var MyAlgo = /*#__PURE__*/function () {
     function MyAlgo() {
       _classCallCheck(this, MyAlgo);
     }

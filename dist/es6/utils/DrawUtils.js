@@ -10,9 +10,7 @@ import { Overflow } from '../style/Style';
  * A class contains static draw util methods.
  */
 
-export var DrawUtils =
-/*#__PURE__*/
-function () {
+export var DrawUtils = /*#__PURE__*/function () {
   /**
    * Prevent creating instance.
    */

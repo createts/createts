@@ -53,9 +53,7 @@ export function eq(value) {
   };
 }
 
-var Mocked =
-/*#__PURE__*/
-function () {
+var Mocked = /*#__PURE__*/function () {
   function Mocked() {
     _classCallCheck(this, Mocked);
 
@@ -189,9 +187,7 @@ function () {
  */
 
 
-export var MockCanvasRenderingContext2D =
-/*#__PURE__*/
-function (_Mocked) {
+export var MockCanvasRenderingContext2D = /*#__PURE__*/function (_Mocked) {
   _inherits(MockCanvasRenderingContext2D, _Mocked);
 
   function MockCanvasRenderingContext2D() {
@@ -443,9 +439,7 @@ function (_Mocked) {
  * A mock class of HTMLCanvas for test purpose.
  */
 
-export var MockCanvas =
-/*#__PURE__*/
-function (_Mocked2) {
+export var MockCanvas = /*#__PURE__*/function (_Mocked2) {
   _inherits(MockCanvas, _Mocked2);
 
   function MockCanvas() {

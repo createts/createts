@@ -47,9 +47,7 @@ var REG_PARTS = /(^|^.*\s+)([0-9]+[a-z]+[^\s]+)($|\s+(.*)$)/;
  * This class represents a font object contains style, width, size, variant, line height and font family.
  */
 
-export var Font =
-/*#__PURE__*/
-function () {
+export var Font = /*#__PURE__*/function () {
   _createClass(Font, null, [{
     key: "of",
 

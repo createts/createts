@@ -14,9 +14,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Sprite } from './Sprite';
-export var Apng =
-/*#__PURE__*/
-function (_Sprite) {
+export var Apng = /*#__PURE__*/function (_Sprite) {
   _inherits(Apng, _Sprite);
 
   function Apng(options) {

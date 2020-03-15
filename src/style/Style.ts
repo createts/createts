@@ -46,6 +46,11 @@ export enum TextBorderPosition {
   INNER = 'inner'
 }
 
+export enum PointerEvents {
+  AUTO = 'auto',
+  NONE = 'none'
+}
+
 const REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 
 export class Style {
@@ -106,6 +111,7 @@ export class Style {
   public aspectRatio?: number;
   public filter?: string;
   public cursor?: string;
+  public pointerEvents: PointerEvents = PointerEvents.AUTO;
   // Text style
   public textBorder?: Border;
   public textBorderPosition?: TextBorderPosition = TextBorderPosition.OUTER;
@@ -385,6 +391,9 @@ export class Style {
             TextBorderPosition.OUTER
           );
           break;
+        case 'pointerEvents':
+          this.pointerEvents = EnumUtils.fromString(PointerEvents, value, PointerEvents.AUTO);
+          break;
         case 'cursor':
           this.cursor = value;
           break;
@@ -502,6 +511,7 @@ export class Style {
     cloned.aspectRatio = this.aspectRatio;
     cloned.filter = this.filter;
     cloned.cursor = this.cursor;
+    cloned.pointerEvents = this.pointerEvents;
     return cloned;
   }
 

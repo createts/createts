@@ -18,9 +18,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { Event, EventDispatcher } from './base/Event';
 import { Runtime } from './Runtime';
-export var Ticker =
-/*#__PURE__*/
-function (_EventDispatcher) {
+export var Ticker = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Ticker, _EventDispatcher);
 
   function Ticker() {

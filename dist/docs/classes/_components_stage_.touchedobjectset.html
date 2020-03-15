@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A helper class for staging to hold the touch status of its children.</p>
+						<p>A helper class for staging to hold the all touch status of this stage.</p>
 					</div>
 				</div>
 			</section>
@@ -91,7 +91,7 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="_components_stage_.touchedobjectset.html#objects" class="tsd-kind-icon">objects</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="_components_stage_.touchedobjectset.html#touchitems" class="tsd-kind-icon">touch<wbr>Items</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
@@ -110,17 +110,17 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-					<a name="objects" class="tsd-anchor"></a>
-					<h3>objects</h3>
-					<div class="tsd-signature tsd-kind-icon">objects<span class="tsd-signature-symbol">:</span> <a href="../modules/_components_stage_.html#touchedobject" class="tsd-signature-type">TouchedObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<a name="touchitems" class="tsd-anchor"></a>
+					<h3>touch<wbr>Items</h3>
+					<div class="tsd-signature tsd-kind-icon">touch<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L79">components/Stage.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L71">components/Stage.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A list of TouchedObject objects.</p>
+							<p>A list of TouchItem objects.</p>
 						</div>
 					</div>
 				</section>
@@ -131,32 +131,26 @@
 					<a name="add" class="tsd-anchor"></a>
 					<h3>add</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, touch<span class="tsd-signature-symbol">: </span><a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>touch<span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L117">components/Stage.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L107">components/Stage.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Puts a pair of XObject and TouchItem instances into current set, caller must make sure that
-										only put the new TouchItem, this method does not check whether there is an existing pair
-									contains same touch identifier.</p>
+									<p>Puts a TouchItem instances into current set, caller must make sure that only put the new
+										TouchItem, this method does not check whether there is an existing TouchItem contains same
+									touch identifier.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>object: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The XObject instance.</p>
-									</div>
-								</li>
-								<li>
-									<h5>touch: <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
+									<h5>touch: <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The TouchItem instance.</p>
 									</div>
@@ -176,7 +170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L86">components/Stage.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L78">components/Stage.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,18 +196,18 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_components_stage_.html#touchedobject" class="tsd-signature-type">TouchedObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L101">components/Stage.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L92">components/Stage.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets TouchedObject instance by a given touch identifier.</p>
+									<p>Gets TouchItem instance by a given touch identifier.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -225,9 +219,8 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_components_stage_.html#touchedobject" class="tsd-signature-type">TouchedObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
-							<p>TouchedObject object if this instance contains a TouchItem with same identifier,
-							undefined otherwise.</p>
+							<h4 class="tsd-returns-title">Returns <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>TouchItem with same identifier, undefined if not found.</p>
 						</li>
 					</ul>
 				</section>
@@ -235,13 +228,13 @@
 					<a name="gettouches" class="tsd-anchor"></a>
 					<h3>get<wbr>Touches</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Touches<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Touches<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L142">components/Stage.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L129">components/Stage.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -258,7 +251,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_base_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">[]</span></h4>
 							<p>A list of TouchItem instance attaches to this object.</p>
 						</li>
 					</ul>
@@ -273,12 +266,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/dc5cf73/src/components/Stage.ts#L128">components/Stage.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Stage.ts#L115">components/Stage.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Removes the pair with same touch identifier.</p>
+									<p>Removes the TouchItem with same touch identifier.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -286,7 +279,7 @@
 								<li>
 									<h5>identifier: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The touch identifier used to find the pair to be removed.</p>
+										<p>The touch identifier used to find the TouchItem to be removed.</p>
 									</div>
 								</li>
 							</ul>
@@ -324,7 +317,7 @@
 						<a href="_components_stage_.touchedobjectset.html" class="tsd-kind-icon">Touched<wbr>Object<wbr>Set</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_components_stage_.touchedobjectset.html#objects" class="tsd-kind-icon">objects</a>
+								<a href="_components_stage_.touchedobjectset.html#touchitems" class="tsd-kind-icon">touch<wbr>Items</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="_components_stage_.touchedobjectset.html#add" class="tsd-kind-icon">add</a>
@@ -347,9 +340,6 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_components_stage_.html#stageoptions" class="tsd-kind-icon">Stage<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_components_stage_.html#touchedobject" class="tsd-kind-icon">Touched<wbr>Object</a>
 					</li>
 				</ul>
 			</nav>

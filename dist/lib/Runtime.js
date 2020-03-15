@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Runtime = void 0;
 
-var _TouchItem = require("./base/TouchItem");
+var _TouchItem = require("./components/TouchItem");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13,9 +13,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var WebRuntime =
-/*#__PURE__*/
-function () {
+var WebRuntime = /*#__PURE__*/function () {
   function WebRuntime() {
     _classCallCheck(this, WebRuntime);
 
@@ -107,7 +105,7 @@ function () {
 
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
-      stage.handleMouseEvent(type, [new _TouchItem.TouchItem(0, x, y, 0, 0)], e);
+      stage.handleMouseEvent(type, [new _TouchItem.TouchItem(0, undefined, x, y, 0, 0)], e);
     }
   }, {
     key: "handleTouchEvent",
@@ -122,7 +120,7 @@ function () {
       try {
         for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var touch = _step.value;
-          touches.push(new _TouchItem.TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+          touches.push(new _TouchItem.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
         }
       } catch (err) {
         _didIteratorError = true;
@@ -146,9 +144,7 @@ function () {
   return WebRuntime;
 }();
 
-var Runtime =
-/*#__PURE__*/
-function () {
+var Runtime = /*#__PURE__*/function () {
   function Runtime() {
     _classCallCheck(this, Runtime);
   }

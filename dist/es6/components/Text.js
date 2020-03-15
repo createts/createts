@@ -22,9 +22,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 import { TextAlign, TextBorderPosition } from '../style/Style';
 import { XObject } from './XObject';
-export var Text =
-/*#__PURE__*/
-function (_XObject) {
+export var Text = /*#__PURE__*/function (_XObject) {
   _inherits(Text, _XObject);
 
   function Text(options) {

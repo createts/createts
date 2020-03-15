@@ -106,7 +106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var TouchItem_1 = __webpack_require__(/*! ./base/TouchItem */ "./src/base/TouchItem.ts");
+var TouchItem_1 = __webpack_require__(/*! ./components/TouchItem */ "./src/components/TouchItem.ts");
 var WebRuntime = (function () {
     function WebRuntime() {
     }
@@ -177,7 +177,7 @@ var WebRuntime = (function () {
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var x = e.offsetX * scaleX;
         var y = e.offsetY * scaleY;
-        stage.handleMouseEvent(type, [new TouchItem_1.TouchItem(0, x, y, 0, 0)], e);
+        stage.handleMouseEvent(type, [new TouchItem_1.TouchItem(0, undefined, x, y, 0, 0)], e);
     };
     WebRuntime.prototype.handleTouchEvent = function (type, stage, e) {
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
@@ -185,7 +185,7 @@ var WebRuntime = (function () {
         var touches = [];
         for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
             var touch = _a[_i];
-            touches.push(new TouchItem_1.TouchItem(touch.identifier, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
         }
         stage.handleMouseEvent(type, touches, e);
     };
@@ -2091,41 +2091,6 @@ exports.RoundRect = RoundRect;
 
 /***/ }),
 
-/***/ "./src/base/TouchItem.ts":
-/*!*******************************!*\
-  !*** ./src/base/TouchItem.ts ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var TouchItem = (function () {
-    function TouchItem(identifier, stageX, stageY, x, y) {
-        this.identifier = identifier;
-        this.stageX = stageX;
-        this.stageY = stageY;
-        this.x = x;
-        this.y = y;
-    }
-    TouchItem.prototype.equals = function (that) {
-        return (this.identifier === this.identifier &&
-            this.stageX === that.stageX &&
-            this.stageY === this.stageY &&
-            this.x === that.x &&
-            this.y === this.y);
-    };
-    TouchItem.prototype.clone = function () {
-        return new TouchItem(this.identifier, this.stageX, this.stageY, this.x, this.y);
-    };
-    return TouchItem;
-}());
-exports.TouchItem = TouchItem;
-
-
-/***/ }),
-
 /***/ "./src/components/Apng.ts":
 /*!********************************!*\
   !*** ./src/components/Apng.ts ***!
@@ -2456,7 +2421,7 @@ var Container = (function (_super) {
         var children = this.children;
         for (var i = children.length - 1; i >= 0; i--) {
             var child = children[i];
-            if (!child.isVisible() || (eventEnabled && !child.eventEnabled)) {
+            if (!child.isVisible() || (eventEnabled && !child.isPointerEventsEnabled())) {
                 continue;
             }
             var pt = this.localToLocal(x, y, child);
@@ -2772,46 +2737,43 @@ var StageUpdatePolicy;
 })(StageUpdatePolicy = exports.StageUpdatePolicy || (exports.StageUpdatePolicy = {}));
 var TouchedObjectSet = (function () {
     function TouchedObjectSet() {
-        this.objects = [];
+        this.touchItems = [];
     }
     TouchedObjectSet.prototype.contains = function (identifier) {
-        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.touchItems; _i < _a.length; _i++) {
             var item = _a[_i];
-            if (item.touch.identifier === identifier) {
+            if (item.identifier === identifier) {
                 return true;
             }
         }
         return false;
     };
     TouchedObjectSet.prototype.get = function (identifier) {
-        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.touchItems; _i < _a.length; _i++) {
             var item = _a[_i];
-            if (item.touch.identifier === identifier) {
+            if (item.identifier === identifier) {
                 return item;
             }
         }
         return undefined;
     };
-    TouchedObjectSet.prototype.add = function (object, touch) {
-        this.objects.push({
-            object: object,
-            touch: touch
-        });
+    TouchedObjectSet.prototype.add = function (touch) {
+        this.touchItems.push(touch);
     };
     TouchedObjectSet.prototype.remove = function (identifier) {
-        for (var i = 0; i < this.objects.length; ++i) {
-            if (this.objects[i].touch.identifier === identifier) {
-                this.objects.splice(i, 1);
+        for (var i = 0; i < this.touchItems.length; ++i) {
+            if (this.touchItems[i].identifier === identifier) {
+                this.touchItems.splice(i, 1);
                 return;
             }
         }
     };
     TouchedObjectSet.prototype.getTouches = function (object) {
         var result = [];
-        for (var _i = 0, _a = this.objects; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.touchItems; _i < _a.length; _i++) {
             var item = _a[_i];
-            if (item.object === object) {
-                result.push(item.touch);
+            if (item.srcElement === object || item.srcElement.isChildOf(object)) {
+                result.push(item);
             }
         }
         return result;
@@ -2875,6 +2837,21 @@ var Stage = (function (_super) {
     Stage.prototype.enableEvents = function () {
         Runtime_1.Runtime.get().enableEvents(this);
     };
+    Stage.prototype.getPressedTouchItems = function (child) {
+        if (!child)
+            child = this;
+        var touches = this.touchedChildren.getTouches(child);
+        var result = [];
+        for (var _i = 0, touches_1 = touches; _i < touches_1.length; _i++) {
+            var touch = touches_1[_i];
+            var cloned = touch.clone();
+            var pt = this.localToLocal(touch.stageX, touch.stageY, child);
+            cloned.x = pt.x;
+            cloned.y = pt.y;
+            result.push(cloned);
+        }
+        return result;
+    };
     Stage.prototype.handleMouseEvent = function (type, touches, e) {
         if (!this.isVisible()) {
             return;
@@ -2929,30 +2906,28 @@ var Stage = (function (_super) {
         if (override === void 0) { override = true; }
         return this.animationFactory.create(element, override);
     };
+    Stage.prototype.stopAnimation = function (element) {
+        this.animationFactory.removeByTarget(element);
+    };
     Stage.prototype.toString = function () {
         return "[Stage (id=" + this.id + ")]";
     };
-    Stage.prototype.dispatchTouchEvent = function (element, type, bubble, currentTouch, e) {
-        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, this.touchedChildren.getTouches(element), true);
-        event.stage = this;
-        event.nativeEvent = e;
-        element.dispatchEvent(event);
-    };
-    Stage.prototype.dispatchNonCancellableTouchEvent = function (element, type, bubble, currentTouch, e) {
-        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, this.touchedChildren.getTouches(element), false);
+    Stage.prototype.dispatchTouchEvent = function (element, type, currentTouch, bubble, cancellable, e) {
+        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, cancellable);
         event.stage = this;
         event.nativeEvent = e;
         element.dispatchEvent(event);
     };
     Stage.prototype.onTouchMove = function (touches, e) {
         var movedTouches = [];
-        for (var _i = 0, touches_1 = touches; _i < touches_1.length; _i++) {
-            var touch = touches_1[_i];
+        for (var _i = 0, touches_2 = touches; _i < touches_2.length; _i++) {
+            var touch = touches_2[_i];
             var item = this.touchedChildren.get(touch.identifier);
             if (item) {
-                if (item.touch.stageX !== touch.stageX || item.touch.stageY !== touch.stageY) {
-                    item.touch = touch;
-                    movedTouches.push(touch);
+                if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
+                    item.stageX = touch.stageX;
+                    item.stageY = touch.stageY;
+                    movedTouches.push(item);
                 }
             }
             else {
@@ -2964,91 +2939,94 @@ var Stage = (function (_super) {
             var pt = this.globalToLocal(touch.stageX, touch.stageY);
             var element = this.getObjectUnderPoint(pt.x, pt.y, true);
             if (element) {
-                this.dispatchTouchEvent(element, 'move', true, touch, e);
+                this.dispatchTouchEvent(element, 'move', touch, true, true, e);
             }
             var touchedItem = this.touchedChildren.get(touch.identifier);
             if (touchedItem) {
-                this.dispatchTouchEvent(touchedItem.object, 'pressmove', true, touchedItem.touch, e);
+                this.dispatchTouchEvent(touchedItem.srcElement, 'pressmove', touch, true, true, e);
             }
-            var hovedItem = this.hoverChildren.get(touch.identifier);
-            if (hovedItem && element) {
-                if (hovedItem.object !== element) {
+            var hoveredItem = this.hoverChildren.get(touch.identifier);
+            if (hoveredItem && element) {
+                if (hoveredItem.srcElement !== element) {
                     var enterElement = element;
-                    var leaveElement = hovedItem.object;
-                    hovedItem.object = element;
-                    hovedItem.touch = touch;
+                    var leaveElement = hoveredItem.srcElement;
+                    hoveredItem.srcElement = element;
+                    hoveredItem.stageX = touch.stageX;
+                    hoveredItem.stageY = touch.stageY;
                     while (leaveElement) {
                         if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
                             break;
                         }
-                        this.dispatchTouchEvent(leaveElement, 'leave', false, touch, e);
+                        this.dispatchTouchEvent(leaveElement, 'leave', hoveredItem, false, true, e);
                         leaveElement = leaveElement.parent;
                     }
                     while (enterElement && enterElement !== leaveElement) {
-                        this.dispatchTouchEvent(enterElement, 'enter', false, touch, e);
+                        this.dispatchTouchEvent(enterElement, 'enter', hoveredItem, false, true, e);
                         enterElement = enterElement.parent;
                     }
                 }
             }
             else if (element) {
-                this.hoverChildren.add(element, touch);
-                this.dispatchNonCancellableTouchEvent(element, 'enter', true, touch, e);
+                touch.srcElement = element;
+                this.hoverChildren.add(touch);
+                this.dispatchTouchEvent(element, 'enter', touch, true, false, e);
             }
-            else if (hovedItem) {
+            else if (hoveredItem) {
                 this.hoverChildren.remove(touch.identifier);
-                this.dispatchNonCancellableTouchEvent(hovedItem.object, 'leave', true, touch, e);
+                this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);
             }
         }
     };
     Stage.prototype.handleTouchStartEvent = function (touches, e) {
         var newTouches = new TouchedObjectSet();
-        for (var _i = 0, touches_2 = touches; _i < touches_2.length; _i++) {
-            var touch = touches_2[_i];
+        for (var _i = 0, touches_3 = touches; _i < touches_3.length; _i++) {
+            var touch = touches_3[_i];
             if (!this.touchedChildren.contains(touch.identifier)) {
                 var element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
                 if (element) {
-                    newTouches.add(element, touch);
-                    this.touchedChildren.add(element, touch);
+                    touch.srcElement = element;
+                    newTouches.add(touch);
+                    this.touchedChildren.add(touch);
                 }
             }
         }
-        for (var _a = 0, _b = newTouches.objects; _a < _b.length; _a++) {
+        for (var _a = 0, _b = newTouches.touchItems; _a < _b.length; _a++) {
             var item = _b[_a];
-            this.dispatchTouchEvent(item.object, 'touchdown', true, item.touch, e);
+            this.dispatchTouchEvent(item.srcElement, 'touchdown', item, true, true, e);
         }
         this.onTouchMove(touches, e);
     };
     Stage.prototype.handleTouchEndEvent = function (touches, e) {
         this.onTouchMove(touches, e);
         var endedTouches = new TouchedObjectSet();
-        for (var _i = 0, _a = this.touchedChildren.objects; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.touchedChildren.touchItems; _i < _a.length; _i++) {
             var item = _a[_i];
             var exists = false;
-            for (var _b = 0, touches_3 = touches; _b < touches_3.length; _b++) {
-                var touch = touches_3[_b];
-                if (touch.identifier === item.touch.identifier) {
+            for (var _b = 0, touches_4 = touches; _b < touches_4.length; _b++) {
+                var touch = touches_4[_b];
+                if (touch.identifier === item.identifier) {
                     exists = true;
                     break;
                 }
             }
             if (!exists) {
-                endedTouches.add(item.object, item.touch);
+                endedTouches.add(item);
             }
         }
-        for (var _c = 0, _d = endedTouches.objects; _c < _d.length; _c++) {
+        for (var _c = 0, _d = endedTouches.touchItems; _c < _d.length; _c++) {
             var item = _d[_c];
-            this.touchedChildren.remove(item.touch.identifier);
-            this.hoverChildren.remove(item.touch.identifier);
+            this.touchedChildren.remove(item.identifier);
+            this.hoverChildren.remove(item.identifier);
         }
-        for (var _e = 0, _f = endedTouches.objects; _e < _f.length; _e++) {
+        for (var _e = 0, _f = endedTouches.touchItems; _e < _f.length; _e++) {
             var item = _f[_e];
-            var element = this.getObjectUnderPoint(item.touch.stageX, item.touch.stageY, true);
+            var element = this.getObjectUnderPoint(item.stageX, item.stageY, true);
             if (element) {
-                this.dispatchTouchEvent(element, 'touchup', true, item.touch, e);
+                this.dispatchTouchEvent(element, 'touchup', item, true, true, e);
             }
-            this.dispatchTouchEvent(item.object, 'pressup', true, item.touch, e);
-            if (element === item.object || item.object.isChildOf(element)) {
-                this.dispatchTouchEvent(element, 'click', true, item.touch, e);
+            this.dispatchTouchEvent(item.srcElement, 'pressup', item, true, true, e);
+            if (element === item.srcElement || item.srcElement.isChildOf(element)) {
+                this.dispatchTouchEvent(element, 'click', item, true, true, e);
             }
         }
     };
@@ -3181,6 +3159,43 @@ exports.Text = Text;
 
 /***/ }),
 
+/***/ "./src/components/TouchItem.ts":
+/*!*************************************!*\
+  !*** ./src/components/TouchItem.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TouchItem = (function () {
+    function TouchItem(identifier, srcElement, stageX, stageY, x, y) {
+        this.identifier = identifier;
+        this.srcElement = srcElement;
+        this.stageX = stageX;
+        this.stageY = stageY;
+        this.x = x;
+        this.y = y;
+    }
+    TouchItem.prototype.equals = function (that) {
+        return (this.identifier === that.identifier &&
+            this.srcElement === that.srcElement &&
+            this.stageX === that.stageX &&
+            this.stageY === that.stageY &&
+            this.x === that.x &&
+            this.y === that.y);
+    };
+    TouchItem.prototype.clone = function () {
+        return new TouchItem(this.identifier, this.srcElement, this.stageX, this.stageY, this.x, this.y);
+    };
+    return TouchItem;
+}());
+exports.TouchItem = TouchItem;
+
+
+/***/ }),
+
 /***/ "./src/components/XObject.ts":
 /*!***********************************!*\
   !*** ./src/components/XObject.ts ***!
@@ -3213,17 +3228,20 @@ var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/Dra
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
 var TouchEvent = (function (_super) {
     __extends(TouchEvent, _super);
-    function TouchEvent(srcElement, type, bubbles, currentTouch, touches, cancelable) {
+    function TouchEvent(srcElement, type, bubbles, touch, cancelable) {
         if (bubbles === void 0) { bubbles = true; }
-        if (touches === void 0) { touches = []; }
         if (cancelable === void 0) { cancelable = true; }
         var _this = _super.call(this, type, bubbles, cancelable) || this;
         _this.nativeEvent = null;
-        _this.touches = [];
         _this.srcElement = srcElement;
-        _this.currentTouch = currentTouch;
+        if (touch) {
+            _this.identifier = touch.identifier;
+            _this.stageX = touch.stageX;
+            _this.stageY = touch.stageY;
+            _this.x = touch.x;
+            _this.y = touch.y;
+        }
         _this.currentTarget = srcElement;
-        _this.touches = touches;
         return _this;
     }
     TouchEvent.prototype.toString = function () {
@@ -3242,7 +3260,6 @@ var XObject = (function (_super) {
     __extends(XObject, _super);
     function XObject(opt) {
         var _this = _super.call(this) || this;
-        _this.eventEnabled = true;
         _this.id = undefined;
         _this.rect = new Rect_1.Rect(0, 0, 0, 0);
         _this.cacheState = CacheState.DISABLED;
@@ -3265,8 +3282,7 @@ var XObject = (function (_super) {
             var element = this;
             var queue = [element];
             while (element.parent) {
-                if (element.eventEnabled)
-                    queue.push(element.parent);
+                queue.push(element.parent);
                 element = element.parent;
             }
             for (var _i = 0, queue_1 = queue; _i < queue_1.length; _i++) {
@@ -3280,22 +3296,15 @@ var XObject = (function (_super) {
         }
         return !event.defaultPrevented;
     };
-    XObject.prototype.willTrigger = function (type) {
-        var o = this;
-        while (o) {
-            if (o.hasEventListener(type)) {
-                return true;
-            }
-            o = o.parent;
-        }
-        return false;
-    };
     XObject.prototype.isVisible = function () {
         return !!(this.style.visible &&
             this.style.display !== Style_1.Display.NONE &&
             this.style.alpha > 0 &&
             this.style.scaleX > 0 &&
             this.style.scaleY > 0);
+    };
+    XObject.prototype.isPointerEventsEnabled = function () {
+        return this.style.pointerEvents !== Style_1.PointerEvents.NONE;
     };
     XObject.prototype.getCacheCanvas = function () {
         return this.cacheCanvas;
@@ -3528,16 +3537,10 @@ var XObject = (function (_super) {
     XObject.prototype.doDispatchEvent = function (event) {
         event.currentTarget = this;
         if (event.stage) {
-            for (var _i = 0, _a = event.touches; _i < _a.length; _i++) {
-                var touch = _a[_i];
-                var pt = event.stage.localToLocal(touch.stageX, touch.stageY, this);
-                touch.x = pt.x;
-                touch.y = pt.y;
-            }
-            if (event.currentTouch) {
-                var pt = event.stage.localToLocal(event.currentTouch.stageX, event.currentTouch.stageY, this);
-                event.currentTouch.x = pt.x;
-                event.currentTouch.y = pt.y;
+            if (this.willTrigger(event.type)) {
+                var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
+                event.x = pt.x;
+                event.y = pt.y;
             }
         }
         _super.prototype.dispatchEvent.call(this, event);
@@ -5913,6 +5916,11 @@ var TextBorderPosition;
     TextBorderPosition["OUTER"] = "outer";
     TextBorderPosition["INNER"] = "inner";
 })(TextBorderPosition = exports.TextBorderPosition || (exports.TextBorderPosition = {}));
+var PointerEvents;
+(function (PointerEvents) {
+    PointerEvents["AUTO"] = "auto";
+    PointerEvents["NONE"] = "none";
+})(PointerEvents = exports.PointerEvents || (exports.PointerEvents = {}));
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 var Style = (function () {
     function Style() {
@@ -5933,6 +5941,7 @@ var Style = (function () {
         this.color = Color_1.Color.BLACK;
         this.textAlign = TextAlign.LEFT;
         this.overflow = Overflow.VISIBLE;
+        this.pointerEvents = PointerEvents.AUTO;
         this.textBorderPosition = TextBorderPosition.OUTER;
     }
     Style.of = function (value) {
@@ -6216,6 +6225,9 @@ var Style = (function () {
                 case 'textBorderPosition':
                     this.textBorderPosition = EnumUtils_1.EnumUtils.fromString(TextBorderPosition, value, TextBorderPosition.OUTER);
                     break;
+                case 'pointerEvents':
+                    this.pointerEvents = EnumUtils_1.EnumUtils.fromString(PointerEvents, value, PointerEvents.AUTO);
+                    break;
                 case 'cursor':
                     this.cursor = value;
                     break;
@@ -6327,6 +6339,7 @@ var Style = (function () {
         cloned.aspectRatio = this.aspectRatio;
         cloned.filter = this.filter;
         cloned.cursor = this.cursor;
+        cloned.pointerEvents = this.pointerEvents;
         return cloned;
     };
     Style.prototype.fillSnapshotForAnimation = function (target, name, to, result) {

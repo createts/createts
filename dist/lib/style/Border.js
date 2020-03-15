@@ -35,9 +35,7 @@ var BORDER_PATTERN = /^[\s]*([^\s]+)[\s]+([\w]+)[\s]+(.*)$/;
  * This class represents an immutable border object contains width, style and color.
  */
 
-var Border =
-/*#__PURE__*/
-function () {
+var Border = /*#__PURE__*/function () {
   _createClass(Border, null, [{
     key: "of",
 

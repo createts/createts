@@ -11,9 +11,7 @@ import { CSSTokenizer } from '../parser/CSSTokenizer';
  * to the element, blur and color.
  */
 
-export var Shadow =
-/*#__PURE__*/
-function () {
+export var Shadow = /*#__PURE__*/function () {
   _createClass(Shadow, null, [{
     key: "of",
 

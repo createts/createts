@@ -41,9 +41,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * }, 200);
  * ```
  */
-export var Delay =
-/*#__PURE__*/
-function () {
+export var Delay = /*#__PURE__*/function () {
   /**
    * The delay time, unit is ms.
    */

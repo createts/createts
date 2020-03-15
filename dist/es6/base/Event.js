@@ -7,16 +7,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /**
  * This class represents an event object.
  */
-export var Event =
-/*#__PURE__*/
-function () {
+export var Event = /*#__PURE__*/function () {
   /**
-   * True indicates that the default user agent action was prevented, and false indicates that it was not.
+   * True indicates that the default user agent action was prevented, and false indicates that it was
+   * not.
    */
 
   /**
-   * True indicates that the Event interface prevents further propagation of the current event in the capturing and
-   * bubbling phases, and false indicates that it was not.
+   * True indicates that the Event interface prevents further propagation of the current event in
+   * the capturing and bubbling phases, and false indicates that it was not.
    */
 
   /**
@@ -24,23 +23,24 @@ function () {
    */
 
   /**
-   * Type  of event
+   * Type of event.
    */
 
   /**
-   * The bubbles read-only property of the Event interface indicates whether the event bubbles up through its parents
-   * or not.
+   * The bubbles read-only property of the Event interface indicates whether the event bubbles up
+   * through its parents or not.
    */
 
   /**
-   * The cancelable read-only property of the Event interface indicates whether the event can be canceled, and
-   * therefore prevented as if the event never happened. If the event is not cancelable, then its cancelable property
-   * will be false and the event listener cannot stop the event from occurring.
+   * The cancelable read-only property of the Event interface indicates whether the event can be
+   * canceled, and therefore prevented as if the event never happened. If the event is not
+   * cancelable, then its cancelable property will be false and the event listener cannot stop
+   * the event from occurring.
    */
 
   /**
-   * Time stamp of eventThe timeStamp read-only property of the Event interface returns the time (in milliseconds) at
-   * which the event was created.
+   * Time stamp of eventThe timeStamp read-only property of the Event interface returns the time
+   * (in milliseconds) at which the event was created.
    */
 
   /**
@@ -68,13 +68,14 @@ function () {
     this.timeStamp = Date.now();
   }
   /**
-   * The Event interface's preventDefault() method tells the user agent that if the event does not get explicitly
-   * handled, its default action should not be taken as it normally would be. The event continues to propagate as
-   * usual, unless one of its event listeners calls stopPropagation() or stopImmediatePropagation(), either of which
-   * terminates propagation at once.
+   * The Event interface's preventDefault() method tells the user agent that if the event does not
+   * get explicitly handled, its default action should not be taken as it normally would be. The
+   * event continues to propagate as usual, unless one of its event listeners calls
+   * stopPropagation() or stopImmediatePropagation(), either of which terminates propagation at
+   * once.
    *
-   * As noted below, calling preventDefault() for a non-cancelable event, such as one dispatched via
-   * EventTarget.dispatchEvent(), without specifying cancelable: true has no effect.
+   * As noted below, calling preventDefault() for a non-cancelable event, such as one dispatched
+   * via EventTarget.dispatchEvent(), without specifying cancelable: true has no effect.
    */
 
 
@@ -84,8 +85,8 @@ function () {
       this.defaultPrevented = this.cancelable && true;
     }
     /**
-     * Stops propagationThe stopPropagation() method of the Event interface prevents further propagation of the current
-     * event in the capturing and bubbling phases.
+     * Stops propagationThe stopPropagation() method of the Event interface prevents further
+     * propagation of the current event in the capturing and bubbling phases.
      */
 
   }, {
@@ -94,12 +95,12 @@ function () {
       this.propagationStopped = true;
     }
     /**
-     * The stopImmediatePropagation() method of the Event interface prevents other listeners of the same event from being
-     * called.
+     * The stopImmediatePropagation() method of the Event interface prevents other listeners of the
+     * same event from being called.
      *
-     * If several listeners are attached to the same element for the same event type, they are called in the order in
-     * which they were added. If stopImmediatePropagation() is invoked during one such call, no remaining listeners will
-     * be called.
+     * If several listeners are attached to the same element for the same event type, they are called
+     * in the order in which they were added. If stopImmediatePropagation() is invoked during one
+     * such call, no remaining listeners will be called.
      */
 
   }, {
@@ -109,7 +110,7 @@ function () {
     }
     /**
      * Returns a string representation of this Event object.
-     * @returns a string representation of this Event object
+     * @returns a string representation of this Event object.
      */
 
   }, {
@@ -125,9 +126,7 @@ function () {
 /**
  * This class represents an class which can dispatch specified type of event to its listeners.
  */
-export var EventDispatcher =
-/*#__PURE__*/
-function () {
+export var EventDispatcher = /*#__PURE__*/function () {
   function EventDispatcher() {
     _classCallCheck(this, EventDispatcher);
 
@@ -139,9 +138,10 @@ function () {
 
     /**
      * Adds event listener of specified type.
-     * @param type event type to listen
-     * @param listener a listener which be invoked if an event with this specified type is dispatching
-     * @returns current object itself for chain calls
+     * @param type event type to listen.
+     * @param listener a listener which be invoked if an event with this specified type is
+     * dispatching.
+     * @returns current object itself for chain calls.
      */
     value: function addEventListener(type, listener) {
       var listeners = this.listeners[type];
@@ -171,7 +171,7 @@ function () {
     }
     /**
      * Removes a event listener with specified type.
-     * @param type event type to remove
+     * @param type event type to remove.
      * @param listener a listener which te be removed.
      */
 
@@ -206,7 +206,8 @@ function () {
       this.removeEventListener(type, listener);
     }
     /**
-     * Removes all event listeners of a specified type, if the type is not specified, remove all listeners of all types.
+     * Removes all event listeners of a specified type, if the type is not specified, remove all
+     * listeners of all types.
      * @param type event type to remove, if it is not specified, remove all listeners of all types.
      */
 
