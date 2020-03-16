@@ -75,13 +75,13 @@
 						<p>The AlgorithmFactory provides a collection of easing algorithms for animation.</p>
 					</div>
 					<p>Here is an example:</p>
-					<pre><code class="language-typescript"><span class="hljs-comment">// use the registerd algorithm name.</span>
+					<pre><code class="language-typescript"><span class="hljs-comment">// use the registered algorithm name.</span>
 AnimationFactory.create(component, <span class="hljs-literal">true</span>).to({rotation:<span class="hljs-number">360</span>}, <span class="hljs-number">1000</span>), <span class="hljs-string">"quadInOut"</span>);
 <span class="hljs-comment">// use the algorithm instance.</span>
 AnimationFactory.create(component, <span class="hljs-literal">true</span>).to({rotation:<span class="hljs-number">360</span>}, <span class="hljs-number">1000</span>), <span class="hljs-keyword">new</span> BackOut(<span class="hljs-number">2</span>));</code></pre>
 					<p>Developer can also register customized algorithm, code example:</p>
 					<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAlgo</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IAlgorithm</span> {</span>
-  <span class="hljs-keyword">public</span> calclate(<span class="hljs-string">percent:</span> number): number {
+  <span class="hljs-keyword">public</span> calculate(<span class="hljs-string">percent:</span> number): number {
     <span class="hljs-keyword">return</span> percent; <span class="hljs-comment">// change it with your own algorithm.</span>
   }
 }
@@ -126,7 +126,7 @@ AnimationFactory.create(component, <span class="hljs-literal">true</span>).to({<
 					<div class="tsd-signature tsd-kind-icon">algorithms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_animation_algorithmfactory_.ialgorithm.html" class="tsd-signature-type">IAlgorithm</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/animation/AlgorithmFactory.ts#L265">animation/AlgorithmFactory.ts:265</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/animation/AlgorithmFactory.ts#L248">animation/AlgorithmFactory.ts:248</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -148,7 +148,7 @@ AnimationFactory.create(component, <span class="hljs-literal">true</span>).to({<
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/animation/AlgorithmFactory.ts#L258">animation/AlgorithmFactory.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/animation/AlgorithmFactory.ts#L241">animation/AlgorithmFactory.ts:241</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -180,7 +180,7 @@ AnimationFactory.create(component, <span class="hljs-literal">true</span>).to({<
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/animation/AlgorithmFactory.ts#L249">animation/AlgorithmFactory.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/animation/AlgorithmFactory.ts#L232">animation/AlgorithmFactory.ts:232</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

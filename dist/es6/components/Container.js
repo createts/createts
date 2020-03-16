@@ -19,21 +19,47 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 import { Display, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { TouchEvent, XObject } from './XObject';
+/**
+ * A Container is a nestable display list that allows you to work with compound objects, it can be
+ * use to build the tree structure of all the objects like DOM tree, and itself is also a XObject
+ * so that it also supports style, event handling, etc.
+ *
+ * Code example:
+ *
+ * ```typescript
+ * const container  = new Container();
+ * container.css({width:100, height:200, display:'absolute', left:50});
+ * const obj  = new XObject();
+ * container.addChild(obj);
+ * ```
+ */
+
 export var Container = /*#__PURE__*/function (_XObject) {
   _inherits(Container, _XObject);
 
-  function Container(opt) {
+  function Container() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, Container);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Container).call(this, opt));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Container)).call.apply(_getPrototypeOf2, [this].concat(args)));
     _this.children = [];
     return _this;
   }
 
   _createClass(Container, [{
     key: "findById",
+
+    /**
+     * Finds the first child of this Container object by id.
+     * @param id id to identify the child, undefined if not found.
+     */
     value: function findById(id) {
       if (this.id === id) {
         return this;
@@ -76,6 +102,11 @@ export var Container = /*#__PURE__*/function (_XObject) {
 
       return undefined;
     }
+    /**
+     * Draw content of this object and its children.
+     * @param ctx The canvas rendering context of targeted canvas.
+     */
+
   }, {
     key: "drawContent",
     value: function drawContent(ctx) {
@@ -112,6 +143,12 @@ export var Container = /*#__PURE__*/function (_XObject) {
         }
       }
     }
+    /**
+     * Append child to this container.
+     * @param child Child element to add the this container.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "addChild",
     value: function addChild(child) {
@@ -138,11 +175,17 @@ export var Container = /*#__PURE__*/function (_XObject) {
         return this;
       }
     }
+    /**
+     * Append a list of child to this container.
+     * @param children List of child element to add the this container.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "addChildren",
     value: function addChildren() {
-      for (var _len = arguments.length, children = new Array(_len), _key = 0; _key < _len; _key++) {
-        children[_key] = arguments[_key];
+      for (var _len2 = arguments.length, children = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        children[_key2] = arguments[_key2];
       }
 
       for (var _i = 0, _children = children; _i < _children.length; _i++) {
@@ -152,6 +195,13 @@ export var Container = /*#__PURE__*/function (_XObject) {
 
       return this;
     }
+    /**
+     * Append a child to this container with a specified position.
+     * @param child Child element to add the this container.
+     * @param index Position of this child to be added.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "addChildAt",
     value: function addChildAt(child, index) {
@@ -185,13 +235,20 @@ export var Container = /*#__PURE__*/function (_XObject) {
         return this;
       }
     }
+    /**
+     * Remove a child from this container, this function only checks the children directly belongs
+     * to this container, not check recursively.
+     * @param child Child to be removed, or undefined for a element is not child of this container.
+     * @returns The removed child, or undefined if this element is not a child of this container.
+     */
+
   }, {
     key: "removeChild",
     value: function removeChild(child) {
       var idx = this.children.indexOf(child);
 
       if (idx < 0) {
-        return null;
+        return undefined;
       } else {
         this.children.splice(idx, 1);
         child.parent = undefined;
@@ -199,6 +256,12 @@ export var Container = /*#__PURE__*/function (_XObject) {
         return child;
       }
     }
+    /**
+     * Remove a child from this container with a specified position.
+     * @param index Position of this child to be removed.
+     * @returns The removed child, or undefined for a incorrect position;
+     */
+
   }, {
     key: "removeChildAt",
     value: function removeChildAt(index) {
@@ -211,6 +274,11 @@ export var Container = /*#__PURE__*/function (_XObject) {
       child.dispatchEvent(new TouchEvent(child, 'removed', false));
       return child;
     }
+    /**
+     * Removes all children of this container.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "removeAllChildren",
     value: function removeAllChildren() {
@@ -220,22 +288,46 @@ export var Container = /*#__PURE__*/function (_XObject) {
 
       return this;
     }
+    /**
+     * Returns a child object by a specified position.
+     * @param index the position of returned child.
+     */
+
   }, {
     key: "getChildAt",
     value: function getChildAt(index) {
       return this.children[index];
     }
+    /**
+     * Sort the children with a comparison function.
+     * @param sortFunction The comparison function used to sort children.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "sortChildren",
     value: function sortChildren(sortFunction) {
       this.children.sort(sortFunction);
       return this;
     }
+    /**
+     * Gets the the index of the given child in current container's children list, -1 if not found.
+     * @param child The child to be found.
+     * @returns The index of the given child in current container's children list, -1 if not found.
+     */
+
   }, {
     key: "getChildIndex",
     value: function getChildIndex(child) {
       return this.children.indexOf(child);
     }
+    /**
+     * Swap the children at 2 specified positions.
+     * @param index1 first position of 2 children.
+     * @param index2 second position of 2 children.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "swapChildrenAt",
     value: function swapChildrenAt(index1, index2) {
@@ -259,34 +351,32 @@ export var Container = /*#__PURE__*/function (_XObject) {
       o2.dispatchEvent(new TouchEvent(o2, 'moved', false));
       return this;
     }
+    /**
+     * Swaps 2 specified children.
+     * @param child1 first child to swap.
+     * @param child2 second child to swap.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
   }, {
     key: "swapChildren",
     value: function swapChildren(child1, child2) {
       return this.swapChildrenAt(this.getChildIndex(child1), this.getChildIndex(child2));
     }
-  }, {
-    key: "contains",
-    value: function contains(child) {
-      while (child) {
-        if (child === this) {
-          return true;
-        }
+    /**
+     * Calculates size of current container and layout its children.
+     */
 
-        if (!child.parent) {
-          return false;
-        }
-
-        child = child.parent;
-      }
-
-      return false;
-    }
   }, {
     key: "layout",
     value: function layout() {
       this.calculateSize();
       this.layoutChildren();
     }
+    /**
+     * Layouts current container's children.
+     */
+
   }, {
     key: "layoutChildren",
     value: function layoutChildren() {
@@ -449,6 +539,14 @@ export var Container = /*#__PURE__*/function (_XObject) {
         LayoutUtils.updatePositionForAbsoluteElement(_child4, this.rect.width, this.rect.height);
       }
     }
+    /**
+     * Find a child at the specified position.
+     * @param {Number} x The x position in the container to test.
+     * @param {Number} y The y position in the container to test.
+     * @param eventEnabled Whether to ignore the child who is disabling for pointer events.
+     * @returns The child object in the specified position, undefined if there is no any child at that position.
+     */
+
   }, {
     key: "getObjectUnderPoint",
     value: function getObjectUnderPoint(x, y, eventEnabled) {
@@ -483,6 +581,11 @@ export var Container = /*#__PURE__*/function (_XObject) {
 
       return undefined;
     }
+    /**
+     * Returns a string representation of this object.
+     * @returns a string representation of this object.
+     */
+
   }, {
     key: "toString",
     value: function toString() {

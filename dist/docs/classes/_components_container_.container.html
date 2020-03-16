@@ -69,6 +69,20 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A Container is a nestable display list that allows you to work with compound objects, it can be
+							use to build the tree structure of all the objects like DOM tree, and itself is also a XObject
+						so that it also supports style, event handling, etc.</p>
+					</div>
+					<p>Code example:</p>
+					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> container  = <span class="hljs-keyword">new</span> Container();
+container.css({width:<span class="hljs-number">100</span>, height:<span class="hljs-number">200</span>, display:<span class="hljs-string">'absolute'</span>, left:<span class="hljs-number">50</span>});
+<span class="hljs-keyword">const</span> obj  = <span class="hljs-keyword">new</span> XObject();
+container.addChild(obj);</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -91,10 +105,10 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_components_container_.container.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -116,7 +130,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#cache" class="tsd-kind-icon">cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#calculatesize" class="tsd-kind-icon">calculate<wbr>Size</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_container_.container.html#contains" class="tsd-kind-icon">contains</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#css" class="tsd-kind-icon">css</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_components_container_.container.html#dispatchevent" class="tsd-kind-icon">dispatch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_container_.container.html#draw" class="tsd-kind-icon">draw</a></li>
@@ -172,26 +185,36 @@
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Container<span class="tsd-signature-symbol">(</span>opt<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-signature-type">IXObjectOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_container_.container.html" class="tsd-signature-type">Container</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="_components_xobject_.xobject.html">XObject</a>.<a href="_components_xobject_.xobject.html#constructor">constructor</a></p>
+								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L6">components/Container.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L157">components/XObject.ts:157</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a XObject instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-signature-type">IXObjectOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The options to create this object.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
@@ -207,9 +230,14 @@
 					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L6">components/Container.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L23">components/Container.ts:23</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of children elements.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="id" class="tsd-anchor"></a>
@@ -218,7 +246,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L132">components/XObject.ts:132</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L132">components/XObject.ts:132</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,7 +262,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L146">components/XObject.ts:146</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L146">components/XObject.ts:146</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +278,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#rect">rect</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L142">components/XObject.ts:142</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L142">components/XObject.ts:142</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -268,7 +296,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#style">style</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L136">components/XObject.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L136">components/XObject.ts:136</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -290,16 +318,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L44">components/Container.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L69">components/Container.ts:69</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Append child to this container.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Child element to add the this container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -313,19 +350,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L73">components/Container.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L109">components/Container.ts:109</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Append a child to this container with a specified position.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Child element to add the this container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Position of this child to be added.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -339,16 +388,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L66">components/Container.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L96">components/Container.ts:96</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Append a list of child to this container.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>children: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>List of child element to add the this container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -363,7 +421,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -403,7 +461,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#cache">cache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L252">components/XObject.ts:252</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L252">components/XObject.ts:252</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -426,7 +484,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#calculatesize">calculateSize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L433">components/XObject.ts:433</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L433">components/XObject.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,29 +493,6 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="contains" class="tsd-anchor"></a>
-					<h3>contains</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">contains<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L165">components/Container.ts:165</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>child: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -472,7 +507,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#css">css</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L445">components/XObject.ts:445</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L445">components/XObject.ts:445</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,7 +546,7 @@
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#dispatchevent">dispatchEvent</a></p>
 								<p>Overrides <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -544,7 +579,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L282">components/XObject.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L282">components/XObject.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -582,7 +617,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#drawbackground">drawBackground</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L309">components/XObject.ts:309</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L309">components/XObject.ts:309</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -626,13 +661,21 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_xobject_.xobject.html">XObject</a>.<a href="_components_xobject_.xobject.html#drawcontent">drawContent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L31">components/Container.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L51">components/Container.ts:51</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draw content of this object and its children.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of targeted canvas.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -649,13 +692,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L12">components/Container.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L29">components/Container.ts:29</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the first child of this Container object by id.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>id to identify the child, undefined if not found.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
@@ -673,7 +724,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getcachecanvas">getCacheCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L236">components/XObject.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L236">components/XObject.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -696,13 +747,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L129">components/Container.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L184">components/Container.ts:184</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a child object by a specified position.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the position of returned child.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h4>
@@ -719,16 +778,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L138">components/Container.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L203">components/Container.ts:203</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the the index of the given child in current container&#39;s children list, -1 if not found.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The child to be found.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The index of the given child in current container&#39;s children list, -1 if not found.</p>
 						</li>
 					</ul>
 				</section>
@@ -743,7 +811,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getconcatenatedmatrix">getConcatenatedMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L403">components/XObject.ts:403</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L403">components/XObject.ts:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -783,7 +851,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getcontentheight">getContentHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L554">components/XObject.ts:554</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L554">components/XObject.ts:554</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -807,7 +875,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getcontentrect">getContentRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L568">components/XObject.ts:568</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L568">components/XObject.ts:568</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -831,7 +899,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getcontentwidth">getContentWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L540">components/XObject.ts:540</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L540">components/XObject.ts:540</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -855,7 +923,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getheight">getHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L484">components/XObject.ts:484</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L484">components/XObject.ts:484</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -879,7 +947,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getlineheight">getLineHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L454">components/XObject.ts:454</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L454">components/XObject.ts:454</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -903,7 +971,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getmatrix">getMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L378">components/XObject.ts:378</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L378">components/XObject.ts:378</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -936,22 +1004,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L278">components/Container.ts:278</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L355">components/Container.ts:355</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find a child at the specified position.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The x position in the container to test.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The y position in the container to test.</p>
+									</div>
 								</li>
 								<li>
 									<h5>eventEnabled: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Whether to ignore the child who is disabling for pointer events.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>The child object in the specified position, undefined if there is no any child at that position.</p>
 						</li>
 					</ul>
 				</section>
@@ -966,7 +1049,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getouterheight">getOuterHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L622">components/XObject.ts:622</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L622">components/XObject.ts:622</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -990,7 +1073,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getouterwidth">getOuterWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L609">components/XObject.ts:609</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L609">components/XObject.ts:609</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1014,7 +1097,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getpaddingheight">getPaddingHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L504">components/XObject.ts:504</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L504">components/XObject.ts:504</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1038,7 +1121,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getpaddingrect">getPaddingRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L516">components/XObject.ts:516</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L516">components/XObject.ts:516</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1062,7 +1145,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getpaddingwidth">getPaddingWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L492">components/XObject.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L492">components/XObject.ts:492</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1086,7 +1169,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#getwidth">getWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L476">components/XObject.ts:476</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L476">components/XObject.ts:476</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1110,7 +1193,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#globaltolocal">globalToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L352">components/XObject.ts:352</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L352">components/XObject.ts:352</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1150,7 +1233,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L190">base/Event.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L190">base/Event.ts:190</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1183,7 +1266,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#hittest">hitTest</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L419">components/XObject.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L419">components/XObject.ts:419</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1222,7 +1305,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#invalidatecache">invalidateCache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L269">components/XObject.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L269">components/XObject.ts:269</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1245,7 +1328,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#iscached">isCached</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L245">components/XObject.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L245">components/XObject.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1270,7 +1353,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#ischildof">isChildOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L636">components/XObject.ts:636</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L636">components/XObject.ts:636</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1303,7 +1386,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#ispointereventsenabled">isPointerEventsEnabled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L228">components/XObject.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L228">components/XObject.ts:228</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1327,7 +1410,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#isvisible">isVisible</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L214">components/XObject.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L214">components/XObject.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1351,9 +1434,14 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#layout">layout</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L178">components/Container.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L245">components/Container.ts:245</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates size of current container and layout its children.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1368,9 +1456,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L183">components/Container.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L253">components/Container.ts:253</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Layouts current container&#39;s children.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1386,7 +1479,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#localtoglobal">localToGlobal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L341">components/XObject.ts:341</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L341">components/XObject.ts:341</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1426,7 +1519,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#localtolocal">localToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L367">components/XObject.ts:367</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L367">components/XObject.ts:367</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1473,7 +1566,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L168">base/Event.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L168">base/Event.ts:168</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1505,7 +1598,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L139">base/Event.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L139">base/Event.ts:139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1537,7 +1630,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#remove">remove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L174">components/XObject.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L174">components/XObject.ts:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1559,10 +1652,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L122">components/Container.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L173">components/Container.ts:173</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Removes all children of this container.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -1577,7 +1676,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L177">base/Event.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L177">base/Event.ts:177</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1603,22 +1702,32 @@
 					<a name="removechild" class="tsd-anchor"></a>
 					<h3>remove<wbr>Child</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Child<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Child<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L100">components/Container.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L142">components/Container.ts:142</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a child from this container, this function only checks the children directly belongs
+									to this container, not check recursively.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Child to be removed, or undefined for a element is not child of this container.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>The removed child, or undefined if this element is not a child of this container.</p>
 						</li>
 					</ul>
 				</section>
@@ -1632,16 +1741,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L112">components/Container.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L159">components/Container.ts:159</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a child from this container with a specified position.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Position of this child to be removed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<p>The removed child, or undefined for a incorrect position;</p>
 						</li>
 					</ul>
 				</section>
@@ -1656,7 +1774,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L148">base/Event.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L148">base/Event.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1693,13 +1811,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L133">components/Container.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L193">components/Container.ts:193</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sort the children with a comparison function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sortFunction: <span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, b<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The comparison function used to sort children.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal">
@@ -1724,6 +1850,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -1737,19 +1864,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L161">components/Container.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L238">components/Container.ts:238</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Swaps 2 specified children.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child1: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>first child to swap.</p>
+									</div>
 								</li>
 								<li>
 									<h5>child2: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>second child to swap.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -1763,19 +1902,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L142">components/Container.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L213">components/Container.ts:213</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Swap the children at 2 specified positions.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>index1: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>first position of 2 children.</p>
+									</div>
 								</li>
 								<li>
 									<h5>index2: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>second position of 2 children.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_container_.container.html" class="tsd-signature-type">Container</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -1790,10 +1941,16 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/Container.ts#L305">components/Container.ts:305</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/Container.ts#L386">components/Container.ts:386</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a string representation of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representation of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -1808,7 +1965,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#uncache">uncache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L261">components/XObject.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L261">components/XObject.ts:261</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1831,7 +1988,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#updatecontext">updateContext</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/components/XObject.ts#L328">components/XObject.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/components/XObject.ts#L328">components/XObject.ts:328</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1864,7 +2021,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/base/Event.ts#L197">base/Event.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L197">base/Event.ts:197</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1902,7 +2059,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
 						<a href="_components_container_.container.html" class="tsd-kind-icon">Container</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_container_.container.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -1937,9 +2094,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_container_.container.html#calculatesize" class="tsd-kind-icon">calculate<wbr>Size</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_components_container_.container.html#contains" class="tsd-kind-icon">contains</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_container_.container.html#css" class="tsd-kind-icon">css</a>

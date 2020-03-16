@@ -69,19 +69,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The AlgorithmFactory provides a collection of easing functions for use with TweenJS. It does not use the standard 4 param
-						easing signature. Instead it uses a single param which indicates the current linear ratio (0 to 1) of the tween.</p>
-					</div>
-					<p>Most methods on Ease can be passed directly as easing functions:</p>
-					<pre><code> <span class="hljs-selector-tag">Tween</span><span class="hljs-selector-class">.get</span>(<span class="hljs-selector-tag">target</span>)<span class="hljs-selector-class">.to</span>({<span class="hljs-attribute">x</span>:<span class="hljs-number">100</span>}, 500, <span class="hljs-selector-tag">Ease</span><span class="hljs-selector-class">.linear</span>);</code></pre><p>However, methods beginning with &quot;get&quot; will return an easing function based on parameter values:</p>
-					<pre><code> <span class="hljs-selector-tag">Tween</span><span class="hljs-selector-class">.get</span>(<span class="hljs-selector-tag">target</span>)<span class="hljs-selector-class">.to</span>({<span class="hljs-attribute">y</span>:<span class="hljs-number">200</span>}, 500, <span class="hljs-selector-tag">Ease</span><span class="hljs-selector-class">.getPowIn</span>(2<span class="hljs-selector-class">.2</span>));</code></pre><p>Please see the <a href="http://www.createjs.com/Demos/TweenJS/Tween_SparkTable">spark table demo</a> for an
-					overview of the different ease types on <a href="http://tweenjs.com">TweenJS.com</a>.</p>
-					<p><em>Equations derived from work by Robert Penner.</em></p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -119,7 +106,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_animation_algorithmfactory_.ialgorithm.html#calclate" class="tsd-kind-icon">calclate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_animation_algorithmfactory_.ialgorithm.html#calculate" class="tsd-kind-icon">calculate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -128,16 +115,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="calclate" class="tsd-anchor"></a>
-					<h3>calclate</h3>
+					<a name="calculate" class="tsd-anchor"></a>
+					<h3>calculate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">calclate<span class="tsd-signature-symbol">(</span>percent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">calculate<span class="tsd-signature-symbol">(</span>percent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/f869a54/src/animation/AlgorithmFactory.ts#L19">animation/AlgorithmFactory.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/animation/AlgorithmFactory.ts#L2">animation/AlgorithmFactory.ts:2</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,7 +221,7 @@
 						<a href="_animation_algorithmfactory_.ialgorithm.html" class="tsd-kind-icon">IAlgorithm</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_animation_algorithmfactory_.ialgorithm.html#calclate" class="tsd-kind-icon">calclate</a>
+								<a href="_animation_algorithmfactory_.ialgorithm.html#calculate" class="tsd-kind-icon">calculate</a>
 							</li>
 						</ul>
 					</li>

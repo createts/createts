@@ -2,7 +2,7 @@ import { AlgorithmFactory, IAlgorithm } from './AlgorithmFactory';
 
 test('should register and return algorithm object', () => {
   class MyAlgo implements IAlgorithm {
-    calclate(percent: number): number {
+    calculate(percent: number): number {
       return 1;
     }
   }

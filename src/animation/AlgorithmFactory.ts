@@ -1,47 +1,30 @@
-/**
- * The AlgorithmFactory provides a collection of easing functions for use with TweenJS. It does not use the standard 4 param
- * easing signature. Instead it uses a single param which indicates the current linear ratio (0 to 1) of the tween.
- *
- * Most methods on Ease can be passed directly as easing functions:
- *
- *      Tween.get(target).to({x:100}, 500, Ease.linear);
- *
- * However, methods beginning with "get" will return an easing function based on parameter values:
- *
- *      Tween.get(target).to({y:200}, 500, Ease.getPowIn(2.2));
- *
- * Please see the <a href="http://www.createjs.com/Demos/TweenJS/Tween_SparkTable">spark table demo</a> for an
- * overview of the different ease types on <a href="http://tweenjs.com">TweenJS.com</a>.
- *
- * <em>Equations derived from work by Robert Penner.</em>
- */
 export interface IAlgorithm {
-  calclate(percent: number): number;
+  calculate(percent: number): number;
 }
 
 export class Linear implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return percent;
   }
 }
 
 export class PowIn implements IAlgorithm {
   constructor(private pow: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return Math.pow(percent, this.pow);
   }
 }
 
 export class PowOut implements IAlgorithm {
   constructor(private pow: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return 1 - Math.pow(1 - percent, this.pow);
   }
 }
 
 export class PowInOut implements IAlgorithm {
   constructor(private pow: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     percent *= 2;
     if (percent < 1) {
       return 0.5 * Math.pow(percent, this.pow);
@@ -52,40 +35,40 @@ export class PowInOut implements IAlgorithm {
 }
 
 export class SineIn implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return 1 - Math.cos((percent * Math.PI) / 2);
   }
 }
 
 export class SineOut implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return Math.sin((percent * Math.PI) / 2);
   }
 }
 
 export class SineInOut implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return -0.5 * (Math.cos(Math.PI * percent) - 1);
   }
 }
 
 export class BackIn implements IAlgorithm {
   constructor(private amount: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return percent * percent * ((this.amount + 1) * percent - this.amount);
   }
 }
 
 export class BackOut implements IAlgorithm {
   constructor(private amount: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return --percent * percent * ((this.amount + 1) * percent + this.amount) + 1;
   }
 }
 
 export class BackInOut implements IAlgorithm {
   constructor(private amount: number) {}
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     percent *= 2;
     if (percent < 1) {
       return 0.5 * (percent * percent * ((this.amount + 1) * percent - this.amount));
@@ -96,19 +79,19 @@ export class BackInOut implements IAlgorithm {
 }
 
 export class CircIn implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return -(Math.sqrt(1 - percent * percent) - 1);
   }
 }
 
 export class CircOut implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     return Math.sqrt(1 - --percent * percent);
   }
 }
 
 export class CircInOut implements IAlgorithm {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     percent *= 2;
     if (percent < 1) {
       return -0.5 * (Math.sqrt(1 - percent * percent) - 1);
@@ -119,7 +102,7 @@ export class CircInOut implements IAlgorithm {
 }
 
 class Bounce {
-  public calclateOut(percent: number): number {
+  public calculateOut(percent: number): number {
     if (percent < 1 / 2.75) {
       return 7.5625 * percent * percent;
     } else if (percent < 2 / 2.75) {
@@ -133,23 +116,23 @@ class Bounce {
 }
 
 export class BounceOut extends Bounce implements IAlgorithm {
-  public calclate(percent: number): number {
-    return super.calclateOut(percent);
+  public calculate(percent: number): number {
+    return super.calculateOut(percent);
   }
 }
 
 export class BounceIn extends Bounce {
-  public calclate(percent: number): number {
-    return 1 - super.calclateOut(1 - percent);
+  public calculate(percent: number): number {
+    return 1 - super.calculateOut(1 - percent);
   }
 }
 
 export class BounceInOut extends BounceIn {
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     if (percent < 0.5) {
-      return super.calclate(percent * 2) * 0.5;
+      return super.calculate(percent * 2) * 0.5;
     } else {
-      return super.calclateOut(percent * 2 - 1) * 0.5 + 0.5;
+      return super.calculateOut(percent * 2 - 1) * 0.5 + 0.5;
     }
   }
 }
@@ -161,7 +144,7 @@ export class ElasticIn implements IAlgorithm {
   constructor(private amplitude: number, private period: number) {
     this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
   }
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     if (percent === 0 || percent === 1) {
       return percent;
     }
@@ -178,7 +161,7 @@ export class ElasticOut implements IAlgorithm {
   constructor(private amplitude: number, private period: number) {
     this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
   }
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     if (percent === 0 || percent === 1) {
       return percent;
     }
@@ -196,7 +179,7 @@ export class ElasticInOut implements IAlgorithm {
   constructor(private amplitude: number, private period: number) {
     this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
   }
-  public calclate(percent: number): number {
+  public calculate(percent: number): number {
     percent *= 2;
     if (percent < 1) {
       return (
@@ -223,7 +206,7 @@ export class ElasticInOut implements IAlgorithm {
  * Here is an example:
  *
  * ```typescript
- * // use the registerd algorithm name.
+ * // use the registered algorithm name.
  * AnimationFactory.create(component, true).to({rotation:360}, 1000), "quadInOut");
  * // use the algorithm instance.
  * AnimationFactory.create(component, true).to({rotation:360}, 1000), new BackOut(2));
@@ -232,7 +215,7 @@ export class ElasticInOut implements IAlgorithm {
  * Developer can also register customized algorithm, code example:
  * ```
  * class MyAlgo implements IAlgorithm {
- *   public calclate(percent: number): number {
+ *   public calculate(percent: number): number {
  *     return percent; // change it with your own algorithm.
  *   }
  * }

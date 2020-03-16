@@ -444,8 +444,8 @@ export var Stage = /*#__PURE__*/function (_Container) {
      */
 
   }, {
-    key: "handleMouseEvent",
-    value: function handleMouseEvent(type, touches, e) {
+    key: "handleMouseOrTouchEvent",
+    value: function handleMouseOrTouchEvent(type, touches, e) {
       if (!this.isVisible()) {
         return;
       }
@@ -457,6 +457,7 @@ export var Stage = /*#__PURE__*/function (_Container) {
           break;
 
         case 'mouseup':
+          this.onTouchMove(touches, e);
           this.handleTouchEndEvent([], e);
           break;
 
@@ -671,9 +672,11 @@ export var Stage = /*#__PURE__*/function (_Container) {
             }
           }
         } else if (element) {
-          _touch.srcElement = element;
-          this.hoverChildren.add(_touch);
-          this.dispatchTouchEvent(element, 'enter', _touch, true, false, e);
+          var newMove = _touch.clone();
+
+          newMove.srcElement = element;
+          this.hoverChildren.add(newMove);
+          this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
         } else if (hoveredItem) {
           this.hoverChildren.remove(_touch.identifier);
           this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);

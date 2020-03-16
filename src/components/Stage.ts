@@ -312,7 +312,7 @@ export class Stage extends Container {
    * contains mouse location and the identifier is always 0.
    * @param e The native event object.
    */
-  public handleMouseEvent(type: string, touches: TouchItem[], e: any) {
+  public handleMouseOrTouchEvent(type: string, touches: TouchItem[], e: any) {
     if (!this.isVisible()) {
       return;
     }
@@ -322,6 +322,7 @@ export class Stage extends Container {
         this.handleTouchStartEvent(touches, e);
         break;
       case 'mouseup':
+        this.onTouchMove(touches, e);
         this.handleTouchEndEvent([], e);
         break;
       case 'touchend':
@@ -489,9 +490,10 @@ export class Stage extends Container {
           }
         }
       } else if (element) {
-        touch.srcElement = element;
-        this.hoverChildren.add(touch);
-        this.dispatchTouchEvent(element, 'enter', touch, true, false, e);
+        const newMove = touch.clone();
+        newMove.srcElement = element;
+        this.hoverChildren.add(newMove);
+        this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
       } else if (hoveredItem) {
         this.hoverChildren.remove(touch.identifier);
         this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);

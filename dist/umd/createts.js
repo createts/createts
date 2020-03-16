@@ -177,7 +177,7 @@ var WebRuntime = (function () {
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var x = e.offsetX * scaleX;
         var y = e.offsetY * scaleY;
-        stage.handleMouseEvent(type, [new TouchItem_1.TouchItem(0, undefined, x, y, 0, 0)], e);
+        stage.handleMouseOrTouchEvent(type, [new TouchItem_1.TouchItem(0, undefined, x, y, 0, 0)], e);
     };
     WebRuntime.prototype.handleTouchEvent = function (type, stage, e) {
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
@@ -187,7 +187,7 @@ var WebRuntime = (function () {
             var touch = _a[_i];
             touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
         }
-        stage.handleMouseEvent(type, touches, e);
+        stage.handleMouseOrTouchEvent(type, touches, e);
     };
     return WebRuntime;
 }());
@@ -301,7 +301,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Linear = (function () {
     function Linear() {
     }
-    Linear.prototype.calclate = function (percent) {
+    Linear.prototype.calculate = function (percent) {
         return percent;
     };
     return Linear;
@@ -311,7 +311,7 @@ var PowIn = (function () {
     function PowIn(pow) {
         this.pow = pow;
     }
-    PowIn.prototype.calclate = function (percent) {
+    PowIn.prototype.calculate = function (percent) {
         return Math.pow(percent, this.pow);
     };
     return PowIn;
@@ -321,7 +321,7 @@ var PowOut = (function () {
     function PowOut(pow) {
         this.pow = pow;
     }
-    PowOut.prototype.calclate = function (percent) {
+    PowOut.prototype.calculate = function (percent) {
         return 1 - Math.pow(1 - percent, this.pow);
     };
     return PowOut;
@@ -331,7 +331,7 @@ var PowInOut = (function () {
     function PowInOut(pow) {
         this.pow = pow;
     }
-    PowInOut.prototype.calclate = function (percent) {
+    PowInOut.prototype.calculate = function (percent) {
         percent *= 2;
         if (percent < 1) {
             return 0.5 * Math.pow(percent, this.pow);
@@ -346,7 +346,7 @@ exports.PowInOut = PowInOut;
 var SineIn = (function () {
     function SineIn() {
     }
-    SineIn.prototype.calclate = function (percent) {
+    SineIn.prototype.calculate = function (percent) {
         return 1 - Math.cos((percent * Math.PI) / 2);
     };
     return SineIn;
@@ -355,7 +355,7 @@ exports.SineIn = SineIn;
 var SineOut = (function () {
     function SineOut() {
     }
-    SineOut.prototype.calclate = function (percent) {
+    SineOut.prototype.calculate = function (percent) {
         return Math.sin((percent * Math.PI) / 2);
     };
     return SineOut;
@@ -364,7 +364,7 @@ exports.SineOut = SineOut;
 var SineInOut = (function () {
     function SineInOut() {
     }
-    SineInOut.prototype.calclate = function (percent) {
+    SineInOut.prototype.calculate = function (percent) {
         return -0.5 * (Math.cos(Math.PI * percent) - 1);
     };
     return SineInOut;
@@ -374,7 +374,7 @@ var BackIn = (function () {
     function BackIn(amount) {
         this.amount = amount;
     }
-    BackIn.prototype.calclate = function (percent) {
+    BackIn.prototype.calculate = function (percent) {
         return percent * percent * ((this.amount + 1) * percent - this.amount);
     };
     return BackIn;
@@ -384,7 +384,7 @@ var BackOut = (function () {
     function BackOut(amount) {
         this.amount = amount;
     }
-    BackOut.prototype.calclate = function (percent) {
+    BackOut.prototype.calculate = function (percent) {
         return --percent * percent * ((this.amount + 1) * percent + this.amount) + 1;
     };
     return BackOut;
@@ -394,7 +394,7 @@ var BackInOut = (function () {
     function BackInOut(amount) {
         this.amount = amount;
     }
-    BackInOut.prototype.calclate = function (percent) {
+    BackInOut.prototype.calculate = function (percent) {
         percent *= 2;
         if (percent < 1) {
             return 0.5 * (percent * percent * ((this.amount + 1) * percent - this.amount));
@@ -409,7 +409,7 @@ exports.BackInOut = BackInOut;
 var CircIn = (function () {
     function CircIn() {
     }
-    CircIn.prototype.calclate = function (percent) {
+    CircIn.prototype.calculate = function (percent) {
         return -(Math.sqrt(1 - percent * percent) - 1);
     };
     return CircIn;
@@ -418,7 +418,7 @@ exports.CircIn = CircIn;
 var CircOut = (function () {
     function CircOut() {
     }
-    CircOut.prototype.calclate = function (percent) {
+    CircOut.prototype.calculate = function (percent) {
         return Math.sqrt(1 - --percent * percent);
     };
     return CircOut;
@@ -427,7 +427,7 @@ exports.CircOut = CircOut;
 var CircInOut = (function () {
     function CircInOut() {
     }
-    CircInOut.prototype.calclate = function (percent) {
+    CircInOut.prototype.calculate = function (percent) {
         percent *= 2;
         if (percent < 1) {
             return -0.5 * (Math.sqrt(1 - percent * percent) - 1);
@@ -442,7 +442,7 @@ exports.CircInOut = CircInOut;
 var Bounce = (function () {
     function Bounce() {
     }
-    Bounce.prototype.calclateOut = function (percent) {
+    Bounce.prototype.calculateOut = function (percent) {
         if (percent < 1 / 2.75) {
             return 7.5625 * percent * percent;
         }
@@ -463,8 +463,8 @@ var BounceOut = (function (_super) {
     function BounceOut() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    BounceOut.prototype.calclate = function (percent) {
-        return _super.prototype.calclateOut.call(this, percent);
+    BounceOut.prototype.calculate = function (percent) {
+        return _super.prototype.calculateOut.call(this, percent);
     };
     return BounceOut;
 }(Bounce));
@@ -474,8 +474,8 @@ var BounceIn = (function (_super) {
     function BounceIn() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    BounceIn.prototype.calclate = function (percent) {
-        return 1 - _super.prototype.calclateOut.call(this, 1 - percent);
+    BounceIn.prototype.calculate = function (percent) {
+        return 1 - _super.prototype.calculateOut.call(this, 1 - percent);
     };
     return BounceIn;
 }(Bounce));
@@ -485,12 +485,12 @@ var BounceInOut = (function (_super) {
     function BounceInOut() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    BounceInOut.prototype.calclate = function (percent) {
+    BounceInOut.prototype.calculate = function (percent) {
         if (percent < 0.5) {
-            return _super.prototype.calclate.call(this, percent * 2) * 0.5;
+            return _super.prototype.calculate.call(this, percent * 2) * 0.5;
         }
         else {
-            return _super.prototype.calclateOut.call(this, percent * 2 - 1) * 0.5 + 0.5;
+            return _super.prototype.calculateOut.call(this, percent * 2 - 1) * 0.5 + 0.5;
         }
     };
     return BounceInOut;
@@ -503,7 +503,7 @@ var ElasticIn = (function () {
         this.period = period;
         this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
     }
-    ElasticIn.prototype.calclate = function (percent) {
+    ElasticIn.prototype.calculate = function (percent) {
         if (percent === 0 || percent === 1) {
             return percent;
         }
@@ -520,7 +520,7 @@ var ElasticOut = (function () {
         this.period = period;
         this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
     }
-    ElasticOut.prototype.calclate = function (percent) {
+    ElasticOut.prototype.calculate = function (percent) {
         if (percent === 0 || percent === 1) {
             return percent;
         }
@@ -538,7 +538,7 @@ var ElasticInOut = (function () {
         this.period = period;
         this.s = (this.period / PI2) * Math.asin(1 / this.amplitude);
     }
-    ElasticInOut.prototype.calclate = function (percent) {
+    ElasticInOut.prototype.calculate = function (percent) {
         percent *= 2;
         if (percent < 1) {
             return (-0.5 *
@@ -688,7 +688,7 @@ var StyleStep = (function (_super) {
         if (typeof algorithm === 'string') {
             var algo = AlgorithmFactory_1.AlgorithmFactory.get(algorithm);
             if (!algo) {
-                throw new Error('unknow algorithm:' + algorithm);
+                throw new Error('unknown algorithm:' + algorithm);
             }
             _this.algorithm = algo;
         }
@@ -713,7 +713,7 @@ var StyleStep = (function (_super) {
                         var from = attr.from;
                         var to = attr.to;
                         this.target.style[name_1] =
-                            from + (to - from) * this.algorithm.calclate(percent);
+                            from + (to - from) * this.algorithm.calculate(percent);
                     }
                     break;
                 case AnimationValueType.BASEVALUE:
@@ -721,14 +721,14 @@ var StyleStep = (function (_super) {
                         var from = attr.from;
                         var to = attr.to;
                         this.target.style[name_1] = new BaseValue_1.BaseValue(from.numberValue +
-                            (to.numberValue - from.numberValue) * this.algorithm.calclate(percent), to.unit);
+                            (to.numberValue - from.numberValue) * this.algorithm.calculate(percent), to.unit);
                     }
                     break;
                 case AnimationValueType.COLOR:
                     {
                         var from = attr.from;
                         var to = attr.to;
-                        var v = this.algorithm.calclate(percent);
+                        var v = this.algorithm.calculate(percent);
                         var color = new Color_1.Color(from.r + (to.r - from.r) * v, from.g + (to.g - from.g) * v, from.b + (to.b - from.b) * v, from.a + (to.a - from.a) * v);
                         if (name_1 === 'backgroundColor') {
                             if (!this.target.style.background) {
@@ -745,7 +745,7 @@ var StyleStep = (function (_super) {
                     {
                         var from = attr.from;
                         var to = attr.to;
-                        var v = this.algorithm.calclate(percent);
+                        var v = this.algorithm.calculate(percent);
                         this.target.style[name_1] = new Border_1.Border(from.width + (to.width - from.width) * v, from.style, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
                     }
                     break;
@@ -753,7 +753,7 @@ var StyleStep = (function (_super) {
                     {
                         var from = attr.from;
                         var to = attr.to;
-                        var v = this.algorithm.calclate(percent);
+                        var v = this.algorithm.calculate(percent);
                         this.target.style[name_1] = new Shadow_1.Shadow(from.offsetX + (to.offsetX - from.offsetX) * v, from.offsetY + (to.offsetY - from.offsetY) * v, from.blur + (to.blur - from.blur) * v, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
                     }
                     break;
@@ -2164,8 +2164,8 @@ var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var Container = (function (_super) {
     __extends(Container, _super);
-    function Container(opt) {
-        var _this = _super.call(this, opt) || this;
+    function Container() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.children = [];
         return _this;
     }
@@ -2264,7 +2264,7 @@ var Container = (function (_super) {
     Container.prototype.removeChild = function (child) {
         var idx = this.children.indexOf(child);
         if (idx < 0) {
-            return null;
+            return undefined;
         }
         else {
             this.children.splice(idx, 1);
@@ -2318,18 +2318,6 @@ var Container = (function (_super) {
     };
     Container.prototype.swapChildren = function (child1, child2) {
         return this.swapChildrenAt(this.getChildIndex(child1), this.getChildIndex(child2));
-    };
-    Container.prototype.contains = function (child) {
-        while (child) {
-            if (child === this) {
-                return true;
-            }
-            if (!child.parent) {
-                return false;
-            }
-            child = child.parent;
-        }
-        return false;
     };
     Container.prototype.layout = function () {
         this.calculateSize();
@@ -2852,7 +2840,7 @@ var Stage = (function (_super) {
         }
         return result;
     };
-    Stage.prototype.handleMouseEvent = function (type, touches, e) {
+    Stage.prototype.handleMouseOrTouchEvent = function (type, touches, e) {
         if (!this.isVisible()) {
             return;
         }
@@ -2862,6 +2850,7 @@ var Stage = (function (_super) {
                 this.handleTouchStartEvent(touches, e);
                 break;
             case 'mouseup':
+                this.onTouchMove(touches, e);
                 this.handleTouchEndEvent([], e);
                 break;
             case 'touchend':
@@ -2967,9 +2956,10 @@ var Stage = (function (_super) {
                 }
             }
             else if (element) {
-                touch.srcElement = element;
-                this.hoverChildren.add(touch);
-                this.dispatchTouchEvent(element, 'enter', touch, true, false, e);
+                var newMove = touch.clone();
+                newMove.srcElement = element;
+                this.hoverChildren.add(newMove);
+                this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
             }
             else if (hoveredItem) {
                 this.hoverChildren.remove(touch.identifier);

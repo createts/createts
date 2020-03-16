@@ -88,7 +88,7 @@ class StyleStep extends AnimationStep {
     if (typeof algorithm === 'string') {
       const algo = AlgorithmFactory.get(algorithm);
       if (!algo) {
-        throw new Error('unknow algorithm:' + algorithm);
+        throw new Error('unknown algorithm:' + algorithm);
       }
       this.algorithm = algo;
     } else {
@@ -113,7 +113,7 @@ class StyleStep extends AnimationStep {
             const from = attr.from as number;
             const to = attr.to as number;
             (this.target.style as any)[name] =
-              from + (to - from) * this.algorithm.calclate(percent);
+              from + (to - from) * this.algorithm.calculate(percent);
           }
           break;
         case AnimationValueType.BASEVALUE:
@@ -122,7 +122,7 @@ class StyleStep extends AnimationStep {
             const to = attr.to as BaseValue;
             (this.target.style as any)[name] = new BaseValue(
               from.numberValue +
-                (to.numberValue - from.numberValue) * this.algorithm.calclate(percent),
+                (to.numberValue - from.numberValue) * this.algorithm.calculate(percent),
               to.unit
             );
           }
@@ -131,7 +131,7 @@ class StyleStep extends AnimationStep {
           {
             const from = attr.from as Color;
             const to = attr.to as Color;
-            const v = this.algorithm.calclate(percent);
+            const v = this.algorithm.calculate(percent);
             const color = new Color(
               from.r + (to.r - from.r) * v,
               from.g + (to.g - from.g) * v,
@@ -152,7 +152,7 @@ class StyleStep extends AnimationStep {
           {
             const from = attr.from as Border;
             const to = attr.to as Border;
-            const v = this.algorithm.calclate(percent);
+            const v = this.algorithm.calculate(percent);
             (this.target.style as any)[name] = new Border(
               from.width + (to.width - from.width) * v,
               from.style,
@@ -169,7 +169,7 @@ class StyleStep extends AnimationStep {
           {
             const from = attr.from as Shadow;
             const to = attr.to as Shadow;
-            const v = this.algorithm.calclate(percent);
+            const v = this.algorithm.calculate(percent);
             (this.target.style as any)[name] = new Shadow(
               from.offsetX + (to.offsetX - from.offsetX) * v,
               from.offsetY + (to.offsetY - from.offsetY) * v,

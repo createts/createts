@@ -98,7 +98,7 @@ var WebRuntime = /*#__PURE__*/function () {
 
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
-      stage.handleMouseEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
+      stage.handleMouseOrTouchEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
     }
   }, {
     key: "handleTouchEvent",
@@ -130,7 +130,7 @@ var WebRuntime = /*#__PURE__*/function () {
         }
       }
 
-      stage.handleMouseEvent(type, touches, e);
+      stage.handleMouseOrTouchEvent(type, touches, e);
     }
   }]);
 

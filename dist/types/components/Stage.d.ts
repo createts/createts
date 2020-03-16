@@ -38,7 +38,7 @@ export declare class Stage extends Container {
     start(): void;
     enableEvents(): void;
     getPressedTouchItems(child?: XObject): TouchItem[];
-    handleMouseEvent(type: string, touches: TouchItem[], e: any): void;
+    handleMouseOrTouchEvent(type: string, touches: TouchItem[], e: any): void;
     update(): void;
     calculateSize(): void;
     animate(element: XObject, override?: boolean): Animation;

@@ -2,13 +2,30 @@ import { Display, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { IXObjectOptions, TouchEvent, XObject } from './XObject';
 
+/**
+ * A Container is a nestable display list that allows you to work with compound objects, it can be
+ * use to build the tree structure of all the objects like DOM tree, and itself is also a XObject
+ * so that it also supports style, event handling, etc.
+ *
+ * Code example:
+ *
+ * ```typescript
+ * const container  = new Container();
+ * container.css({width:100, height:200, display:'absolute', left:50});
+ * const obj  = new XObject();
+ * container.addChild(obj);
+ * ```
+ */
 export class Container extends XObject {
+  /**
+   * A list of children elements.
+   */
   public readonly children: XObject[] = [];
 
-  constructor(opt?: IXObjectOptions) {
-    super(opt);
-  }
-
+  /**
+   * Finds the first child of this Container object by id.
+   * @param id id to identify the child, undefined if not found.
+   */
   public findById(id: string): XObject | undefined {
     if (this.id === id) {
       return this;
@@ -24,10 +41,13 @@ export class Container extends XObject {
         }
       }
     }
-
     return undefined;
   }
 
+  /**
+   * Draw content of this object and its children.
+   * @param ctx The canvas rendering context of targeted canvas.
+   */
   public drawContent(ctx: CanvasRenderingContext2D) {
     const list = this.children.slice();
     for (const child of list) {
@@ -41,6 +61,11 @@ export class Container extends XObject {
     }
   }
 
+  /**
+   * Append child to this container.
+   * @param child Child element to add the this container.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public addChild(child: XObject): Container {
     const parent = child.parent;
     if (parent === this) {
@@ -63,6 +88,11 @@ export class Container extends XObject {
     }
   }
 
+  /**
+   * Append a list of child to this container.
+   * @param children List of child element to add the this container.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public addChildren(...children: XObject[]): Container {
     for (const child of children) {
       this.addChild(child);
@@ -70,6 +100,12 @@ export class Container extends XObject {
     return this;
   }
 
+  /**
+   * Append a child to this container with a specified position.
+   * @param child Child element to add the this container.
+   * @param index Position of this child to be added.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public addChildAt(child: XObject, index: number): Container {
     const parent = child.parent;
     if (parent === this) {
@@ -97,10 +133,16 @@ export class Container extends XObject {
     }
   }
 
-  public removeChild(child: XObject): XObject | null {
+  /**
+   * Remove a child from this container, this function only checks the children directly belongs
+   * to this container, not check recursively.
+   * @param child Child to be removed, or undefined for a element is not child of this container.
+   * @returns The removed child, or undefined if this element is not a child of this container.
+   */
+  public removeChild(child: XObject): XObject | undefined {
     const idx = this.children.indexOf(child);
     if (idx < 0) {
-      return null;
+      return undefined;
     } else {
       this.children.splice(idx, 1);
       child.parent = undefined;
@@ -109,6 +151,11 @@ export class Container extends XObject {
     }
   }
 
+  /**
+   * Remove a child from this container with a specified position.
+   * @param index Position of this child to be removed.
+   * @returns The removed child, or undefined for a incorrect position;
+   */
   public removeChildAt(index: number): XObject | null {
     if (index < 0 || index >= this.children.length) {
       return null;
@@ -119,6 +166,10 @@ export class Container extends XObject {
     return child;
   }
 
+  /**
+   * Removes all children of this container.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public removeAllChildren(): Container {
     while (this.children.length > 0) {
       this.removeChildAt(0);
@@ -126,19 +177,39 @@ export class Container extends XObject {
     return this;
   }
 
+  /**
+   * Returns a child object by a specified position.
+   * @param index the position of returned child.
+   */
   public getChildAt(index: number): XObject {
     return this.children[index];
   }
 
+  /**
+   * Sort the children with a comparison function.
+   * @param sortFunction The comparison function used to sort children.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public sortChildren(sortFunction: (a: XObject, b: XObject) => number): Container {
     this.children.sort(sortFunction);
     return this;
   }
 
+  /**
+   * Gets the the index of the given child in current container's children list, -1 if not found.
+   * @param child The child to be found.
+   * @returns The index of the given child in current container's children list, -1 if not found.
+   */
   public getChildIndex(child: XObject): number {
     return this.children.indexOf(child);
   }
 
+  /**
+   * Swap the children at 2 specified positions.
+   * @param index1 first position of 2 children.
+   * @param index2 second position of 2 children.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public swapChildrenAt(index1: number, index2: number): Container {
     if (index1 < 0 || index1 >= this.children.length) {
       throw new Error('invalid index:' + index1);
@@ -158,28 +229,27 @@ export class Container extends XObject {
     return this;
   }
 
+  /**
+   * Swaps 2 specified children.
+   * @param child1 first child to swap.
+   * @param child2 second child to swap.
+   * @returns The current instance. Useful for chaining method calls.
+   */
   public swapChildren(child1: XObject, child2: XObject): Container {
     return this.swapChildrenAt(this.getChildIndex(child1), this.getChildIndex(child2));
   }
 
-  public contains(child: XObject): boolean {
-    while (child) {
-      if (child === this) {
-        return true;
-      }
-      if (!child.parent) {
-        return false;
-      }
-      child = child.parent;
-    }
-    return false;
-  }
-
+  /**
+   * Calculates size of current container and layout its children.
+   */
   public layout() {
     this.calculateSize();
     this.layoutChildren();
   }
 
+  /**
+   * Layouts current container's children.
+   */
   public layoutChildren() {
     // Step1, calculate size
     this.calculateSize();
@@ -275,6 +345,13 @@ export class Container extends XObject {
     }
   }
 
+  /**
+   * Find a child at the specified position.
+   * @param {Number} x The x position in the container to test.
+   * @param {Number} y The y position in the container to test.
+   * @param eventEnabled Whether to ignore the child who is disabling for pointer events.
+   * @returns The child object in the specified position, undefined if there is no any child at that position.
+   */
   public getObjectUnderPoint(x: number, y: number, eventEnabled: boolean): XObject | undefined {
     const children = this.children;
     for (let i = children.length - 1; i >= 0; i--) {
@@ -302,6 +379,10 @@ export class Container extends XObject {
     return undefined;
   }
 
+  /**
+   * Returns a string representation of this object.
+   * @returns a string representation of this object.
+   */
   toString() {
     return `[Container (id=${this.id})]`;
   }

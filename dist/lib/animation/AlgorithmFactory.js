@@ -27,31 +27,14 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/**
- * The AlgorithmFactory provides a collection of easing functions for use with TweenJS. It does not use the standard 4 param
- * easing signature. Instead it uses a single param which indicates the current linear ratio (0 to 1) of the tween.
- *
- * Most methods on Ease can be passed directly as easing functions:
- *
- *      Tween.get(target).to({x:100}, 500, Ease.linear);
- *
- * However, methods beginning with "get" will return an easing function based on parameter values:
- *
- *      Tween.get(target).to({y:200}, 500, Ease.getPowIn(2.2));
- *
- * Please see the <a href="http://www.createjs.com/Demos/TweenJS/Tween_SparkTable">spark table demo</a> for an
- * overview of the different ease types on <a href="http://tweenjs.com">TweenJS.com</a>.
- *
- * <em>Equations derived from work by Robert Penner.</em>
- */
 var Linear = /*#__PURE__*/function () {
   function Linear() {
     _classCallCheck(this, Linear);
   }
 
   _createClass(Linear, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return percent;
     }
   }]);
@@ -69,8 +52,8 @@ var PowIn = /*#__PURE__*/function () {
   }
 
   _createClass(PowIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return Math.pow(percent, this.pow);
     }
   }]);
@@ -88,8 +71,8 @@ var PowOut = /*#__PURE__*/function () {
   }
 
   _createClass(PowOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return 1 - Math.pow(1 - percent, this.pow);
     }
   }]);
@@ -107,8 +90,8 @@ var PowInOut = /*#__PURE__*/function () {
   }
 
   _createClass(PowInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       percent *= 2;
 
       if (percent < 1) {
@@ -130,8 +113,8 @@ var SineIn = /*#__PURE__*/function () {
   }
 
   _createClass(SineIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return 1 - Math.cos(percent * Math.PI / 2);
     }
   }]);
@@ -147,8 +130,8 @@ var SineOut = /*#__PURE__*/function () {
   }
 
   _createClass(SineOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return Math.sin(percent * Math.PI / 2);
     }
   }]);
@@ -164,8 +147,8 @@ var SineInOut = /*#__PURE__*/function () {
   }
 
   _createClass(SineInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return -0.5 * (Math.cos(Math.PI * percent) - 1);
     }
   }]);
@@ -183,8 +166,8 @@ var BackIn = /*#__PURE__*/function () {
   }
 
   _createClass(BackIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return percent * percent * ((this.amount + 1) * percent - this.amount);
     }
   }]);
@@ -202,8 +185,8 @@ var BackOut = /*#__PURE__*/function () {
   }
 
   _createClass(BackOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return --percent * percent * ((this.amount + 1) * percent + this.amount) + 1;
     }
   }]);
@@ -221,8 +204,8 @@ var BackInOut = /*#__PURE__*/function () {
   }
 
   _createClass(BackInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       percent *= 2;
 
       if (percent < 1) {
@@ -244,8 +227,8 @@ var CircIn = /*#__PURE__*/function () {
   }
 
   _createClass(CircIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return -(Math.sqrt(1 - percent * percent) - 1);
     }
   }]);
@@ -261,8 +244,8 @@ var CircOut = /*#__PURE__*/function () {
   }
 
   _createClass(CircOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       return Math.sqrt(1 - --percent * percent);
     }
   }]);
@@ -278,8 +261,8 @@ var CircInOut = /*#__PURE__*/function () {
   }
 
   _createClass(CircInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       percent *= 2;
 
       if (percent < 1) {
@@ -301,8 +284,8 @@ var Bounce = /*#__PURE__*/function () {
   }
 
   _createClass(Bounce, [{
-    key: "calclateOut",
-    value: function calclateOut(percent) {
+    key: "calculateOut",
+    value: function calculateOut(percent) {
       if (percent < 1 / 2.75) {
         return 7.5625 * percent * percent;
       } else if (percent < 2 / 2.75) {
@@ -328,9 +311,9 @@ var BounceOut = /*#__PURE__*/function (_Bounce) {
   }
 
   _createClass(BounceOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
-      return _get(_getPrototypeOf(BounceOut.prototype), "calclateOut", this).call(this, percent);
+    key: "calculate",
+    value: function calculate(percent) {
+      return _get(_getPrototypeOf(BounceOut.prototype), "calculateOut", this).call(this, percent);
     }
   }]);
 
@@ -349,9 +332,9 @@ var BounceIn = /*#__PURE__*/function (_Bounce2) {
   }
 
   _createClass(BounceIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
-      return 1 - _get(_getPrototypeOf(BounceIn.prototype), "calclateOut", this).call(this, 1 - percent);
+    key: "calculate",
+    value: function calculate(percent) {
+      return 1 - _get(_getPrototypeOf(BounceIn.prototype), "calculateOut", this).call(this, 1 - percent);
     }
   }]);
 
@@ -370,12 +353,12 @@ var BounceInOut = /*#__PURE__*/function (_BounceIn) {
   }
 
   _createClass(BounceInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       if (percent < 0.5) {
-        return _get(_getPrototypeOf(BounceInOut.prototype), "calclate", this).call(this, percent * 2) * 0.5;
+        return _get(_getPrototypeOf(BounceInOut.prototype), "calculate", this).call(this, percent * 2) * 0.5;
       } else {
-        return _get(_getPrototypeOf(BounceInOut.prototype), "calclateOut", this).call(this, percent * 2 - 1) * 0.5 + 0.5;
+        return _get(_getPrototypeOf(BounceInOut.prototype), "calculateOut", this).call(this, percent * 2 - 1) * 0.5 + 0.5;
       }
     }
   }]);
@@ -397,8 +380,8 @@ var ElasticIn = /*#__PURE__*/function () {
   }
 
   _createClass(ElasticIn, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       if (percent === 0 || percent === 1) {
         return percent;
       }
@@ -423,8 +406,8 @@ var ElasticOut = /*#__PURE__*/function () {
   }
 
   _createClass(ElasticOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       if (percent === 0 || percent === 1) {
         return percent;
       }
@@ -449,8 +432,8 @@ var ElasticInOut = /*#__PURE__*/function () {
   }
 
   _createClass(ElasticInOut, [{
-    key: "calclate",
-    value: function calclate(percent) {
+    key: "calculate",
+    value: function calculate(percent) {
       percent *= 2;
 
       if (percent < 1) {
@@ -469,7 +452,7 @@ var ElasticInOut = /*#__PURE__*/function () {
  * Here is an example:
  *
  * ```typescript
- * // use the registerd algorithm name.
+ * // use the registered algorithm name.
  * AnimationFactory.create(component, true).to({rotation:360}, 1000), "quadInOut");
  * // use the algorithm instance.
  * AnimationFactory.create(component, true).to({rotation:360}, 1000), new BackOut(2));
@@ -478,7 +461,7 @@ var ElasticInOut = /*#__PURE__*/function () {
  * Developer can also register customized algorithm, code example:
  * ```
  * class MyAlgo implements IAlgorithm {
- *   public calclate(percent: number): number {
+ *   public calculate(percent: number): number {
  *     return percent; // change it with your own algorithm.
  *   }
  * }

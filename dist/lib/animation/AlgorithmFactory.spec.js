@@ -15,8 +15,8 @@ test('should register and return algorithm object', function () {
     }
 
     _createClass(MyAlgo, [{
-      key: "calclate",
-      value: function calclate(percent) {
+      key: "calculate",
+      value: function calculate(percent) {
         return 1;
       }
     }]);

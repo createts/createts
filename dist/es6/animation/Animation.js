@@ -126,7 +126,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
       var algo = AlgorithmFactory.get(algorithm);
 
       if (!algo) {
-        throw new Error('unknow algorithm:' + algorithm);
+        throw new Error('unknown algorithm:' + algorithm);
       }
 
       _this2.algorithm = algo;
@@ -158,7 +158,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
             {
               var from = attr.from;
               var to = attr.to;
-              this.target.style[name] = from + (to - from) * this.algorithm.calclate(percent);
+              this.target.style[name] = from + (to - from) * this.algorithm.calculate(percent);
             }
             break;
 
@@ -166,7 +166,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
             {
               var _from = attr.from;
               var _to = attr.to;
-              this.target.style[name] = new BaseValue(_from.numberValue + (_to.numberValue - _from.numberValue) * this.algorithm.calclate(percent), _to.unit);
+              this.target.style[name] = new BaseValue(_from.numberValue + (_to.numberValue - _from.numberValue) * this.algorithm.calculate(percent), _to.unit);
             }
             break;
 
@@ -174,7 +174,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
             {
               var _from2 = attr.from;
               var _to2 = attr.to;
-              var v = this.algorithm.calclate(percent);
+              var v = this.algorithm.calculate(percent);
               var color = new Color(_from2.r + (_to2.r - _from2.r) * v, _from2.g + (_to2.g - _from2.g) * v, _from2.b + (_to2.b - _from2.b) * v, _from2.a + (_to2.a - _from2.a) * v);
 
               if (name === 'backgroundColor') {
@@ -194,7 +194,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
               var _from3 = attr.from;
               var _to3 = attr.to;
 
-              var _v = this.algorithm.calclate(percent);
+              var _v = this.algorithm.calculate(percent);
 
               this.target.style[name] = new Border(_from3.width + (_to3.width - _from3.width) * _v, _from3.style, new Color(_from3.color.r + (_to3.color.r - _from3.color.r) * _v, _from3.color.g + (_to3.color.g - _from3.color.g) * _v, _from3.color.b + (_to3.color.b - _from3.color.b) * _v, _from3.color.a + (_to3.color.a - _from3.color.a) * _v));
             }
@@ -205,7 +205,7 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
               var _from4 = attr.from;
               var _to4 = attr.to;
 
-              var _v2 = this.algorithm.calclate(percent);
+              var _v2 = this.algorithm.calculate(percent);
 
               this.target.style[name] = new Shadow(_from4.offsetX + (_to4.offsetX - _from4.offsetX) * _v2, _from4.offsetY + (_to4.offsetY - _from4.offsetY) * _v2, _from4.blur + (_to4.blur - _from4.blur) * _v2, new Color(_from4.color.r + (_to4.color.r - _from4.color.r) * _v2, _from4.color.g + (_to4.color.g - _from4.color.g) * _v2, _from4.color.b + (_to4.color.b - _from4.color.b) * _v2, _from4.color.a + (_to4.color.a - _from4.color.a) * _v2));
             }

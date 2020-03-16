@@ -87,7 +87,7 @@ class WebRuntime implements IRuntime {
     // Translate to multiple touch event
     const x = e.offsetX * scaleX;
     const y = e.offsetY * scaleY;
-    stage.handleMouseEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
+    stage.handleMouseOrTouchEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
   }
 
   private handleTouchEvent(type: string, stage: Stage, e: any) {
@@ -106,7 +106,7 @@ class WebRuntime implements IRuntime {
         )
       );
     }
-    stage.handleMouseEvent(type, touches, e);
+    stage.handleMouseOrTouchEvent(type, touches, e);
   }
 }
 
