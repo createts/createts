@@ -114,21 +114,27 @@ export class EventDispatcher<T extends Event> {
 
   /**
    * Adds event listener of specified type.
-   * @param type event type to listen.
+   * @param type event type to listen, it can be one type or a list of type.
    * @param listener a listener which be invoked if an event with this specified type is
    * dispatching.
    * @returns current object itself for chain calls.
    */
-  public addEventListener(type: string, listener: IEventListener<T>): EventDispatcher<T> {
-    let listeners = this.listeners[type];
-    if (listeners) {
-      this.removeEventListener(type, listener);
-    }
-    listeners = this.listeners[type]; // 'removeEventListener' may have deleted the array
-    if (!listeners) {
-      this.listeners[type] = [listener];
-    } else {
-      listeners.push(listener);
+  public addEventListener(
+    type: string | string[],
+    listener: IEventListener<T>
+  ): EventDispatcher<T> {
+    const types = typeof type === 'string' ? [type] : type;
+    for (const t of types) {
+      let listeners = this.listeners[t];
+      if (listeners) {
+        this.removeEventListener(t, listener);
+      }
+      listeners = this.listeners[t]; // 'removeEventListener' may have deleted the array
+      if (!listeners) {
+        this.listeners[t] = [listener];
+      } else {
+        listeners.push(listener);
+      }
     }
     return this;
   }
@@ -136,36 +142,44 @@ export class EventDispatcher<T extends Event> {
   /**
    * Alias of 'addEventListener' method.
    */
-  public on(type: string, listener: IEventListener<T>): EventDispatcher<T> {
+  public on(type: string | string[], listener: IEventListener<T>): EventDispatcher<T> {
     return this.addEventListener(type, listener);
   }
 
   /**
    * Removes a event listener with specified type.
-   * @param type event type to remove.
+   * @param type event type to remove, it can be one type or a list of type.
    * @param listener a listener which te be removed.
+   * @returns current object itself for chain calls.
    */
-  public removeEventListener(type: string, listener: IEventListener<T>) {
-    const arr = this.listeners[type];
-    if (!arr) {
-      return;
-    }
-    for (let i = 0, l = arr.length; i < l; i++) {
-      if (arr[i] === listener) {
-        if (l === 1) {
-          delete this.listeners[type];
-        } else {
-          arr.splice(i, 1);
+  public removeEventListener(
+    type: string | string[],
+    listener: IEventListener<T>
+  ): EventDispatcher<T> {
+    const types = typeof type === 'string' ? [type] : type;
+    for (const t of types) {
+      const arr = this.listeners[t];
+      if (!arr) {
+        return;
+      }
+      for (let i = 0, l = arr.length; i < l; i++) {
+        if (arr[i] === listener) {
+          if (l === 1) {
+            delete this.listeners[t];
+          } else {
+            arr.splice(i, 1);
+          }
+          break;
         }
-        break;
       }
     }
+    return this;
   }
 
   /**
    * Alias of 'removeEventListener' method.
    */
-  public off(type: string, listener: IEventListener<T>) {
+  public off(type: string | string[], listener: IEventListener<T>) {
     this.removeEventListener(type, listener);
   }
 

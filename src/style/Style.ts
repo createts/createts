@@ -82,8 +82,8 @@ export class Style {
   public marginLeft?: BaseValue;
   public perspectiveOriginX: BaseValue = BaseValue.of('50%');
   public perspectiveOriginY: BaseValue = BaseValue.of('50%');
-  public transformX: BaseValue = BaseValue.of('0');
-  public transformY: BaseValue = BaseValue.of('0');
+  public transformX: BaseValue = BaseValue.ZERO;
+  public transformY: BaseValue = BaseValue.ZERO;
   public alpha: number = 1;
   public rotation: number = 0;
   public scaleX: number = 1;

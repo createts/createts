@@ -27,7 +27,7 @@ export class Border {
   /**
    * Convert a string to a Border object.
    * @param value a string present border, the format is [width] [style] [color]
-   * @param [silent] if ture, ignore warning for an invalid value.
+   * @param [silent] if true, ignore warning for an invalid value.
    * @returns A border object for valid value, otherwise returns undefined.
    */
   public static of(value: string, silent = false): Border | undefined {

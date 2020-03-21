@@ -3,15 +3,21 @@ import { SpriteSheet } from '../components/Sprite';
 import { ApngParser } from '../parser/ApngParser';
 import { Loader } from './Loader';
 
+/**
+ * Resource load state.
+ */
 export enum LoadState {
   LOADING = 1,
   LOADED = 2,
   ERROR = 3
 }
 
+/**
+ * Resource types.
+ */
 export enum ResourceType {
-  IMAGE = 1,
-  APNG = 2
+  IMAGE = 'image',
+  APNG = 'apng'
 }
 
 type Resource = HTMLImageElement | SpriteSheet;
@@ -35,15 +41,20 @@ export type ResourceItem = {
   promiseHandlers: IPromiseHandler[];
 };
 
-class RegistryEvent extends Event {
-  progress: number;
-  constructor(type: string, progress: number) {
+/**
+ * This event is triggered when resource was added, loaded, or loading progress was changed.
+ */
+export class ResourceRegistryEvent extends Event {
+  progress?: number;
+  currentTarget?: ResourceItem;
+  constructor(type: string, progress?: number, currentTarget?: ResourceItem) {
     super(type);
     this.progress = progress;
+    this.currentTarget = currentTarget;
   }
 }
 
-export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
+export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   public add(url: string, type: ResourceType): Promise<Resource> {
     return new Promise<Resource>((resolve, reject) => {
       for (const item of this.items) {
@@ -157,7 +168,14 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
 
   private onProgress(item: ResourceItem) {
     item.progress = item.totalBytes > 0 ? item.loadedBytes / item.totalBytes : 0;
-    this.dispatchEvent(new RegistryEvent('progress', this.getTotalProgress()));
+    this.dispatchEvent(new ResourceRegistryEvent('progress', this.getTotalProgress()));
+    this.dispatchEvent(
+      new ResourceRegistryEvent(
+        'itemprogress',
+        item.totalBytes > 0 ? item.loadedBytes / item.totalBytes : 0,
+        item
+      )
+    );
   }
 
   private onLoad(item: ResourceItem) {
@@ -168,6 +186,7 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
       handler.resolve(item.resource);
     }
     item.promiseHandlers = [];
+    this.dispatchEvent(new ResourceRegistryEvent('load', 1, item));
     let done = true;
     for (const i of this.items) {
       if (i.state !== LoadState.LOADED) {
@@ -176,7 +195,7 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
       }
     }
     if (done) {
-      this.dispatchEvent(new RegistryEvent('done', 1));
+      this.dispatchEvent(new ResourceRegistryEvent('done', 1));
     }
   }
 
@@ -186,7 +205,7 @@ export class ResourceRegistry extends EventDispatcher<RegistryEvent> {
       handler.reject(item.error);
     }
     item.promiseHandlers = [];
-    this.dispatchEvent(new RegistryEvent('error', this.getTotalProgress()));
+    this.dispatchEvent(new ResourceRegistryEvent('error', this.getTotalProgress(), item));
   }
 
   public get(url: string): Resource | undefined {

@@ -1,7 +1,8 @@
+import { Event, EventDispatcher } from '../base/Event';
 import { XObject } from '../components/XObject';
 import { Animation, AnimationState } from './Animation';
 
-export class AnimationFactory {
+export class AnimationFactory extends EventDispatcher<Event> {
   public create(target: XObject, override?: boolean): Animation {
     if (override) {
       this.removeByTarget(target);
@@ -19,6 +20,12 @@ export class AnimationFactory {
     }
   }
 
+  public clear() {
+    for (const animation of this.animations) {
+      animation.cancel();
+    }
+  }
+
   public onInterval(): boolean {
     const size = this.animations.length;
     if (size === 0) {
@@ -30,6 +37,9 @@ export class AnimationFactory {
       if (this.animations[i].onInterval()) {
         updated = true;
       }
+    }
+    if (updated) {
+      this.dispatchEvent(new Event('update', false, true));
     }
     for (let i = this.animations.length - 1; i >= 0; --i) {
       const animation = this.animations[i];

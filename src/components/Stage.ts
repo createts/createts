@@ -276,6 +276,9 @@ export class Stage extends Container {
           this.needUpdate = false;
         }
       });
+      ResourceRegistry.DefaultInstance.addEventListener('load', e => {
+        this.updateOnce();
+      });
     }
   }
 

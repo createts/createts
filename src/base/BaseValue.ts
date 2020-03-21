@@ -11,6 +11,7 @@ export enum BaseValueUnit {
  * 1. PERCENTAGE: the percentage of parent value.
  */
 export class BaseValue {
+  public static ZERO = BaseValue.of('0');
   /**
    * Convert a string to a BaseValue object.
    * @param value if it is a string value and ends with '%', parse it as a percentage value, otherwise parse it as a absolute value.
