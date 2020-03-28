@@ -37,6 +37,8 @@ var Apng = /*#__PURE__*/function (_Sprite) {
       if (options.attributes.src) {
         _ResourceRegistry.ResourceRegistry.DefaultInstance.add(options.attributes.src, _ResourceRegistry.ResourceType.APNG).then(function (opt) {
           _this.setSpriteSheet(opt).play();
+        })["catch"](function (e) {
+          console.warn('failed to load:' + options.attributes.src, e);
         });
       }
     }

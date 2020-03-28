@@ -7,11 +7,13 @@ export class Apng extends Sprite {
     super(options);
     if (options && options.attributes) {
       if (options.attributes.src) {
-        ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.APNG).then(
-          (opt: SpriteSheet) => {
+        ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.APNG)
+          .then((opt: SpriteSheet) => {
             this.setSpriteSheet(opt).play();
-          }
-        );
+          })
+          .catch(e => {
+            console.warn('failed to load:' + options.attributes.src, e);
+          });
       }
     }
   }

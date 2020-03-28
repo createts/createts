@@ -112,7 +112,7 @@ export class ApngParser {
           break;
         case fdAT:
           if (frame) {
-            // This is an animation frame, the frist 4 byte of the data contains metadata which is not required
+            // This is an animation frame, the first 4 byte of the data contains metadata which is not required
             // for a static frame, delete it.
             frame.dataParts.push(
               this.makeChunk(IDAT, bytes.subarray(chunk.start + 12, chunk.end - 4))
@@ -177,10 +177,10 @@ export class ApngParser {
           {
             const url = URL.createObjectURL(new Blob(imageData, { type: 'image/png' }));
             const image = new Image();
+            frm.image = image;
             image.src = url;
             image.onload = () => {
               URL.revokeObjectURL(url);
-              frm.image = image;
             };
             image.onerror = e => {
               URL.revokeObjectURL(url);

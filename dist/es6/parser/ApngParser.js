@@ -54,8 +54,6 @@ export var ApngParser = /*#__PURE__*/function () {
   _createClass(ApngParser, null, [{
     key: "parse",
     value: function parse(buffer) {
-      var _this = this;
-
       var silent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var bytes = new Uint8Array(buffer); // Check signature.
 
@@ -130,7 +128,7 @@ export var ApngParser = /*#__PURE__*/function () {
 
             case fdAT:
               if (frame) {
-                // This is an animation frame, the frist 4 byte of the data contains metadata which is not required
+                // This is an animation frame, the first 4 byte of the data contains metadata which is not required
                 // for a static frame, delete it.
                 frame.dataParts.push(this.makeChunk(IDAT, bytes.subarray(chunk.start + 12, chunk.end - 4)));
               } else if (!silent) {
@@ -186,14 +184,14 @@ export var ApngParser = /*#__PURE__*/function () {
       var _iteratorError2 = undefined;
 
       try {
-        var _loop = function _loop() {
+        for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var frm = _step2.value;
           var imageData = [];
           imageData.push(PNG_SIGNATURE); // Update the static frame size.
 
           headerDataBytes.set(toDWordArray(frm.width), 0);
           headerDataBytes.set(toDWordArray(frm.height), 4);
-          imageData.push(_this.makeChunk(IHDR, headerDataBytes));
+          imageData.push(this.makeChunk(IHDR, headerDataBytes));
           var _iteratorNormalCompletion3 = true;
           var _didIteratorError3 = false;
           var _iteratorError3 = undefined;
@@ -279,28 +277,25 @@ export var ApngParser = /*#__PURE__*/function () {
 
             case RuntimeType.WEBPAGE:
               {
-                var _url = URL.createObjectURL(new Blob(imageData, {
-                  type: 'image/png'
-                }));
-
-                var image = new Image();
-                image.src = _url;
-
-                image.onload = function () {
-                  URL.revokeObjectURL(_url);
+                (function () {
+                  var url = URL.createObjectURL(new Blob(imageData, {
+                    type: 'image/png'
+                  }));
+                  var image = new Image();
                   frm.image = image;
-                };
+                  image.src = url;
 
-                image.onerror = function (e) {
-                  URL.revokeObjectURL(_url);
-                };
+                  image.onload = function () {
+                    URL.revokeObjectURL(url);
+                  };
+
+                  image.onerror = function (e) {
+                    URL.revokeObjectURL(url);
+                  };
+                })();
               }
               break;
           }
-        };
-
-        for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          _loop();
         }
       } catch (err) {
         _didIteratorError2 = true;

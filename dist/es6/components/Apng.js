@@ -28,6 +28,8 @@ export var Apng = /*#__PURE__*/function (_Sprite) {
       if (options.attributes.src) {
         ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.APNG).then(function (opt) {
           _this.setSpriteSheet(opt).play();
+        })["catch"](function (e) {
+          console.warn('failed to load:' + options.attributes.src, e);
         });
       }
     }

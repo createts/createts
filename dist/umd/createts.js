@@ -1916,8 +1916,12 @@ var Apng = (function (_super) {
         var _this = _super.call(this, options) || this;
         if (options && options.attributes) {
             if (options.attributes.src) {
-                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceRegistry_1.ResourceType.APNG).then(function (opt) {
+                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceRegistry_1.ResourceType.APNG)
+                    .then(function (opt) {
                     _this.setSpriteSheet(opt).play();
+                })
+                    .catch(function (e) {
+                    console.warn('failed to load:' + options.attributes.src, e);
                 });
             }
         }
@@ -3700,13 +3704,13 @@ var ApngParser = (function () {
                 case Runtime_1.RuntimeType.WEBPAGE:
                     {
                         var url_1 = URL.createObjectURL(new Blob(imageData, { type: 'image/png' }));
-                        var image_1 = new Image();
-                        image_1.src = url_1;
-                        image_1.onload = function () {
+                        var image = new Image();
+                        frm.image = image;
+                        image.src = url_1;
+                        image.onload = function () {
                             URL.revokeObjectURL(url_1);
-                            frm.image = image_1;
                         };
-                        image_1.onerror = function (e) {
+                        image.onerror = function (e) {
                             URL.revokeObjectURL(url_1);
                         };
                     }
