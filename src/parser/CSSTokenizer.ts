@@ -1,8 +1,3 @@
-type Func = {
-  name: string;
-  arguments: string[];
-};
-
 enum State {
   START = 0,
   VALUE = 1,

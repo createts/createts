@@ -5,57 +5,69 @@ import { XObject } from '../components/XObject';
 export declare enum BackgroundAttachment {
     SCROLL = "scroll"
 }
-export declare enum BackgroundRepeat {
+interface IBgAttribute<T> {
+    clone(): T;
+}
+interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
+    getSource(width: number, height: number): any;
+    toString(): string;
+    destroy(): void;
+}
+export declare enum BackgroundRepeatType {
     REPEAT = "repeat",
     NO_REPEAT = "no-repeat",
     SPACE = "space",
     ROUND = "round"
 }
-interface IBackgroundSource extends ICloneable<IBackgroundSource> {
-    getSource(width: number, height: number): any;
-    toString(): string;
-    destory(): void;
-}
-interface ICloneable<T> {
-    clone(): T;
-}
-declare class BackgroundRepeatPair implements ICloneable<BackgroundRepeatPair> {
-    static of(value: string): BackgroundRepeatPair | undefined;
-    static toBaseValue(value: string): BaseValue;
-    x: BackgroundRepeat;
-    y: BackgroundRepeat;
-    constructor(x: BackgroundRepeat, y: BackgroundRepeat);
-    clone(): BackgroundRepeatPair;
+declare class BackgroundRepeat implements IBgAttribute<BackgroundRepeat> {
+    static DEFAULT: BackgroundRepeat;
+    static of(tokens: string[]): BackgroundRepeat | undefined;
+    readonly x: BackgroundRepeatType;
+    readonly y: BackgroundRepeatType;
+    constructor(x: BackgroundRepeatType, y: BackgroundRepeatType);
+    clone(): BackgroundRepeat;
 }
 export declare enum BackgroundClip {
     BORDER_BOX = "border-box",
     PADDING_BOX = "padding-box",
     CONTENT_BOX = "content-box"
 }
-export declare enum BackgroundOrigin {
-    BORDER_BOX = "border-box",
-    PADDING_BOX = "padding-box",
-    CONTENT_BOX = "content-box"
-}
 export declare enum BackgroundSizeType {
-    AUTO = 0,
-    LENGTH = 1,
-    PERCENTAGE = 2,
-    COVER = 3,
-    CONTAIN = 4
+    AUTO = "auto",
+    COVER = "cover",
+    CONTAIN = "contain",
+    VALUE = "value"
 }
-declare class BackgroundSizePair implements ICloneable<BackgroundSizePair> {
-    static of(value: string): BackgroundSizePair;
-    static toBaseValue(value: string): BaseValue;
-    x: BaseValue;
-    y: BaseValue;
-    constructor(x: BaseValue, y: BaseValue);
-    clone(): BackgroundSizePair;
+declare class BackgroundSize implements IBgAttribute<BackgroundSize> {
+    static DEFAULT: BackgroundSize;
+    static of(tokens: string[]): BackgroundSize | undefined;
+    readonly xType: BackgroundSizeType;
+    readonly yType: BackgroundSizeType;
+    readonly x: BaseValue;
+    readonly y: BaseValue;
+    constructor(xType: BackgroundSizeType, x: BaseValue, yType: BackgroundSizeType, y: BaseValue);
+    clone(): BackgroundSize;
+}
+declare enum BackgroundPositionType {
+    LEFT = "left",
+    TOP = "top",
+    CENTER = "center",
+    BOTTOM = "bottom",
+    RIGHT = "right"
+}
+declare class BackgroundPosition implements IBgAttribute<BackgroundPosition> {
+    static DEFAULT: BackgroundPosition;
+    static acceptToken(token: string): boolean;
+    static of(tokens: string[]): BackgroundPosition | undefined;
+    readonly xDir: BackgroundPositionType;
+    readonly yDir: BackgroundPositionType;
+    readonly x: BaseValue;
+    readonly y: BaseValue;
+    constructor(xDir: BackgroundPositionType, x: BaseValue, yDir: BackgroundPositionType, y: BaseValue);
+    clone(): BackgroundPosition;
 }
 export declare class Background {
-    static of(value: string): Background | undefined;
-    private static trimParameter;
-    private static parseParameters;
+    static of(value: string, silent?: boolean): Background | undefined;
     private static parseImage;
     private static split;
     private static copyArray;
@@ -63,12 +75,12 @@ export declare class Background {
     private static getFromArray;
     color?: Color;
     attachment: BackgroundAttachment[];
-    image: (IBackgroundSource | undefined)[];
-    repeat: BackgroundRepeatPair[];
+    image: IBackgroundImage[];
+    repeat: BackgroundRepeat[];
     clip: BackgroundClip[];
-    origin: BackgroundOrigin[];
-    size: BackgroundSizePair[];
-    position: BackgroundSizePair[];
+    origin: BackgroundClip[];
+    size: BackgroundSize[];
+    position: BackgroundPosition[];
     blendMode: string[];
     setColor(value: string | Color): void;
     setAttachment(value: string): void;

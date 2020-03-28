@@ -3,6 +3,7 @@ export declare enum BaseValueUnit {
     PERCENTAGE = 2
 }
 export declare class BaseValue {
+    static ZERO: BaseValue;
     static of(value: string | number, silent?: boolean): BaseValue | undefined;
     readonly numberValue: number;
     readonly unit: BaseValueUnit;

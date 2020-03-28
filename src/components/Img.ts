@@ -4,6 +4,7 @@ import { IXObjectOptions, XObject } from './XObject';
 
 export class Img extends XObject {
   private src?: string;
+  private image?: HTMLImageElement;
   private sourceRect?: Rect;
 
   constructor(options?: IXObjectOptions) {
@@ -24,16 +25,24 @@ export class Img extends XObject {
     return this;
   }
 
+  public setImage(image: HTMLImageElement): Img {
+    this.image = image;
+    return this;
+  }
+
   public setSourceRect(sourceRect: Rect): Img {
     this.sourceRect = sourceRect;
     return this;
   }
 
   public drawContent(ctx: CanvasRenderingContext2D) {
-    if (!this.src) {
-      return;
+    let image: HTMLImageElement;
+    if (this.image) {
+      image = this.image;
+    } else if (this.src) {
+      image = ResourceRegistry.DefaultInstance.get(this.src) as HTMLImageElement;
     }
-    const image: any = ResourceRegistry.DefaultInstance.get(this.src);
+
     if (!image) {
       return;
     }

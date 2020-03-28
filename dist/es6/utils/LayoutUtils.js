@@ -4,6 +4,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+import { Runtime } from '../runtime/Runtime';
 import { BoxSizing } from '../style/Style';
 /**
  * A class contains static layout util methods.
@@ -72,6 +73,34 @@ export var LayoutUtils = /*#__PURE__*/function () {
       } else {
         element.rect.y = element.style.marginTop ? element.style.marginTop.getValue(parentHeight) : 0;
       }
+    }
+    /**
+     * Measures the width of a text with specified font.
+     * @param text the text to be calculated.
+     * @param font the font of the text.
+     * @returns The width of this text with specified font.
+     */
+
+  }, {
+    key: "measureTextWidth",
+    value: function measureTextWidth(text, font) {
+      if (text.length === 0) {
+        return 0;
+      }
+
+      var canvas = Runtime.get().newCanvas();
+      var ctx = canvas.getContext('2d');
+      var width = 0;
+
+      if (ctx) {
+        ctx.save();
+        ctx.font = font.toString();
+        width = ctx.measureText(text).width;
+        ctx.restore();
+      }
+
+      Runtime.get().releaseCanvas(canvas);
+      return width;
     }
   }]);
 

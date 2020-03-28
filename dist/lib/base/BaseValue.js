@@ -176,3 +176,4 @@ var BaseValue = /*#__PURE__*/function () {
 }();
 
 exports.BaseValue = BaseValue;
+BaseValue.ZERO = BaseValue.of('0');

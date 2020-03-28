@@ -14,7 +14,7 @@ import { Color } from '../base/Color';
 
 export var BorderStyle;
 /**
- * A regular experssion represents border definition.
+ * A regular expression represents border definition.
  */
 
 (function (BorderStyle) {
@@ -37,7 +37,7 @@ export var Border = /*#__PURE__*/function () {
     /**
      * Convert a string to a Border object.
      * @param value a string present border, the format is [width] [style] [color]
-     * @param [silent] if ture, ignore warning for an invalid value.
+     * @param [silent] if true, ignore warning for an invalid value.
      * @returns A border object for valid value, otherwise returns undefined.
      */
     value: function of(value) {

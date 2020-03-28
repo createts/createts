@@ -132,17 +132,13 @@ var FunctionParser = /*#__PURE__*/function () {
                 parameterQuota = '';
               }
             } else {
-              if (this.isBlank(ch)) {
-                state = State.PARAMETER_END;
-                func.arguments.push(content.substring(start, i));
-                parameterQuota = '';
-              } else if (ch === ',') {
+              if (ch === ',') {
                 state = State.PARAMETER_START;
-                func.arguments.push(content.substring(start, i));
+                func.arguments.push(content.substring(start, i).trim());
                 parameterQuota = '';
               } else if (ch === ')') {
                 state = State.END;
-                func.arguments.push(content.substring(start, i));
+                func.arguments.push(content.substring(start, i).trim());
                 parameterQuota = '';
               }
             }

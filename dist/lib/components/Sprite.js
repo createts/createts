@@ -336,9 +336,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
 
       try {
         ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
-      } catch (e) {
-        console.warn(this.currentFrame, e);
-      }
+      } catch (e) {}
     }
   }]);
 

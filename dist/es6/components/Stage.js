@@ -18,7 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
 import { Ticker } from '../Ticker';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
@@ -382,6 +382,9 @@ export var Stage = /*#__PURE__*/function (_Container) {
             _this2.needUpdate = false;
           }
         });
+        ResourceRegistry.DefaultInstance.addEventListener('load', function (e) {
+          _this2.updateOnce();
+        });
       }
     }
     /**
@@ -462,6 +465,7 @@ export var Stage = /*#__PURE__*/function (_Container) {
           break;
 
         case 'touchend':
+        case 'touchcancel':
           this.handleTouchEndEvent(touches, e);
           break;
 

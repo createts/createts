@@ -1,7 +1,26 @@
 import { Event, EventDispatcher } from './base/Event';
-import { Runtime } from './Runtime';
+import { Runtime } from './runtime/Runtime';
 
-export class Ticker extends EventDispatcher<Event> {
+/**
+ * Event from ticker.
+ */
+export class TickerEvent extends Event {
+  /**
+   * The current timestamp of this event.
+   */
+  readonly now: number;
+  /**
+   * The delay to previous ticker event.
+   */
+  readonly delay: number;
+  constructor(type: string, now: number, delay: number) {
+    super(type);
+    this.now = now;
+    this.delay = delay;
+  }
+}
+
+export class Ticker extends EventDispatcher<TickerEvent> {
   private duration: number = 1000 / 60;
   private lastTickTime: number;
   private stopped: boolean = true;
@@ -37,8 +56,10 @@ export class Ticker extends EventDispatcher<Event> {
       return;
     }
     if (time - this.lastTickTime >= this.duration) {
+      this.dispatchEvent(
+        new TickerEvent('tick', time, this.lastTickTime === 0 ? 0 : time - this.lastTickTime)
+      );
       this.lastTickTime = time;
-      this.dispatchEvent(new Event('tick'));
     }
     Runtime.get().requestAnimationFrame(this.onAnimationFrame.bind(this));
   }

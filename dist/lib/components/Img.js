@@ -39,6 +39,7 @@ var Img = /*#__PURE__*/function (_XObject) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Img).call(this, options));
     _this.src = void 0;
+    _this.image = void 0;
     _this.sourceRect = void 0;
 
     if (options && options.attributes) {
@@ -63,6 +64,12 @@ var Img = /*#__PURE__*/function (_XObject) {
       return this;
     }
   }, {
+    key: "setImage",
+    value: function setImage(image) {
+      this.image = image;
+      return this;
+    }
+  }, {
     key: "setSourceRect",
     value: function setSourceRect(sourceRect) {
       this.sourceRect = sourceRect;
@@ -71,11 +78,13 @@ var Img = /*#__PURE__*/function (_XObject) {
   }, {
     key: "drawContent",
     value: function drawContent(ctx) {
-      if (!this.src) {
-        return;
-      }
+      var image;
 
-      var image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
+      if (this.image) {
+        image = this.image;
+      } else if (this.src) {
+        image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
+      }
 
       if (!image) {
         return;

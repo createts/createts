@@ -147,24 +147,47 @@ var EventDispatcher = /*#__PURE__*/function () {
 
     /**
      * Adds event listener of specified type.
-     * @param type event type to listen.
+     * @param type event type to listen, it can be one type or a list of type.
      * @param listener a listener which be invoked if an event with this specified type is
      * dispatching.
      * @returns current object itself for chain calls.
      */
     value: function addEventListener(type, listener) {
-      var listeners = this.listeners[type];
+      var types = typeof type === 'string' ? [type] : type;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-      if (listeners) {
-        this.removeEventListener(type, listener);
-      }
+      try {
+        for (var _iterator = types[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var t = _step.value;
+          var listeners = this.listeners[t];
 
-      listeners = this.listeners[type]; // 'removeEventListener' may have deleted the array
+          if (listeners) {
+            this.removeEventListener(t, listener);
+          }
 
-      if (!listeners) {
-        this.listeners[type] = [listener];
-      } else {
-        listeners.push(listener);
+          listeners = this.listeners[t]; // 'removeEventListener' may have deleted the array
+
+          if (!listeners) {
+            this.listeners[t] = [listener];
+          } else {
+            listeners.push(listener);
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
       }
 
       return this;
@@ -180,30 +203,56 @@ var EventDispatcher = /*#__PURE__*/function () {
     }
     /**
      * Removes a event listener with specified type.
-     * @param type event type to remove.
+     * @param type event type to remove, it can be one type or a list of type.
      * @param listener a listener which te be removed.
+     * @returns current object itself for chain calls.
      */
 
   }, {
     key: "removeEventListener",
     value: function removeEventListener(type, listener) {
-      var arr = this.listeners[type];
+      var types = typeof type === 'string' ? [type] : type;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
-      if (!arr) {
-        return;
-      }
+      try {
+        for (var _iterator2 = types[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var t = _step2.value;
+          var arr = this.listeners[t];
 
-      for (var i = 0, l = arr.length; i < l; i++) {
-        if (arr[i] === listener) {
-          if (l === 1) {
-            delete this.listeners[type];
-          } else {
-            arr.splice(i, 1);
+          if (!arr) {
+            return;
           }
 
-          break;
+          for (var i = 0, l = arr.length; i < l; i++) {
+            if (arr[i] === listener) {
+              if (l === 1) {
+                delete this.listeners[t];
+              } else {
+                arr.splice(i, 1);
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+            _iterator2["return"]();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
         }
       }
+
+      return this;
     }
     /**
      * Alias of 'removeEventListener' method.

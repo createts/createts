@@ -4,6 +4,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+import { Runtime, RuntimeType } from '../runtime/Runtime';
+import { Base64 } from '../utils/Base64';
 import { CRC32 } from '../utils/CRC32';
 export var ApngData = function ApngData() {
   _classCallCheck(this, ApngData);
@@ -31,15 +33,10 @@ export var ApngFrame = function ApngFrame() {
 var PNG_SIGNATURE = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 function toUint32(data) {
-  return (// tslint:disable-next-line: no-bitwise
-    data.charCodeAt(0) << 24 | // tslint:disable-next-line: no-bitwise
-    data.charCodeAt(1) << 16 | // tslint:disable-next-line: no-bitwise
-    data.charCodeAt(2) << 8 | data.charCodeAt(3)
-  );
+  return data.charCodeAt(0) << 24 | data.charCodeAt(1) << 16 | data.charCodeAt(2) << 8 | data.charCodeAt(3);
 }
 
 function toDWordArray(x) {
-  // tslint:disable-next-line: no-bitwise
   return [x >>> 24 & 0xff, x >>> 16 & 0xff, x >>> 8 & 0xff, x & 0xff];
 }
 
@@ -181,10 +178,8 @@ export var ApngParser = /*#__PURE__*/function () {
         }
 
         return undefined;
-      }
+      } // Generates the static frames.
 
-      var preBlob = new Blob(preDataParts);
-      var postBlob = new Blob(postDataParts); // Generates the static frames.
 
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
@@ -199,13 +194,12 @@ export var ApngParser = /*#__PURE__*/function () {
           headerDataBytes.set(toDWordArray(frm.width), 0);
           headerDataBytes.set(toDWordArray(frm.height), 4);
           imageData.push(_this.makeChunk(IHDR, headerDataBytes));
-          imageData.push(preBlob);
           var _iteratorNormalCompletion3 = true;
           var _didIteratorError3 = false;
           var _iteratorError3 = undefined;
 
           try {
-            for (var _iterator3 = frm.dataParts[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            for (var _iterator3 = preDataParts[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
               var part = _step3.value;
               imageData.push(part);
             }
@@ -224,20 +218,85 @@ export var ApngParser = /*#__PURE__*/function () {
             }
           }
 
-          imageData.push(postBlob);
+          var _iteratorNormalCompletion4 = true;
+          var _didIteratorError4 = false;
+          var _iteratorError4 = undefined;
+
+          try {
+            for (var _iterator4 = frm.dataParts[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+              var _part = _step4.value;
+              imageData.push(_part);
+            }
+          } catch (err) {
+            _didIteratorError4 = true;
+            _iteratorError4 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+                _iterator4["return"]();
+              }
+            } finally {
+              if (_didIteratorError4) {
+                throw _iteratorError4;
+              }
+            }
+          }
+
+          var _iteratorNormalCompletion5 = true;
+          var _didIteratorError5 = false;
+          var _iteratorError5 = undefined;
+
+          try {
+            for (var _iterator5 = postDataParts[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+              var _part2 = _step5.value;
+              imageData.push(_part2);
+            }
+          } catch (err) {
+            _didIteratorError5 = true;
+            _iteratorError5 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+                _iterator5["return"]();
+              }
+            } finally {
+              if (_didIteratorError5) {
+                throw _iteratorError5;
+              }
+            }
+          }
+
           delete frm.dataParts;
-          var url = URL.createObjectURL(new Blob(imageData, {
-            type: 'image/png'
-          }));
-          imageData = null;
-          var image = new Image();
-          frm.image = image;
 
-          image.onload = function () {
-            URL.revokeObjectURL(image.src);
-          };
+          switch (Runtime.getRuntimeType()) {
+            case RuntimeType.WECHAT_MINI_GAME:
+              {
+                frm.image = Runtime.get().newImage();
+                var url = 'data:image/png;base64,' + Base64.encode(imageData);
+                frm.image.src = url;
+              }
+              break;
 
-          image.src = url;
+            case RuntimeType.WEBPAGE:
+              {
+                var _url = URL.createObjectURL(new Blob(imageData, {
+                  type: 'image/png'
+                }));
+
+                var image = new Image();
+                image.src = _url;
+
+                image.onload = function () {
+                  URL.revokeObjectURL(_url);
+                  frm.image = image;
+                };
+
+                image.onerror = function (e) {
+                  URL.revokeObjectURL(_url);
+                };
+              }
+              break;
+          }
         };
 
         for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {

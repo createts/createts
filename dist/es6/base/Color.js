@@ -39,7 +39,7 @@ export var Color = /*#__PURE__*/function () {
     /**
      * Convert a string to a Color object.
      * @param value a string present a color, see the spec above for format.
-     * @param [silent] if ture, ignore warning for an invalid value.
+     * @param [silent] if true, ignore warning for an invalid value.
      * @returns A color object for valid value, otherwise returns undefined.
      */
     value: function of(value) {
@@ -53,8 +53,8 @@ export var Color = /*#__PURE__*/function () {
 
       var colorName = value.toUpperCase();
 
-      if (COLOR_NAMES[colorName]) {
-        return COLOR_NAMES[colorName];
+      if (this[colorName]) {
+        return this[colorName];
       }
 
       var func = FunctionParser.parse(value, silent);
@@ -67,9 +67,9 @@ export var Color = /*#__PURE__*/function () {
         return undefined;
       }
 
-      var funcnName = func.name.toLowerCase();
+      var funcName = func.name.toLowerCase();
 
-      if (funcnName === 'rgb' && func.arguments.length === 3) {
+      if (funcName === 'rgb' && func.arguments.length === 3) {
         var r = this.parseColorValue(func.arguments[0], 255);
         var g = this.parseColorValue(func.arguments[1], 255);
         var b = this.parseColorValue(func.arguments[2], 255);
@@ -80,7 +80,7 @@ export var Color = /*#__PURE__*/function () {
         }
 
         return new Color(r, g, b, 1);
-      } else if (funcnName === 'rgba' && func.arguments.length === 4) {
+      } else if (funcName === 'rgba' && func.arguments.length === 4) {
         var _r = this.parseColorValue(func.arguments[0], 255);
 
         var _g = this.parseColorValue(func.arguments[1], 255);
@@ -359,154 +359,3 @@ Color.WHITESMOKE = Color.of('#F5F5F5');
 Color.YELLOW = Color.of('#FFFF00');
 Color.YELLOWGREEN = Color.of('#9ACD32');
 Color.NONE = Color.of('#FFFF00');
-var COLOR_NAMES = {
-  TRANSPARENT: Color.TRANSPARENT,
-  ALICEBLUE: Color.ALICEBLUE,
-  ANTIQUEWHITE: Color.ANTIQUEWHITE,
-  AQUA: Color.AQUA,
-  AQUAMARINE: Color.AQUAMARINE,
-  AZURE: Color.AZURE,
-  BEIGE: Color.BEIGE,
-  BISQUE: Color.BISQUE,
-  BLACK: Color.BLACK,
-  BLANCHEDALMOND: Color.BLANCHEDALMOND,
-  BLUE: Color.BLUE,
-  BLUEVIOLET: Color.BLUEVIOLET,
-  BROWN: Color.BROWN,
-  BURLYWOOD: Color.BURLYWOOD,
-  CADETBLUE: Color.CADETBLUE,
-  CHARTREUSE: Color.CHARTREUSE,
-  CHOCOLATE: Color.CHOCOLATE,
-  CORAL: Color.CORAL,
-  CORNFLOWERBLUE: Color.CORNFLOWERBLUE,
-  CORNSILK: Color.CORNSILK,
-  CRIMSON: Color.CRIMSON,
-  CYAN: Color.CYAN,
-  DARKBLUE: Color.DARKBLUE,
-  DARKCYAN: Color.DARKCYAN,
-  DARKGOLDENROD: Color.DARKGOLDENROD,
-  DARKGRAY: Color.DARKGRAY,
-  DARKGREY: Color.DARKGREY,
-  DARKGREEN: Color.DARKGREEN,
-  DARKKHAKI: Color.DARKKHAKI,
-  DARKMAGENTA: Color.DARKMAGENTA,
-  DARKOLIVEGREEN: Color.DARKOLIVEGREEN,
-  DARKORANGE: Color.DARKORANGE,
-  DARKORCHID: Color.DARKORCHID,
-  DARKRED: Color.DARKRED,
-  DARKSALMON: Color.DARKSALMON,
-  DARKSEAGREEN: Color.DARKSEAGREEN,
-  DARKSLATEBLUE: Color.DARKSLATEBLUE,
-  DARKSLATEGRAY: Color.DARKSLATEGRAY,
-  DARKSLATEGREY: Color.DARKSLATEGREY,
-  DARKTURQUOISE: Color.DARKTURQUOISE,
-  DARKVIOLET: Color.DARKVIOLET,
-  DEEPPINK: Color.DEEPPINK,
-  DEEPSKYBLUE: Color.DEEPSKYBLUE,
-  DIMGRAY: Color.DIMGRAY,
-  DIMGREY: Color.DIMGREY,
-  DODGERBLUE: Color.DODGERBLUE,
-  FIREBRICK: Color.FIREBRICK,
-  FLORALWHITE: Color.FLORALWHITE,
-  FORESTGREEN: Color.FORESTGREEN,
-  FUCHSIA: Color.FUCHSIA,
-  GAINSBORO: Color.GAINSBORO,
-  GHOSTWHITE: Color.GHOSTWHITE,
-  GOLD: Color.GOLD,
-  GOLDENROD: Color.GOLDENROD,
-  GRAY: Color.GRAY,
-  GREY: Color.GREY,
-  GREEN: Color.GREEN,
-  GREENYELLOW: Color.GREENYELLOW,
-  HONEYDEW: Color.HONEYDEW,
-  HOTPINK: Color.HOTPINK,
-  INDIANRED: Color.INDIANRED,
-  INDIGO: Color.INDIGO,
-  IVORY: Color.IVORY,
-  KHAKI: Color.KHAKI,
-  LAVENDER: Color.LAVENDER,
-  LAVENDERBLUSH: Color.LAVENDERBLUSH,
-  LAWNGREEN: Color.LAWNGREEN,
-  LEMONCHIFFON: Color.LEMONCHIFFON,
-  LIGHTBLUE: Color.LIGHTBLUE,
-  LIGHTCORAL: Color.LIGHTCORAL,
-  LIGHTCYAN: Color.LIGHTCYAN,
-  LIGHTGOLDENRODYELLOW: Color.LIGHTGOLDENRODYELLOW,
-  LIGHTGRAY: Color.LIGHTGRAY,
-  LIGHTGREY: Color.LIGHTGREY,
-  LIGHTGREEN: Color.LIGHTGREEN,
-  LIGHTPINK: Color.LIGHTPINK,
-  LIGHTSALMON: Color.LIGHTSALMON,
-  LIGHTSEAGREEN: Color.LIGHTSEAGREEN,
-  LIGHTSKYBLUE: Color.LIGHTSKYBLUE,
-  LIGHTSLATEGRAY: Color.LIGHTSLATEGRAY,
-  LIGHTSLATEGREY: Color.LIGHTSLATEGREY,
-  LIGHTSTEELBLUE: Color.LIGHTSTEELBLUE,
-  LIGHTYELLOW: Color.LIGHTYELLOW,
-  LIME: Color.LIME,
-  LIMEGREEN: Color.LIMEGREEN,
-  LINEN: Color.LINEN,
-  MAGENTA: Color.MAGENTA,
-  MAROON: Color.MAROON,
-  MEDIUMAQUAMARINE: Color.MEDIUMAQUAMARINE,
-  MEDIUMBLUE: Color.MEDIUMBLUE,
-  MEDIUMORCHID: Color.MEDIUMORCHID,
-  MEDIUMPURPLE: Color.MEDIUMPURPLE,
-  MEDIUMSEAGREEN: Color.MEDIUMSEAGREEN,
-  MEDIUMSLATEBLUE: Color.MEDIUMSLATEBLUE,
-  MEDIUMSPRINGGREEN: Color.MEDIUMSPRINGGREEN,
-  MEDIUMTURQUOISE: Color.MEDIUMTURQUOISE,
-  MEDIUMVIOLETRED: Color.MEDIUMVIOLETRED,
-  MIDNIGHTBLUE: Color.MIDNIGHTBLUE,
-  MINTCREAM: Color.MINTCREAM,
-  MISTYROSE: Color.MISTYROSE,
-  MOCCASIN: Color.MOCCASIN,
-  NAVAJOWHITE: Color.NAVAJOWHITE,
-  NAVY: Color.NAVY,
-  OLDLACE: Color.OLDLACE,
-  OLIVE: Color.OLIVE,
-  OLIVEDRAB: Color.OLIVEDRAB,
-  ORANGE: Color.ORANGE,
-  ORANGERED: Color.ORANGERED,
-  ORCHID: Color.ORCHID,
-  PALEGOLDENROD: Color.PALEGOLDENROD,
-  PALEGREEN: Color.PALEGREEN,
-  PALETURQUOISE: Color.PALETURQUOISE,
-  PALEVIOLETRED: Color.PALEVIOLETRED,
-  PAPAYAWHIP: Color.PAPAYAWHIP,
-  PEACHPUFF: Color.PEACHPUFF,
-  PERU: Color.PERU,
-  PINK: Color.PINK,
-  PLUM: Color.PLUM,
-  POWDERBLUE: Color.POWDERBLUE,
-  PURPLE: Color.PURPLE,
-  REBECCAPURPLE: Color.REBECCAPURPLE,
-  RED: Color.RED,
-  ROSYBROWN: Color.ROSYBROWN,
-  ROYALBLUE: Color.ROYALBLUE,
-  SADDLEBROWN: Color.SADDLEBROWN,
-  SALMON: Color.SALMON,
-  SANDYBROWN: Color.SANDYBROWN,
-  SEAGREEN: Color.SEAGREEN,
-  SEASHELL: Color.SEASHELL,
-  SIENNA: Color.SIENNA,
-  SILVER: Color.SILVER,
-  SKYBLUE: Color.SKYBLUE,
-  SLATEBLUE: Color.SLATEBLUE,
-  SLATEGRAY: Color.SLATEGRAY,
-  SLATEGREY: Color.SLATEGREY,
-  SNOW: Color.SNOW,
-  SPRINGGREEN: Color.SPRINGGREEN,
-  STEELBLUE: Color.STEELBLUE,
-  TAN: Color.TAN,
-  TEAL: Color.TEAL,
-  THISTLE: Color.THISTLE,
-  TOMATO: Color.TOMATO,
-  TURQUOISE: Color.TURQUOISE,
-  VIOLET: Color.VIOLET,
-  WHEAT: Color.WHEAT,
-  WHITE: Color.WHITE,
-  WHITESMOKE: Color.WHITESMOKE,
-  YELLOW: Color.YELLOW,
-  YELLOWGREEN: Color.YELLOWGREEN
-};

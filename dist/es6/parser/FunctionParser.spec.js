@@ -43,4 +43,8 @@ test('should parse function with parameter', function () {
     name: 'test',
     arguments: ['1', '2', '3']
   });
+  expect(FunctionParser.parse('linear-gradient(to top, #333, #333 50%, #eee 75%, #333 75%)')).toEqual({
+    name: 'linear-gradient',
+    arguments: ['to top', '#333', '#333 50%', '#eee 75%', '#333 75%']
+  });
 });

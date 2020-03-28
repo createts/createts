@@ -69,6 +69,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The BackgroundAttachment property sets whether a background image&#39;s position is fixed within the
+							viewport, or scrolls with its containing block, see:
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment">https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment</a></p>
+					</div>
+					<p>Currently we only support SCROLL.</p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -90,7 +100,7 @@
 					<div class="tsd-signature tsd-kind-icon">SCROLL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;scroll&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L12">style/Background.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L25">style/Background.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,11 +134,11 @@
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="_style_background_.backgroundclip.html" class="tsd-kind-icon">Background<wbr>Clip</a>
 					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="_style_background_.backgroundorigin.html" class="tsd-kind-icon">Background<wbr>Origin</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_style_background_.backgroundpositiontype.html" class="tsd-kind-icon">Background<wbr>Position<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+						<a href="_style_background_.backgroundrepeattype.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="_style_background_.backgroundsizetype.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Type</a>
@@ -137,10 +147,13 @@
 						<a href="../classes/_style_background_.background.html" class="tsd-kind-icon">Background</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../classes/_style_background_.backgroundrepeatpair.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Pair</a>
+						<a href="../classes/_style_background_.backgroundposition.html" class="tsd-kind-icon">Background<wbr>Position</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../classes/_style_background_.backgroundsizepair.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Pair</a>
+						<a href="../classes/_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_style_background_.backgroundsize.html" class="tsd-kind-icon">Background<wbr>Size</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../classes/_style_background_.lineargradientsource.html" class="tsd-kind-icon">Linear<wbr>Gradient<wbr>Source</a>
@@ -149,25 +162,13 @@
 						<a href="../classes/_style_background_.urlsource.html" class="tsd-kind-icon">URLSource</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-kind-icon">IBackground<wbr>Source</a>
+						<a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-kind-icon">IBackground<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.icloneable.html" class="tsd-kind-icon">ICloneable</a>
+						<a href="../interfaces/_style_background_.ibgattribute.html" class="tsd-kind-icon">IBg<wbr>Attribute</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_image" class="tsd-kind-icon">REG_<wbr>IMAGE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parameters" class="tsd-kind-icon">REG_<wbr>PARAMETERS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parts" class="tsd-kind-icon">REG_<wbr>PARTS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_x" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>X</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_y" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>Y</a>
+						<a href="../modules/_style_background_.html#bg_tokenizer" class="tsd-kind-icon">BG_<wbr>TOKENIZER</a>
 					</li>
 				</ul>
 			</nav>

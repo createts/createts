@@ -11,7 +11,7 @@ export enum BorderStyle {
 }
 
 /**
- * A regular experssion represents border definition.
+ * A regular expression represents border definition.
  */
 const BORDER_PATTERN = /^[\s]*([^\s]+)[\s]+([\w]+)[\s]+(.*)$/;
 

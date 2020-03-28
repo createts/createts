@@ -18,4 +18,10 @@ test('should tokenize the value', function () {
   expect(new _CSSTokenizer.CSSTokenizer().tokenize('"abc test(1, 2,  3 )"')).toEqual(['abc test(1, 2,  3 )']);
   expect(new _CSSTokenizer.CSSTokenizer().tokenize('abc "test(1, 2,  3 )"')).toEqual(['abc', 'test(1, 2,  3 )']);
   expect(new _CSSTokenizer.CSSTokenizer().tokenize('abc "test(1, 2,  3 )')).toEqual(['abc', 'test(1, 2,  3 )']);
+  expect(new _CSSTokenizer.CSSTokenizer().tokenize('abc/10% 20%')).toEqual(['abc/10%', '20%']);
+});
+test('should support stop letter', function () {
+  expect(new _CSSTokenizer.CSSTokenizer('/').tokenize('')).toEqual([]);
+  expect(new _CSSTokenizer.CSSTokenizer('/').tokenize('abc/10% 20%')).toEqual(['abc', '/', '10%', '20%']);
+  expect(new _CSSTokenizer.CSSTokenizer('/').tokenize('left 5% / 15% 60% ')).toEqual(['left', '5%', '/', '15%', '60%']);
 });

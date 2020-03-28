@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Font = exports.FontWeight = exports.FontVariant = exports.FontStyle = void 0;
 
-var _Runtime = require("../Runtime");
-
 var _EnumUtils = require("../utils/EnumUtils");
+
+var _LayoutUtils = require("../utils/LayoutUtils");
 
 var _LineHeight = require("./LineHeight");
 
@@ -219,7 +219,7 @@ var Font = /*#__PURE__*/function () {
   }, {
     key: "measureTextWidth",
     value: function measureTextWidth(text) {
-      return _Runtime.Runtime.get().measureTextWidth(text, this);
+      return _LayoutUtils.LayoutUtils.measureTextWidth(text, this);
     }
     /**
      * Creates a new Font with the same style, width, size, variant, line height and font family.

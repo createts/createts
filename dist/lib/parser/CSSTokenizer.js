@@ -24,12 +24,12 @@ var State;
 
 var CSSTokenizer = /*#__PURE__*/function () {
   function CSSTokenizer() {
-    var splitter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var stopLetters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
     _classCallCheck(this, CSSTokenizer);
 
-    this.splitter = '';
-    this.splitter = splitter;
+    this.stopLetters = '';
+    this.stopLetters = stopLetters;
   }
   /**
    * Checks whether a character is blank.
@@ -41,12 +41,23 @@ var CSSTokenizer = /*#__PURE__*/function () {
   _createClass(CSSTokenizer, [{
     key: "isSplitter",
     value: function isSplitter(ch) {
-      return ch === ' ' || ch === '\t' || ch === '\r' || ch === '\n' || this.splitter.indexOf(ch) >= 0;
+      return ch === ' ' || ch === '\t' || ch === '\r' || ch === '\n';
+    }
+    /**
+     * Checks whether a character is stop latter.
+     * @param ch the character to be checked.
+     * @returns true if the character is one of stop letters; false otherwise.
+     */
+
+  }, {
+    key: "isStopLetter",
+    value: function isStopLetter(ch) {
+      return this.stopLetters && this.stopLetters.indexOf(ch) >= 0;
     }
     /**
      * Convert the input string to a Func object.
      * @param content the input string.
-     * @param [silent] if ture, ignore warning for an invalid value.
+     * @param [silent] if true, ignore warning for an invalid value.
      * @returns a Func object for valid content, undefined otherwise.
      */
 
@@ -64,7 +75,9 @@ var CSSTokenizer = /*#__PURE__*/function () {
 
         switch (state) {
           case State.START:
-            if (!this.isSplitter(ch)) {
+            if (this.isStopLetter(ch)) {
+              result.push(ch);
+            } else if (!this.isSplitter(ch)) {
               start = i;
               state = State.VALUE;
 
@@ -88,6 +101,10 @@ var CSSTokenizer = /*#__PURE__*/function () {
             } else if (this.isSplitter(ch)) {
               state = State.START;
               result.push(content.substring(start, i));
+            } else if (this.isStopLetter(ch)) {
+              state = State.START;
+              result.push(content.substring(start, i));
+              result.push(ch);
             }
 
             break;

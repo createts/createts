@@ -1,3 +1,5 @@
+import { Runtime, RuntimeType } from '../runtime/Runtime';
+import { Base64 } from '../utils/Base64';
 import { CRC32 } from '../utils/CRC32';
 
 export class ApngData {
@@ -25,18 +27,14 @@ const PNG_SIGNATURE = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 
 
 function toUint32(data: string): number {
   return (
-    // tslint:disable-next-line: no-bitwise
     (data.charCodeAt(0) << 24) |
-    // tslint:disable-next-line: no-bitwise
     (data.charCodeAt(1) << 16) |
-    // tslint:disable-next-line: no-bitwise
     (data.charCodeAt(2) << 8) |
     data.charCodeAt(3)
   );
 }
 
 function toDWordArray(x: number): number[] {
-  // tslint:disable-next-line: no-bitwise
   return [(x >>> 24) & 0xff, (x >>> 16) & 0xff, (x >>> 8) & 0xff, x & 0xff];
 }
 
@@ -148,31 +146,48 @@ export class ApngParser {
       return undefined;
     }
 
-    const preBlob = new Blob(preDataParts);
-    const postBlob = new Blob(postDataParts);
-
     // Generates the static frames.
     for (const frm of apng.frames) {
-      let imageData = [];
+      const imageData: Uint8Array[] = [];
       imageData.push(PNG_SIGNATURE);
       // Update the static frame size.
       headerDataBytes.set(toDWordArray(frm.width), 0);
       headerDataBytes.set(toDWordArray(frm.height), 4);
       imageData.push(this.makeChunk(IHDR, headerDataBytes));
-      imageData.push(preBlob);
+      for (const part of preDataParts) {
+        imageData.push(part);
+      }
       for (const part of frm.dataParts) {
         imageData.push(part);
       }
-      imageData.push(postBlob);
+      for (const part of postDataParts) {
+        imageData.push(part);
+      }
       delete frm.dataParts;
-      const url = URL.createObjectURL(new Blob(imageData, { type: 'image/png' }));
-      imageData = null;
-      const image = new Image();
-      frm.image = image;
-      image.onload = () => {
-        URL.revokeObjectURL(image.src);
-      };
-      image.src = url;
+
+      switch (Runtime.getRuntimeType()) {
+        case RuntimeType.WECHAT_MINI_GAME:
+          {
+            frm.image = Runtime.get().newImage();
+            const url = 'data:image/png;base64,' + Base64.encode(imageData);
+            frm.image.src = url;
+          }
+          break;
+        case RuntimeType.WEBPAGE:
+          {
+            const url = URL.createObjectURL(new Blob(imageData, { type: 'image/png' }));
+            const image = new Image();
+            image.src = url;
+            image.onload = () => {
+              URL.revokeObjectURL(url);
+              frm.image = image;
+            };
+            image.onerror = e => {
+              URL.revokeObjectURL(url);
+            };
+          }
+          break;
+      }
     }
 
     return apng;
@@ -214,7 +229,7 @@ export class ApngParser {
     return chunks;
   }
 
-  private static makeChunk(type: number, data: Uint8Array) {
+  private static makeChunk(type: number, data: Uint8Array): Uint8Array {
     const bytes = new Uint8Array(data.length + 12);
     const dataView = new DataView(bytes.buffer);
 

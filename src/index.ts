@@ -1,4 +1,4 @@
-export { Runtime } from './Runtime';
+export { Runtime } from './runtime/Runtime';
 export { Ticker } from './Ticker';
 export { AnimationFactory } from './animation/AnimationFactory';
 export { AnimationValueType } from './animation/Animation';
@@ -65,7 +65,6 @@ export { ResourceType } from './resource/ResourceRegistry';
 export { ResourceItem } from './resource/ResourceRegistry';
 export { ResourceRegistryEvent } from './resource/ResourceRegistry';
 export { ResourceRegistry } from './resource/ResourceRegistry';
-export { Loader } from './resource/Loader';
 export { BorderStyle } from './style/Border';
 export { Border } from './style/Border';
 export { Shadow } from './style/Shadow';

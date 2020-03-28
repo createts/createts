@@ -87,6 +87,9 @@ export declare class ElasticInOut implements IAlgorithm {
 }
 export declare class AlgorithmFactory {
     static register(name: string, algorithm: IAlgorithm): void;
+    static registerAll(data: {
+        [key: string]: IAlgorithm;
+    }): void;
     static get(name: string): IAlgorithm | undefined;
     private static algorithms;
 }

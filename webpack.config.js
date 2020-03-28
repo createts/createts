@@ -17,7 +17,7 @@ const config = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|\.spec\.ts/,
         include: [path.resolve(__dirname, 'src')],
         use: {
           loader: 'ts-loader'

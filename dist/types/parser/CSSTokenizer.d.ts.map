@@ -1,1 +1,1 @@
-{"version":3,"file":"CSSTokenizer.d.ts","sourceRoot":"","sources":["../../../src/parser/CSSTokenizer.ts"],"names":[],"mappings":"AAcA,qBAAa,YAAY;IACvB,OAAO,CAAC,QAAQ,CAAc;gBAElB,QAAQ,GAAE,MAAW;IAQjC,OAAO,CAAC,UAAU;IAYX,QAAQ,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,EAAE;CAoD3C"}
+{"version":3,"file":"CSSTokenizer.d.ts","sourceRoot":"","sources":["../../../src/parser/CSSTokenizer.ts"],"names":[],"mappings":"AASA,qBAAa,YAAY;IACvB,OAAO,CAAC,WAAW,CAAc;gBAErB,WAAW,GAAE,MAAW;IAQpC,OAAO,CAAC,UAAU;IASlB,OAAO,CAAC,YAAY;IAUb,QAAQ,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,EAAE;CA0D3C"}

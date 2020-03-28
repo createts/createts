@@ -1,5 +1,7 @@
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
+import { DrawUtils } from '../utils/DrawUtils';
 import { EnumUtils } from '../utils/EnumUtils';
+import { LayoutUtils } from '../utils/LayoutUtils';
 import { LineHeight } from './LineHeight';
 
 export enum FontStyle {
@@ -194,7 +196,7 @@ export class Font {
    * @returns Width of text with current font.
    */
   public measureTextWidth(text: string) {
-    return Runtime.get().measureTextWidth(text, this);
+    return LayoutUtils.measureTextWidth(text, this);
   }
 
   /**

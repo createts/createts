@@ -490,6 +490,18 @@ var AlgorithmFactory = /*#__PURE__*/function () {
       this.algorithms.set(name, algorithm);
     }
     /**
+     * Registers algorithm with a specified name.
+     * @param data A name to IAlgorithm instance map to be registered.
+     */
+
+  }, {
+    key: "registerAll",
+    value: function registerAll(data) {
+      for (var name in data) {
+        this.algorithms.set(name, data[name]);
+      }
+    }
+    /**
      * Gets algorithm instance by a specified name.
      * @param name the name of algorithm, registered by AlgorithmFactory.register
      * @returns instance of algorithm, undefined for non-existed name
@@ -511,31 +523,33 @@ var AlgorithmFactory = /*#__PURE__*/function () {
 
 exports.AlgorithmFactory = AlgorithmFactory;
 AlgorithmFactory.algorithms = new Map();
-AlgorithmFactory.register('linear', new Linear());
-AlgorithmFactory.register('quadIn', new PowIn(2));
-AlgorithmFactory.register('quadOut', new PowOut(2));
-AlgorithmFactory.register('quadInOut', new PowInOut(2));
-AlgorithmFactory.register('cubicIn', new PowIn(3));
-AlgorithmFactory.register('cubicOut', new PowOut(3));
-AlgorithmFactory.register('cubicInOut', new PowInOut(3));
-AlgorithmFactory.register('quartIn', new PowIn(4));
-AlgorithmFactory.register('quartOut', new PowOut(4));
-AlgorithmFactory.register('quartInOut', new PowInOut(4));
-AlgorithmFactory.register('quintIn', new PowIn(5));
-AlgorithmFactory.register('quintOut', new PowOut(5));
-AlgorithmFactory.register('quintInOut', new PowInOut(5));
-AlgorithmFactory.register('sineIn', new SineIn());
-AlgorithmFactory.register('sineOut', new SineOut());
-AlgorithmFactory.register('sineInOut', new SineInOut());
-AlgorithmFactory.register('backIn', new BackIn(1.7));
-AlgorithmFactory.register('backOut', new BackOut(1.7));
-AlgorithmFactory.register('backInOut', new BackInOut(1.7));
-AlgorithmFactory.register('circIn', new CircIn());
-AlgorithmFactory.register('circOut', new CircOut());
-AlgorithmFactory.register('circInOut', new CircInOut());
-AlgorithmFactory.register('bounceIn', new BounceIn());
-AlgorithmFactory.register('bounceOut', new BounceOut());
-AlgorithmFactory.register('bounceInOut', new BounceInOut());
-AlgorithmFactory.register('elasticIn', new ElasticIn(1, 0.3));
-AlgorithmFactory.register('elasticOut', new ElasticOut(1, 0.3));
-AlgorithmFactory.register('elasticInOut', new ElasticInOut(1, 0.3));
+AlgorithmFactory.registerAll({
+  linear: new Linear(),
+  quadIn: new PowIn(2),
+  quadOut: new PowOut(2),
+  quadInOut: new PowInOut(2),
+  cubicIn: new PowIn(3),
+  cubicOut: new PowOut(3),
+  cubicInOut: new PowInOut(3),
+  quartIn: new PowIn(4),
+  quartOut: new PowOut(4),
+  quartInOut: new PowInOut(4),
+  quintIn: new PowIn(5),
+  quintOut: new PowOut(5),
+  quintInOut: new PowInOut(5),
+  sineIn: new SineIn(),
+  sineOut: new SineOut(),
+  sineInOut: new SineInOut(),
+  backIn: new BackIn(1.7),
+  backOut: new BackOut(1.7),
+  backInOut: new BackInOut(1.7),
+  circIn: new CircIn(),
+  circOut: new CircOut(),
+  circInOut: new CircInOut(),
+  bounceIn: new BounceIn(),
+  bounceOut: new BounceOut(),
+  bounceInOut: new BounceInOut(),
+  elasticIn: new ElasticIn(1, 0.3),
+  elasticOut: new ElasticOut(1, 0.3),
+  elasticInOut: new ElasticInOut(1, 0.3)
+});

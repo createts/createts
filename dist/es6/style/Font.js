@@ -4,8 +4,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-import { Runtime } from '../Runtime';
 import { EnumUtils } from '../utils/EnumUtils';
+import { LayoutUtils } from '../utils/LayoutUtils';
 import { LineHeight } from './LineHeight';
 export var FontStyle;
 
@@ -205,7 +205,7 @@ export var Font = /*#__PURE__*/function () {
   }, {
     key: "measureTextWidth",
     value: function measureTextWidth(text) {
-      return Runtime.get().measureTextWidth(text, this);
+      return LayoutUtils.measureTextWidth(text, this);
     }
     /**
      * Creates a new Font with the same style, width, size, variant, line height and font family.

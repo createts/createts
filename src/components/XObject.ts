@@ -3,7 +3,7 @@ import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
 import { Display, PointerEvents, Style } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';

@@ -1,6 +1,4 @@
 import { BaseValue } from '../base/BaseValue';
-import { Color } from '../base/Color';
-import { Shadow } from './Shadow';
 import { Style } from './Style';
 
 test('should apply new styles', () => {

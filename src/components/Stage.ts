@@ -1,7 +1,7 @@
 import { Animation } from '../animation/Animation';
 import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
 import { Ticker } from '../Ticker';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
@@ -329,6 +329,7 @@ export class Stage extends Container {
         this.handleTouchEndEvent([], e);
         break;
       case 'touchend':
+      case 'touchcancel':
         this.handleTouchEndEvent(touches, e);
         break;
       case 'mousemove':

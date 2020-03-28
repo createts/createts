@@ -69,6 +69,15 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The background shorthand property sets all background style properties at once, such as color,
+							image, origin and size, or repeat method.
+						See: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background">https://developer.mozilla.org/en-US/docs/Web/CSS/background</a></p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -115,9 +124,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private tsd-is-static"><a href="_style_background_.background.html#getfromarray" class="tsd-kind-icon">get<wbr>From<wbr>Array</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_style_background_.background.html#of" class="tsd-kind-icon">of</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_style_background_.background.html#parseimage" class="tsd-kind-icon">parse<wbr>Image</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_style_background_.background.html#parseparameters" class="tsd-kind-icon">parse<wbr>Parameters</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_style_background_.background.html#split" class="tsd-kind-icon">split</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_style_background_.background.html#trimparameter" class="tsd-kind-icon">trim<wbr>Parameter</a></li>
 							</ul>
 						</section>
 					</div>
@@ -131,9 +138,14 @@
 					<div class="tsd-signature tsd-kind-icon">attachment<span class="tsd-signature-symbol">:</span> <a href="../enums/_style_background_.backgroundattachment.html" class="tsd-signature-type">BackgroundAttachment</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L461">style/Background.ts:461</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1042">style/Background.ts:1042</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundAttachment definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="blendmode" class="tsd-anchor"></a>
@@ -141,9 +153,14 @@
 					<div class="tsd-signature tsd-kind-icon">blend<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L468">style/Background.ts:468</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1071">style/Background.ts:1071</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BlendMode definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="clip" class="tsd-anchor"></a>
@@ -151,9 +168,14 @@
 					<div class="tsd-signature tsd-kind-icon">clip<span class="tsd-signature-symbol">:</span> <a href="../enums/_style_background_.backgroundclip.html" class="tsd-signature-type">BackgroundClip</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L464">style/Background.ts:464</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1054">style/Background.ts:1054</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundClip definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="color" class="tsd-anchor"></a>
@@ -161,59 +183,92 @@
 					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L460">style/Background.ts:460</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1038">style/Background.ts:1038</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The color property sets the background color of an element. It is rendered behind any
+								background-image that is specified, although the color will still be visible through any
+							transparency in the image.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="image" class="tsd-anchor"></a>
 					<h3>image</h3>
-					<div class="tsd-signature tsd-kind-icon">image<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">image<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L462">style/Background.ts:462</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1046">style/Background.ts:1046</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of IBackgroundImage definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="origin" class="tsd-anchor"></a>
 					<h3>origin</h3>
-					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <a href="../enums/_style_background_.backgroundorigin.html" class="tsd-signature-type">BackgroundOrigin</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <a href="../enums/_style_background_.backgroundclip.html" class="tsd-signature-type">BackgroundClip</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L465">style/Background.ts:465</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1059">style/Background.ts:1059</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundOrigin definition for multiple layers.
+							Note: clip and origin are use same enum definition.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="position" class="tsd-anchor"></a>
 					<h3>position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundsizepair.html" class="tsd-signature-type">BackgroundSizePair</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundposition.html" class="tsd-signature-type">BackgroundPosition</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L467">style/Background.ts:467</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1067">style/Background.ts:1067</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundPosition definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="repeat" class="tsd-anchor"></a>
 					<h3>repeat</h3>
-					<div class="tsd-signature tsd-kind-icon">repeat<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundrepeatpair.html" class="tsd-signature-type">BackgroundRepeatPair</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">repeat<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundrepeat.html" class="tsd-signature-type">BackgroundRepeat</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L463">style/Background.ts:463</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1050">style/Background.ts:1050</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundRepeat definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="size" class="tsd-anchor"></a>
 					<h3>size</h3>
-					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundsizepair.html" class="tsd-signature-type">BackgroundSizePair</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <a href="_style_background_.backgroundsize.html" class="tsd-signature-type">BackgroundSize</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L466">style/Background.ts:466</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1063">style/Background.ts:1063</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of BackgroundSize definition for multiple layers.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -228,10 +283,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L769">style/Background.ts:769</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1467">style/Background.ts:1467</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new Background with the same properties.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_style_background_.background.html" class="tsd-signature-type">Background</a></h4>
+							<p>a clone of this instance.</p>
 						</li>
 					</ul>
 				</section>
@@ -245,22 +306,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L552">style/Background.ts:552</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1207">style/Background.ts:1207</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draw the background of an element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>target: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The target element.</p>
+									</div>
 								</li>
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of stage canvas.</p>
+									</div>
 								</li>
 								<li>
 									<h5>outerRect: <a href="_base_roundrect_.roundrect.html" class="tsd-signature-type">RoundRect</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The pre-calculated outer round rect of the element.</p>
+									</div>
 								</li>
 								<li>
 									<h5>innerRect: <a href="_base_roundrect_.roundrect.html" class="tsd-signature-type">RoundRect</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The pre-calculated inner round rect of the element.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -277,37 +355,69 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L783">style/Background.ts:783</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1493">style/Background.ts:1493</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draw an image to context with specified size, scale and destination in a clip area.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of stage canvas.</p>
+									</div>
 								</li>
 								<li>
 									<h5>img: <span class="tsd-signature-type">HTMLImageElement</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The image to draw.</p>
+									</div>
 								</li>
 								<li>
 									<h5>imgWidth: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The image width.</p>
+									</div>
 								</li>
 								<li>
 									<h5>imgHeight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The image height.</p>
+									</div>
 								</li>
 								<li>
 									<h5>imageScaleX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The horizontal scale of the image.</p>
+									</div>
 								</li>
 								<li>
 									<h5>imageScaleY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The vertical scale of the image.</p>
+									</div>
 								</li>
 								<li>
 									<h5>destX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The X destination position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>destY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Y destination position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>clip: <a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The clip area.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -324,13 +434,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L474">style/Background.ts:474</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1086">style/Background.ts:1086</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-attachment> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-attachment> or a list of
+										<background-attachment> for multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -347,13 +466,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L491">style/Background.ts:491</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1113">style/Background.ts:1113</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <blend-mode> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <blend-mode> or a list of <blend-mode> for multiple
+										layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -370,13 +498,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L510">style/Background.ts:510</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1140">style/Background.ts:1140</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-clip> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-clip> or a list of <background-clip> for
+										multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -393,13 +530,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L470">style/Background.ts:470</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1077">style/Background.ts:1077</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the color property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="_base_color_.color.html" class="tsd-signature-type">Color</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents color.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -416,13 +561,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L483">style/Background.ts:483</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1100">style/Background.ts:1100</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-image> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-image> or a list of
+										<background-image> for multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -439,13 +593,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L523">style/Background.ts:523</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1158">style/Background.ts:1158</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-origin> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-origin> or a list of <background-origin> for
+										multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -462,13 +625,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L544">style/Background.ts:544</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1190">style/Background.ts:1190</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-position> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-position> or a list of
+										<background-position> for multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -485,13 +657,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L499">style/Background.ts:499</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1126">style/Background.ts:1126</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-repeat> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-repeat> or a list of <background-repeat> for
+										multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -508,13 +689,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L536">style/Background.ts:536</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1176">style/Background.ts:1176</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the <background-size> property by a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents single <background-size> or a list of <background-size> for
+										multiple layers.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -525,15 +715,20 @@
 					<a name="clonearray" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> clone<wbr>Array</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">clone<wbr>Array&lt;T&gt;<span class="tsd-signature-symbol">(</span>src<span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.icloneable.html" class="tsd-signature-type">ICloneable</a><span class="tsd-signature-symbol">[]</span>, dest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<wbr>Array&lt;T&gt;<span class="tsd-signature-symbol">(</span>src<span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.ibgattribute.html" class="tsd-signature-type">IBgAttribute</a><span class="tsd-signature-symbol">[]</span>, dest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L446">style/Background.ts:446</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1010">style/Background.ts:1010</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deep copy the elements from one list to the other.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -543,10 +738,16 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>src: <a href="../interfaces/_style_background_.icloneable.html" class="tsd-signature-type">ICloneable</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>src: <a href="../interfaces/_style_background_.ibgattribute.html" class="tsd-signature-type">IBgAttribute</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The source list to be copied.</p>
+									</div>
 								</li>
 								<li>
 									<h5>dest:</h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The destination list to hold the elements from source list.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -563,9 +764,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L440">style/Background.ts:440</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L999">style/Background.ts:999</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Shadow copy the elements from one list to the other.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -576,9 +782,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>src: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The source list to be copied.</p>
+									</div>
 								</li>
 								<li>
 									<h5>dest: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The destination list to hold the elements from source list.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -595,9 +807,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L456">style/Background.ts:456</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L1029">style/Background.ts:1029</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get an element from a list with specified position, if the position is out of the range,
+									returns a default value.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -608,15 +826,26 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>arr: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The source list.</p>
+									</div>
 								</li>
 								<li>
 									<h5>idx: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The position in the list to be retrieved.</p>
+									</div>
 								</li>
 								<li>
 									<h5>defaultVal: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Default value for invalid position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<p>an element in the list with specified position, or default value for invalid
+							position.</p>
 						</li>
 					</ul>
 				</section>
@@ -624,22 +853,35 @@
 					<a name="of" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> of</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_background_.background.html" class="tsd-signature-type">Background</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, silent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_background_.background.html" class="tsd-signature-type">Background</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L300">style/Background.ts:300</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L745">style/Background.ts:745</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Parse a string format background definition to a background instance.
+									See the definition at <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background">https://developer.mozilla.org/en-US/docs/Web/CSS/background</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Input string to be parsed.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> silent: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_style_background_.background.html" class="tsd-signature-type">Background</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>A Background instance of valid data, undefined otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -647,45 +889,31 @@
 					<a name="parseimage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> parse<wbr>Image</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Image<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Image<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L398">style/Background.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L942">style/Background.ts:942</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Try to parse a string to a BackgroundImage instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string presents image attribute.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="parseparameters" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> parse<wbr>Parameters</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">parse<wbr>Parameters<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L388">style/Background.ts:388</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>A BackgroundImage instance for a valid definition, undefined otherwise.</p>
 						</li>
 					</ul>
 				</section>
@@ -699,39 +927,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L414">style/Background.ts:414</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L962">style/Background.ts:962</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Background property supports multiple layers, this function is used to split layers from a
+									string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string to be split.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="trimparameter" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> trim<wbr>Parameter</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">trim<wbr>Parameter<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L375">style/Background.ts:375</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>A list of split strings.</p>
 						</li>
 					</ul>
 				</section>
@@ -756,11 +971,11 @@
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_style_background_.backgroundclip.html" class="tsd-kind-icon">Background<wbr>Clip</a>
 					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_style_background_.backgroundorigin.html" class="tsd-kind-icon">Background<wbr>Origin</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/_style_background_.backgroundpositiontype.html" class="tsd-kind-icon">Background<wbr>Position<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+						<a href="../enums/_style_background_.backgroundrepeattype.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_style_background_.backgroundsizetype.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Type</a>
@@ -849,23 +1064,20 @@
 								<a href="_style_background_.background.html#parseimage" class="tsd-kind-icon">parse<wbr>Image</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_style_background_.background.html#parseparameters" class="tsd-kind-icon">parse<wbr>Parameters</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="_style_background_.background.html#split" class="tsd-kind-icon">split</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="_style_background_.background.html#trimparameter" class="tsd-kind-icon">trim<wbr>Parameter</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_style_background_.backgroundrepeatpair.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Pair</a>
+						<a href="_style_background_.backgroundposition.html" class="tsd-kind-icon">Background<wbr>Position</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_style_background_.backgroundsizepair.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Pair</a>
+						<a href="_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_style_background_.backgroundsize.html" class="tsd-kind-icon">Background<wbr>Size</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_style_background_.lineargradientsource.html" class="tsd-kind-icon">Linear<wbr>Gradient<wbr>Source</a>
@@ -874,25 +1086,13 @@
 						<a href="_style_background_.urlsource.html" class="tsd-kind-icon">URLSource</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-kind-icon">IBackground<wbr>Source</a>
+						<a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-kind-icon">IBackground<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.icloneable.html" class="tsd-kind-icon">ICloneable</a>
+						<a href="../interfaces/_style_background_.ibgattribute.html" class="tsd-kind-icon">IBg<wbr>Attribute</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_image" class="tsd-kind-icon">REG_<wbr>IMAGE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parameters" class="tsd-kind-icon">REG_<wbr>PARAMETERS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parts" class="tsd-kind-icon">REG_<wbr>PARTS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_x" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>X</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_y" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>Y</a>
+						<a href="../modules/_style_background_.html#bg_tokenizer" class="tsd-kind-icon">BG_<wbr>TOKENIZER</a>
 					</li>
 				</ul>
 			</nav>

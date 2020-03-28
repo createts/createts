@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LayoutUtils = void 0;
 
+var _Runtime = require("../runtime/Runtime");
+
 var _Style = require("../style/Style");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -79,6 +81,36 @@ var LayoutUtils = /*#__PURE__*/function () {
       } else {
         element.rect.y = element.style.marginTop ? element.style.marginTop.getValue(parentHeight) : 0;
       }
+    }
+    /**
+     * Measures the width of a text with specified font.
+     * @param text the text to be calculated.
+     * @param font the font of the text.
+     * @returns The width of this text with specified font.
+     */
+
+  }, {
+    key: "measureTextWidth",
+    value: function measureTextWidth(text, font) {
+      if (text.length === 0) {
+        return 0;
+      }
+
+      var canvas = _Runtime.Runtime.get().newCanvas();
+
+      var ctx = canvas.getContext('2d');
+      var width = 0;
+
+      if (ctx) {
+        ctx.save();
+        ctx.font = font.toString();
+        width = ctx.measureText(text).width;
+        ctx.restore();
+      }
+
+      _Runtime.Runtime.get().releaseCanvas(canvas);
+
+      return width;
     }
   }]);
 

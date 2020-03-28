@@ -69,6 +69,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The LinearGradientSource class implements IBackgroundImage for linear-gradient function, for
+						example:</p>
+					</div>
+					<pre><code class="language-css">background-image: linear-gradient(&#39;sample.png&#39;);</code></pre>
+					<p>see: <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient">https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient</a></p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -80,7 +90,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a></li>
+					<li><a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -104,7 +114,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#destory" class="tsd-kind-icon">destory</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#destroy" class="tsd-kind-icon">destroy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#getsource" class="tsd-kind-icon">get<wbr>Source</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_style_background_.lineargradientsource.html#of" class="tsd-kind-icon">of</a></li>
@@ -125,13 +135,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L69">style/Background.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L138">style/Background.ts:138</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a LinearGradientSource instance form augments of linear-gradient function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the arguments of linear-gradient function.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_style_background_.lineargradientsource.html" class="tsd-signature-type">LinearGradientSource</a></h4>
@@ -147,9 +167,14 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L69">style/Background.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L138">style/Background.ts:138</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The cached canvas with images defined in linear-gradient function.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-not-exported">
 					<a name="parameters" class="tsd-anchor"></a>
@@ -157,9 +182,14 @@
 					<div class="tsd-signature tsd-kind-icon">parameters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L68">style/Background.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L134">style/Background.ts:134</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>the arguments of linear-gradient function.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
@@ -168,34 +198,45 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundsource.html">IBackgroundSource</a>.<a href="../interfaces/_style_background_.ibackgroundsource.html#clone">clone</a></p>
+								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundimage.html">IBackgroundImage</a>.<a href="../interfaces/_style_background_.ibackgroundimage.html#clone">clone</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L178">style/Background.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L265">style/Background.ts:265</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-signature-type">IBackgroundSource</a></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new LinearGradientSource with the same arguments.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-signature-type">IBackgroundImage</a></h4>
+							<p>a clone of this instance.</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="destory" class="tsd-anchor"></a>
-					<h3>destory</h3>
+					<a name="destroy" class="tsd-anchor"></a>
+					<h3>destroy</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">destory<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">destroy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundsource.html">IBackgroundSource</a>.<a href="../interfaces/_style_background_.ibackgroundsource.html#destory">destory</a></p>
+								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundimage.html">IBackgroundImage</a>.<a href="../interfaces/_style_background_.ibackgroundimage.html#destroy">destroy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L182">style/Background.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L272">style/Background.ts:272</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A callback function to destroy current instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -209,21 +250,33 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundsource.html">IBackgroundSource</a>.<a href="../interfaces/_style_background_.ibackgroundsource.html#getsource">getSource</a></p>
+								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundimage.html">IBackgroundImage</a>.<a href="../interfaces/_style_background_.ibackgroundimage.html#getsource">getSource</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L74">style/Background.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L153">style/Background.ts:153</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a drawable instance (canvas) for the specified size.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>width: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specified drawable width.</p>
+									</div>
 								</li>
 								<li>
 									<h5>height: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specified drawable height.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLCanvasElement</span></h4>
+							<p>A canvas with given size and drawn by the linear-gradient function.</p>
 						</li>
 					</ul>
 				</section>
@@ -236,12 +289,18 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundsource.html">IBackgroundSource</a>.<a href="../interfaces/_style_background_.ibackgroundsource.html#tostring">toString</a></p>
+								<p>Implementation of <a href="../interfaces/_style_background_.ibackgroundimage.html">IBackgroundImage</a>.<a href="../interfaces/_style_background_.ibackgroundimage.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L174">style/Background.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L257">style/Background.ts:257</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a string representation of this object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representation of this object.</p>
 						</li>
 					</ul>
 				</section>
@@ -249,22 +308,28 @@
 					<a name="of" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> of</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_background_.lineargradientsource.html" class="tsd-signature-type">LinearGradientSource</a></li>
+						<li class="tsd-signature tsd-kind-icon">of<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_background_.lineargradientsource.html" class="tsd-signature-type">LinearGradientSource</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/style/Background.ts#L64">style/Background.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/style/Background.ts#L127">style/Background.ts:127</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a LinearGradientSource instance form augments of linear-gradient function.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>args: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_style_background_.lineargradientsource.html" class="tsd-signature-type">LinearGradientSource</a></h4>
+							<p>LinearGradientSource instance with given arguments.</p>
 						</li>
 					</ul>
 				</section>
@@ -289,11 +354,11 @@
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_style_background_.backgroundclip.html" class="tsd-kind-icon">Background<wbr>Clip</a>
 					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_style_background_.backgroundorigin.html" class="tsd-kind-icon">Background<wbr>Origin</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/_style_background_.backgroundpositiontype.html" class="tsd-kind-icon">Background<wbr>Position<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+						<a href="../enums/_style_background_.backgroundrepeattype.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_style_background_.backgroundsizetype.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Type</a>
@@ -302,10 +367,13 @@
 						<a href="_style_background_.background.html" class="tsd-kind-icon">Background</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_style_background_.backgroundrepeatpair.html" class="tsd-kind-icon">Background<wbr>Repeat<wbr>Pair</a>
+						<a href="_style_background_.backgroundposition.html" class="tsd-kind-icon">Background<wbr>Position</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_style_background_.backgroundsizepair.html" class="tsd-kind-icon">Background<wbr>Size<wbr>Pair</a>
+						<a href="_style_background_.backgroundrepeat.html" class="tsd-kind-icon">Background<wbr>Repeat</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_style_background_.backgroundsize.html" class="tsd-kind-icon">Background<wbr>Size</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -325,7 +393,7 @@
 								<a href="_style_background_.lineargradientsource.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_style_background_.lineargradientsource.html#destory" class="tsd-kind-icon">destory</a>
+								<a href="_style_background_.lineargradientsource.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="_style_background_.lineargradientsource.html#getsource" class="tsd-kind-icon">get<wbr>Source</a>
@@ -344,25 +412,13 @@
 						<a href="_style_background_.urlsource.html" class="tsd-kind-icon">URLSource</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.ibackgroundsource.html" class="tsd-kind-icon">IBackground<wbr>Source</a>
+						<a href="../interfaces/_style_background_.ibackgroundimage.html" class="tsd-kind-icon">IBackground<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../interfaces/_style_background_.icloneable.html" class="tsd-kind-icon">ICloneable</a>
+						<a href="../interfaces/_style_background_.ibgattribute.html" class="tsd-kind-icon">IBg<wbr>Attribute</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_image" class="tsd-kind-icon">REG_<wbr>IMAGE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parameters" class="tsd-kind-icon">REG_<wbr>PARAMETERS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_parts" class="tsd-kind-icon">REG_<wbr>PARTS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_x" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>X</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_style_background_.html#reg_position_y" class="tsd-kind-icon">REG_<wbr>POSITION_<wbr>Y</a>
+						<a href="../modules/_style_background_.html#bg_tokenizer" class="tsd-kind-icon">BG_<wbr>TOKENIZER</a>
 					</li>
 				</ul>
 			</nav>

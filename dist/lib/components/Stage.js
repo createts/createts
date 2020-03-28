@@ -9,7 +9,7 @@ var _AnimationFactory = require("../animation/AnimationFactory");
 
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
-var _Runtime = require("../Runtime");
+var _Runtime = require("../runtime/Runtime");
 
 var _Ticker = require("../Ticker");
 
@@ -399,6 +399,10 @@ var Stage = /*#__PURE__*/function (_Container) {
             _this2.needUpdate = false;
           }
         });
+
+        _ResourceRegistry.ResourceRegistry.DefaultInstance.addEventListener('load', function (e) {
+          _this2.updateOnce();
+        });
       }
     }
     /**
@@ -479,6 +483,7 @@ var Stage = /*#__PURE__*/function (_Container) {
           break;
 
         case 'touchend':
+        case 'touchcancel':
           this.handleTouchEndEvent(touches, e);
           break;
 

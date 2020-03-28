@@ -11,7 +11,7 @@ var _Matrix2D = require("../base/Matrix2D");
 
 var _Rect = require("../base/Rect");
 
-var _Runtime = require("../Runtime");
+var _Runtime = require("../runtime/Runtime");
 
 var _Style = require("../style/Style");
 

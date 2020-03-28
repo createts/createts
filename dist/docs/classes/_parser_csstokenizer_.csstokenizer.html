@@ -97,13 +97,14 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_parser_csstokenizer_.csstokenizer.html#splitter" class="tsd-kind-icon">splitter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_parser_csstokenizer_.csstokenizer.html#stopletters" class="tsd-kind-icon">stop<wbr>Letters</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_csstokenizer_.csstokenizer.html#issplitter" class="tsd-kind-icon">is<wbr>Splitter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_csstokenizer_.csstokenizer.html#isstopletter" class="tsd-kind-icon">is<wbr>Stop<wbr>Letter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_parser_csstokenizer_.csstokenizer.html#tokenize" class="tsd-kind-icon">tokenize</a></li>
 							</ul>
 						</section>
@@ -116,19 +117,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new CSSTokenizer<span class="tsd-signature-symbol">(</span>splitter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_parser_csstokenizer_.csstokenizer.html" class="tsd-signature-type">CSSTokenizer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new CSSTokenizer<span class="tsd-signature-symbol">(</span>stopLetters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_parser_csstokenizer_.csstokenizer.html" class="tsd-signature-type">CSSTokenizer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/parser/CSSTokenizer.ts#L16">parser/CSSTokenizer.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/parser/CSSTokenizer.ts#L11">parser/CSSTokenizer.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> splitter: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> stopLetters: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_parser_csstokenizer_.csstokenizer.html" class="tsd-signature-type">CSSTokenizer</a></h4>
@@ -139,12 +140,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="splitter" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> splitter</h3>
-					<div class="tsd-signature tsd-kind-icon">splitter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
+					<a name="stopletters" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> stop<wbr>Letters</h3>
+					<div class="tsd-signature tsd-kind-icon">stop<wbr>Letters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/parser/CSSTokenizer.ts#L16">parser/CSSTokenizer.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/parser/CSSTokenizer.ts#L11">parser/CSSTokenizer.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -161,7 +162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/parser/CSSTokenizer.ts#L26">parser/CSSTokenizer.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/parser/CSSTokenizer.ts#L21">parser/CSSTokenizer.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,6 +184,38 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="isstopletter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> is<wbr>Stop<wbr>Letter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Stop<wbr>Letter<span class="tsd-signature-symbol">(</span>ch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/parser/CSSTokenizer.ts#L30">parser/CSSTokenizer.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether a character is stop latter.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ch: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the character to be checked.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>true if the character is one of stop letters; false otherwise.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="tokenize" class="tsd-anchor"></a>
 					<h3>tokenize</h3>
@@ -193,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/parser/CSSTokenizer.ts#L38">parser/CSSTokenizer.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/parser/CSSTokenizer.ts#L40">parser/CSSTokenizer.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -242,10 +275,13 @@
 								<a href="_parser_csstokenizer_.csstokenizer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_parser_csstokenizer_.csstokenizer.html#splitter" class="tsd-kind-icon">splitter</a>
+								<a href="_parser_csstokenizer_.csstokenizer.html#stopletters" class="tsd-kind-icon">stop<wbr>Letters</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_parser_csstokenizer_.csstokenizer.html#issplitter" class="tsd-kind-icon">is<wbr>Splitter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_parser_csstokenizer_.csstokenizer.html#isstopletter" class="tsd-kind-icon">is<wbr>Stop<wbr>Letter</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_parser_csstokenizer_.csstokenizer.html#tokenize" class="tsd-kind-icon">tokenize</a>
@@ -254,9 +290,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_parser_csstokenizer_.html#func" class="tsd-kind-icon">Func</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

@@ -23,7 +23,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Rect } from '../base/Rect';
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
 import { Display, PointerEvents, Style } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';

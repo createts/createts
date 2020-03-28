@@ -165,3 +165,4 @@ export var BaseValue = /*#__PURE__*/function () {
 
   return BaseValue;
 }();
+BaseValue.ZERO = BaseValue.of('0');

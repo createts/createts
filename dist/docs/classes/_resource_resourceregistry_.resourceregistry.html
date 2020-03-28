@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ResourceRegistry</span>
@@ -127,7 +127,7 @@
 					<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L216">resource/ResourceRegistry.ts:216</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L238">resource/ResourceRegistry.ts:238</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -137,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Instance<span class="tsd-signature-symbol">:</span> <a href="_resource_resourceregistry_.resourceregistry.html" class="tsd-signature-type">ResourceRegistry</a><span class="tsd-signature-symbol"> = new ResourceRegistry()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L218">resource/ResourceRegistry.ts:218</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L240">resource/ResourceRegistry.ts:240</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +154,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L47">resource/ResourceRegistry.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L58">resource/ResourceRegistry.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -174,14 +174,14 @@
 					<a name="addeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,20 +192,20 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>event type to listen.</p>
+										<p>event type to listen, it can be one type or a list of type.</p>
 									</div>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>a listener which be invoked if an event with this specified type is
 										dispatching.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>current object itself for chain calls.</p>
 						</li>
 					</ul>
@@ -214,14 +214,14 @@
 					<a name="dispatchevent" class="tsd-anchor"></a>
 					<h3>dispatch<wbr>Event</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">dispatch<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L206">base/Event.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L220">base/Event.ts:220</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +232,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a></h5>
+									<h5>event: <a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>event to be dispatched</p>
 									</div>
@@ -253,7 +253,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L192">resource/ResourceRegistry.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L214">resource/ResourceRegistry.ts:214</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,7 +276,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L150">resource/ResourceRegistry.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L159">resource/ResourceRegistry.ts:159</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -294,7 +294,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L190">base/Event.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L204">base/Event.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -326,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L80">resource/ResourceRegistry.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L91">resource/ResourceRegistry.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -349,7 +349,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L114">resource/ResourceRegistry.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L121">resource/ResourceRegistry.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -372,7 +372,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L91">resource/ResourceRegistry.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L102">resource/ResourceRegistry.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -389,14 +389,14 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L168">base/Event.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L182">base/Event.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -407,10 +407,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -421,14 +421,14 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L139">base/Event.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L145">base/Event.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -439,13 +439,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -459,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L183">resource/ResourceRegistry.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L205">resource/ResourceRegistry.ts:205</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -482,7 +482,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L163">resource/ResourceRegistry.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L181">resource/ResourceRegistry.ts:181</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -505,7 +505,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L158">resource/ResourceRegistry.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L167">resource/ResourceRegistry.ts:167</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -528,7 +528,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/resource/ResourceRegistry.ts#L205">resource/ResourceRegistry.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/resource/ResourceRegistry.ts#L227">resource/ResourceRegistry.ts:227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -552,7 +552,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L177">base/Event.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L191">base/Event.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -578,14 +578,14 @@
 					<a name="removeeventlistener" class="tsd-anchor"></a>
 					<h3>remove<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, listener<span class="tsd-signature-symbol">: </span><a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L148">base/Event.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L155">base/Event.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -596,19 +596,20 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>event type to remove.</p>
+										<p>event type to remove, it can be one type or a list of type.</p>
 									</div>
 								</li>
 								<li>
-									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.registryevent.html" class="tsd-signature-type">RegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <a href="../modules/_base_event_.html#ieventlistener" class="tsd-signature-type">IEventListener</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>a listener which te be removed.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_base_event_.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a><span class="tsd-signature-symbol">&lt;</span><a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-signature-type">ResourceRegistryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>current object itself for chain calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -623,7 +624,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/916f1d1/src/base/Event.ts#L197">base/Event.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0381026/src/base/Event.ts#L211">base/Event.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -661,9 +662,6 @@
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
 						<a href="../enums/_resource_resourceregistry_.resourcetype.html" class="tsd-kind-icon">Resource<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_resource_resourceregistry_.registryevent.html" class="tsd-kind-icon">Registry<wbr>Event</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -734,6 +732,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-kind-icon">Resource<wbr>Registry<wbr>Event</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../interfaces/_resource_resourceregistry_.ipromisehandler.html" class="tsd-kind-icon">IPromise<wbr>Handler</a>
 					</li>

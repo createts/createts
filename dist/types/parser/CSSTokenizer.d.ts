@@ -1,7 +1,8 @@
 export declare class CSSTokenizer {
-    private splitter;
-    constructor(splitter?: string);
+    private stopLetters;
+    constructor(stopLetters?: string);
     private isSplitter;
+    private isStopLetter;
     tokenize(content: string): string[];
 }
 //# sourceMappingURL=CSSTokenizer.d.ts.map

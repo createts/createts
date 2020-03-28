@@ -6,8 +6,8 @@ export declare enum LoadState {
     ERROR = 3
 }
 export declare enum ResourceType {
-    IMAGE = 1,
-    APNG = 2
+    IMAGE = "image",
+    APNG = "apng"
 }
 declare type Resource = HTMLImageElement | SpriteSheet;
 declare type Resolve = (resource: Resource) => void;
@@ -27,11 +27,12 @@ export declare type ResourceItem = {
     progress: number;
     promiseHandlers: IPromiseHandler[];
 };
-declare class RegistryEvent extends Event {
-    progress: number;
-    constructor(type: string, progress: number);
+export declare class ResourceRegistryEvent extends Event {
+    progress?: number;
+    currentTarget?: ResourceItem;
+    constructor(type: string, progress?: number, currentTarget?: ResourceItem);
 }
-export declare class ResourceRegistry extends EventDispatcher<RegistryEvent> {
+export declare class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     add(url: string, type: ResourceType): Promise<Resource>;
     private load;
     private loadImage;

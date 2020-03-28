@@ -1,7 +1,7 @@
 import { Event, EventDispatcher } from '../base/Event';
 import { SpriteSheet } from '../components/Sprite';
 import { ApngParser } from '../parser/ApngParser';
-import { Loader } from './Loader';
+import { Runtime } from '../runtime/Runtime';
 
 /**
  * Resource load state.
@@ -100,33 +100,29 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   }
 
   private loadImage(item: ResourceItem) {
-    const loader = new Loader(item.url, 'GET', 'blob');
-    loader
-      .on('load', e => {
-        const url = URL.createObjectURL(e.response);
-        item.resource = new Image();
-        item.resource.src = url;
-        item.resource.onload = () => {
-          URL.revokeObjectURL(url);
-          this.onLoad(item);
-        };
-      })
-      .on('progress', e => {
-        item.loadedBytes = e.target.loadedBytes;
-        item.totalBytes = e.target.totalBytes;
-        this.onProgress(item);
-      })
-      .on('error', e => {
-        item.error = e;
+    Runtime.get().loadImage({
+      url: item.url,
+      onLoad: image => {
+        item.resource = image;
+        this.onLoad(item);
+      },
+      onError: error => {
+        item.error = error;
         this.onError(item);
-      });
+      },
+      onProgress: event => {
+        item.loadedBytes = event.loadedBytes;
+        item.totalBytes = event.totalBytes;
+        this.onProgress(item);
+      }
+    });
   }
 
   private loadApng(item: ResourceItem) {
-    const loader = new Loader(item.url, 'GET', 'arraybuffer');
-    loader
-      .on('load', e => {
-        const apng = ApngParser.parse(e.response);
+    Runtime.get().loadArrayBuffer({
+      url: item.url,
+      onLoad: data => {
+        const apng = ApngParser.parse(data);
         const opt: SpriteSheet = {
           width: apng.width,
           height: apng.height,
@@ -146,16 +142,18 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
         }
         item.resource = opt;
         this.onLoad(item);
-      })
-      .on('progress', e => {
-        item.loadedBytes = e.target.loadedBytes;
-        item.totalBytes = e.target.totalBytes;
-        this.onProgress(item);
-      })
-      .on('error', e => {
-        item.error = e;
+      },
+      onError: error => {
+        console.warn('error while loading apng', error);
+        item.error = error;
         this.onError(item);
-      });
+      },
+      onProgress: event => {
+        item.loadedBytes = event.loadedBytes;
+        item.totalBytes = event.totalBytes;
+        this.onProgress(item);
+      }
+    });
   }
 
   private getTotalProgress(): number {
@@ -167,7 +165,9 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   }
 
   private onProgress(item: ResourceItem) {
-    item.progress = item.totalBytes > 0 ? item.loadedBytes / item.totalBytes : 0;
+    if (item.state === LoadState.LOADING && item.totalBytes > 0) {
+      item.progress = item.loadedBytes / item.totalBytes;
+    }
     this.dispatchEvent(new ResourceRegistryEvent('progress', this.getTotalProgress()));
     this.dispatchEvent(
       new ResourceRegistryEvent(
@@ -180,8 +180,11 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
 
   private onLoad(item: ResourceItem) {
     item.state = LoadState.LOADED;
-    item.progress = 1;
     item.loadedBytes = item.totalBytes;
+    if (item.progress < 1) {
+      item.progress = 1;
+      this.onProgress(item);
+    }
     for (const handler of item.promiseHandlers) {
       handler.resolve(item.resource);
     }

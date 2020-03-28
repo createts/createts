@@ -6,7 +6,7 @@ import { XObject } from '../components/XObject';
 import { CSSTokenizer } from '../parser/CSSTokenizer';
 import { FunctionParser } from '../parser/FunctionParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
-import { Runtime } from '../Runtime';
+import { Runtime } from '../runtime/Runtime';
 import { EnumUtils } from '../utils/EnumUtils';
 
 /**

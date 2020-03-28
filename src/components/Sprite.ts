@@ -353,8 +353,6 @@ export class Sprite extends XObject {
         destWidth * scaleX,
         destHeight * scaleY
       );
-    } catch (e) {
-      console.warn(this.currentFrame, e);
-    }
+    } catch (e) {}
   }
 }

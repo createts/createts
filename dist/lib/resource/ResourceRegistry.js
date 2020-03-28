@@ -3,19 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ResourceRegistry = exports.ResourceType = exports.LoadState = void 0;
+exports.ResourceRegistry = exports.ResourceRegistryEvent = exports.ResourceType = exports.LoadState = void 0;
 
 var _Event2 = require("../base/Event");
 
 var _ApngParser = require("../parser/ApngParser");
 
-var _Loader = require("./Loader");
+var _Runtime = require("../runtime/Runtime");
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29,7 +29,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+/**
+ * Resource load state.
+ */
 var LoadState;
+/**
+ * Resource types.
+ */
+
 exports.LoadState = LoadState;
 
 (function (LoadState) {
@@ -42,26 +49,33 @@ var ResourceType;
 exports.ResourceType = ResourceType;
 
 (function (ResourceType) {
-  ResourceType[ResourceType["IMAGE"] = 1] = "IMAGE";
-  ResourceType[ResourceType["APNG"] = 2] = "APNG";
+  ResourceType["IMAGE"] = "image";
+  ResourceType["APNG"] = "apng";
 })(ResourceType || (exports.ResourceType = ResourceType = {}));
 
-var RegistryEvent = /*#__PURE__*/function (_Event) {
-  _inherits(RegistryEvent, _Event);
+/**
+ * This event is triggered when resource was added, loaded, or loading progress was changed.
+ */
+var ResourceRegistryEvent = /*#__PURE__*/function (_Event) {
+  _inherits(ResourceRegistryEvent, _Event);
 
-  function RegistryEvent(type, progress) {
+  function ResourceRegistryEvent(type, progress, currentTarget) {
     var _this;
 
-    _classCallCheck(this, RegistryEvent);
+    _classCallCheck(this, ResourceRegistryEvent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(RegistryEvent).call(this, type));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ResourceRegistryEvent).call(this, type));
     _this.progress = void 0;
+    _this.currentTarget = void 0;
     _this.progress = progress;
+    _this.currentTarget = currentTarget;
     return _this;
   }
 
-  return RegistryEvent;
+  return ResourceRegistryEvent;
 }(_Event2.Event);
+
+exports.ResourceRegistryEvent = ResourceRegistryEvent;
 
 var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(ResourceRegistry, _EventDispatcher);
@@ -163,26 +177,24 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
     value: function loadImage(item) {
       var _this4 = this;
 
-      var loader = new _Loader.Loader(item.url, 'GET', 'blob');
-      loader.on('load', function (e) {
-        var url = URL.createObjectURL(e.response);
-        item.resource = new Image();
-        item.resource.src = url;
-
-        item.resource.onload = function () {
-          URL.revokeObjectURL(url);
+      _Runtime.Runtime.get().loadImage({
+        url: item.url,
+        onLoad: function onLoad(image) {
+          item.resource = image;
 
           _this4.onLoad(item);
-        };
-      }).on('progress', function (e) {
-        item.loadedBytes = e.target.loadedBytes;
-        item.totalBytes = e.target.totalBytes;
+        },
+        onError: function onError(error) {
+          item.error = error;
 
-        _this4.onProgress(item);
-      }).on('error', function (e) {
-        item.error = e;
+          _this4.onError(item);
+        },
+        onProgress: function onProgress(event) {
+          item.loadedBytes = event.loadedBytes;
+          item.totalBytes = event.totalBytes;
 
-        _this4.onError(item);
+          _this4.onProgress(item);
+        }
       });
     }
   }, {
@@ -190,60 +202,65 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
     value: function loadApng(item) {
       var _this5 = this;
 
-      var loader = new _Loader.Loader(item.url, 'GET', 'arraybuffer');
-      loader.on('load', function (e) {
-        var apng = _ApngParser.ApngParser.parse(e.response);
+      _Runtime.Runtime.get().loadArrayBuffer({
+        url: item.url,
+        onLoad: function onLoad(data) {
+          var apng = _ApngParser.ApngParser.parse(data);
 
-        var opt = {
-          width: apng.width,
-          height: apng.height,
-          fps: apng.frames.length * 1000 / apng.duration,
-          frames: [],
-          url: undefined,
-          image: undefined
-        };
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
+          var opt = {
+            width: apng.width,
+            height: apng.height,
+            fps: apng.frames.length * 1000 / apng.duration,
+            frames: [],
+            url: undefined,
+            image: undefined
+          };
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
 
-        try {
-          for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var frame = _step2.value;
-            opt.frames.push({
-              destX: frame.left,
-              destY: frame.top,
-              destWidth: frame.width,
-              destHeight: frame.height,
-              image: frame.image
-            });
-          }
-        } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
-        } finally {
           try {
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
+            for (var _iterator2 = apng.frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var frame = _step2.value;
+              opt.frames.push({
+                destX: frame.left,
+                destY: frame.top,
+                destWidth: frame.width,
+                destHeight: frame.height,
+                image: frame.image
+              });
             }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
           } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                _iterator2["return"]();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
             }
           }
+
+          item.resource = opt;
+
+          _this5.onLoad(item);
+        },
+        onError: function onError(error) {
+          console.warn('error while loading apng', error);
+          item.error = error;
+
+          _this5.onError(item);
+        },
+        onProgress: function onProgress(event) {
+          item.loadedBytes = event.loadedBytes;
+          item.totalBytes = event.totalBytes;
+
+          _this5.onProgress(item);
         }
-
-        item.resource = opt;
-
-        _this5.onLoad(item);
-      }).on('progress', function (e) {
-        item.loadedBytes = e.target.loadedBytes;
-        item.totalBytes = e.target.totalBytes;
-
-        _this5.onProgress(item);
-      }).on('error', function (e) {
-        item.error = e;
-
-        _this5.onError(item);
       });
     }
   }, {
@@ -279,15 +296,24 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
   }, {
     key: "onProgress",
     value: function onProgress(item) {
-      item.progress = item.totalBytes > 0 ? item.loadedBytes / item.totalBytes : 0;
-      this.dispatchEvent(new RegistryEvent('progress', this.getTotalProgress()));
+      if (item.state === LoadState.LOADING && item.totalBytes > 0) {
+        item.progress = item.loadedBytes / item.totalBytes;
+      }
+
+      this.dispatchEvent(new ResourceRegistryEvent('progress', this.getTotalProgress()));
+      this.dispatchEvent(new ResourceRegistryEvent('itemprogress', item.totalBytes > 0 ? item.loadedBytes / item.totalBytes : 0, item));
     }
   }, {
     key: "onLoad",
     value: function onLoad(item) {
       item.state = LoadState.LOADED;
-      item.progress = 1;
       item.loadedBytes = item.totalBytes;
+
+      if (item.progress < 1) {
+        item.progress = 1;
+        this.onProgress(item);
+      }
+
       var _iteratorNormalCompletion4 = true;
       var _didIteratorError4 = false;
       var _iteratorError4 = undefined;
@@ -313,6 +339,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       item.promiseHandlers = [];
+      this.dispatchEvent(new ResourceRegistryEvent('load', 1, item));
       var done = true;
       var _iteratorNormalCompletion5 = true;
       var _didIteratorError5 = false;
@@ -343,7 +370,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       if (done) {
-        this.dispatchEvent(new RegistryEvent('done', 1));
+        this.dispatchEvent(new ResourceRegistryEvent('done', 1));
       }
     }
   }, {
@@ -375,7 +402,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       item.promiseHandlers = [];
-      this.dispatchEvent(new RegistryEvent('error', this.getTotalProgress()));
+      this.dispatchEvent(new ResourceRegistryEvent('error', this.getTotalProgress(), item));
     }
   }, {
     key: "get",

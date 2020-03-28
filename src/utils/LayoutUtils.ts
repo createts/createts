@@ -1,4 +1,6 @@
 import { XObject } from '../components/XObject';
+import { Runtime } from '../runtime/Runtime';
+import { Font } from '../style/Font';
 import { BoxSizing } from '../style/Style';
 
 /**
@@ -94,5 +96,28 @@ export class LayoutUtils {
     } else {
       element.rect.y = element.style.marginTop ? element.style.marginTop.getValue(parentHeight) : 0;
     }
+  }
+
+  /**
+   * Measures the width of a text with specified font.
+   * @param text the text to be calculated.
+   * @param font the font of the text.
+   * @returns The width of this text with specified font.
+   */
+  public static measureTextWidth(text: string, font: Font): number {
+    if (text.length === 0) {
+      return 0;
+    }
+    const canvas = Runtime.get().newCanvas();
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    if (ctx) {
+      ctx.save();
+      ctx.font = font.toString();
+      width = ctx.measureText(text).width;
+      ctx.restore();
+    }
+    Runtime.get().releaseCanvas(canvas);
+    return width;
   }
 }

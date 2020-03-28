@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Background = exports.BackgroundSizeType = exports.BackgroundOrigin = exports.BackgroundClip = exports.BackgroundRepeat = exports.BackgroundAttachment = void 0;
+exports.Background = exports.BackgroundSizeType = exports.BackgroundClip = exports.BackgroundRepeatType = exports.BackgroundAttachment = void 0;
 
 var _BaseValue = require("../base/BaseValue");
 
@@ -11,19 +11,33 @@ var _Color = require("../base/Color");
 
 var _Rect = require("../base/Rect");
 
+var _CSSTokenizer = require("../parser/CSSTokenizer");
+
+var _FunctionParser = require("../parser/FunctionParser");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
-var _Runtime = require("../Runtime");
+var _Runtime = require("../runtime/Runtime");
 
 var _EnumUtils = require("../utils/EnumUtils");
-
-var _StringUtils = require("../utils/StringUtils");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * The global tokenizer to split background tokens.
+ */
+var BG_TOKENIZER = new _CSSTokenizer.CSSTokenizer('/');
+/**
+ * The BackgroundAttachment property sets whether a background image's position is fixed within the
+ * viewport, or scrolls with its containing block, see:
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment
+ *
+ * Currently we only support SCROLL.
+ */
 
 var BackgroundAttachment;
 exports.BackgroundAttachment = BackgroundAttachment;
@@ -32,27 +46,38 @@ exports.BackgroundAttachment = BackgroundAttachment;
   BackgroundAttachment["SCROLL"] = "scroll";
 })(BackgroundAttachment || (exports.BackgroundAttachment = BackgroundAttachment = {}));
 
-var BackgroundRepeat;
-exports.BackgroundRepeat = BackgroundRepeat;
-
-(function (BackgroundRepeat) {
-  BackgroundRepeat["REPEAT"] = "repeat";
-  BackgroundRepeat["NO_REPEAT"] = "no-repeat";
-  BackgroundRepeat["SPACE"] = "space";
-  BackgroundRepeat["ROUND"] = "round";
-})(BackgroundRepeat || (exports.BackgroundRepeat = BackgroundRepeat = {}));
-
-// Radial-gradient
-// repeating-linear-gradient
-// repeating-radial-gradient
+/**
+ * The URLSource class implements IBackgroundImage for url function, for example:
+ *
+ * ```css
+ * background-image: url('sample.png');
+ * ```
+ *
+ * The URLSource instance holds the image url and ask ResourceRegistry to download the image form
+ * this url and provide it as background image.
+ */
 var URLSource = /*#__PURE__*/function () {
   _createClass(URLSource, null, [{
     key: "of",
-    value: function of(value) {
-      return new URLSource(value[0]);
+
+    /**
+     * Creates an URLSource instance from url(<image path>) function.
+     * @param args The arguments of url function.
+     * @returns an URLSource instance hold this url.
+     */
+    value: function of(args) {
+      return new URLSource(args[0]);
     }
+    /**
+     * Image url.
+     */
+
   }]);
 
+  /**
+   * Construct an URLSource instance with image url.
+   * @param url image url.
+   */
   function URLSource(url) {
     _classCallCheck(this, URLSource);
 
@@ -61,40 +86,86 @@ var URLSource = /*#__PURE__*/function () {
 
     _ResourceRegistry.ResourceRegistry.DefaultInstance.add(url, _ResourceRegistry.ResourceType.IMAGE);
   }
+  /**
+   * Returns a drawable object for drawing by the specified with and height.
+   * @param width The required width.
+   * @param height The required height.
+   * @returns The image instance of this url if it is loaded.
+   */
+
 
   _createClass(URLSource, [{
     key: "getSource",
     value: function getSource(width, height) {
       return _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.url);
     }
+    /**
+     * Returns a string representation of this object.
+     * @returns a string representation of this object.
+     */
+
   }, {
     key: "toString",
     value: function toString() {
       return "url(".concat(this.url, ")");
     }
+    /**
+     * Creates a new URLSource with the same image path.
+     * @returns a clone of this instance.
+     */
+
   }, {
     key: "clone",
     value: function clone() {
       return new URLSource(this.url);
     }
+    /**
+     * A callback function to destroy current instance.
+     */
+
   }, {
-    key: "destory",
-    value: function destory() {
+    key: "destroy",
+    value: function destroy() {
       return;
     }
   }]);
 
   return URLSource;
 }();
+/**
+ * The LinearGradientSource class implements IBackgroundImage for linear-gradient function, for
+ * example:
+ *
+ * ```css
+ * background-image: linear-gradient('sample.png');
+ * ```
+ *
+ * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
+ */
+
 
 var LinearGradientSource = /*#__PURE__*/function () {
   _createClass(LinearGradientSource, null, [{
     key: "of",
-    value: function of(value) {
-      return new LinearGradientSource(value);
+
+    /**
+     * Create a LinearGradientSource instance form augments of linear-gradient function.
+     * @param value the arguments of linear-gradient function.
+     * @returns LinearGradientSource instance with given arguments.
+     */
+    value: function of(args) {
+      return new LinearGradientSource(args);
     }
+    /**
+     * the arguments of linear-gradient function.
+     */
+
   }]);
 
+  /**
+   * Create a LinearGradientSource instance form augments of linear-gradient function.
+   * @param value the arguments of linear-gradient function.
+   */
   function LinearGradientSource(value) {
     _classCallCheck(this, LinearGradientSource);
 
@@ -102,6 +173,13 @@ var LinearGradientSource = /*#__PURE__*/function () {
     this.canvas = void 0;
     this.parameters = value;
   }
+  /**
+   * Returns a drawable instance (canvas) for the specified size.
+   * @param width Specified drawable width.
+   * @param height Specified drawable height.
+   * @returns A canvas with given size and drawn by the linear-gradient function.
+   */
+
 
   _createClass(LinearGradientSource, [{
     key: "getSource",
@@ -163,7 +241,7 @@ var LinearGradientSource = /*#__PURE__*/function () {
 
         i++;
       } else if (this.parameters[0].endsWith('deg')) {
-        // TODO: caculate by deg
+        // TODO: calculate by deg
         // const deg = parseFloat(this.parameters[0]);
         // const r = Math.sqrt(width * width / 4 + height * height * 4);
         // const x = r * Math.
@@ -218,19 +296,33 @@ var LinearGradientSource = /*#__PURE__*/function () {
       ctx.fillRect(0, 0, width, height);
       return this.canvas;
     }
+    /**
+     * Returns a string representation of this object.
+     * @returns a string representation of this object.
+     */
+
   }, {
     key: "toString",
     value: function toString() {
       return "linear-gradient(".concat(this.parameters.join(','), ")");
     }
+    /**
+     * Creates a new LinearGradientSource with the same arguments.
+     * @returns a clone of this instance.
+     */
+
   }, {
     key: "clone",
     value: function clone() {
       return new LinearGradientSource(this.parameters);
     }
+    /**
+     * A callback function to destroy current instance.
+     */
+
   }, {
-    key: "destory",
-    value: function destory() {
+    key: "destroy",
+    value: function destroy() {
       if (this.canvas) {
         _Runtime.Runtime.get().releaseCanvas(this.canvas);
 
@@ -241,70 +333,122 @@ var LinearGradientSource = /*#__PURE__*/function () {
 
   return LinearGradientSource;
 }();
+/**
+ * The background-repeat type for horizontal and vertical axes.
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
+ */
 
-var BackgroundRepeatPair = /*#__PURE__*/function () {
-  _createClass(BackgroundRepeatPair, null, [{
+
+var BackgroundRepeatType;
+/**
+ * The background-repeat property sets how background images are repeated. A background image can
+ * be repeated along the horizontal and vertical axes, or not repeated at all.
+ */
+
+exports.BackgroundRepeatType = BackgroundRepeatType;
+
+(function (BackgroundRepeatType) {
+  BackgroundRepeatType["REPEAT"] = "repeat";
+  BackgroundRepeatType["NO_REPEAT"] = "no-repeat";
+  BackgroundRepeatType["SPACE"] = "space";
+  BackgroundRepeatType["ROUND"] = "round";
+})(BackgroundRepeatType || (exports.BackgroundRepeatType = BackgroundRepeatType = {}));
+
+var BackgroundRepeat = /*#__PURE__*/function () {
+  _createClass(BackgroundRepeat, null, [{
     key: "of",
-    value: function of(value) {
-      if (value === 'repeat-x') {
-        return new BackgroundRepeatPair(BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT);
-      } else if (value === 'repeat-y') {
-        return new BackgroundRepeatPair(BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT);
-      }
 
-      var parts = value.split(/\s+/);
+    /**
+     * The default instance of BackgroundRepeat, repeat at both axes.
+     */
 
-      var x = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundRepeat, parts[0]);
+    /**
+     * Convert the tokens to an BackgroundRepeat instance.
+     * @param tokens the tokens present BackgroundRepeat.
+     * @returns a BackgroundRepeat instance presents these tokens.
+     */
+    value: function of(tokens) {
+      // See: https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
+      if (tokens.length === 1) {
+        var token = tokens[0];
 
-      if (!x) {
+        if (token === 'repeat-x') {
+          return new BackgroundRepeat(BackgroundRepeatType.REPEAT, BackgroundRepeatType.NO_REPEAT);
+        } else if (token === 'repeat-y') {
+          return new BackgroundRepeat(BackgroundRepeatType.NO_REPEAT, BackgroundRepeatType.REPEAT);
+        } else if (token === 'repeat') {
+          return new BackgroundRepeat(BackgroundRepeatType.REPEAT, BackgroundRepeatType.REPEAT);
+        } else if (token === 'space') {
+          return new BackgroundRepeat(BackgroundRepeatType.SPACE, BackgroundRepeatType.SPACE);
+        } else if (token === 'round') {
+          return new BackgroundRepeat(BackgroundRepeatType.ROUND, BackgroundRepeatType.ROUND);
+        } else if (token === 'no-repeat') {
+          return new BackgroundRepeat(BackgroundRepeatType.NO_REPEAT, BackgroundRepeatType.NO_REPEAT);
+        } else {
+          return undefined;
+        }
+      } else if (tokens.length === 2) {
+        var x = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundRepeatType, tokens[0]);
+
+        var y = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundRepeatType, tokens[1]);
+
+        if (!x || !y) {
+          return undefined;
+        }
+
+        return new BackgroundRepeat(x, x);
+      } else {
         return undefined;
       }
-
-      if (parts.length > 1) {
-        var y = _EnumUtils.EnumUtils.fromString(BackgroundRepeat, parts[1], BackgroundRepeat.NO_REPEAT);
-
-        return new BackgroundRepeatPair(x, y);
-      } else {
-        return new BackgroundRepeatPair(x, x);
-      }
     }
-  }, {
-    key: "toBaseValue",
-    value: function toBaseValue(value) {
-      value = value.toLowerCase();
+    /**
+     * The repeat type of horizontal axes.
+     */
 
-      if (value === 'left' || value === 'top') {
-        return _BaseValue.BaseValue.of('0%');
-      } else if (value === 'right' || value === 'bottom') {
-        return _BaseValue.BaseValue.of('100%');
-      } else if (value === 'center') {
-        return _BaseValue.BaseValue.of('50%');
-      } else {
-        return _BaseValue.BaseValue.of(value);
-      }
-    }
   }]);
 
-  function BackgroundRepeatPair(x, y) {
-    _classCallCheck(this, BackgroundRepeatPair);
+  /**
+   * Creates an BackgroundRepeat instance repeat type of both horizontal and vertical axes.
+   * @param x The repeat type of horizontal axes.
+   * @param y The repeat type of vertical axes.
+   */
+  function BackgroundRepeat(x, y) {
+    _classCallCheck(this, BackgroundRepeat);
 
     this.x = void 0;
     this.y = void 0;
     this.x = x;
     this.y = y;
   }
+  /**
+   * Creates a new BackgroundRepeat instance with the same repeat type of both horizontal and
+   * vertical axes.
+   * @returns a clone of this instance.
+   */
 
-  _createClass(BackgroundRepeatPair, [{
+
+  _createClass(BackgroundRepeat, [{
     key: "clone",
     value: function clone() {
-      return new BackgroundRepeatPair(this.x, this.y);
+      return new BackgroundRepeat(this.x, this.y);
     }
   }]);
 
-  return BackgroundRepeatPair;
+  return BackgroundRepeat;
 }();
+/**
+ * The background-clip property sets whether an element's background extends underneath its border
+ * box, padding box, or content box.
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
+ */
 
+
+BackgroundRepeat.DEFAULT = new BackgroundRepeat(BackgroundRepeatType.REPEAT, BackgroundRepeatType.REPEAT);
 var BackgroundClip;
+/**
+ * The background-size type for horizontal and vertical axes.
+ */
+
 exports.BackgroundClip = BackgroundClip;
 
 (function (BackgroundClip) {
@@ -313,76 +457,363 @@ exports.BackgroundClip = BackgroundClip;
   BackgroundClip["CONTENT_BOX"] = "content-box";
 })(BackgroundClip || (exports.BackgroundClip = BackgroundClip = {}));
 
-var BackgroundOrigin;
-exports.BackgroundOrigin = BackgroundOrigin;
-
-(function (BackgroundOrigin) {
-  BackgroundOrigin["BORDER_BOX"] = "border-box";
-  BackgroundOrigin["PADDING_BOX"] = "padding-box";
-  BackgroundOrigin["CONTENT_BOX"] = "content-box";
-})(BackgroundOrigin || (exports.BackgroundOrigin = BackgroundOrigin = {}));
-
 var BackgroundSizeType;
+/**
+ * The background-size property sets the size of the element's background image. The image can be
+ * left to its natural size, stretched, or constrained to fit the available space.
+ * See: https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
+ */
+
 exports.BackgroundSizeType = BackgroundSizeType;
 
 (function (BackgroundSizeType) {
-  BackgroundSizeType[BackgroundSizeType["AUTO"] = 0] = "AUTO";
-  BackgroundSizeType[BackgroundSizeType["LENGTH"] = 1] = "LENGTH";
-  BackgroundSizeType[BackgroundSizeType["PERCENTAGE"] = 2] = "PERCENTAGE";
-  BackgroundSizeType[BackgroundSizeType["COVER"] = 3] = "COVER";
-  BackgroundSizeType[BackgroundSizeType["CONTAIN"] = 4] = "CONTAIN";
+  BackgroundSizeType["AUTO"] = "auto";
+  BackgroundSizeType["COVER"] = "cover";
+  BackgroundSizeType["CONTAIN"] = "contain";
+  BackgroundSizeType["VALUE"] = "value";
 })(BackgroundSizeType || (exports.BackgroundSizeType = BackgroundSizeType = {}));
 
-var BackgroundSizePair = /*#__PURE__*/function () {
-  _createClass(BackgroundSizePair, null, [{
+var BackgroundSize = /*#__PURE__*/function () {
+  _createClass(BackgroundSize, null, [{
     key: "of",
-    value: function of(value) {
-      var parts = value.split(/\s+/);
-      var x = this.toBaseValue(parts[0]);
-      var y = parts.length > 1 ? this.toBaseValue(parts[1]) : _BaseValue.BaseValue.of('50%');
-      return new BackgroundSizePair(x, y);
-    }
-  }, {
-    key: "toBaseValue",
-    value: function toBaseValue(value) {
-      value = value.toLowerCase();
 
-      if (value === 'left' || value === 'top') {
-        return _BaseValue.BaseValue.of('0%');
-      } else if (value === 'right' || value === 'bottom') {
-        return _BaseValue.BaseValue.of('100%');
-      } else if (value === 'center') {
-        return _BaseValue.BaseValue.of('50%');
+    /**
+     * The default value of background size.
+     */
+
+    /**
+     * Convert the tokens to an BackgroundSize instance.
+     * @param tokens the tokens present BackgroundSize.
+     * @returns a BackgroundSize instance presents these tokens.
+     */
+    value: function of(tokens) {
+      var xType;
+      var x = _BaseValue.BaseValue.ZERO;
+      var yType;
+      var y = _BaseValue.BaseValue.ZERO;
+
+      if (tokens.length === 1) {
+        var token = tokens[0];
+
+        if (token === 'auto') {
+          xType = yType = BackgroundSizeType.AUTO;
+        } else if (token === 'cover') {
+          xType = yType = BackgroundSizeType.COVER;
+        } else if (token === 'contain') {
+          xType = yType = BackgroundSizeType.CONTAIN;
+        } else {
+          x = y = _BaseValue.BaseValue.of(token);
+          if (!y) return undefined;
+        }
+      } else if (tokens.length === 2) {
+        if (tokens[0] === 'auto') {
+          xType = BackgroundSizeType.AUTO;
+        } else {
+          xType = BackgroundSizeType.VALUE;
+          x = _BaseValue.BaseValue.of(tokens[0], true);
+          if (!x) return undefined;
+        }
+
+        if (tokens[1] === 'auto') {
+          yType = BackgroundSizeType.AUTO;
+        } else {
+          yType = BackgroundSizeType.VALUE;
+          y = _BaseValue.BaseValue.of(tokens[1], true);
+          if (!y) return undefined;
+        }
       } else {
-        return _BaseValue.BaseValue.of(value);
+        return undefined;
       }
+
+      return new BackgroundSize(xType, x, yType, y);
     }
+    /**
+     * The background size type of horizontal axe.
+     */
+
   }]);
 
-  function BackgroundSizePair(x, y) {
-    _classCallCheck(this, BackgroundSizePair);
+  /**
+   * Creates a BackgroundSize instance with specified type and value in both horizontal and
+   * vertical axes.
+   * @param xType The background size type of horizontal axes.
+   * @param x The background size of horizontal axes.
+   * @param yType The background size type of vertical axes.
+   * @param y The background size of vertical axes.
+   */
+  function BackgroundSize(xType, x, yType, y) {
+    _classCallCheck(this, BackgroundSize);
 
+    this.xType = void 0;
+    this.yType = void 0;
     this.x = void 0;
     this.y = void 0;
     this.x = x;
+    this.xType = xType;
     this.y = y;
+    this.yType = yType;
   }
+  /**
+   * Creates a new BackgroundSize with the same type and value of both horizontal and vertical axes.
+   * @returns a clone of this instance.
+   */
 
-  _createClass(BackgroundSizePair, [{
+
+  _createClass(BackgroundSize, [{
     key: "clone",
     value: function clone() {
-      return new BackgroundSizePair(this.x.clone(), this.y.clone());
+      return new BackgroundSize(this.xType, this.x.clone(), this.yType, this.y.clone());
     }
   }]);
 
-  return BackgroundSizePair;
+  return BackgroundSize;
 }();
+/**
+ * The background-position type for horizontal and vertical axes.
+ */
 
-var REG_PARTS = /([^\s]+\([^\)]+\)|[^\s]+)/g;
-var REG_PARAMETERS = /("[^"]+"|'[^']+'|[^,]+)/g;
-var REG_IMAGE = /^(url|linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient)\(([^\)]+)\)$/i;
-var REG_POSITION_X = /^(left|right|[0-9\.]+px|[0-9\.]+%)$/i;
-var REG_POSITION_Y = /^(top|bottom|[0-9\.]+px|[0-9\.]+%)$/i;
+
+BackgroundSize.DEFAULT = new BackgroundSize(BackgroundSizeType.AUTO, _BaseValue.BaseValue.ZERO, BackgroundSizeType.AUTO, _BaseValue.BaseValue.ZERO);
+var BackgroundPositionType;
+/**
+ * The background-position property sets the initial position for each background image. The
+ * position is relative to the position layer set by background-origin.
+ */
+
+(function (BackgroundPositionType) {
+  BackgroundPositionType["LEFT"] = "left";
+  BackgroundPositionType["TOP"] = "top";
+  BackgroundPositionType["CENTER"] = "center";
+  BackgroundPositionType["BOTTOM"] = "bottom";
+  BackgroundPositionType["RIGHT"] = "right";
+})(BackgroundPositionType || (BackgroundPositionType = {}));
+
+var BackgroundPosition = /*#__PURE__*/function () {
+  _createClass(BackgroundPosition, null, [{
+    key: "acceptToken",
+
+    /**
+     * The default value of background-position, it is in left-top cornor.
+     */
+
+    /**
+     * Checks a token is a valid background-position token.
+     * @param token The token need to be checked.
+     * @returns True if it is a valid background-position token, false otherwise.
+     */
+    value: function acceptToken(token) {
+      var pattern = /^(left|center|right|top|bottom|[0-9\.]+|[0-9\.]+px|[0-9\.]+%)$/;
+      return pattern.test(token);
+    }
+    /**
+     * Convert the tokens to an BackgroundPosition instance.
+     * @param tokens the tokens present BackgroundPosition.
+     * @returns a BackgroundPosition instance presents these tokens.
+     */
+
+  }, {
+    key: "of",
+    value: function of(tokens) {
+      var xDir;
+      var yDir;
+      var x;
+      var y; // 1-value syntax: the value may be:
+      // The keyword value center, which centers the image.
+      // One of the keyword values top, left, bottom, right. This specifies an edge against which to
+      // place the item. The other dimension is then set to 50%, so the item is placed in the middle
+      // of the edge specified.
+      // A <length> or <percentage>. This specifies the X coordinate relative to the left edge, with
+      // the Y coordinate set to 50%.
+
+      if (tokens.length === 1) {
+        var token = tokens[0];
+        x = _BaseValue.BaseValue.ZERO;
+        y = _BaseValue.BaseValue.ZERO;
+
+        if (token === 'left' || token === 'right') {
+          xDir = token;
+          yDir = BackgroundPositionType.CENTER;
+        }
+
+        if (token === 'top' || token === 'bottom') {
+          xDir = BackgroundPositionType.CENTER;
+          yDir = token;
+        }
+
+        if (token === 'center') {
+          xDir = BackgroundPositionType.CENTER;
+          yDir = BackgroundPositionType.CENTER;
+        } else {
+          xDir = BackgroundPositionType.LEFT;
+          x = _BaseValue.BaseValue.of(token);
+          yDir = BackgroundPositionType.CENTER;
+        }
+      } // 2-value syntax: one value defines X and the other defines Y. Each value may be:
+      // One of the keyword values top, left, bottom, right. If left or right are given here, then
+      // this defines X and the other given value defines Y. If top or bottom are given, then this
+      // defines Y and the other value defines X.
+      // A <length> or <percentage>. If the other value is left or right, then this value defines Y,
+      // relative to the top edge. If the other value is top or bottom, then this value defines X,
+      // relative to the left edge. If both values are <length> or <percentage> values, then the
+      // first defines X and the second Y.
+      // Note that: If one value is top or bottom, then the other value may not be top or bottom.
+      // If one value is left or right, then the other value may not be left or right. This means,
+      // e.g., that top top and left right are not valid.
+      // The default value is top left or 0% 0%.
+      else if (tokens.length === 2) {
+          var tokenX = tokens[0];
+          var tokenY = tokens[1];
+
+          if (tokenX === 'top' || tokenX === 'bottom' || tokenY === 'left' || tokenY === 'right') {
+            tokenX = tokens[1];
+            tokenY = tokens[0];
+          }
+
+          if (tokenX === 'left' || tokenX === 'right' || tokenX === 'center') {
+            xDir = tokenX;
+            x = _BaseValue.BaseValue.ZERO;
+          } else {
+            xDir = BackgroundPositionType.LEFT;
+            x = _BaseValue.BaseValue.of(tokenX);
+
+            if (!x) {
+              return undefined;
+            }
+          }
+
+          if (tokenY === 'top' || tokenY === 'bottom' || tokenY === 'center') {
+            yDir = tokenY;
+            y = _BaseValue.BaseValue.ZERO;
+          } else {
+            yDir = BackgroundPositionType.TOP;
+            y = _BaseValue.BaseValue.of(tokenY);
+
+            if (!y) {
+              return undefined;
+            }
+          }
+        } // 3-value syntax: Two values are keyword values, and the third is the offset for the preceding
+        // value:
+        // The first value is one of the keyword values top, left, bottom, right, or center. If left or
+        // right are given here, then this defines X. If top or bottom are given, then this defines Y
+        // and the other keyword value defines X.
+        // The <length> or <percentage> value, if it is the second value, is the offset for the first
+        // value. If it is the third value, it is the offset for the second value.
+        // The single length or percentage value is an offset for the keyword value that precedes it.
+        // The combination of one keyword with two <length> or <percentage> values is not valid.
+        else if (tokens.length === 3) {
+            if (tokens[0] === 'left' || tokens[0] === 'right') {
+              xDir = tokens[0];
+              x = _BaseValue.BaseValue.of(tokens[1]);
+
+              if (x) {
+                if (tokens[2] === 'top' || tokens[2] === 'bottom' || tokens[2] === 'center') {
+                  yDir = tokens[2];
+                  y = _BaseValue.BaseValue.ZERO;
+                } else {
+                  return undefined;
+                }
+              } else {
+                x = _BaseValue.BaseValue.ZERO;
+
+                if (tokens[1] === 'top' || tokens[1] === 'bottom' || tokens[1] === 'center') {
+                  yDir = tokens[1];
+                  y = _BaseValue.BaseValue.of(tokens[2]);
+                  if (!y) return undefined;
+                } else {
+                  return undefined;
+                }
+              }
+            } else if (tokens[0] === 'top' || tokens[0] === 'bottom') {
+              yDir = tokens[0];
+              y = _BaseValue.BaseValue.of(tokens[1]);
+
+              if (y) {
+                if (tokens[2] === 'left' || tokens[2] === 'right' || tokens[2] === 'center') {
+                  xDir = tokens[2];
+                  x = _BaseValue.BaseValue.ZERO;
+                } else {
+                  return undefined;
+                }
+              } else {
+                y = _BaseValue.BaseValue.ZERO;
+
+                if (tokens[1] === 'left' || tokens[1] === 'right' || tokens[1] === 'center') {
+                  xDir = tokens[1];
+                  x = _BaseValue.BaseValue.of(tokens[2]);
+                  if (!x) return undefined;
+                } else {
+                  return undefined;
+                }
+              }
+            }
+          } // 4-value syntax: The first and third values are keyword value defining X and Y. The second
+          // and fourth values are offsets for the preceding X and Y keyword values:
+          // The first value and third values one of the keyword values top, left, bottom, right. If left
+          // or right are given here, then this defines X. If top or bottom are given, then this defines
+          // Y and the other keyword value defines X.
+          // The second and fourth values are <length> or <percentage> values. The second value is the
+          // offset for the first keyword. The fourth value is the offset for the second keyword.
+          else if (tokens.length === 4) {
+              if (tokens[0] === 'left' || tokens[0] === 'right') {
+                xDir = tokens[0];
+                x = _BaseValue.BaseValue.of(tokens[1]);
+                yDir = tokens[2];
+                y = _BaseValue.BaseValue.of(tokens[3]);
+              } else if (tokens[0] === 'top' || tokens[0] === 'bottom') {
+                xDir = tokens[2];
+                x = _BaseValue.BaseValue.of(tokens[3]);
+                yDir = tokens[0];
+                y = _BaseValue.BaseValue.of(tokens[1]);
+              }
+
+              if (!x || !y || xDir !== 'left' && xDir !== 'right' || yDir !== 'top' && yDir !== 'bottom') {
+                return undefined;
+              }
+            } else {
+              return undefined;
+            }
+
+      return new BackgroundPosition(xDir, x, yDir, y);
+    }
+  }]);
+
+  function BackgroundPosition(xDir, x, yDir, y) {
+    _classCallCheck(this, BackgroundPosition);
+
+    this.xDir = void 0;
+    this.yDir = void 0;
+    this.x = void 0;
+    this.y = void 0;
+    this.xDir = xDir;
+    this.x = x;
+    this.yDir = yDir;
+    this.y = y;
+  }
+  /**
+   * Creates a new BackgroundPosition with the same type and value of both horizontal and vertical
+   * axes.
+   * @returns a clone of this instance.
+   */
+
+
+  _createClass(BackgroundPosition, [{
+    key: "clone",
+    value: function clone() {
+      return new BackgroundPosition(this.xDir, this.x.clone(), this.yDir, this.y.clone());
+    }
+  }]);
+
+  return BackgroundPosition;
+}();
+/**
+ * The background shorthand property sets all background style properties at once, such as color,
+ * image, origin and size, or repeat method.
+ * See: https://developer.mozilla.org/en-US/docs/Web/CSS/background
+ */
+
+
+BackgroundPosition.DEFAULT = new BackgroundPosition(BackgroundPositionType.LEFT, _BaseValue.BaseValue.ZERO, BackgroundPositionType.TOP, _BaseValue.BaseValue.ZERO);
 
 var Background = /*#__PURE__*/function () {
   function Background() {
@@ -401,9 +832,20 @@ var Background = /*#__PURE__*/function () {
 
   _createClass(Background, [{
     key: "setColor",
+
+    /**
+     * Set the color property by a string.
+     * @param value A string presents color.
+     */
     value: function setColor(value) {
       this.color = value instanceof _Color.Color ? value : _Color.Color.of(value);
     }
+    /**
+     * Set the <background-attachment> property by a string.
+     * @param value A string presents single <background-attachment> or a list of
+     * <background-attachment> for multiple layers.
+     */
+
   }, {
     key: "setAttachment",
     value: function setAttachment(value) {
@@ -434,6 +876,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-image> property by a string.
+     * @param value A string presents single <background-image> or a list of
+     * <background-image> for multiple layers.
+     */
+
   }, {
     key: "setImage",
     value: function setImage(value) {
@@ -463,6 +911,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <blend-mode> property by a string.
+     * @param value A string presents single <blend-mode> or a list of <blend-mode> for multiple
+     * layers.
+     */
+
   }, {
     key: "setBlendMode",
     value: function setBlendMode(value) {
@@ -492,6 +946,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-repeat> property by a string.
+     * @param value A string presents single <background-repeat> or a list of <background-repeat> for
+     * multiple layers.
+     */
+
   }, {
     key: "setRepeat",
     value: function setRepeat(value) {
@@ -504,7 +964,7 @@ var Background = /*#__PURE__*/function () {
       try {
         for (var _iterator4 = parts[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
           var part = _step4.value;
-          var repeat = BackgroundRepeatPair.of(part) || new BackgroundRepeatPair(BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT);
+          var repeat = BackgroundRepeat.of(BG_TOKENIZER.tokenize(part)) || BackgroundRepeat.DEFAULT;
           this.repeat.push(repeat);
         }
       } catch (err) {
@@ -522,6 +982,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-clip> property by a string.
+     * @param value A string presents single <background-clip> or a list of <background-clip> for
+     * multiple layers.
+     */
+
   }, {
     key: "setClip",
     value: function setClip(value) {
@@ -554,6 +1020,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-origin> property by a string.
+     * @param value A string presents single <background-origin> or a list of <background-origin> for
+     * multiple layers.
+     */
+
   }, {
     key: "setOrigin",
     value: function setOrigin(value) {
@@ -567,7 +1039,7 @@ var Background = /*#__PURE__*/function () {
         for (var _iterator6 = parts[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
           var part = _step6.value;
 
-          var origin = _EnumUtils.EnumUtils.fromString(BackgroundOrigin, part, BackgroundOrigin.BORDER_BOX);
+          var origin = _EnumUtils.EnumUtils.fromString(BackgroundClip, part, BackgroundClip.BORDER_BOX);
 
           this.origin.push(origin);
         }
@@ -586,6 +1058,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-size> property by a string.
+     * @param value A string presents single <background-size> or a list of <background-size> for
+     * multiple layers.
+     */
+
   }, {
     key: "setSize",
     value: function setSize(value) {
@@ -598,7 +1076,8 @@ var Background = /*#__PURE__*/function () {
       try {
         for (var _iterator7 = parts[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
           var part = _step7.value;
-          this.size.push(BackgroundSizePair.of(part));
+          var size = BackgroundSize.of(BG_TOKENIZER.tokenize(part)) || BackgroundSize.DEFAULT;
+          this.size.push(size);
         }
       } catch (err) {
         _didIteratorError7 = true;
@@ -615,6 +1094,12 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Set the <background-position> property by a string.
+     * @param value A string presents single <background-position> or a list of
+     * <background-position> for multiple layers.
+     */
+
   }, {
     key: "setPosition",
     value: function setPosition(value) {
@@ -627,7 +1112,8 @@ var Background = /*#__PURE__*/function () {
       try {
         for (var _iterator8 = parts[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
           var part = _step8.value;
-          this.position.push(BackgroundSizePair.of(part));
+          var position = BackgroundPosition.of(BG_TOKENIZER.tokenize(part)) || BackgroundPosition.DEFAULT;
+          this.position.push(position);
         }
       } catch (err) {
         _didIteratorError8 = true;
@@ -644,11 +1130,20 @@ var Background = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * Draw the background of an element.
+     * @param target The target element.
+     * @param ctx The canvas rendering context of stage canvas.
+     * @param outerRect The pre-calculated outer round rect of the element.
+     * @param innerRect The pre-calculated inner round rect of the element.
+     */
+
   }, {
     key: "draw",
     value: function draw(target, ctx, outerRect, innerRect) {
       // TODO: support blend mode
-      if (this.image.length === 0 && this.color) {
+      // Color only.
+      if (this.image.length === 0 && this.color && this.color.a > 0) {
         ctx.fillStyle = this.color.toString();
         var rect;
         var clip = Background.getFromArray(this.clip, 0, BackgroundClip.BORDER_BOX);
@@ -684,17 +1179,17 @@ var Background = /*#__PURE__*/function () {
           continue;
         }
 
-        var origin = Background.getFromArray(this.origin, i, BackgroundOrigin.BORDER_BOX);
+        var origin = Background.getFromArray(this.origin, i, BackgroundClip.BORDER_BOX);
         var originRect = void 0;
 
         switch (origin) {
-          case BackgroundOrigin.PADDING_BOX:
+          case BackgroundClip.PADDING_BOX:
             {
               originRect = target.getPaddingRect();
               break;
             }
 
-          case BackgroundOrigin.CONTENT_BOX:
+          case BackgroundClip.CONTENT_BOX:
             {
               originRect = target.getContentRect();
               break;
@@ -705,16 +1200,11 @@ var Background = /*#__PURE__*/function () {
             break;
         }
 
-        var w = originRect.width;
-        var h = originRect.height; // Image size
-
-        if (this.size.length > i) {
-          var size = this.size[i];
-          w = size.x.getValue(originRect.width);
-          h = size.y.getValue(originRect.height);
+        if (originRect.width < 1 || originRect.height < 1) {
+          continue;
         }
 
-        var img = source.getSource(w, h);
+        var img = source.getSource(originRect.width, originRect.height);
 
         if (!img) {
           continue;
@@ -758,26 +1248,50 @@ var Background = /*#__PURE__*/function () {
         var srcHeight = img.height;
         var scaledWidth = srcWidth;
         var scaledHeight = srcHeight;
-        var srcScaleX = 1;
-        var srcScaleY = 1;
         var destX = originRect.x;
         var destY = originRect.y; // Image size
 
-        if (this.size.length > i) {
-          var _size = this.size[i];
-          scaledWidth = _size.x.getValue(originRect.width);
-          scaledHeight = _size.y.getValue(originRect.height);
-          srcScaleX = scaledWidth / srcWidth;
-          srcScaleY = scaledHeight / srcHeight;
+        var size = this.size.length > i ? this.size[i] : BackgroundSize.DEFAULT; // Background size
+
+        if (size.xType === BackgroundSizeType.CONTAIN) {
+          var ratio = srcWidth / srcHeight;
+
+          if (ratio > originRect.width / originRect.height) {
+            scaledWidth = originRect.width;
+            scaledHeight = scaledWidth / ratio;
+          } else {
+            scaledHeight = originRect.height;
+            scaledWidth = scaledHeight * ratio;
+          }
+        } else if (size.xType === BackgroundSizeType.COVER) {
+          var _ratio = srcWidth / srcHeight;
+
+          if (_ratio < originRect.width / originRect.height) {
+            scaledWidth = originRect.width;
+            scaledHeight = scaledWidth / _ratio;
+          } else {
+            scaledHeight = originRect.height;
+            scaledWidth = scaledHeight * _ratio;
+          }
+        } else {
+          if (size.xType === BackgroundSizeType.VALUE) {
+            scaledWidth = size.x.getValue(originRect.width);
+          }
+
+          if (size.yType === BackgroundSizeType.VALUE) {
+            scaledHeight = size.y.getValue(originRect.height);
+          }
         }
 
         if (scaledWidth < 1 || scaledHeight < 1) {
           continue;
-        } // Repeat
+        }
 
+        var srcScaleX = scaledWidth / srcWidth;
+        var srcScaleY = scaledHeight / srcHeight; // Repeat
 
-        var repeatX = BackgroundRepeat.NO_REPEAT;
-        var repeatY = BackgroundRepeat.NO_REPEAT;
+        var repeatX = BackgroundRepeatType.NO_REPEAT;
+        var repeatY = BackgroundRepeatType.NO_REPEAT;
 
         if (this.repeat.length > i) {
           repeatX = this.repeat[i].x;
@@ -787,7 +1301,7 @@ var Background = /*#__PURE__*/function () {
         var gapX = 0;
         var gapY = 0;
 
-        if (repeatX === BackgroundRepeat.SPACE) {
+        if (repeatX === BackgroundRepeatType.SPACE) {
           var count = Math.floor(originRect.width / scaledWidth);
 
           if (count === 1) {
@@ -801,7 +1315,7 @@ var Background = /*#__PURE__*/function () {
           while (destX > clipRect.x) {
             destX -= gapX + scaledWidth;
           }
-        } else if (repeatX === BackgroundRepeat.ROUND) {
+        } else if (repeatX === BackgroundRepeatType.ROUND) {
           var _count = Math.max(1, Math.floor(originRect.width / scaledWidth + 0.5));
 
           scaledWidth = originRect.width / _count;
@@ -815,21 +1329,31 @@ var Background = /*#__PURE__*/function () {
           if (this.position.length > i) {
             var position = this.position[i];
 
-            if (position.x.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
-              destX += (originRect.width - scaledWidth) * position.x.numberValue / 100;
+            if (position.xDir === BackgroundPositionType.CENTER) {
+              destX += (originRect.width - scaledWidth) * 50 / 100;
+            } else if (position.xDir === BackgroundPositionType.RIGHT) {
+              if (position.x.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+                destX += (originRect.width - scaledWidth) * (100 - position.x.numberValue) / 100;
+              } else {
+                destX += originRect.width - scaledWidth - position.x.numberValue;
+              }
             } else {
-              destX += position.x.numberValue;
+              if (position.x.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+                destX += (originRect.width - scaledWidth) * position.x.numberValue / 100;
+              } else {
+                destX += position.x.numberValue;
+              }
             }
           }
 
-          if (repeatX === BackgroundRepeat.REPEAT) {
+          if (repeatX === BackgroundRepeatType.REPEAT) {
             while (destX > clipRect.x) {
               destX -= scaledWidth;
             }
           }
         }
 
-        if (repeatY === BackgroundRepeat.SPACE) {
+        if (repeatY === BackgroundRepeatType.SPACE) {
           var _count2 = Math.floor(originRect.height / scaledHeight);
 
           if (_count2 === 1) {
@@ -843,7 +1367,7 @@ var Background = /*#__PURE__*/function () {
           while (destY > clipRect.y) {
             destY -= gapY + scaledHeight;
           }
-        } else if (repeatY === BackgroundRepeat.ROUND) {
+        } else if (repeatY === BackgroundRepeatType.ROUND) {
           var _count3 = Math.max(1, Math.floor(originRect.height / scaledHeight + 0.5));
 
           scaledHeight = originRect.height / _count3;
@@ -857,14 +1381,24 @@ var Background = /*#__PURE__*/function () {
           if (this.position.length > i) {
             var _position = this.position[i];
 
-            if (_position.y.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
-              destY += (originRect.height - scaledHeight) * _position.y.numberValue / 100;
+            if (_position.yDir === BackgroundPositionType.CENTER) {
+              destY += (originRect.height - scaledHeight) * 50 / 100;
+            } else if (_position.yDir === BackgroundPositionType.BOTTOM) {
+              if (_position.x.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+                destY += (originRect.height - scaledHeight) * (100 - _position.y.numberValue) / 100;
+              } else {
+                destY += originRect.height - scaledHeight - _position.y.numberValue;
+              }
             } else {
-              destY += _position.y.numberValue;
+              if (_position.y.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+                destY += (originRect.height - scaledHeight) * _position.y.numberValue / 100;
+              } else {
+                destY += _position.y.numberValue;
+              }
             }
           }
 
-          if (repeatY === BackgroundRepeat.REPEAT) {
+          if (repeatY === BackgroundRepeatType.REPEAT) {
             while (destY > clipRect.y) {
               destY -= scaledHeight;
             }
@@ -880,12 +1414,17 @@ var Background = /*#__PURE__*/function () {
           do {
             this.drawImage(ctx, img, scaledWidth, scaledHeight, srcScaleX, srcScaleY, x, destY, clipRect);
             x += gapX + scaledWidth;
-          } while (x < clipRight && repeatX !== BackgroundRepeat.NO_REPEAT);
+          } while (x < clipRight && repeatX !== BackgroundRepeatType.NO_REPEAT);
 
           destY += gapY + scaledHeight;
-        } while (destY < clipBottom && repeatY !== BackgroundRepeat.NO_REPEAT);
+        } while (destY < clipBottom && repeatY !== BackgroundRepeatType.NO_REPEAT);
       }
     }
+    /**
+     * Creates a new Background with the same properties.
+     * @returns a clone of this instance.
+     */
+
   }, {
     key: "clone",
     value: function clone() {
@@ -901,6 +1440,19 @@ var Background = /*#__PURE__*/function () {
       Background.cloneArray(this.position, cloned.position);
       return cloned;
     }
+    /**
+     * Draw an image to context with specified size, scale and destination in a clip area.
+     * @param ctx The canvas rendering context of stage canvas.
+     * @param img The image to draw.
+     * @param imgWidth The image width.
+     * @param imgHeight The image height.
+     * @param imageScaleX The horizontal scale of the image.
+     * @param imageScaleY The vertical scale of the image.
+     * @param destX The X destination position.
+     * @param destY The Y destination position.
+     * @param clip The clip area.
+     */
+
   }, {
     key: "drawImage",
     value: function drawImage(ctx, img, imgWidth, imgHeight, imageScaleX, imageScaleY, destX, destY, clip) {
@@ -932,7 +1484,17 @@ var Background = /*#__PURE__*/function () {
     }
   }], [{
     key: "of",
+
+    /**
+     * Parse a string format background definition to a background instance.
+     * See the definition at https://developer.mozilla.org/en-US/docs/Web/CSS/background
+     *
+     * @param value Input string to be parsed.
+     * @param [silent] if true, ignore warning for an invalid value.
+     * @returns A Background instance of valid data, undefined otherwise.
+     */
     value: function of(value) {
+      var silent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var parts = this.split(value);
       var bg = new Background();
       var _iteratorNormalCompletion9 = true;
@@ -942,103 +1504,203 @@ var Background = /*#__PURE__*/function () {
       try {
         for (var _iterator9 = parts[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
           var part = _step9.value;
+          var attachment = void 0;
           var image = void 0;
           var repeat = void 0;
           var clip = void 0;
-          var positionX = void 0;
-          var positionY = void 0;
+          var origin = void 0;
+          var size = void 0;
+          var position = void 0;
+          var blendMode = '';
+          var tokens = BG_TOKENIZER.tokenize(part);
 
-          var matches = _StringUtils.StringUtils.matchAll(part, REG_PARTS);
+          for (var i = 0; i < tokens.length; ++i) {
+            var token = tokens[i]; // The <box> value may be included zero, one, or two times. If included once, it sets both
+            // background-origin and background-clip. If it is included twice, the first occurrence
+            // sets background-origin, and the second sets background-clip.
 
-          var _iteratorNormalCompletion10 = true;
-          var _didIteratorError10 = false;
-          var _iteratorError10 = undefined;
+            var box = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundClip, token);
 
-          try {
-            for (var _iterator10 = matches[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-              var match = _step10.value;
-              var val = match[1].trim(); // Try color
-
-              if (!bg.color) {
-                var color = _Color.Color.of(val, true);
-
-                bg.color = color;
-                continue;
-              } // Try image
-
-
-              if (!image) {
-                image = this.parseImage(val);
-                continue;
-              } // Try repeat
-
-
-              if (!repeat) {
-                repeat = BackgroundRepeatPair.of(val);
-
-                if (repeat) {
-                  continue;
-                }
-              } // Try clip
-
-
+            if (box) {
               if (!clip) {
-                clip = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundClip, val);
-
-                if (clip) {
-                  continue;
+                clip = box;
+              } else if (!origin) {
+                origin = box;
+              } else {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<box> value appears 3 times in one layer');
                 }
-              } // Try position
+
+                return undefined;
+              }
+
+              continue;
+            } // Checks attachment.
 
 
-              if (!positionX) {
-                if (REG_POSITION_X.test(val)) {
-                  positionX = BackgroundSizePair.toBaseValue(val);
-                  continue;
+            var parsedAttachment = _EnumUtils.EnumUtils.fromStringOrUndefined(BackgroundAttachment, token);
+
+            if (parsedAttachment) {
+              if (attachment) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<attachment> value appears twice in one layer');
                 }
-              } else if (!positionY) {
-                if (REG_POSITION_Y.test(val)) {
-                  positionY = BackgroundSizePair.toBaseValue(val);
-                  continue;
+
+                return undefined;
+              }
+
+              attachment = parsedAttachment;
+              continue;
+            } // Checks position & size.
+            // The <bg-size> value may only be included immediately after <position>, separated with
+            // the '/' character, like this: "center/80%".
+
+
+            if (BackgroundPosition.acceptToken(token)) {
+              if (position) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<position> value appears twice in one layer');
+                }
+
+                return undefined;
+              }
+
+              var positionTokens = [token];
+
+              for (++i; i < tokens.length; ++i) {
+                if (BackgroundPosition.acceptToken(tokens[i])) {
+                  positionTokens.push(tokens[i]);
+                } else {
+                  break;
                 }
               }
 
-              console.warn('unknow part: ' + val);
-            }
-          } catch (err) {
-            _didIteratorError10 = true;
-            _iteratorError10 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
-                _iterator10["return"]();
+              position = BackgroundPosition.of(positionTokens);
+
+              if (!position) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\nbad <position> value');
+                }
+
+                return undefined;
               }
-            } finally {
-              if (_didIteratorError10) {
-                throw _iteratorError10;
+
+              if (i < tokens.length && tokens[i] === '/') {
+                if (i + 2 < tokens.length) {
+                  size = BackgroundSize.of([tokens[i + 1], tokens[i + 2]]);
+
+                  if (size) {
+                    i += 2;
+                  } else {
+                    size = BackgroundSize.of([tokens[i + 1]]);
+
+                    if (size) {
+                      ++i;
+                    }
+                  }
+                } else if (i + 1 < tokens.length) {
+                  size = BackgroundSize.of([tokens[i + 1]]);
+
+                  if (size) {
+                    ++i;
+                  }
+                }
+
+                if (!size) {
+                  if (!silent) {
+                    console.warn('invalid background:' + value + '\nbad <size> value');
+                  }
+
+                  return undefined;
+                }
+              } else {
+                --i;
               }
+
+              continue;
+            } // Checks repeat
+
+
+            var parsedRepeat = void 0;
+
+            if (i + 1 < tokens.length) {
+              parsedRepeat = BackgroundRepeat.of([tokens[i], tokens[i + 1]]);
+
+              if (parsedRepeat) {
+                i += 1;
+              } else {
+                parsedRepeat = BackgroundRepeat.of([tokens[i]]);
+              }
+            } else {
+              parsedRepeat = BackgroundRepeat.of([tokens[i]]);
             }
-          }
 
-          if (image) {
-            bg.image.push(image);
-          }
+            if (parsedRepeat) {
+              if (repeat) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<repeat> value appears twice in one layer');
+                }
 
-          if (repeat) {
-            bg.repeat.push(repeat);
-          }
+                return undefined;
+              } else {
+                repeat = parsedRepeat;
+              }
 
-          if (clip) {
-            bg.clip.push(clip);
-          }
+              continue;
+            } // Checks image
 
-          if (positionX) {
-            if (!positionY) {
-              positionY = _BaseValue.BaseValue.of('50%');
+
+            var parsedImage = this.parseImage(token);
+
+            if (parsedImage) {
+              if (image) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<image> value appears twice in one layer');
+                }
+
+                return undefined;
+              } else {
+                image = parsedImage;
+              }
+
+              continue;
+            } // Checks color
+
+
+            var color = _Color.Color.of(token);
+
+            if (color) {
+              if (bg.color) {
+                if (!silent) {
+                  console.warn('invalid background:' + value + '\n<color> value appears twice');
+                }
+
+                return undefined;
+              }
+
+              bg.color = color;
+              continue;
             }
 
-            bg.position.push(new BackgroundSizePair(positionX, positionY));
+            if (!silent) {
+              console.warn('invalid background:' + value + '\nunknown token:' + token);
+            }
+
+            return undefined;
           }
+
+          if (!image) {
+            continue;
+          }
+
+          bg.image.push(image);
+          bg.attachment.push(attachment || BackgroundAttachment.SCROLL);
+          bg.repeat.push(repeat || BackgroundRepeat.DEFAULT);
+          bg.clip.push(clip || BackgroundClip.CONTENT_BOX);
+          bg.origin.push(origin || BackgroundClip.PADDING_BOX);
+          bg.size.push(size || BackgroundSize.DEFAULT);
+          bg.position.push(position || BackgroundPosition.DEFAULT);
+          bg.blendMode.push(blendMode);
         }
       } catch (err) {
         _didIteratorError9 = true;
@@ -1057,32 +1719,133 @@ var Background = /*#__PURE__*/function () {
 
       return bg;
     }
-  }, {
-    key: "trimParameter",
-    value: function trimParameter(value) {
-      value = value.trim();
+    /**
+     * Try to parse a string to a BackgroundImage instance.
+     * @param value A string presents image attribute.
+     * @returns A BackgroundImage instance for a valid definition, undefined otherwise.
+     */
 
-      if (value.length > 1 && (value[0] === '"' && value[value.length - 1] === '"' || value[0] === "'" && value[value.length - 1] === "'")) {
-        return value.substring(1, value.length - 1);
-      } else {
-        return value;
+  }, {
+    key: "parseImage",
+    value: function parseImage(value) {
+      var func = _FunctionParser.FunctionParser.parse(value, true);
+
+      if (!func) {
+        return undefined;
+      }
+
+      switch (func.name) {
+        case 'url':
+          return URLSource.of(func.arguments);
+
+        case 'linear-gradient':
+          return LinearGradientSource.of(func.arguments);
+      }
+
+      return undefined;
+    }
+    /**
+     * The Background property supports multiple layers, this function is used to split layers from a
+     * string.
+     * @param value A string to be split.
+     * @returns A list of split strings.
+     */
+
+  }, {
+    key: "split",
+    value: function split(value) {
+      var result = [];
+      var begin = 0;
+      var inBrackets = false;
+      var size = value.length;
+
+      for (var i = 0; i < size; ++i) {
+        var ch = value[i];
+
+        if (inBrackets) {
+          if (ch === ')') {
+            inBrackets = false;
+          }
+        } else if (ch === '(') {
+          inBrackets = true;
+        } else if (ch === ',') {
+          if (begin < i) {
+            var part = value.substring(begin, i).trim();
+
+            if (part) {
+              result.push(part);
+            }
+          }
+
+          begin = i + 1;
+        }
+      }
+
+      if (begin < size) {
+        var _part = value.substring(begin).trim();
+
+        if (_part) {
+          result.push(_part);
+        }
+      }
+
+      return result;
+    }
+    /**
+     * Shadow copy the elements from one list to the other.
+     * @param src The source list to be copied.
+     * @param dest The destination list to hold the elements from source list.
+     */
+
+  }, {
+    key: "copyArray",
+    value: function copyArray(src, dest) {
+      var _iteratorNormalCompletion10 = true;
+      var _didIteratorError10 = false;
+      var _iteratorError10 = undefined;
+
+      try {
+        for (var _iterator10 = src[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+          var item = _step10.value;
+          dest.push(item);
+        }
+      } catch (err) {
+        _didIteratorError10 = true;
+        _iteratorError10 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
+            _iterator10["return"]();
+          }
+        } finally {
+          if (_didIteratorError10) {
+            throw _iteratorError10;
+          }
+        }
       }
     }
-  }, {
-    key: "parseParameters",
-    value: function parseParameters(value) {
-      var matches = _StringUtils.StringUtils.matchAll(value, REG_PARAMETERS);
+    /**
+     * Deep copy the elements from one list to the other.
+     * @param src The source list to be copied.
+     * @param dest The destination list to hold the elements from source list.
+     */
 
-      var result = [];
+  }, {
+    key: "cloneArray",
+    value: function cloneArray(src, dest) {
       var _iteratorNormalCompletion11 = true;
       var _didIteratorError11 = false;
       var _iteratorError11 = undefined;
 
       try {
-        for (var _iterator11 = matches[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-          var match = _step11.value;
-          var val = match[1].trim();
-          result.push(this.trimParameter(val));
+        for (var _iterator11 = src[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+          var item = _step11.value;
+
+          if (!item) {
+            dest.push(undefined);
+          } else {
+            dest.push(item.clone());
+          }
         }
       } catch (err) {
         _didIteratorError11 = true;
@@ -1098,127 +1861,28 @@ var Background = /*#__PURE__*/function () {
           }
         }
       }
-
-      return result;
     }
-  }, {
-    key: "parseImage",
-    value: function parseImage(value) {
-      var matched = value.match(REG_IMAGE);
+    /**
+     * Get an element from a list with specified position, if the position is out of the range,
+     * returns a default value.
+     * @param arr The source list.
+     * @param idx The position in the list to be retrieved.
+     * @param defaultVal Default value for invalid position.
+     * @returns an element in the list with specified position, or default value for invalid
+     * position.
+     */
 
-      if (!matched) {
-        return undefined;
-      }
-
-      var type = matched[1];
-      var params = matched[2];
-
-      switch (type) {
-        case 'url':
-          return URLSource.of(this.parseParameters(params));
-
-        case 'linear-gradient':
-          return LinearGradientSource.of(this.parseParameters(params));
-      }
-
-      return undefined;
-    }
-  }, {
-    key: "split",
-    value: function split(value) {
-      var result = [];
-      var begin = 0;
-      var inbrackets = false;
-      var size = value.length;
-
-      for (var i = 0; i < size; ++i) {
-        var ch = value[i];
-
-        if (inbrackets) {
-          if (ch === ')') {
-            inbrackets = false;
-          }
-        } else if (ch === '(') {
-          inbrackets = true;
-        } else if (ch === ',') {
-          if (begin < i) {
-            result.push(value.substring(begin, i).trim());
-          }
-
-          begin = i + 1;
-        }
-      }
-
-      if (begin < size) {
-        result.push(value.substring(begin).trim());
-      }
-
-      return result;
-    }
-  }, {
-    key: "copyArray",
-    value: function copyArray(src, dest) {
-      var _iteratorNormalCompletion12 = true;
-      var _didIteratorError12 = false;
-      var _iteratorError12 = undefined;
-
-      try {
-        for (var _iterator12 = src[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-          var item = _step12.value;
-          dest.push(item);
-        }
-      } catch (err) {
-        _didIteratorError12 = true;
-        _iteratorError12 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion12 && _iterator12["return"] != null) {
-            _iterator12["return"]();
-          }
-        } finally {
-          if (_didIteratorError12) {
-            throw _iteratorError12;
-          }
-        }
-      }
-    }
-  }, {
-    key: "cloneArray",
-    value: function cloneArray(src, dest) {
-      var _iteratorNormalCompletion13 = true;
-      var _didIteratorError13 = false;
-      var _iteratorError13 = undefined;
-
-      try {
-        for (var _iterator13 = src[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var item = _step13.value;
-
-          if (!item) {
-            dest.push(undefined);
-          } else {
-            dest.push(item.clone());
-          }
-        }
-      } catch (err) {
-        _didIteratorError13 = true;
-        _iteratorError13 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion13 && _iterator13["return"] != null) {
-            _iterator13["return"]();
-          }
-        } finally {
-          if (_didIteratorError13) {
-            throw _iteratorError13;
-          }
-        }
-      }
-    }
   }, {
     key: "getFromArray",
     value: function getFromArray(arr, idx, defaultVal) {
       return idx >= arr.length ? defaultVal : arr[idx];
     }
+    /**
+     * The color property sets the background color of an element. It is rendered behind any
+     * background-image that is specified, although the color will still be visible through any
+     * transparency in the image.
+     */
+
   }]);
 
   return Background;

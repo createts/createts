@@ -1,10 +1,10 @@
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -17,34 +17,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import { Event, EventDispatcher } from './base/Event';
-import { Runtime } from './Runtime';
+import { Runtime } from './runtime/Runtime';
+/**
+ * Event from ticker.
+ */
+
+export var TickerEvent = /*#__PURE__*/function (_Event) {
+  _inherits(TickerEvent, _Event);
+
+  /**
+   * The current timestamp of this event.
+   */
+
+  /**
+   * The delay to previous ticker event.
+   */
+  function TickerEvent(type, now, delay) {
+    var _this;
+
+    _classCallCheck(this, TickerEvent);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TickerEvent).call(this, type));
+    _this.now = void 0;
+    _this.delay = void 0;
+    _this.now = now;
+    _this.delay = delay;
+    return _this;
+  }
+
+  return TickerEvent;
+}(Event);
 export var Ticker = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Ticker, _EventDispatcher);
 
   function Ticker() {
-    var _this;
+    var _this2;
 
     var fps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 60;
 
     _classCallCheck(this, Ticker);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Ticker).call(this));
-    _this.duration = 1000 / 60;
-    _this.lastTickTime = void 0;
-    _this.stopped = true;
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Ticker).call(this));
+    _this2.duration = 1000 / 60;
+    _this2.lastTickTime = void 0;
+    _this2.stopped = true;
 
     if (fps <= 0) {
       console.warn('invalid fps:' + fps + ', reset to 60');
       fps = 60;
     }
 
-    _this.setFps(fps);
+    _this2.setFps(fps);
 
-    _this.lastTickTime = 0;
+    _this2.lastTickTime = 0;
 
-    _this.start();
+    _this2.start();
 
-    return _this;
+    return _this2;
   }
 
   _createClass(Ticker, [{
@@ -73,8 +102,8 @@ export var Ticker = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       if (time - this.lastTickTime >= this.duration) {
+        this.dispatchEvent(new TickerEvent('tick', time, this.lastTickTime === 0 ? 0 : time - this.lastTickTime));
         this.lastTickTime = time;
-        this.dispatchEvent(new Event('tick'));
       }
 
       Runtime.get().requestAnimationFrame(this.onAnimationFrame.bind(this));
