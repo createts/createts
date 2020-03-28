@@ -1,8 +1,4 @@
-import { Apng } from '../components/Apng';
 import { Container } from '../components/Container';
-import { Img } from '../components/Img';
-import { Sprite } from '../components/Sprite';
-import { Text } from '../components/Text';
 import { XObject } from '../components/XObject';
 import { Style } from '../style/Style';
 
@@ -330,10 +326,3 @@ export class HtmlParser {
     attr[name.toLowerCase()] = value;
   }
 }
-
-HtmlParser.registerTag('text', Text);
-HtmlParser.registerTag('container', Container);
-HtmlParser.registerTag('div', Container);
-HtmlParser.registerTag('img', Img);
-HtmlParser.registerTag('sprite', Sprite);
-HtmlParser.registerTag('apng', Apng);

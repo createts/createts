@@ -7,6 +7,8 @@ exports.Sprite = void 0;
 
 var _Animation = require("../animation/Animation");
 
+var _HtmlParser = require("../parser/HtmlParser");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
 var _Stage = require("./Stage");
@@ -336,7 +338,9 @@ var Sprite = /*#__PURE__*/function (_XObject) {
 
       try {
         ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
-      } catch (e) {}
+      } catch (e) {
+        return;
+      }
     }
   }]);
 
@@ -344,3 +348,5 @@ var Sprite = /*#__PURE__*/function (_XObject) {
 }(_XObject2.XObject);
 
 exports.Sprite = Sprite;
+
+_HtmlParser.HtmlParser.registerTag('sprite', Sprite);

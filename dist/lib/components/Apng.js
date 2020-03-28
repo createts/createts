@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Apng = void 0;
 
+var _HtmlParser = require("../parser/HtmlParser");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
 var _Sprite2 = require("./Sprite");
@@ -50,3 +52,5 @@ var Apng = /*#__PURE__*/function (_Sprite) {
 }(_Sprite2.Sprite);
 
 exports.Apng = Apng;
+
+_HtmlParser.HtmlParser.registerTag('apng', Apng);

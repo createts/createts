@@ -7,6 +7,8 @@ exports.Img = void 0;
 
 var _Rect = require("../base/Rect");
 
+var _HtmlParser = require("../parser/HtmlParser");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
 var _XObject2 = require("./XObject");
@@ -104,3 +106,7 @@ var Img = /*#__PURE__*/function (_XObject) {
 }(_XObject2.XObject);
 
 exports.Img = Img;
+
+_HtmlParser.HtmlParser.registerTag('img', Img);
+
+_HtmlParser.HtmlParser.registerTag('image', Img);

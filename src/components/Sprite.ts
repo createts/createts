@@ -1,4 +1,5 @@
 import { Animation, AnimationStep } from '../animation/Animation';
+import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Stage } from './Stage';
 import { IXObjectOptions, TouchEvent, XObject } from './XObject';
@@ -353,6 +354,10 @@ export class Sprite extends XObject {
         destWidth * scaleX,
         destHeight * scaleY
       );
-    } catch (e) {}
+    } catch (e) {
+      return;
+    }
   }
 }
+
+HtmlParser.registerTag('sprite', Sprite);

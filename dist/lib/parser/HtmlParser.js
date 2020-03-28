@@ -5,15 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HtmlParser = void 0;
 
-var _Apng = require("../components/Apng");
-
 var _Container = require("../components/Container");
-
-var _Img = require("../components/Img");
-
-var _Sprite = require("../components/Sprite");
-
-var _Text = require("../components/Text");
 
 var _Style = require("../style/Style");
 
@@ -489,9 +481,3 @@ var HtmlParser = /*#__PURE__*/function () {
 
 exports.HtmlParser = HtmlParser;
 HtmlParser.tagMap = {};
-HtmlParser.registerTag('text', _Text.Text);
-HtmlParser.registerTag('container', _Container.Container);
-HtmlParser.registerTag('div', _Container.Container);
-HtmlParser.registerTag('img', _Img.Img);
-HtmlParser.registerTag('sprite', _Sprite.Sprite);
-HtmlParser.registerTag('apng', _Apng.Apng);

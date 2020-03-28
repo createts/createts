@@ -1,4 +1,5 @@
 import { Rect } from '../base/Rect';
+import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { IXObjectOptions, XObject } from './XObject';
 
@@ -64,3 +65,6 @@ export class Img extends XObject {
     }
   }
 }
+
+HtmlParser.registerTag('img', Img);
+HtmlParser.registerTag('image', Img);

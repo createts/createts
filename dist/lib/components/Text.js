@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Text = void 0;
 
+var _HtmlParser = require("../parser/HtmlParser");
+
 var _Style = require("../style/Style");
 
 var _XObject2 = require("./XObject");
@@ -190,3 +192,5 @@ var Text = /*#__PURE__*/function (_XObject) {
 }(_XObject2.XObject);
 
 exports.Text = Text;
+
+_HtmlParser.HtmlParser.registerTag('text', Text);

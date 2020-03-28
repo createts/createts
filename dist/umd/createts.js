@@ -1908,6 +1908,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Sprite_1 = __webpack_require__(/*! ./Sprite */ "./src/components/Sprite.ts");
 var Apng = (function (_super) {
@@ -1930,6 +1931,7 @@ var Apng = (function (_super) {
     return Apng;
 }(Sprite_1.Sprite));
 exports.Apng = Apng;
+HtmlParser_1.HtmlParser.registerTag('apng', Apng);
 
 
 /***/ }),
@@ -1957,6 +1959,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
@@ -2228,12 +2231,22 @@ var Container = (function (_super) {
         }
         return undefined;
     };
+    Container.prototype.load = function (html, clear) {
+        if (clear === void 0) { clear = true; }
+        if (clear) {
+            this.removeAllChildren();
+        }
+        this.addChildren.apply(this, new HtmlParser_1.HtmlParser().parse(html));
+        return this;
+    };
     Container.prototype.toString = function () {
         return "[Container (id=" + this.id + ")]";
     };
     return Container;
 }(XObject_1.XObject));
 exports.Container = Container;
+HtmlParser_1.HtmlParser.registerTag('container', Container);
+HtmlParser_1.HtmlParser.registerTag('div', Container);
 
 
 /***/ }),
@@ -2262,6 +2275,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var Img = (function (_super) {
@@ -2313,6 +2327,8 @@ var Img = (function (_super) {
     return Img;
 }(XObject_1.XObject));
 exports.Img = Img;
+HtmlParser_1.HtmlParser.registerTag('img', Img);
+HtmlParser_1.HtmlParser.registerTag('image', Img);
 
 
 /***/ }),
@@ -2341,6 +2357,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Animation_1 = __webpack_require__(/*! ../animation/Animation */ "./src/animation/Animation.ts");
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Stage_1 = __webpack_require__(/*! ./Stage */ "./src/components/Stage.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
@@ -2476,11 +2493,14 @@ var Sprite = (function (_super) {
         try {
             ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
         }
-        catch (e) { }
+        catch (e) {
+            return;
+        }
     };
     return Sprite;
 }(XObject_1.XObject));
 exports.Sprite = Sprite;
+HtmlParser_1.HtmlParser.registerTag('sprite', Sprite);
 
 
 /***/ }),
@@ -2857,6 +2877,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var Text = (function (_super) {
@@ -2952,6 +2973,7 @@ var Text = (function (_super) {
     return Text;
 }(XObject_1.XObject));
 exports.Text = Text;
+HtmlParser_1.HtmlParser.registerTag('text', Text);
 
 
 /***/ }),
@@ -4026,11 +4048,7 @@ exports.FunctionParser = FunctionParser;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Apng_1 = __webpack_require__(/*! ../components/Apng */ "./src/components/Apng.ts");
 var Container_1 = __webpack_require__(/*! ../components/Container */ "./src/components/Container.ts");
-var Img_1 = __webpack_require__(/*! ../components/Img */ "./src/components/Img.ts");
-var Sprite_1 = __webpack_require__(/*! ../components/Sprite */ "./src/components/Sprite.ts");
-var Text_1 = __webpack_require__(/*! ../components/Text */ "./src/components/Text.ts");
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var ParseState;
 (function (ParseState) {
@@ -4359,12 +4377,6 @@ var HtmlParser = (function () {
     return HtmlParser;
 }());
 exports.HtmlParser = HtmlParser;
-HtmlParser.registerTag('text', Text_1.Text);
-HtmlParser.registerTag('container', Container_1.Container);
-HtmlParser.registerTag('div', Container_1.Container);
-HtmlParser.registerTag('img', Img_1.Img);
-HtmlParser.registerTag('sprite', Sprite_1.Sprite);
-HtmlParser.registerTag('apng', Apng_1.Apng);
 
 
 /***/ }),

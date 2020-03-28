@@ -17,6 +17,7 @@ export declare class Container extends XObject {
     layout(): void;
     layoutChildren(): void;
     getObjectUnderPoint(x: number, y: number, eventEnabled: boolean): XObject | undefined;
+    load(html: string, clear?: boolean): Container;
     toString(): string;
 }
 //# sourceMappingURL=Container.d.ts.map

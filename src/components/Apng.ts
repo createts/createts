@@ -1,3 +1,4 @@
+import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Sprite, SpriteSheet } from './Sprite';
 import { IXObjectOptions } from './XObject';
@@ -18,3 +19,5 @@ export class Apng extends Sprite {
     }
   }
 }
+
+HtmlParser.registerTag('apng', Apng);

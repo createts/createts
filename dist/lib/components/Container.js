@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Container = void 0;
 
+var _HtmlParser = require("../parser/HtmlParser");
+
 var _Style = require("../style/Style");
 
 var _LayoutUtils = require("../utils/LayoutUtils");
@@ -12,6 +14,14 @@ var _LayoutUtils = require("../utils/LayoutUtils");
 var _XObject2 = require("./XObject");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -592,6 +602,25 @@ var Container = /*#__PURE__*/function (_XObject) {
       return undefined;
     }
     /**
+     * Parse the input html and load as children.
+     * @param html The html to be parsed and loaded.
+     * @param clear If true, clear the existing children before loading.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
+  }, {
+    key: "load",
+    value: function load(html) {
+      var clear = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (clear) {
+        this.removeAllChildren();
+      }
+
+      this.addChildren.apply(this, _toConsumableArray(new _HtmlParser.HtmlParser().parse(html)));
+      return this;
+    }
+    /**
      * Returns a string representation of this object.
      * @returns a string representation of this object.
      */
@@ -607,3 +636,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 }(_XObject2.XObject);
 
 exports.Container = Container;
+
+_HtmlParser.HtmlParser.registerTag('container', Container);
+
+_HtmlParser.HtmlParser.registerTag('div', Container);

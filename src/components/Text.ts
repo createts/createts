@@ -1,3 +1,4 @@
+import { HtmlParser } from '../parser/HtmlParser';
 import { TextAlign, TextBorderPosition } from '../style/Style';
 import { IXObjectOptions, XObject } from './XObject';
 
@@ -100,3 +101,5 @@ export class Text extends XObject {
     }
   }
 }
+
+HtmlParser.registerTag('text', Text);

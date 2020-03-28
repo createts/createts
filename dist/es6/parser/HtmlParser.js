@@ -4,11 +4,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-import { Apng } from '../components/Apng';
 import { Container } from '../components/Container';
-import { Img } from '../components/Img';
-import { Sprite } from '../components/Sprite';
-import { Text } from '../components/Text';
 import { Style } from '../style/Style';
 var ParseState;
 
@@ -473,9 +469,3 @@ export var HtmlParser = /*#__PURE__*/function () {
   return HtmlParser;
 }();
 HtmlParser.tagMap = {};
-HtmlParser.registerTag('text', Text);
-HtmlParser.registerTag('container', Container);
-HtmlParser.registerTag('div', Container);
-HtmlParser.registerTag('img', Img);
-HtmlParser.registerTag('sprite', Sprite);
-HtmlParser.registerTag('apng', Apng);

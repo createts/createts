@@ -17,6 +17,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import { AnimationStep } from '../animation/Animation';
+import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Stage } from './Stage';
 import { TouchEvent, XObject } from './XObject';
@@ -329,9 +330,12 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
 
       try {
         ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
-      } catch (e) {}
+      } catch (e) {
+        return;
+      }
     }
   }]);
 
   return Sprite;
 }(XObject);
+HtmlParser.registerTag('sprite', Sprite);

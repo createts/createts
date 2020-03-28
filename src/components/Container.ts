@@ -1,3 +1,4 @@
+import { HtmlParser } from '../parser/HtmlParser';
 import { Display, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { IXObjectOptions, TouchEvent, XObject } from './XObject';
@@ -380,10 +381,27 @@ export class Container extends XObject {
   }
 
   /**
+   * Parse the input html and load as children.
+   * @param html The html to be parsed and loaded.
+   * @param clear If true, clear the existing children before loading.
+   * @returns The current instance. Useful for chaining method calls.
+   */
+  public load(html: string, clear: boolean = true): Container {
+    if (clear) {
+      this.removeAllChildren();
+    }
+    this.addChildren(...new HtmlParser().parse(html));
+    return this;
+  }
+
+  /**
    * Returns a string representation of this object.
    * @returns a string representation of this object.
    */
-  toString() {
+  public toString() {
     return `[Container (id=${this.id})]`;
   }
 }
+
+HtmlParser.registerTag('container', Container);
+HtmlParser.registerTag('div', Container);
