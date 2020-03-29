@@ -40,6 +40,12 @@ stage
   .wait(2000);
 ```
 
+## Platform Support
+
+1. Support for modern browsers like Chrome, Firefox, Safari and IE, the detailed minimal support version will be updated later.
+1. [Wechat Mini Game](https://developers.weixin.qq.com/minigame/dev/guide/) is supported, you can checkout the demos [here](https://github.com/createts/createts-wechat-mini-game-demos).
+1. [Toutiao Mini Game](https://developer.toutiao.com/) will be supported soon.
+
 ## Progress
 
 CreateTs is still in early stage, next milestone will be pre-beta version.
