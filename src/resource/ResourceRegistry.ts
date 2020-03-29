@@ -20,7 +20,7 @@ export enum ResourceType {
   APNG = 'apng'
 }
 
-type Resource = HTMLImageElement | SpriteSheet;
+export type Resource = HTMLImageElement | SpriteSheet;
 type Resolve = (resource: Resource) => void;
 type Reject = (error: any) => void;
 

@@ -9,7 +9,7 @@ class MethodCall {
   }
 }
 
-class Expection {
+class Expectation {
   method: string;
   args: IArguments;
   returnValue?: any;
@@ -37,21 +37,21 @@ export function eq(value: any): (_?: any) => boolean {
 
 class Mocked {
   private calls: MethodCall[] = [];
-  private expections: Expection[] = [];
+  private expectations: Expectation[] = [];
 
   onCall(method: string, args: any): any {
     this.calls.push(new MethodCall(method, args));
-    for (const expection of this.expections) {
-      if (expection.method === method && expection.args.length === args.length) {
+    for (const expectation of this.expectations) {
+      if (expectation.method === method && expectation.args.length === args.length) {
         let matched = true;
         for (let i = 0; i < args.length; ++i) {
-          if (!expection.args[i](args[i])) {
+          if (!expectation.args[i](args[i])) {
             matched = false;
             break;
           }
         }
         if (matched) {
-          return expection.returnValue;
+          return expectation.returnValue;
         }
       }
     }
@@ -78,7 +78,7 @@ class Mocked {
 
   reset() {
     this.calls.length = 0;
-    this.expections.length = 0;
+    this.expectations.length = 0;
   }
 
   resetTimes() {
@@ -88,7 +88,7 @@ class Mocked {
   on(method: string, ...args: any): { returns: (_: any) => void } {
     return {
       returns: value => {
-        this.expections.push(new Expection(method, args, value));
+        this.expectations.push(new Expectation(method, args, value));
       }
     };
   }

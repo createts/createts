@@ -11,7 +11,7 @@ test('should delay the call', () => {
     setTimeout(() => {
       expect(times).toEqual(1);
       resolve();
-    }, 20);
+    }, 500);
   });
 });
 
@@ -31,7 +31,7 @@ test('should cancel the pending call', () => {
     setTimeout(() => {
       expect(times).toEqual(1);
       resolve();
-    }, 20);
+    }, 500);
   });
 });
 
@@ -51,11 +51,11 @@ test('should pause/resume the pending call', () => {
     setTimeout(() => {
       expect(times).toEqual(1);
       resolve();
-    }, 30);
+    }, 500);
   });
 });
 
-test('should cancel the pending call', () => {
+test('should cancel the call immediately', () => {
   let times = 0;
   const delay = new Delay(10);
   const func = () => {

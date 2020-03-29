@@ -1,6 +1,15 @@
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
+import { Resource, ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Background, BackgroundClip } from './Background';
+
+// Disable loading image.
+// TODO: move image loading while attach style to element?
+ResourceRegistry.DefaultInstance.add = (url: string, type: ResourceType) => {
+  return new Promise<Resource>((resolve, reject) => {
+    resolve(new Image());
+  });
+};
 
 test('should parse color', () => {
   const background = Background.of('#ffffff');
