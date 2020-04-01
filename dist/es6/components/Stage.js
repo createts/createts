@@ -264,23 +264,28 @@ export var Stage = /*#__PURE__*/function (_Container) {
    */
 
   /**
+   * Indicated whether event handler of this stage is installed.
+   */
+
+  /**
+   * Indicated whether event is enabled for this stage.
+   */
+
+  /**
    * Construct a stage object by canvas and option.
    *
    * Example
    *
    * ```typescript
-   * const canvas = windows.getElementById('canvas');
+   * const canvas = window.getElementById('canvas');
    * const stage = new Stage(canvas);
-   * const parser = new Parser();
    * const html = `
    *    <div style='background:red;width:50%;height:100%'>
    *      <div style='background:yellow;width:50%;height:50%'></div>
    *    </div>
    *    <div style='background:green;width:50%;height:100%'></div>
    * `;
-   * const children = parser.parse(html);
-   * stage.addChildren(...children);
-   * stage.start();
+   * stage.load(html).start();
    * ```
    *
    * @param canvas The target canvas object this stage renders to.
@@ -323,6 +328,8 @@ export var Stage = /*#__PURE__*/function (_Container) {
     _this.hoverChildren = new TouchedObjectSet();
     _this.started = false;
     _this.needUpdate = false;
+    _this.eventHandlerInstalled = false;
+    _this.eventEnabled = true;
 
     for (var k in option) {
       _this.option[k] = option[k];
@@ -341,7 +348,9 @@ export var Stage = /*#__PURE__*/function (_Container) {
       _this.css(option.style);
     }
 
-    _this.enableEvents();
+    if (!option.noEventHandler) {
+      _this.installEventHandlers();
+    }
 
     _this.ticker = new Ticker(_this.option.fps);
     _this.animationFactory = new AnimationFactory();
@@ -392,9 +401,34 @@ export var Stage = /*#__PURE__*/function (_Container) {
      */
 
   }, {
+    key: "installEventHandlers",
+    value: function installEventHandlers() {
+      if (!this.eventHandlerInstalled) {
+        this.eventHandlerInstalled = true;
+        Runtime.get().enableEvents(this);
+      }
+    }
+    /**
+     * Enables event for this stage.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
+  }, {
     key: "enableEvents",
     value: function enableEvents() {
-      Runtime.get().enableEvents(this);
+      this.eventEnabled = true;
+      return this;
+    }
+    /**
+     * Disables event for this stage.
+     * @returns The current instance. Useful for chaining method calls.
+     */
+
+  }, {
+    key: "disableEvents",
+    value: function disableEvents() {
+      this.eventEnabled = false;
+      return this;
     }
     /**
      * Returns a list of TouchItems pressed on a given element.
@@ -449,7 +483,7 @@ export var Stage = /*#__PURE__*/function (_Container) {
   }, {
     key: "handleMouseOrTouchEvent",
     value: function handleMouseOrTouchEvent(type, touches, e) {
-      if (!this.isVisible()) {
+      if (!this.eventEnabled || !this.isVisible()) {
         return;
       }
 
@@ -519,8 +553,8 @@ export var Stage = /*#__PURE__*/function (_Container) {
         return;
       }
 
-      var canvasWidth = this.canvas.width;
-      var canvasHeight = this.canvas.height;
+      var canvasWidth = this.canvas.width || this.canvas.clientWidth;
+      var canvasHeight = this.canvas.height || this.canvas.clientHeight;
       LayoutUtils.updateSize(this, canvasWidth, canvasHeight);
       LayoutUtils.updatePositionForAbsoluteElement(this, canvasWidth, canvasHeight);
     }

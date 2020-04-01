@@ -10,7 +10,7 @@ test('should delay the call', function () {
     setTimeout(function () {
       expect(times).toEqual(1);
       resolve();
-    }, 20);
+    }, 500);
   });
 });
 test('should cancel the pending call', function () {
@@ -29,7 +29,7 @@ test('should cancel the pending call', function () {
     setTimeout(function () {
       expect(times).toEqual(1);
       resolve();
-    }, 20);
+    }, 500);
   });
 });
 test('should pause/resume the pending call', function () {
@@ -48,10 +48,10 @@ test('should pause/resume the pending call', function () {
     setTimeout(function () {
       expect(times).toEqual(1);
       resolve();
-    }, 30);
+    }, 500);
   });
 });
-test('should cancel the pending call', function () {
+test('should cancel the call immediately', function () {
   var times = 0;
   var delay = new Delay(10);
 

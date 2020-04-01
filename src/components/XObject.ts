@@ -4,7 +4,7 @@ import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
 import { Runtime } from '../runtime/Runtime';
-import { Display, PointerEvents, Style } from '../style/Style';
+import { Display, PointerEvents, Style, Visibility } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
@@ -213,7 +213,7 @@ export class XObject extends EventDispatcher<TouchEvent> {
    */
   public isVisible(): boolean {
     return !!(
-      this.style.visible &&
+      this.style.visibility !== Visibility.HIDDEN &&
       this.style.display !== Display.NONE &&
       this.style.alpha > 0 &&
       this.style.scaleX > 0 &&

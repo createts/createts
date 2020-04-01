@@ -2,7 +2,7 @@ export declare function any(): (_?: any) => boolean;
 export declare function eq(value: any): (_?: any) => boolean;
 declare class Mocked {
     private calls;
-    private expections;
+    private expectations;
     onCall(method: string, args: any): any;
     times(method: string, ...args: any): number;
     reset(): void;

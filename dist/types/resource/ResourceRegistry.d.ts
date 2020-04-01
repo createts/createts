@@ -9,7 +9,7 @@ export declare enum ResourceType {
     IMAGE = "image",
     APNG = "apng"
 }
-declare type Resource = HTMLImageElement | SpriteSheet;
+export declare type Resource = HTMLImageElement | SpriteSheet;
 declare type Resolve = (resource: Resource) => void;
 declare type Reject = (error: any) => void;
 interface IPromiseHandler {

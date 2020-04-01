@@ -96,9 +96,6 @@ export class ApngParser {
             delayD = 100;
           }
           frame.delay = (1000 * delayN) / delayD;
-          // https://bugzilla.mozilla.org/show_bug.cgi?id=125137
-          // https://bugzilla.mozilla.org/show_bug.cgi?id=139677
-          // https://bugzilla.mozilla.org/show_bug.cgi?id=207059
           if (frame.delay <= 10) {
             frame.delay = 100;
           }
@@ -112,8 +109,8 @@ export class ApngParser {
           break;
         case fdAT:
           if (frame) {
-            // This is an animation frame, the first 4 byte of the data contains metadata which is not required
-            // for a static frame, delete it.
+            // This is an animation frame, the first 4 byte of the data contains metadata which is
+            // not required for a static frame, delete it.
             frame.dataParts.push(
               this.makeChunk(IDAT, bytes.subarray(chunk.start + 12, chunk.end - 4))
             );

@@ -2,6 +2,7 @@ import { Stage } from '../components/Stage';
 import { Font } from '../style/Font';
 import { WebpageRuntime } from './WebpageRuntime';
 import { WechatMiniGameRuntime } from './WechatMiniGameRuntime';
+import { WechatMiniProgramRuntime } from './WechatMiniProgramRuntime';
 
 /**
  * An enum to indicate current runtime type, both web page (running in a browser) and wechat mini
@@ -10,7 +11,8 @@ import { WechatMiniGameRuntime } from './WechatMiniGameRuntime';
  */
 export enum RuntimeType {
   WEBPAGE = 'webpage',
-  WECHAT_MINI_GAME = 'wechat_mini_game'
+  WECHAT_MINI_GAME = 'wechat_mini_game',
+  WECHAT_MINI_PROGRAM = 'wechat_mini_program'
 }
 
 type Progress = {
@@ -159,6 +161,9 @@ export class Runtime {
           break;
         case RuntimeType.WECHAT_MINI_GAME:
           this.runtime = new WechatMiniGameRuntime();
+          break;
+        case RuntimeType.WECHAT_MINI_PROGRAM:
+          this.runtime = new WechatMiniProgramRuntime();
           break;
       }
     }

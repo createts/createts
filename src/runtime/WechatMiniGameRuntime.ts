@@ -1,6 +1,5 @@
 import { Stage } from '../components/Stage';
 import { TouchItem } from '../components/TouchItem';
-import { Font } from '../style/Font';
 import { URLUtils } from '../utils/URLUtils';
 import { IRuntime, LoadArrayBufferTask, LoadImageTask } from './Runtime';
 
@@ -103,7 +102,7 @@ export class WechatMiniGameRuntime implements IRuntime {
         url: task.url,
         success: (res: any) => {
           if (res.statusCode === 200) {
-            const img = wx.createImage();
+            const img = this.newImage();
             img.src = res.tempFilePath;
             img.onload = () => {
               task.onLoad(img);
@@ -126,7 +125,7 @@ export class WechatMiniGameRuntime implements IRuntime {
         });
       };
     } else {
-      const img = wx.createImage();
+      const img = this.newImage();
       img.src = task.url;
       img.onload = () => {
         task.onLoad(img);

@@ -26,6 +26,7 @@ declare interface WX {
   createImage(): any;
   downloadFile(object: Object): any;
   getFileSystemManager(): FileSystemManager;
+  createOffscreenCanvas(): HTMLCanvasElement;
 }
 
 declare var wx: WX;

@@ -126,12 +126,15 @@ var WechatMiniGameRuntime = /*#__PURE__*/function () {
   }, {
     key: "loadImage",
     value: function loadImage(task) {
+      var _this = this;
+
       if (_URLUtils.URLUtils.isAbsolute(task.url)) {
         var downloader = wx.downloadFile({
           url: task.url,
           success: function success(res) {
             if (res.statusCode === 200) {
-              var img = wx.createImage();
+              var img = _this.newImage();
+
               img.src = res.tempFilePath;
 
               img.onload = function () {
@@ -159,7 +162,7 @@ var WechatMiniGameRuntime = /*#__PURE__*/function () {
           });
         };
       } else {
-        var img = wx.createImage();
+        var img = this.newImage();
         img.src = task.url;
 
         img.onload = function () {
@@ -192,19 +195,19 @@ var WechatMiniGameRuntime = /*#__PURE__*/function () {
   }, {
     key: "enableEvents",
     value: function enableEvents(stage) {
-      var _this = this;
+      var _this2 = this;
 
       wx.onTouchStart(function (e) {
-        _this.handleTouchEvent('touchstart', stage, e);
+        _this2.handleTouchEvent('touchstart', stage, e);
       });
       wx.onTouchMove(function (e) {
-        _this.handleTouchEvent('touchmove', stage, e);
+        _this2.handleTouchEvent('touchmove', stage, e);
       });
       wx.onTouchEnd(function (e) {
-        _this.handleTouchEvent('touchend', stage, e);
+        _this2.handleTouchEvent('touchend', stage, e);
       });
       wx.onTouchCancel(function (e) {
-        _this.handleTouchEvent('touchcancel', stage, e);
+        _this2.handleTouchEvent('touchcancel', stage, e);
       });
     }
     /**

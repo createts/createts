@@ -27,8 +27,8 @@ var MethodCall = function MethodCall(method, args) {
   this.timestamp = Date.now();
 };
 
-var Expection = function Expection(method, args, returnValue) {
-  _classCallCheck(this, Expection);
+var Expectation = function Expectation(method, args, returnValue) {
+  _classCallCheck(this, Expectation);
 
   this.method = void 0;
   this.args = void 0;
@@ -58,7 +58,7 @@ var Mocked = /*#__PURE__*/function () {
     _classCallCheck(this, Mocked);
 
     this.calls = [];
-    this.expections = [];
+    this.expectations = [];
   }
 
   _createClass(Mocked, [{
@@ -70,21 +70,21 @@ var Mocked = /*#__PURE__*/function () {
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = this.expections[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var expection = _step.value;
+        for (var _iterator = this.expectations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var expectation = _step.value;
 
-          if (expection.method === method && expection.args.length === args.length) {
+          if (expectation.method === method && expectation.args.length === args.length) {
             var matched = true;
 
             for (var i = 0; i < args.length; ++i) {
-              if (!expection.args[i](args[i])) {
+              if (!expectation.args[i](args[i])) {
                 matched = false;
                 break;
               }
             }
 
             if (matched) {
-              return expection.returnValue;
+              return expectation.returnValue;
             }
           }
         }
@@ -156,7 +156,7 @@ var Mocked = /*#__PURE__*/function () {
     key: "reset",
     value: function reset() {
       this.calls.length = 0;
-      this.expections.length = 0;
+      this.expectations.length = 0;
     }
   }, {
     key: "resetTimes",
@@ -174,7 +174,7 @@ var Mocked = /*#__PURE__*/function () {
 
       return {
         returns: function returns(value) {
-          _this.expections.push(new Expection(method, args, value));
+          _this.expectations.push(new Expectation(method, args, value));
         }
       };
     }

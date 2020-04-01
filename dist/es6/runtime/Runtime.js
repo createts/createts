@@ -6,6 +6,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 import { WebpageRuntime } from './WebpageRuntime';
 import { WechatMiniGameRuntime } from './WechatMiniGameRuntime';
+import { WechatMiniProgramRuntime } from './WechatMiniProgramRuntime';
 /**
  * An enum to indicate current runtime type, both web page (running in a browser) and wechat mini
  * game (https://developers.weixin.qq.com/minigame/dev/guide/) are supported, toutiao mini game
@@ -17,6 +18,7 @@ export var RuntimeType;
 (function (RuntimeType) {
   RuntimeType["WEBPAGE"] = "webpage";
   RuntimeType["WECHAT_MINI_GAME"] = "wechat_mini_game";
+  RuntimeType["WECHAT_MINI_PROGRAM"] = "wechat_mini_program";
 })(RuntimeType || (RuntimeType = {}));
 
 /**
@@ -77,6 +79,10 @@ export var Runtime = /*#__PURE__*/function () {
 
           case RuntimeType.WECHAT_MINI_GAME:
             this.runtime = new WechatMiniGameRuntime();
+            break;
+
+          case RuntimeType.WECHAT_MINI_PROGRAM:
+            this.runtime = new WechatMiniProgramRuntime();
             break;
         }
       }

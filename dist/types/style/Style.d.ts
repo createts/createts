@@ -39,6 +39,10 @@ export declare enum PointerEvents {
     AUTO = "auto",
     NONE = "none"
 }
+export declare enum Visibility {
+    VISIBLE = "visible",
+    HIDDEN = "hidden"
+}
 export declare class Style {
     static of(value: string): Style;
     width?: BaseValue;
@@ -68,7 +72,7 @@ export declare class Style {
     skewX: number;
     skewY: number;
     shadow?: Shadow;
-    visible: boolean;
+    visibility: Visibility;
     background?: Background;
     boxSizing: BoxSizing;
     color: Color;

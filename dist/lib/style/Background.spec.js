@@ -4,7 +4,17 @@ var _BaseValue = require("../base/BaseValue");
 
 var _Color = require("../base/Color");
 
+var _ResourceRegistry = require("../resource/ResourceRegistry");
+
 var _Background = require("./Background");
+
+// Disable loading image.
+// TODO: move image loading while attach style to element?
+_ResourceRegistry.ResourceRegistry.DefaultInstance.add = function (url, type) {
+  return new Promise(function (resolve, reject) {
+    resolve(new Image());
+  });
+};
 
 test('should parse color', function () {
   var background = _Background.Background.of('#ffffff');

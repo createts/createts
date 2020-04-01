@@ -19,6 +19,7 @@ export declare type StageOptions = {
     layoutPolicy?: StageLayoutPolicy;
     updatePolicy?: StageUpdatePolicy;
     autoClear?: boolean;
+    noEventHandler?: boolean;
     style?: {
         [key: string]: string | number;
     };
@@ -33,10 +34,14 @@ export declare class Stage extends Container {
     private hoverChildren;
     private started;
     private needUpdate;
+    private eventHandlerInstalled;
+    private eventEnabled;
     constructor(canvas: HTMLCanvasElement, option?: StageOptions);
     updateOnce(): void;
     start(): void;
-    enableEvents(): void;
+    installEventHandlers(): void;
+    enableEvents(): Stage;
+    disableEvents(): Stage;
     getPressedTouchItems(child?: XObject): TouchItem[];
     handleMouseOrTouchEvent(type: string, touches: TouchItem[], e: any): void;
     update(): void;

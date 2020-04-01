@@ -1,7 +1,8 @@
 import { Stage } from '../components/Stage';
 export declare enum RuntimeType {
     WEBPAGE = "webpage",
-    WECHAT_MINI_GAME = "wechat_mini_game"
+    WECHAT_MINI_GAME = "wechat_mini_game",
+    WECHAT_MINI_PROGRAM = "wechat_mini_program"
 }
 declare type Progress = {
     loadedBytes: number;

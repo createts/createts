@@ -67,6 +67,13 @@ export var PointerEvents;
   PointerEvents["NONE"] = "none";
 })(PointerEvents || (PointerEvents = {}));
 
+export var Visibility;
+
+(function (Visibility) {
+  Visibility["VISIBLE"] = "visible";
+  Visibility["HIDDEN"] = "hidden";
+})(Visibility || (Visibility = {}));
+
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 export var Style = /*#__PURE__*/function () {
   function Style() {
@@ -99,7 +106,7 @@ export var Style = /*#__PURE__*/function () {
     this.skewX = 0;
     this.skewY = 0;
     this.shadow = void 0;
-    this.visible = true;
+    this.visibility = Visibility.VISIBLE;
     this.background = void 0;
     this.boxSizing = BoxSizing.CONTENT_BOX;
     this.color = Color.BLACK;
@@ -271,8 +278,8 @@ export var Style = /*#__PURE__*/function () {
               break;
             }
 
-          case 'visible':
-            this.visible = value === 'true';
+          case 'visibility':
+            this.visibility = EnumUtils.fromString(Visibility, value, Visibility.VISIBLE);
             break;
 
           case 'background':
@@ -567,7 +574,7 @@ export var Style = /*#__PURE__*/function () {
         cloned.textBorder = this.textBorder.clone();
       }
 
-      cloned.visible = this.visible;
+      cloned.visibility = this.visibility;
 
       if (this.background) {
         cloned.background = this.background.clone();

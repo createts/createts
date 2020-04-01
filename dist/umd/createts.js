@@ -2606,6 +2606,8 @@ var Stage = (function (_super) {
         _this.hoverChildren = new TouchedObjectSet();
         _this.started = false;
         _this.needUpdate = false;
+        _this.eventHandlerInstalled = false;
+        _this.eventEnabled = true;
         for (var k in option) {
             _this.option[k] = option[k];
         }
@@ -2619,7 +2621,9 @@ var Stage = (function (_super) {
         if (option.style) {
             _this.css(option.style);
         }
-        _this.enableEvents();
+        if (!option.noEventHandler) {
+            _this.installEventHandlers();
+        }
         _this.ticker = new Ticker_1.Ticker(_this.option.fps);
         _this.animationFactory = new AnimationFactory_1.AnimationFactory();
         _this.resourceRegistry = new ResourceRegistry_1.ResourceRegistry();
@@ -2648,8 +2652,19 @@ var Stage = (function (_super) {
             });
         }
     };
+    Stage.prototype.installEventHandlers = function () {
+        if (!this.eventHandlerInstalled) {
+            this.eventHandlerInstalled = true;
+            Runtime_1.Runtime.get().enableEvents(this);
+        }
+    };
     Stage.prototype.enableEvents = function () {
-        Runtime_1.Runtime.get().enableEvents(this);
+        this.eventEnabled = true;
+        return this;
+    };
+    Stage.prototype.disableEvents = function () {
+        this.eventEnabled = false;
+        return this;
     };
     Stage.prototype.getPressedTouchItems = function (child) {
         if (!child)
@@ -2667,7 +2682,7 @@ var Stage = (function (_super) {
         return result;
     };
     Stage.prototype.handleMouseOrTouchEvent = function (type, touches, e) {
-        if (!this.isVisible()) {
+        if (!this.eventEnabled || !this.isVisible()) {
             return;
         }
         switch (type) {
@@ -2713,8 +2728,8 @@ var Stage = (function (_super) {
         if (!this.canvas || !this.isVisible()) {
             return;
         }
-        var canvasWidth = this.canvas.width;
-        var canvasHeight = this.canvas.height;
+        var canvasWidth = this.canvas.width || this.canvas.clientWidth;
+        var canvasHeight = this.canvas.height || this.canvas.clientHeight;
         LayoutUtils_1.LayoutUtils.updateSize(this, canvasWidth, canvasHeight);
         LayoutUtils_1.LayoutUtils.updatePositionForAbsoluteElement(this, canvasWidth, canvasHeight);
     };
@@ -3116,7 +3131,7 @@ var XObject = (function (_super) {
         return !event.defaultPrevented;
     };
     XObject.prototype.isVisible = function () {
-        return !!(this.style.visible &&
+        return !!(this.style.visibility !== Style_1.Visibility.HIDDEN &&
             this.style.display !== Style_1.Display.NONE &&
             this.style.alpha > 0 &&
             this.style.scaleX > 0 &&
@@ -4632,10 +4647,12 @@ exports.ResourceRegistry = ResourceRegistry;
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebpageRuntime_1 = __webpack_require__(/*! ./WebpageRuntime */ "./src/runtime/WebpageRuntime.ts");
 var WechatMiniGameRuntime_1 = __webpack_require__(/*! ./WechatMiniGameRuntime */ "./src/runtime/WechatMiniGameRuntime.ts");
+var WechatMiniProgramRuntime_1 = __webpack_require__(/*! ./WechatMiniProgramRuntime */ "./src/runtime/WechatMiniProgramRuntime.ts");
 var RuntimeType;
 (function (RuntimeType) {
     RuntimeType["WEBPAGE"] = "webpage";
     RuntimeType["WECHAT_MINI_GAME"] = "wechat_mini_game";
+    RuntimeType["WECHAT_MINI_PROGRAM"] = "wechat_mini_program";
 })(RuntimeType = exports.RuntimeType || (exports.RuntimeType = {}));
 var Runtime = (function () {
     function Runtime() {
@@ -4657,6 +4674,9 @@ var Runtime = (function () {
                     break;
                 case RuntimeType.WECHAT_MINI_GAME:
                     this.runtime = new WechatMiniGameRuntime_1.WechatMiniGameRuntime();
+                    break;
+                case RuntimeType.WECHAT_MINI_PROGRAM:
+                    this.runtime = new WechatMiniProgramRuntime_1.WechatMiniProgramRuntime();
                     break;
             }
         }
@@ -4872,12 +4892,13 @@ var WechatMiniGameRuntime = (function () {
         }
     };
     WechatMiniGameRuntime.prototype.loadImage = function (task) {
+        var _this = this;
         if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
             var downloader = wx.downloadFile({
                 url: task.url,
                 success: function (res) {
                     if (res.statusCode === 200) {
-                        var img_1 = wx.createImage();
+                        var img_1 = _this.newImage();
                         img_1.src = res.tempFilePath;
                         img_1.onload = function () {
                             task.onLoad(img_1);
@@ -4902,7 +4923,7 @@ var WechatMiniGameRuntime = (function () {
             };
         }
         else {
-            var img_2 = wx.createImage();
+            var img_2 = this.newImage();
             img_2.src = task.url;
             img_2.onload = function () {
                 task.onLoad(img_2);
@@ -4949,6 +4970,128 @@ var WechatMiniGameRuntime = (function () {
     return WechatMiniGameRuntime;
 }());
 exports.WechatMiniGameRuntime = WechatMiniGameRuntime;
+
+
+/***/ }),
+
+/***/ "./src/runtime/WechatMiniProgramRuntime.ts":
+/*!*************************************************!*\
+  !*** ./src/runtime/WechatMiniProgramRuntime.ts ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TouchItem_1 = __webpack_require__(/*! ../components/TouchItem */ "./src/components/TouchItem.ts");
+var URLUtils_1 = __webpack_require__(/*! ../utils/URLUtils */ "./src/utils/URLUtils.ts");
+var WechatMiniProgramRuntime = (function () {
+    function WechatMiniProgramRuntime() {
+        this.canvasCache = [];
+    }
+    WechatMiniProgramRuntime.prototype.setWxCanvas = function (wxCanvas) {
+        this.wxCanvas = wxCanvas;
+    };
+    WechatMiniProgramRuntime.prototype.newCanvas = function () {
+        if (this.canvasCache.length > 0) {
+            return this.canvasCache.shift();
+        }
+        return wx.createOffscreenCanvas();
+    };
+    WechatMiniProgramRuntime.prototype.releaseCanvas = function (canvas) {
+        this.canvasCache.push(canvas);
+    };
+    WechatMiniProgramRuntime.prototype.newImage = function () {
+        return this.wxCanvas.createImage();
+    };
+    WechatMiniProgramRuntime.prototype.loadArrayBuffer = function (task) {
+        if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
+            wx.request({
+                url: task.url,
+                method: task.method || 'GET',
+                responseType: 'arraybuffer',
+                success: function (res) {
+                    task.onLoad(res.data);
+                },
+                fail: function (error) {
+                    task.onError(error);
+                }
+            });
+        }
+        else {
+            wx.getFileSystemManager().readFile({
+                filePath: task.url,
+                success: function (e) {
+                    task.onLoad(e.data);
+                },
+                fail: function (e) {
+                    task.onError(e);
+                }
+            });
+        }
+    };
+    WechatMiniProgramRuntime.prototype.loadImage = function (task) {
+        var _this = this;
+        if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
+            var downloader = wx.downloadFile({
+                url: task.url,
+                success: function (res) {
+                    if (res.statusCode === 200) {
+                        var img_1 = _this.newImage();
+                        img_1.src = res.tempFilePath;
+                        img_1.onload = function () {
+                            task.onLoad(img_1);
+                        };
+                        img_1.onerror = function (e) {
+                            task.onError(e);
+                        };
+                    }
+                    else {
+                        task.onError({ msg: 'download failed, code:' + res.statusCode });
+                    }
+                },
+                fail: function (e) {
+                    task.onError(e);
+                }
+            });
+            downloader.onProgressUpdate = function (event) {
+                task.onProgress({
+                    loadedBytes: event.totalBytesWritten,
+                    totalBytes: event.totalBytesExpectedToWrite
+                });
+            };
+        }
+        else {
+            var img_2 = this.newImage();
+            img_2.src = task.url;
+            img_2.onload = function () {
+                task.onLoad(img_2);
+            };
+            img_2.onerror = function (e) {
+                task.onError(e);
+            };
+        }
+    };
+    WechatMiniProgramRuntime.prototype.enableEvents = function (stage) {
+        return;
+    };
+    WechatMiniProgramRuntime.prototype.requestAnimationFrame = function (listener) {
+        this.wxCanvas.requestAnimationFrame(listener);
+    };
+    WechatMiniProgramRuntime.prototype.handleTouchEvent = function (type, stage, e) {
+        var scaleX = stage.canvas.width / stage.canvas.clientWidth;
+        var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+        var touches = [];
+        for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
+            var touch = _a[_i];
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.x * scaleX, touch.y * scaleY, 0, 0));
+        }
+        stage.handleMouseOrTouchEvent(type, touches, e);
+    };
+    return WechatMiniProgramRuntime;
+}());
+exports.WechatMiniProgramRuntime = WechatMiniProgramRuntime;
 
 
 /***/ }),
@@ -6389,6 +6532,11 @@ var PointerEvents;
     PointerEvents["AUTO"] = "auto";
     PointerEvents["NONE"] = "none";
 })(PointerEvents = exports.PointerEvents || (exports.PointerEvents = {}));
+var Visibility;
+(function (Visibility) {
+    Visibility["VISIBLE"] = "visible";
+    Visibility["HIDDEN"] = "hidden";
+})(Visibility = exports.Visibility || (exports.Visibility = {}));
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 var Style = (function () {
     function Style() {
@@ -6404,7 +6552,7 @@ var Style = (function () {
         this.scaleY = 1;
         this.skewX = 0;
         this.skewY = 0;
-        this.visible = true;
+        this.visibility = Visibility.VISIBLE;
         this.boxSizing = BoxSizing.CONTENT_BOX;
         this.color = Color_1.Color.BLACK;
         this.textAlign = TextAlign.LEFT;
@@ -6543,8 +6691,8 @@ var Style = (function () {
                     }
                     break;
                 }
-                case 'visible':
-                    this.visible = value === 'true';
+                case 'visibility':
+                    this.visibility = EnumUtils_1.EnumUtils.fromString(Visibility, value, Visibility.VISIBLE);
                     break;
                 case 'background':
                     this.background = Background_1.Background.of(value);
@@ -6767,7 +6915,7 @@ var Style = (function () {
         if (this.textBorder) {
             cloned.textBorder = this.textBorder.clone();
         }
-        cloned.visible = this.visible;
+        cloned.visibility = this.visibility;
         if (this.background) {
             cloned.background = this.background.clone();
         }

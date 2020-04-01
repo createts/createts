@@ -16,8 +16,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /**
- * The shadow property adds shadow effects around an element's frame. A shadow is described by X and Y offsets relative
- * to the element, blur and color.
+ * The shadow property adds shadow effects around an element's frame. A shadow is described by X
+ * and Y offsets relative to the element, blur and color.
+ *
+ * Please note that wechat mini game does not support shadow.
  */
 var Shadow = /*#__PURE__*/function () {
   _createClass(Shadow, null, [{
@@ -74,7 +76,8 @@ var Shadow = /*#__PURE__*/function () {
       return new Shadow(x, y, blur, color);
     }
     /**
-     * Constructs and initializes a shadow object with given arguments of X and Y offsets, blur and color.
+     * Constructs and initializes a shadow object with given arguments of X and Y offsets, blur and
+     * color.
      * @param offsetX the x offset to this element.
      * @param offsetY the y offset to this element.
      * @param blur the blur size of this shadow.

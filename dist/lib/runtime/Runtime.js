@@ -9,6 +9,8 @@ var _WebpageRuntime = require("./WebpageRuntime");
 
 var _WechatMiniGameRuntime = require("./WechatMiniGameRuntime");
 
+var _WechatMiniProgramRuntime = require("./WechatMiniProgramRuntime");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -26,6 +28,7 @@ exports.RuntimeType = RuntimeType;
 (function (RuntimeType) {
   RuntimeType["WEBPAGE"] = "webpage";
   RuntimeType["WECHAT_MINI_GAME"] = "wechat_mini_game";
+  RuntimeType["WECHAT_MINI_PROGRAM"] = "wechat_mini_program";
 })(RuntimeType || (exports.RuntimeType = RuntimeType = {}));
 
 /**
@@ -86,6 +89,10 @@ var Runtime = /*#__PURE__*/function () {
 
           case RuntimeType.WECHAT_MINI_GAME:
             this.runtime = new _WechatMiniGameRuntime.WechatMiniGameRuntime();
+            break;
+
+          case RuntimeType.WECHAT_MINI_PROGRAM:
+            this.runtime = new _WechatMiniProgramRuntime.WechatMiniProgramRuntime();
             break;
         }
       }

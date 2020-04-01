@@ -98,10 +98,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="stageoptions" class="tsd-anchor"></a>
 					<h3>Stage<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>updatePolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>noEventHandler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>updatePolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L40">components/Stage.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L40">components/Stage.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,6 +134,15 @@
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>Layout policy, see the enum definition of StageLayoutPolicy.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> no<wbr>Event<wbr>Handler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>if true, ignore installing event handler by default, you can still call installEventHandler
+										later to install the event handler.</p>
 									</div>
 								</div>
 							</li>

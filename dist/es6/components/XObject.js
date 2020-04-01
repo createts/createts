@@ -24,7 +24,7 @@ import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Rect } from '../base/Rect';
 import { Runtime } from '../runtime/Runtime';
-import { Display, PointerEvents, Style } from '../style/Style';
+import { Display, PointerEvents, Style, Visibility } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
 
@@ -260,7 +260,7 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
   }, {
     key: "isVisible",
     value: function isVisible() {
-      return !!(this.style.visible && this.style.display !== Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
+      return !!(this.style.visibility !== Visibility.HIDDEN && this.style.display !== Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
     }
     /**
      * Checks whether this element enables pointer events.

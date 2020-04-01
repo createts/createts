@@ -7,8 +7,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 import { Color } from '../base/Color';
 import { CSSTokenizer } from '../parser/CSSTokenizer';
 /**
- * The shadow property adds shadow effects around an element's frame. A shadow is described by X and Y offsets relative
- * to the element, blur and color.
+ * The shadow property adds shadow effects around an element's frame. A shadow is described by X
+ * and Y offsets relative to the element, blur and color.
+ *
+ * Please note that wechat mini game does not support shadow.
  */
 
 export var Shadow = /*#__PURE__*/function () {
@@ -65,7 +67,8 @@ export var Shadow = /*#__PURE__*/function () {
       return new Shadow(x, y, blur, color);
     }
     /**
-     * Constructs and initializes a shadow object with given arguments of X and Y offsets, blur and color.
+     * Constructs and initializes a shadow object with given arguments of X and Y offsets, blur and
+     * color.
      * @param offsetX the x offset to this element.
      * @param offsetY the y offset to this element.
      * @param blur the blur size of this shadow.

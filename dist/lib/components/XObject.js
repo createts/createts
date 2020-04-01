@@ -275,7 +275,7 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
   }, {
     key: "isVisible",
     value: function isVisible() {
-      return !!(this.style.visible && this.style.display !== _Style.Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
+      return !!(this.style.visibility !== _Style.Visibility.HIDDEN && this.style.display !== _Style.Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
     }
     /**
      * Checks whether this element enables pointer events.

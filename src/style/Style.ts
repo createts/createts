@@ -51,6 +51,11 @@ export enum PointerEvents {
   NONE = 'none'
 }
 
+export enum Visibility {
+  VISIBLE = 'visible',
+  HIDDEN = 'hidden'
+}
+
 const REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 
 export class Style {
@@ -91,7 +96,7 @@ export class Style {
   public skewX: number = 0;
   public skewY: number = 0;
   public shadow?: Shadow;
-  public visible: boolean = true;
+  public visibility: Visibility = Visibility.VISIBLE;
   public background?: Background;
   public boxSizing: BoxSizing = BoxSizing.CONTENT_BOX;
   public color: Color = Color.BLACK;
@@ -232,8 +237,8 @@ export class Style {
           }
           break;
         }
-        case 'visible':
-          this.visible = value === 'true';
+        case 'visibility':
+          this.visibility = EnumUtils.fromString<Visibility>(Visibility, value, Visibility.VISIBLE);
           break;
         case 'background':
           this.background = Background.of(value);
@@ -470,7 +475,7 @@ export class Style {
     if (this.textBorder) {
       cloned.textBorder = this.textBorder.clone();
     }
-    cloned.visible = this.visible;
+    cloned.visibility = this.visibility;
     if (this.background) {
       cloned.background = this.background.clone();
     }

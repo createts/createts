@@ -56,6 +56,11 @@ export type StageOptions = {
    */
   autoClear?: boolean;
   /**
+   * if true, ignore installing event handler by default, you can still call installEventHandler
+   * later to install the event handler.
+   */
+  noEventHandler?: boolean;
+  /**
    * The override styles while constructing a stage object.
    */
   style?: { [key: string]: string | number };
@@ -206,6 +211,14 @@ export class Stage extends Container {
    * Indicated whether this stage is invalidate and needs to be rendered.
    */
   private needUpdate: boolean = false;
+  /**
+   * Indicated whether event handler of this stage is installed.
+   */
+  private eventHandlerInstalled: boolean = false;
+  /**
+   * Indicated whether event is enabled for this stage.
+   */
+  private eventEnabled: boolean = true;
 
   /**
    * Construct a stage object by canvas and option.
@@ -213,18 +226,15 @@ export class Stage extends Container {
    * Example
    *
    * ```typescript
-   * const canvas = windows.getElementById('canvas');
+   * const canvas = window.getElementById('canvas');
    * const stage = new Stage(canvas);
-   * const parser = new Parser();
    * const html = `
    *    <div style='background:red;width:50%;height:100%'>
    *      <div style='background:yellow;width:50%;height:50%'></div>
    *    </div>
    *    <div style='background:green;width:50%;height:100%'></div>
    * `;
-   * const children = parser.parse(html);
-   * stage.addChildren(...children);
-   * stage.start();
+   * stage.load(html).start();
    * ```
    *
    * @param canvas The target canvas object this stage renders to.
@@ -246,7 +256,9 @@ export class Stage extends Container {
       this.css(option.style);
     }
 
-    this.enableEvents();
+    if (!option.noEventHandler) {
+      this.installEventHandlers();
+    }
     this.ticker = new Ticker(this.option.fps);
     this.animationFactory = new AnimationFactory();
     this.resourceRegistry = new ResourceRegistry();
@@ -285,8 +297,29 @@ export class Stage extends Container {
   /**
    * Enables the event listeners that stage adds to canvas.
    */
-  public enableEvents() {
-    Runtime.get().enableEvents(this);
+  public installEventHandlers() {
+    if (!this.eventHandlerInstalled) {
+      this.eventHandlerInstalled = true;
+      Runtime.get().enableEvents(this);
+    }
+  }
+
+  /**
+   * Enables event for this stage.
+   * @returns The current instance. Useful for chaining method calls.
+   */
+  public enableEvents(): Stage {
+    this.eventEnabled = true;
+    return this;
+  }
+
+  /**
+   * Disables event for this stage.
+   * @returns The current instance. Useful for chaining method calls.
+   */
+  public disableEvents(): Stage {
+    this.eventEnabled = false;
+    return this;
   }
 
   /**
@@ -316,7 +349,7 @@ export class Stage extends Container {
    * @param e The native event object.
    */
   public handleMouseOrTouchEvent(type: string, touches: TouchItem[], e: any) {
-    if (!this.isVisible()) {
+    if (!this.eventEnabled || !this.isVisible()) {
       return;
     }
     switch (type) {
@@ -372,8 +405,8 @@ export class Stage extends Container {
     if (!this.canvas || !this.isVisible()) {
       return;
     }
-    const canvasWidth = this.canvas.width;
-    const canvasHeight = this.canvas.height;
+    const canvasWidth = this.canvas.width || this.canvas.clientWidth;
+    const canvasHeight = this.canvas.height || this.canvas.clientHeight;
     LayoutUtils.updateSize(this, canvasWidth, canvasHeight);
     LayoutUtils.updatePositionForAbsoluteElement(this, canvasWidth, canvasHeight);
   }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Style = exports.PointerEvents = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.TextAlign = exports.BoxSizing = void 0;
+exports.Style = exports.Visibility = exports.PointerEvents = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.TextAlign = exports.BoxSizing = void 0;
 
 var _Animation = require("../animation/Animation");
 
@@ -91,6 +91,14 @@ exports.PointerEvents = PointerEvents;
   PointerEvents["NONE"] = "none";
 })(PointerEvents || (exports.PointerEvents = PointerEvents = {}));
 
+var Visibility;
+exports.Visibility = Visibility;
+
+(function (Visibility) {
+  Visibility["VISIBLE"] = "visible";
+  Visibility["HIDDEN"] = "hidden";
+})(Visibility || (exports.Visibility = Visibility = {}));
+
 var REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 
 var Style = /*#__PURE__*/function () {
@@ -124,7 +132,7 @@ var Style = /*#__PURE__*/function () {
     this.skewX = 0;
     this.skewY = 0;
     this.shadow = void 0;
-    this.visible = true;
+    this.visibility = Visibility.VISIBLE;
     this.background = void 0;
     this.boxSizing = BoxSizing.CONTENT_BOX;
     this.color = _Color.Color.BLACK;
@@ -296,8 +304,8 @@ var Style = /*#__PURE__*/function () {
               break;
             }
 
-          case 'visible':
-            this.visible = value === 'true';
+          case 'visibility':
+            this.visibility = _EnumUtils.EnumUtils.fromString(Visibility, value, Visibility.VISIBLE);
             break;
 
           case 'background':
@@ -592,7 +600,7 @@ var Style = /*#__PURE__*/function () {
         cloned.textBorder = this.textBorder.clone();
       }
 
-      cloned.visible = this.visible;
+      cloned.visibility = this.visibility;
 
       if (this.background) {
         cloned.background = this.background.clone();

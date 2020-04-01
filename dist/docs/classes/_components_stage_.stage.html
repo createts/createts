@@ -107,6 +107,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_stage_.stage.html#animationfactory" class="tsd-kind-icon">animation<wbr>Factory</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_stage_.stage.html#canvas" class="tsd-kind-icon">canvas</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#children" class="tsd-kind-icon">children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#eventenabled" class="tsd-kind-icon">event<wbr>Enabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#eventhandlerinstalled" class="tsd-kind-icon">event<wbr>Handler<wbr>Installed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#hoverchildren" class="tsd-kind-icon">hover<wbr>Children</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#needupdate" class="tsd-kind-icon">need<wbr>Update</a></li>
@@ -130,6 +132,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#cache" class="tsd-kind-icon">cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_components_stage_.stage.html#calculatesize" class="tsd-kind-icon">calculate<wbr>Size</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#css" class="tsd-kind-icon">css</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_stage_.stage.html#disableevents" class="tsd-kind-icon">disable<wbr>Events</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_components_stage_.stage.html#dispatchevent" class="tsd-kind-icon">dispatch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#dispatchtouchevent" class="tsd-kind-icon">dispatch<wbr>Touch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#draw" class="tsd-kind-icon">draw</a></li>
@@ -161,6 +164,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_components_stage_.stage.html#handletouchstartevent" class="tsd-kind-icon">handle<wbr>Touch<wbr>Start<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#haseventlistener" class="tsd-kind-icon">has<wbr>Event<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#hittest" class="tsd-kind-icon">hit<wbr>Test</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_stage_.stage.html#installeventhandlers" class="tsd-kind-icon">install<wbr>Event<wbr>Handlers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#invalidatecache" class="tsd-kind-icon">invalidate<wbr>Cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#iscached" class="tsd-kind-icon">is<wbr>Cached</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_stage_.stage.html#ischildof" class="tsd-kind-icon">is<wbr>Child<wbr>Of</a></li>
@@ -215,7 +219,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L208">components/Stage.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L221">components/Stage.ts:221</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,18 +227,15 @@
 									<p>Construct a stage object by canvas and option.</p>
 								</div>
 								<p>Example</p>
-								<pre><code class="language-typescript"><span class="hljs-keyword">const</span> canvas = windows.getElementById(<span class="hljs-string">'canvas'</span>);
+								<pre><code class="language-typescript"><span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">window</span>.getElementById(<span class="hljs-string">'canvas'</span>);
 <span class="hljs-keyword">const</span> stage = <span class="hljs-keyword">new</span> Stage(canvas);
-<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> Parser();
 <span class="hljs-keyword">const</span> html = <span class="hljs-string">`
    &lt;div style='background:red;width:50%;height:100%'&gt;
      &lt;div style='background:yellow;width:50%;height:50%'&gt;&lt;/div&gt;
    &lt;/div&gt;
    &lt;div style='background:green;width:50%;height:100%'&gt;&lt;/div&gt;
 `</span>;
-<span class="hljs-keyword">const</span> children = parser.parse(html);
-stage.addChildren(...children);
-stage.start();</code></pre>
+stage.load(html).start();</code></pre>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -268,7 +269,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">animation<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="_animation_animationfactory_.animationfactory.html" class="tsd-signature-type">AnimationFactory</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L162">components/Stage.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L167">components/Stage.ts:167</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -283,7 +284,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L149">components/Stage.ts:149</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L154">components/Stage.ts:154</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -299,7 +300,7 @@ stage.start();</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#children">children</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L24">components/Container.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L24">components/Container.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -309,12 +310,42 @@ stage.start();</code></pre>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="eventenabled" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> event<wbr>Enabled</h3>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L221">components/Stage.ts:221</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Indicated whether event is enabled for this stage.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="eventhandlerinstalled" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> event<wbr>Handler<wbr>Installed</h3>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Handler<wbr>Installed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L217">components/Stage.ts:217</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Indicated whether event handler of this stage is installed.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="hoverchildren" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> hover<wbr>Children</h3>
 					<div class="tsd-signature tsd-kind-icon">hover<wbr>Children<span class="tsd-signature-symbol">:</span> <a href="_components_stage_.touchedobjectset.html" class="tsd-signature-type">TouchedObjectSet</a><span class="tsd-signature-symbol"> = new TouchedObjectSet()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L200">components/Stage.ts:200</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L205">components/Stage.ts:205</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -330,7 +361,7 @@ stage.start();</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L132">components/XObject.ts:132</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L132">components/XObject.ts:132</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,7 +376,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">need<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L208">components/Stage.ts:208</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L213">components/Stage.ts:213</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -361,7 +392,7 @@ stage.start();</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L146">components/XObject.ts:146</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L146">components/XObject.ts:146</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -377,7 +408,7 @@ stage.start();</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#rect">rect</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L142">components/XObject.ts:142</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L142">components/XObject.ts:142</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -394,7 +425,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">resource<wbr>Registry<span class="tsd-signature-symbol">:</span> <a href="_resource_resourceregistry_.resourceregistry.html" class="tsd-signature-type">ResourceRegistry</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L168">components/Stage.ts:168</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L173">components/Stage.ts:173</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -410,7 +441,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">started<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L204">components/Stage.ts:204</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L209">components/Stage.ts:209</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -426,7 +457,7 @@ stage.start();</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#style">style</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L136">components/XObject.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L136">components/XObject.ts:136</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -441,7 +472,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">ticker<span class="tsd-signature-symbol">:</span> <a href="_ticker_.ticker.html" class="tsd-signature-type">Ticker</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L157">components/Stage.ts:157</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L162">components/Stage.ts:162</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -458,7 +489,7 @@ stage.start();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">touched<wbr>Children<span class="tsd-signature-symbol">:</span> <a href="_components_stage_.touchedobjectset.html" class="tsd-signature-type">TouchedObjectSet</a><span class="tsd-signature-symbol"> = new TouchedObjectSet()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L195">components/Stage.ts:195</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L200">components/Stage.ts:200</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -481,7 +512,7 @@ stage.start();</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#addchild">addChild</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L70">components/Container.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L70">components/Container.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -514,7 +545,7 @@ stage.start();</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#addchildat">addChildAt</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L110">components/Container.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L110">components/Container.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -553,7 +584,7 @@ stage.start();</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#addchildren">addChildren</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L97">components/Container.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L97">components/Container.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -586,7 +617,7 @@ stage.start();</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -625,7 +656,7 @@ stage.start();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L395">components/Stage.ts:395</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L428">components/Stage.ts:428</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -668,7 +699,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#cache">cache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L252">components/XObject.ts:252</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L252">components/XObject.ts:252</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -691,7 +722,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#calculatesize">calculateSize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L371">components/Stage.ts:371</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L404">components/Stage.ts:404</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -714,7 +745,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#css">css</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L445">components/XObject.ts:445</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L445">components/XObject.ts:445</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -741,6 +772,29 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="disableevents" class="tsd-anchor"></a>
+					<h3>disable<wbr>Events</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">disable<wbr>Events<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L320">components/Stage.ts:320</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Disables event for this stage.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="dispatchevent" class="tsd-anchor"></a>
 					<h3>dispatch<wbr>Event</h3>
@@ -753,7 +807,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#dispatchevent">dispatchEvent</a></p>
 								<p>Overrides <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -785,7 +839,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L432">components/Stage.ts:432</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L465">components/Stage.ts:465</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -847,7 +901,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L282">components/XObject.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L282">components/XObject.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -885,7 +939,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#drawbackground">drawBackground</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L309">components/XObject.ts:309</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L309">components/XObject.ts:309</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -930,7 +984,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#drawcontent">drawContent</a></p>
 								<p>Overrides <a href="_components_xobject_.xobject.html">XObject</a>.<a href="_components_xobject_.xobject.html#drawcontent">drawContent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L52">components/Container.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L52">components/Container.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -955,21 +1009,22 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 					<a name="enableevents" class="tsd-anchor"></a>
 					<h3>enable<wbr>Events</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">enable<wbr>Events<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">enable<wbr>Events<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L288">components/Stage.ts:288</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L311">components/Stage.ts:311</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Enables the event listeners that stage adds to canvas.</p>
+									<p>Enables event for this stage.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></h4>
+							<p>The current instance. Useful for chaining method calls.</p>
 						</li>
 					</ul>
 				</section>
@@ -984,7 +1039,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#findbyid">findById</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L30">components/Container.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L30">components/Container.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1016,7 +1071,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getcachecanvas">getCacheCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L236">components/XObject.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L236">components/XObject.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1040,7 +1095,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getchildat">getChildAt</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L185">components/Container.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L185">components/Container.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1072,7 +1127,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getchildindex">getChildIndex</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L204">components/Container.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L204">components/Container.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1105,7 +1160,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getconcatenatedmatrix">getConcatenatedMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L403">components/XObject.ts:403</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L403">components/XObject.ts:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1145,7 +1200,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getcontentheight">getContentHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L554">components/XObject.ts:554</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L554">components/XObject.ts:554</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1169,7 +1224,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getcontentrect">getContentRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L568">components/XObject.ts:568</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L568">components/XObject.ts:568</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1193,7 +1248,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getcontentwidth">getContentWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L540">components/XObject.ts:540</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L540">components/XObject.ts:540</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1217,7 +1272,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getheight">getHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L484">components/XObject.ts:484</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L484">components/XObject.ts:484</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1241,7 +1296,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getlineheight">getLineHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L454">components/XObject.ts:454</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L454">components/XObject.ts:454</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1265,7 +1320,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getmatrix">getMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L378">components/XObject.ts:378</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L378">components/XObject.ts:378</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1299,7 +1354,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getobjectunderpoint">getObjectUnderPoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L356">components/Container.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L356">components/Container.ts:356</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1344,7 +1399,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getouterheight">getOuterHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L622">components/XObject.ts:622</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L622">components/XObject.ts:622</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1368,7 +1423,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getouterwidth">getOuterWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L609">components/XObject.ts:609</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L609">components/XObject.ts:609</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1392,7 +1447,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getpaddingheight">getPaddingHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L504">components/XObject.ts:504</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L504">components/XObject.ts:504</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1416,7 +1471,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getpaddingrect">getPaddingRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L516">components/XObject.ts:516</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L516">components/XObject.ts:516</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1440,7 +1495,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getpaddingwidth">getPaddingWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L492">components/XObject.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L492">components/XObject.ts:492</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1463,7 +1518,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L297">components/Stage.ts:297</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L330">components/Stage.ts:330</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1496,7 +1551,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#getwidth">getWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L476">components/XObject.ts:476</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L476">components/XObject.ts:476</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1520,7 +1575,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#globaltolocal">globalToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L352">components/XObject.ts:352</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L352">components/XObject.ts:352</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1559,7 +1614,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L318">components/Stage.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L351">components/Stage.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1603,7 +1658,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L536">components/Stage.ts:536</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L569">components/Stage.ts:569</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1640,7 +1695,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L513">components/Stage.ts:513</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L546">components/Stage.ts:546</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1678,7 +1733,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L204">base/Event.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L204">base/Event.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1711,7 +1766,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#hittest">hitTest</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L419">components/XObject.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L419">components/XObject.ts:419</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1739,6 +1794,28 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="installeventhandlers" class="tsd-anchor"></a>
+					<h3>install<wbr>Event<wbr>Handlers</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">install<wbr>Event<wbr>Handlers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L300">components/Stage.ts:300</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Enables the event listeners that stage adds to canvas.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="invalidatecache" class="tsd-anchor"></a>
 					<h3>invalidate<wbr>Cache</h3>
@@ -1750,7 +1827,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#invalidatecache">invalidateCache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L269">components/XObject.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L269">components/XObject.ts:269</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1773,7 +1850,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#iscached">isCached</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L245">components/XObject.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L245">components/XObject.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1798,7 +1875,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#ischildof">isChildOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L636">components/XObject.ts:636</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L636">components/XObject.ts:636</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1831,7 +1908,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#ispointereventsenabled">isPointerEventsEnabled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L228">components/XObject.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L228">components/XObject.ts:228</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1855,7 +1932,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#isvisible">isVisible</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L214">components/XObject.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L214">components/XObject.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1880,7 +1957,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#layout">layout</a></p>
 								<p>Overrides <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#layout">layout</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L246">components/Container.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L246">components/Container.ts:246</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1903,7 +1980,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#layoutchildren">layoutChildren</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L254">components/Container.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L254">components/Container.ts:254</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1926,7 +2003,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#load">load</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L389">components/Container.ts:389</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L389">components/Container.ts:389</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1965,7 +2042,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#localtoglobal">localToGlobal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L341">components/XObject.ts:341</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L341">components/XObject.ts:341</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2005,7 +2082,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#localtolocal">localToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L367">components/XObject.ts:367</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L367">components/XObject.ts:367</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2052,7 +2129,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L182">base/Event.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L182">base/Event.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2084,7 +2161,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L145">base/Event.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L145">base/Event.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2115,7 +2192,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L451">components/Stage.ts:451</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L484">components/Stage.ts:484</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2153,7 +2230,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#remove">remove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L174">components/XObject.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L174">components/XObject.ts:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2176,7 +2253,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#removeallchildren">removeAllChildren</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L174">components/Container.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L174">components/Container.ts:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2200,7 +2277,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L191">base/Event.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L191">base/Event.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2233,7 +2310,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#removechild">removeChild</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L143">components/Container.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L143">components/Container.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2267,7 +2344,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#removechildat">removeChildAt</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L160">components/Container.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L160">components/Container.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2300,7 +2377,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L155">base/Event.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L155">base/Event.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2339,7 +2416,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#sortchildren">sortChildren</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L194">components/Container.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L194">components/Container.ts:194</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2392,7 +2469,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L265">components/Stage.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L277">components/Stage.ts:277</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2414,7 +2491,7 @@ stage.animate(element, <span class="hljs-literal">true</span>).to({color: <span 
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L411">components/Stage.ts:411</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L444">components/Stage.ts:444</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2451,7 +2528,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#swapchildren">swapChildren</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L239">components/Container.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L239">components/Container.ts:239</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2490,7 +2567,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#swapchildrenat">swapChildrenAt</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Container.ts#L214">components/Container.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Container.ts#L214">components/Container.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2529,7 +2606,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L419">components/Stage.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L452">components/Stage.ts:452</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2553,7 +2630,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#uncache">uncache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L261">components/XObject.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L261">components/XObject.ts:261</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2575,7 +2652,7 @@ stage.stopAnimation(element);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L348">components/Stage.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L381">components/Stage.ts:381</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2600,7 +2677,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#updatecontext">updateContext</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/XObject.ts#L328">components/XObject.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/XObject.ts#L328">components/XObject.ts:328</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2632,7 +2709,7 @@ stage.stopAnimation(element);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L258">components/Stage.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L270">components/Stage.ts:270</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2655,7 +2732,7 @@ stage.stopAnimation(element);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/base/Event.ts#L211">base/Event.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/base/Event.ts#L211">base/Event.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2682,7 +2759,7 @@ stage.stopAnimation(element);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L173">components/Stage.ts:173</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L178">components/Stage.ts:178</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -2696,7 +2773,7 @@ stage.stopAnimation(element);</code></pre>
 						<div class="tsd-signature tsd-kind-icon">auto<wbr>Clear<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L189">components/Stage.ts:189</a></li>
+								<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L194">components/Stage.ts:194</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2711,7 +2788,7 @@ stage.stopAnimation(element);</code></pre>
 						<div class="tsd-signature tsd-kind-icon">fps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 60</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L177">components/Stage.ts:177</a></li>
+								<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L182">components/Stage.ts:182</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2726,7 +2803,7 @@ stage.stopAnimation(element);</code></pre>
 						<div class="tsd-signature tsd-kind-icon">layout<wbr>Policy<span class="tsd-signature-symbol">:</span> <a href="../enums/_components_stage_.stagelayoutpolicy.html#always" class="tsd-signature-type">ALWAYS</a><span class="tsd-signature-symbol"> = StageLayoutPolicy.ALWAYS</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L181">components/Stage.ts:181</a></li>
+								<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L186">components/Stage.ts:186</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2741,7 +2818,7 @@ stage.stopAnimation(element);</code></pre>
 						<div class="tsd-signature tsd-kind-icon">update<wbr>Policy<span class="tsd-signature-symbol">:</span> <a href="../enums/_components_stage_.stageupdatepolicy.html#in_animation" class="tsd-signature-type">IN_ANIMATION</a><span class="tsd-signature-symbol"> = StageUpdatePolicy.IN_ANIMATION</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/createts/createts/blob/8bb50ad/src/components/Stage.ts#L185">components/Stage.ts:185</a></li>
+								<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/Stage.ts#L190">components/Stage.ts:190</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2788,6 +2865,12 @@ stage.stopAnimation(element);</code></pre>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_stage_.stage.html#children" class="tsd-kind-icon">children</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_components_stage_.stage.html#eventenabled" class="tsd-kind-icon">event<wbr>Enabled</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_components_stage_.stage.html#eventhandlerinstalled" class="tsd-kind-icon">event<wbr>Handler<wbr>Installed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_components_stage_.stage.html#hoverchildren" class="tsd-kind-icon">hover<wbr>Children</a>
@@ -2842,6 +2925,9 @@ stage.stopAnimation(element);</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_stage_.stage.html#css" class="tsd-kind-icon">css</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_components_stage_.stage.html#disableevents" class="tsd-kind-icon">disable<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_components_stage_.stage.html#dispatchevent" class="tsd-kind-icon">dispatch<wbr>Event</a>
@@ -2935,6 +3021,9 @@ stage.stopAnimation(element);</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_stage_.stage.html#hittest" class="tsd-kind-icon">hit<wbr>Test</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_components_stage_.stage.html#installeventhandlers" class="tsd-kind-icon">install<wbr>Event<wbr>Handlers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_stage_.stage.html#invalidatecache" class="tsd-kind-icon">invalidate<wbr>Cache</a>
