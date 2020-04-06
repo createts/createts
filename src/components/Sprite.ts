@@ -221,9 +221,9 @@ export class Sprite extends XObject {
         .addStep(new SpriteAnimationStep(this))
         .times(times);
       this.animation.addEventListener('complete', () =>
-        this.dispatchEvent(new TouchEvent(this, 'stop'))
+        this.dispatchEvent(new TouchEvent('stop', false, true, this))
       );
-      this.dispatchEvent(new TouchEvent(this, 'play'));
+      this.dispatchEvent(new TouchEvent('play', false, true, this));
     }
     return this;
   }
@@ -234,7 +234,7 @@ export class Sprite extends XObject {
    */
   public pause(): Sprite {
     if (this.animation && this.animation.pause()) {
-      this.dispatchEvent(new TouchEvent(this, 'pause'));
+      this.dispatchEvent(new TouchEvent('pause', false, true, this));
     }
     return this;
   }
@@ -245,7 +245,7 @@ export class Sprite extends XObject {
    */
   public resume(): Sprite {
     if (this.animation && this.animation.resume()) {
-      this.dispatchEvent(new TouchEvent(this, 'resume'));
+      this.dispatchEvent(new TouchEvent('resume', false, true, this));
     }
     return this;
   }

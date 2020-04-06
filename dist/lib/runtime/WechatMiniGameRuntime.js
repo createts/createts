@@ -244,6 +244,7 @@ var WechatMiniGameRuntime = /*#__PURE__*/function () {
       var scaleX = stage.canvas.width / this.systemInfo.windowWidth;
       var scaleY = stage.canvas.height / this.systemInfo.windowHeight;
       var touches = [];
+      var now = Date.now();
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -251,7 +252,7 @@ var WechatMiniGameRuntime = /*#__PURE__*/function () {
       try {
         for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var touch = _step.value;
-          touches.push(new _TouchItem.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+          touches.push(new _TouchItem.TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now));
         }
       } catch (err) {
         _didIteratorError = true;

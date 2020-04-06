@@ -230,9 +230,10 @@ var WechatMiniProgramRuntime = /*#__PURE__*/function () {
   }, {
     key: "handleTouchEvent",
     value: function handleTouchEvent(type, stage, e) {
-      var scaleX = stage.canvas.width / stage.canvas.clientWidth;
-      var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+      var scaleX = stage.canvas.clientWidth ? stage.canvas.width / stage.canvas.clientWidth : 1;
+      var scaleY = stage.canvas.clientHeight ? stage.canvas.height / stage.canvas.clientHeight : 1;
       var touches = [];
+      var now = Date.now();
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -240,7 +241,7 @@ var WechatMiniProgramRuntime = /*#__PURE__*/function () {
       try {
         for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var touch = _step.value;
-          touches.push(new _TouchItem.TouchItem(touch.identifier, undefined, touch.x * scaleX, touch.y * scaleY, 0, 0));
+          touches.push(new _TouchItem.TouchItem(touch.identifier, stage, touch.x * scaleX, touch.y * scaleY, now));
         }
       } catch (err) {
         _didIteratorError = true;

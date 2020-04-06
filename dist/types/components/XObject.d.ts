@@ -9,6 +9,7 @@ import { Stage } from './Stage';
 import { TouchItem } from './TouchItem';
 export declare class TouchEvent extends Event {
     stage?: Stage;
+    readonly touchItem?: TouchItem;
     nativeEvent: any;
     readonly identifier: number;
     readonly stageX: number;
@@ -17,7 +18,7 @@ export declare class TouchEvent extends Event {
     y: number;
     currentTarget: XObject;
     readonly srcElement: XObject;
-    constructor(srcElement: XObject, type: string, bubbles?: boolean, touch?: TouchItem, cancelable?: boolean);
+    constructor(type: string, bubbles: boolean, cancelable: boolean, srcElement: XObject, touchItem?: TouchItem, currentTarget?: XObject);
     toString(): string;
 }
 export interface IXObjectOptions {

@@ -191,9 +191,9 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
       if (stage) {
         this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
         this.animation.addEventListener('complete', function () {
-          return _this3.dispatchEvent(new TouchEvent(_this3, 'stop'));
+          return _this3.dispatchEvent(new TouchEvent('stop', false, true, _this3));
         });
-        this.dispatchEvent(new TouchEvent(this, 'play'));
+        this.dispatchEvent(new TouchEvent('play', false, true, this));
       }
 
       return this;
@@ -207,7 +207,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
     key: "pause",
     value: function pause() {
       if (this.animation && this.animation.pause()) {
-        this.dispatchEvent(new TouchEvent(this, 'pause'));
+        this.dispatchEvent(new TouchEvent('pause', false, true, this));
       }
 
       return this;
@@ -221,7 +221,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
     key: "resume",
     value: function resume() {
       if (this.animation && this.animation.resume()) {
-        this.dispatchEvent(new TouchEvent(this, 'resume'));
+        this.dispatchEvent(new TouchEvent('resume', false, true, this));
       }
 
       return this;

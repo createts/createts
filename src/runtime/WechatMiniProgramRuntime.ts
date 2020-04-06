@@ -188,13 +188,12 @@ export class WechatMiniProgramRuntime implements IRuntime {
    * @param e The native touch event.
    */
   public handleTouchEvent(type: string, stage: Stage, e: any) {
-    const scaleX = stage.canvas.width / stage.canvas.clientWidth;
-    const scaleY = stage.canvas.height / stage.canvas.clientHeight;
+    const scaleX = stage.canvas.clientWidth ? stage.canvas.width / stage.canvas.clientWidth : 1;
+    const scaleY = stage.canvas.clientHeight ? stage.canvas.height / stage.canvas.clientHeight : 1;
     const touches = [];
+    const now = Date.now();
     for (const touch of e.touches) {
-      touches.push(
-        new TouchItem(touch.identifier, undefined, touch.x * scaleX, touch.y * scaleY, 0, 0)
-      );
+      touches.push(new TouchItem(touch.identifier, stage, touch.x * scaleX, touch.y * scaleY, now));
     }
     stage.handleMouseOrTouchEvent(type, touches, e);
   }

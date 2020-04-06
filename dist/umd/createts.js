@@ -2010,7 +2010,7 @@ var Container = (function (_super) {
             var idx = this.children.indexOf(child);
             this.children.splice(idx, 1);
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.TouchEvent(child, 'moved', false));
+            child.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, child));
             return this;
         }
         else {
@@ -2019,7 +2019,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.TouchEvent(child, 'added', false));
+            child.dispatchEvent(new XObject_1.TouchEvent('added', false, true, child));
             return this;
         }
     };
@@ -2049,7 +2049,7 @@ var Container = (function (_super) {
                 this.children.splice(index, 0, child);
                 this.children.splice(current, 1);
             }
-            child.dispatchEvent(new XObject_1.TouchEvent(child, 'moved', false));
+            child.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, child));
             return this;
         }
         else {
@@ -2058,7 +2058,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.splice(index, 0, child);
-            child.dispatchEvent(new XObject_1.TouchEvent(child, 'added', false));
+            child.dispatchEvent(new XObject_1.TouchEvent('added', false, true, child));
             return this;
         }
     };
@@ -2070,7 +2070,7 @@ var Container = (function (_super) {
         else {
             this.children.splice(idx, 1);
             child.parent = undefined;
-            child.dispatchEvent(new XObject_1.TouchEvent(child, 'removed', false));
+            child.dispatchEvent(new XObject_1.TouchEvent('removed', false, true, child));
             return child;
         }
     };
@@ -2080,7 +2080,7 @@ var Container = (function (_super) {
         }
         var child = this.children[index];
         this.children.splice(index, 1);
-        child.dispatchEvent(new XObject_1.TouchEvent(child, 'removed', false));
+        child.dispatchEvent(new XObject_1.TouchEvent('removed', false, true, child));
         return child;
     };
     Container.prototype.removeAllChildren = function () {
@@ -2113,8 +2113,8 @@ var Container = (function (_super) {
         var o2 = this.children[index2];
         this.children[index1] = o2;
         this.children[index2] = o1;
-        o1.dispatchEvent(new XObject_1.TouchEvent(o1, 'moved', false));
-        o2.dispatchEvent(new XObject_1.TouchEvent(o2, 'moved', false));
+        o1.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, o1));
+        o2.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, o2));
         return this;
     };
     Container.prototype.swapChildren = function (child1, child2) {
@@ -2421,21 +2421,21 @@ var Sprite = (function (_super) {
                 .addStep(new SpriteAnimationStep(this))
                 .times(times);
             this.animation.addEventListener('complete', function () {
-                return _this.dispatchEvent(new XObject_1.TouchEvent(_this, 'stop'));
+                return _this.dispatchEvent(new XObject_1.TouchEvent('stop', false, true, _this));
             });
-            this.dispatchEvent(new XObject_1.TouchEvent(this, 'play'));
+            this.dispatchEvent(new XObject_1.TouchEvent('play', false, true, this));
         }
         return this;
     };
     Sprite.prototype.pause = function () {
         if (this.animation && this.animation.pause()) {
-            this.dispatchEvent(new XObject_1.TouchEvent(this, 'pause'));
+            this.dispatchEvent(new XObject_1.TouchEvent('pause', false, true, this));
         }
         return this;
     };
     Sprite.prototype.resume = function () {
         if (this.animation && this.animation.resume()) {
-            this.dispatchEvent(new XObject_1.TouchEvent(this, 'resume'));
+            this.dispatchEvent(new XObject_1.TouchEvent('resume', false, true, this));
         }
         return this;
     };
@@ -2602,8 +2602,7 @@ var Stage = (function (_super) {
             updatePolicy: StageUpdatePolicy.IN_ANIMATION,
             autoClear: true
         };
-        _this.touchedChildren = new TouchedObjectSet();
-        _this.hoverChildren = new TouchedObjectSet();
+        _this.touchItems = new TouchedObjectSet();
         _this.started = false;
         _this.needUpdate = false;
         _this.eventHandlerInstalled = false;
@@ -2669,15 +2668,13 @@ var Stage = (function (_super) {
     Stage.prototype.getPressedTouchItems = function (child) {
         if (!child)
             child = this;
-        var touches = this.touchedChildren.getTouches(child);
+        var touches = this.touchItems.getTouches(child);
         var result = [];
         for (var _i = 0, touches_1 = touches; _i < touches_1.length; _i++) {
             var touch = touches_1[_i];
-            var cloned = touch.clone();
-            var pt = this.localToLocal(touch.stageX, touch.stageY, child);
-            cloned.x = pt.x;
-            cloned.y = pt.y;
-            result.push(cloned);
+            if (!touch.pressed)
+                continue;
+            result.push(touch.clone());
         }
         return result;
     };
@@ -2744,25 +2741,25 @@ var Stage = (function (_super) {
         return "[Stage (id=" + this.id + ")]";
     };
     Stage.prototype.dispatchTouchEvent = function (element, type, currentTouch, bubble, cancellable, e) {
-        var event = new XObject_1.TouchEvent(element, type, bubble, currentTouch, cancellable);
+        var event = new XObject_1.TouchEvent(type, bubble, cancellable, element, currentTouch);
         event.stage = this;
         event.nativeEvent = e;
         element.dispatchEvent(event);
     };
     Stage.prototype.onTouchMove = function (touches, e) {
         var movedTouches = [];
+        var newTouches = [];
         for (var _i = 0, touches_2 = touches; _i < touches_2.length; _i++) {
             var touch = touches_2[_i];
-            var item = this.touchedChildren.get(touch.identifier);
+            var item = this.touchItems.get(touch.identifier);
             if (item) {
                 if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
-                    item.stageX = touch.stageX;
-                    item.stageY = touch.stageY;
+                    item.onUpdate(touch);
                     movedTouches.push(item);
                 }
             }
             else {
-                movedTouches.push(touch);
+                newTouches.push(touch);
             }
         }
         for (var _a = 0, movedTouches_1 = movedTouches; _a < movedTouches_1.length; _a++) {
@@ -2772,53 +2769,63 @@ var Stage = (function (_super) {
             if (element) {
                 this.dispatchTouchEvent(element, 'move', touch, true, true, e);
             }
-            var touchedItem = this.touchedChildren.get(touch.identifier);
-            if (touchedItem) {
-                this.dispatchTouchEvent(touchedItem.srcElement, 'pressmove', touch, true, true, e);
+            if (touch.pressed) {
+                this.dispatchTouchEvent(touch.srcElement, 'pressmove', touch, true, true, e);
             }
-            var hoveredItem = this.hoverChildren.get(touch.identifier);
-            if (hoveredItem && element) {
-                if (hoveredItem.srcElement !== element) {
+            if (element) {
+                if (touch.currentTarget !== element) {
                     var enterElement = element;
-                    var leaveElement = hoveredItem.srcElement;
-                    hoveredItem.srcElement = element;
-                    hoveredItem.stageX = touch.stageX;
-                    hoveredItem.stageY = touch.stageY;
+                    var leaveElement = touch.currentTarget;
+                    touch.currentTarget = element;
                     while (leaveElement) {
                         if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
                             break;
                         }
-                        this.dispatchTouchEvent(leaveElement, 'leave', hoveredItem, false, true, e);
+                        this.dispatchTouchEvent(leaveElement, 'leave', touch, false, true, e);
                         leaveElement = leaveElement.parent;
                     }
                     while (enterElement && enterElement !== leaveElement) {
-                        this.dispatchTouchEvent(enterElement, 'enter', hoveredItem, false, true, e);
+                        this.dispatchTouchEvent(enterElement, 'enter', touch, false, true, e);
                         enterElement = enterElement.parent;
                     }
                 }
             }
-            else if (element) {
-                var newMove = touch.clone();
-                newMove.srcElement = element;
-                this.hoverChildren.add(newMove);
-                this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
+            else if (touch.currentTarget) {
+                this.dispatchTouchEvent(touch.currentTarget, 'leave', touch, false, true, e);
+                touch.currentTarget = undefined;
             }
-            else if (hoveredItem) {
-                this.hoverChildren.remove(touch.identifier);
-                this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);
+        }
+        for (var _b = 0, newTouches_1 = newTouches; _b < newTouches_1.length; _b++) {
+            var touch = newTouches_1[_b];
+            var pt = this.globalToLocal(touch.stageX, touch.stageY);
+            var element = this.getObjectUnderPoint(pt.x, pt.y, true);
+            if (!element) {
+                continue;
             }
+            var newMove = touch.switchSourceElement(element);
+            newMove.pressed = false;
+            newMove.currentTarget = element;
+            this.touchItems.add(newMove);
+            this.dispatchTouchEvent(element, 'move', newMove, true, true, e);
+            this.dispatchTouchEvent(element, 'enter', newMove, false, true, e);
         }
     };
     Stage.prototype.handleTouchStartEvent = function (touches, e) {
         var newTouches = new TouchedObjectSet();
         for (var _i = 0, touches_3 = touches; _i < touches_3.length; _i++) {
             var touch = touches_3[_i];
-            if (!this.touchedChildren.contains(touch.identifier)) {
+            var existing = this.touchItems.get(touch.identifier);
+            if (!existing || !existing.pressed) {
+                if (existing) {
+                    this.touchItems.remove(existing.identifier);
+                }
                 var element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
                 if (element) {
-                    touch.srcElement = element;
-                    newTouches.add(touch);
-                    this.touchedChildren.add(touch);
+                    var item = touch.switchSourceElement(element);
+                    item.currentTarget = element;
+                    item.pressed = true;
+                    newTouches.add(item);
+                    this.touchItems.add(item);
                 }
             }
         }
@@ -2831,7 +2838,7 @@ var Stage = (function (_super) {
     Stage.prototype.handleTouchEndEvent = function (touches, e) {
         this.onTouchMove(touches, e);
         var endedTouches = new TouchedObjectSet();
-        for (var _i = 0, _a = this.touchedChildren.touchItems; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.touchItems.touchItems; _i < _a.length; _i++) {
             var item = _a[_i];
             var exists = false;
             for (var _b = 0, touches_4 = touches; _b < touches_4.length; _b++) {
@@ -2847,11 +2854,13 @@ var Stage = (function (_super) {
         }
         for (var _c = 0, _d = endedTouches.touchItems; _c < _d.length; _c++) {
             var item = _d[_c];
-            this.touchedChildren.remove(item.identifier);
-            this.hoverChildren.remove(item.identifier);
+            this.touchItems.remove(item.identifier);
         }
         for (var _e = 0, _f = endedTouches.touchItems; _e < _f.length; _e++) {
             var item = _f[_e];
+            if (!item.pressed) {
+                continue;
+            }
             var element = this.getObjectUnderPoint(item.stageX, item.stageY, true);
             if (element) {
                 this.dispatchTouchEvent(element, 'touchup', item, true, true, e);
@@ -3003,25 +3012,78 @@ HtmlParser_1.HtmlParser.registerTag('text', Text);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var TRACK_DURATION = 100;
+var VelocityTracker = (function () {
+    function VelocityTracker() {
+        this.positions = [];
+    }
+    VelocityTracker.prototype.trim = function (now) {
+        while (this.positions.length > 0 && this.positions[0].timestamp < now - TRACK_DURATION) {
+            this.positions.shift();
+        }
+    };
+    VelocityTracker.prototype.add = function (x, y, timestamp) {
+        this.trim(timestamp);
+        this.positions.push({ x: x, y: y, timestamp: timestamp });
+        var direction = 0;
+        var speed = 0;
+        if (this.positions.length > 1) {
+            var first = this.positions[0];
+            var duration = timestamp - first.timestamp;
+            if (duration > 0) {
+                var moves = Math.sqrt(Math.pow(x - first.x, 2) + Math.pow(y - first.y, 2));
+                if (moves > 0) {
+                    speed = moves / duration;
+                    direction = (Math.asin((first.y - y) / moves) / Math.PI) * 180;
+                    if (x < first.x) {
+                        direction = 180 - direction;
+                    }
+                    else if (direction < 0) {
+                        direction = 360 + direction;
+                    }
+                }
+            }
+        }
+        return { speed: speed, direction: direction };
+    };
+    return VelocityTracker;
+}());
 var TouchItem = (function () {
-    function TouchItem(identifier, srcElement, stageX, stageY, x, y) {
+    function TouchItem(identifier, srcElement, stageX, stageY, timestamp) {
+        this.pressed = false;
+        this.x = 0;
+        this.y = 0;
         this.identifier = identifier;
         this.srcElement = srcElement;
-        this.stageX = stageX;
-        this.stageY = stageY;
-        this.x = x;
-        this.y = y;
+        this.srcStageX = this.stageX = stageX;
+        this.srcStageY = this.stageY = stageY;
+        this.srcTimestamp = this.timestamp = timestamp;
+        this.speed = this.direction = 0;
     }
-    TouchItem.prototype.equals = function (that) {
-        return (this.identifier === that.identifier &&
-            this.srcElement === that.srcElement &&
-            this.stageX === that.stageX &&
-            this.stageY === that.stageY &&
-            this.x === that.x &&
-            this.y === that.y);
+    TouchItem.prototype.switchSourceElement = function (srcElement) {
+        var cloned = new TouchItem(this.identifier, srcElement, this.srcStageX, this.srcStageY, this.srcTimestamp);
+        cloned.x = this.x;
+        cloned.y = this.y;
+        cloned.currentTarget = this.currentTarget;
+        cloned.pressed = this.pressed;
+        cloned.speed = this.speed;
+        cloned.direction = this.direction;
+        return cloned;
+    };
+    TouchItem.prototype.onUpdate = function (item) {
+        if (!this.velocityTracker) {
+            this.velocityTracker = new VelocityTracker();
+            this.velocityTracker.add(this.stageX, this.stageY, this.timestamp);
+        }
+        var velocity = this.velocityTracker.add(item.stageX, item.stageY, item.timestamp);
+        this.speed = velocity.speed;
+        this.direction = velocity.direction;
+        this.stageX = item.stageX;
+        this.stageY = item.stageY;
+        this.timestamp = item.srcTimestamp;
     };
     TouchItem.prototype.clone = function () {
-        return new TouchItem(this.identifier, this.srcElement, this.stageX, this.stageY, this.x, this.y);
+        return this.switchSourceElement(this.srcElement);
     };
     return TouchItem;
 }());
@@ -3062,20 +3124,19 @@ var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/Dra
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
 var TouchEvent = (function (_super) {
     __extends(TouchEvent, _super);
-    function TouchEvent(srcElement, type, bubbles, touch, cancelable) {
+    function TouchEvent(type, bubbles, cancelable, srcElement, touchItem, currentTarget) {
         if (bubbles === void 0) { bubbles = true; }
         if (cancelable === void 0) { cancelable = true; }
         var _this = _super.call(this, type, bubbles, cancelable) || this;
         _this.nativeEvent = null;
         _this.srcElement = srcElement;
-        if (touch) {
-            _this.identifier = touch.identifier;
-            _this.stageX = touch.stageX;
-            _this.stageY = touch.stageY;
-            _this.x = touch.x;
-            _this.y = touch.y;
+        _this.touchItem = touchItem;
+        _this.currentTarget = currentTarget;
+        if (touchItem) {
+            _this.identifier = touchItem.identifier;
+            _this.stageX = touchItem.stageX;
+            _this.stageY = touchItem.stageY;
         }
-        _this.currentTarget = srcElement;
         return _this;
     }
     TouchEvent.prototype.toString = function () {
@@ -3370,12 +3431,12 @@ var XObject = (function (_super) {
     };
     XObject.prototype.doDispatchEvent = function (event) {
         event.currentTarget = this;
-        if (event.stage) {
-            if (this.willTrigger(event.type)) {
-                var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
-                event.x = pt.x;
-                event.y = pt.y;
-            }
+        if (event.stage && event.touchItem && this.willTrigger(event.type)) {
+            var pt = event.stage.localToLocal(event.touchItem.stageX, event.touchItem.stageY, this);
+            event.x = pt.x;
+            event.y = pt.y;
+            event.touchItem.x = pt.x;
+            event.touchItem.y = pt.y;
         }
         _super.prototype.dispatchEvent.call(this, event);
     };
@@ -4814,15 +4875,16 @@ var WebpageRuntime = (function () {
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var x = e.offsetX * scaleX;
         var y = e.offsetY * scaleY;
-        stage.handleMouseOrTouchEvent(type, [new TouchItem_1.TouchItem(0, undefined, x, y, 0, 0)], e);
+        stage.handleMouseOrTouchEvent(type, [new TouchItem_1.TouchItem(0, stage, x, y, Date.now())], e);
     };
     WebpageRuntime.prototype.handleTouchEvent = function (type, stage, e) {
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var touches = [];
+        var now = Date.now();
         for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
             var touch = _a[_i];
-            touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now));
         }
         stage.handleMouseOrTouchEvent(type, touches, e);
     };
@@ -4961,9 +5023,10 @@ var WechatMiniGameRuntime = (function () {
         var scaleX = stage.canvas.width / this.systemInfo.windowWidth;
         var scaleY = stage.canvas.height / this.systemInfo.windowHeight;
         var touches = [];
+        var now = Date.now();
         for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
             var touch = _a[_i];
-            touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now));
         }
         stage.handleMouseOrTouchEvent(type, touches, e);
     };
@@ -5080,12 +5143,13 @@ var WechatMiniProgramRuntime = (function () {
         this.wxCanvas.requestAnimationFrame(listener);
     };
     WechatMiniProgramRuntime.prototype.handleTouchEvent = function (type, stage, e) {
-        var scaleX = stage.canvas.width / stage.canvas.clientWidth;
-        var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+        var scaleX = stage.canvas.clientWidth ? stage.canvas.width / stage.canvas.clientWidth : 1;
+        var scaleY = stage.canvas.clientHeight ? stage.canvas.height / stage.canvas.clientHeight : 1;
         var touches = [];
+        var now = Date.now();
         for (var _i = 0, _a = e.touches; _i < _a.length; _i++) {
             var touch = _a[_i];
-            touches.push(new TouchItem_1.TouchItem(touch.identifier, undefined, touch.x * scaleX, touch.y * scaleY, 0, 0));
+            touches.push(new TouchItem_1.TouchItem(touch.identifier, stage, touch.x * scaleX, touch.y * scaleY, now));
         }
         stage.handleMouseOrTouchEvent(type, touches, e);
     };

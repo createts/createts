@@ -40,6 +40,10 @@ export var TouchEvent = /*#__PURE__*/function (_Event) {
    */
 
   /**
+   * The touch item related to this event;
+   */
+
+  /**
    * The native event, note that the location of this event is not transferred to the stage.
    */
 
@@ -82,17 +86,20 @@ export var TouchEvent = /*#__PURE__*/function (_Event) {
    * @param cancelable Interface indicates whether the event can be canceled, and
    * therefore prevented as if the event never happened.
    */
-  function TouchEvent(srcElement, type) {
+  function TouchEvent(type) {
     var _this;
 
-    var bubbles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    var touch = arguments.length > 3 ? arguments[3] : undefined;
-    var cancelable = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+    var bubbles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var cancelable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var srcElement = arguments.length > 3 ? arguments[3] : undefined;
+    var touchItem = arguments.length > 4 ? arguments[4] : undefined;
+    var currentTarget = arguments.length > 5 ? arguments[5] : undefined;
 
     _classCallCheck(this, TouchEvent);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TouchEvent).call(this, type, bubbles, cancelable));
     _this.stage = void 0;
+    _this.touchItem = void 0;
     _this.nativeEvent = null;
     _this.identifier = void 0;
     _this.stageX = void 0;
@@ -102,16 +109,15 @@ export var TouchEvent = /*#__PURE__*/function (_Event) {
     _this.currentTarget = void 0;
     _this.srcElement = void 0;
     _this.srcElement = srcElement;
+    _this.touchItem = touchItem;
+    _this.currentTarget = currentTarget;
 
-    if (touch) {
-      _this.identifier = touch.identifier;
-      _this.stageX = touch.stageX;
-      _this.stageY = touch.stageY;
-      _this.x = touch.x;
-      _this.y = touch.y;
+    if (touchItem) {
+      _this.identifier = touchItem.identifier;
+      _this.stageX = touchItem.stageX;
+      _this.stageY = touchItem.stageY;
     }
 
-    _this.currentTarget = srcElement;
     return _this;
   }
   /**
@@ -751,12 +757,12 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
     value: function doDispatchEvent(event) {
       event.currentTarget = this;
 
-      if (event.stage) {
-        if (this.willTrigger(event.type)) {
-          var pt = event.stage.localToLocal(event.stageX, event.stageY, this);
-          event.x = pt.x;
-          event.y = pt.y;
-        }
+      if (event.stage && event.touchItem && this.willTrigger(event.type)) {
+        var pt = event.stage.localToLocal(event.touchItem.stageX, event.touchItem.stageY, this);
+        event.x = pt.x;
+        event.y = pt.y;
+        event.touchItem.x = pt.x;
+        event.touchItem.y = pt.y;
       }
 
       _get(_getPrototypeOf(XObject.prototype), "dispatchEvent", this).call(this, event);

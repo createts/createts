@@ -98,10 +98,19 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#direction" class="tsd-kind-icon">direction</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#identifier" class="tsd-kind-icon">identifier</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#pressed" class="tsd-kind-icon">pressed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#speed" class="tsd-kind-icon">speed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#srcstagex" class="tsd-kind-icon">src<wbr>StageX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#srcstagey" class="tsd-kind-icon">src<wbr>StageY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#srctimestamp" class="tsd-kind-icon">src<wbr>Timestamp</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#stagex" class="tsd-kind-icon">stageX</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#stagey" class="tsd-kind-icon">stageY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#timestamp" class="tsd-kind-icon">timestamp</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_components_touchitem_.touchitem.html#velocitytracker" class="tsd-kind-icon">velocity<wbr>Tracker</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#x" class="tsd-kind-icon">x</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#y" class="tsd-kind-icon">y</a></li>
 							</ul>
@@ -110,7 +119,8 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_components_touchitem_.touchitem.html#switchsourceelement" class="tsd-kind-icon">switch<wbr>Source<wbr>Element</a></li>
 							</ul>
 						</section>
 					</div>
@@ -122,13 +132,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Touch<wbr>Item<span class="tsd-signature-symbol">(</span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, srcElement<span class="tsd-signature-symbol">?: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, stageX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, stageY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Touch<wbr>Item<span class="tsd-signature-symbol">(</span>identifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, srcElement<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a>, stageX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, stageY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, timestamp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L32">components/TouchItem.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L143">components/TouchItem.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -148,7 +158,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> srcElement: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
+									<h5>srcElement: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>the source element of the newly constructed TouchItem</p>
@@ -156,26 +166,23 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> stageX: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> stageY: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> x: <span class="tsd-signature-type">number</span></h5>
+									<h5>stageX: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>the X coordinate of the newly constructed TouchItem</p>
+											<p>the X coordinate in stage of the newly constructed TouchItem</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> y: <span class="tsd-signature-type">number</span></h5>
+									<h5>stageY: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>the Y coordinate of the newly constructed TouchItem</p>
+											<p>the Y coordinate in stage of the newly constructed TouchItem</p>
 										</div>
 									</div>
+								</li>
+								<li>
+									<h5>timestamp: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h4>
@@ -186,12 +193,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currenttarget" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> current<wbr>Target</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Target<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L135">components/TouchItem.ts:135</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current element of this event.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="direction" class="tsd-anchor"></a>
+					<h3>direction</h3>
+					<div class="tsd-signature tsd-kind-icon">direction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L122">components/TouchItem.ts:122</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The move direction, move to up is 0, right is 90, down is 180 and left is 270.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="identifier" class="tsd-anchor"></a>
 					<h3>identifier</h3>
 					<div class="tsd-signature tsd-kind-icon">identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L11">components/TouchItem.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L83">components/TouchItem.ts:83</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -201,12 +238,42 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="pressed" class="tsd-anchor"></a>
+					<h3>pressed</h3>
+					<div class="tsd-signature tsd-kind-icon">pressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L109">components/TouchItem.ts:109</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether the this TouchItem with mouse pressed.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="speed" class="tsd-anchor"></a>
+					<h3>speed</h3>
+					<div class="tsd-signature tsd-kind-icon">speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L118">components/TouchItem.ts:118</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current move speed, unit is pixel per millisecond.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="srcelement" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> src<wbr>Element</h3>
 					<div class="tsd-signature tsd-kind-icon">src<wbr>Element<span class="tsd-signature-symbol">:</span> <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L32">components/TouchItem.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L87">components/TouchItem.ts:87</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -216,12 +283,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="stagex" class="tsd-anchor"></a>
-					<h3>stageX</h3>
-					<div class="tsd-signature tsd-kind-icon">stageX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="srcstagex" class="tsd-anchor"></a>
+					<h3>src<wbr>StageX</h3>
+					<div class="tsd-signature tsd-kind-icon">src<wbr>StageX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L15">components/TouchItem.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L95">components/TouchItem.ts:95</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -231,12 +298,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="stagey" class="tsd-anchor"></a>
-					<h3>stageY</h3>
-					<div class="tsd-signature tsd-kind-icon">stageY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="srcstagey" class="tsd-anchor"></a>
+					<h3>src<wbr>StageY</h3>
+					<div class="tsd-signature tsd-kind-icon">src<wbr>StageY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L19">components/TouchItem.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L99">components/TouchItem.ts:99</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -246,32 +313,107 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="srctimestamp" class="tsd-anchor"></a>
+					<h3>src<wbr>Timestamp</h3>
+					<div class="tsd-signature tsd-kind-icon">src<wbr>Timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L23">components/TouchItem.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L91">components/TouchItem.ts:91</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The X coordinate of this TouchItem in the current element.</p>
+							<p>The timestamp of touch event starts.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="stagex" class="tsd-anchor"></a>
+					<h3>stageX</h3>
+					<div class="tsd-signature tsd-kind-icon">stageX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L127">components/TouchItem.ts:127</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current X coordinate in the stage.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="stagey" class="tsd-anchor"></a>
+					<h3>stageY</h3>
+					<div class="tsd-signature tsd-kind-icon">stageY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L131">components/TouchItem.ts:131</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current Y coordinate in the stage.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="timestamp" class="tsd-anchor"></a>
+					<h3>timestamp</h3>
+					<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L114">components/TouchItem.ts:114</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The timestamp of current event.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="velocitytracker" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> velocity<wbr>Tracker</h3>
+					<div class="tsd-signature tsd-kind-icon">velocity<wbr>Tracker<span class="tsd-signature-symbol">:</span> <a href="_components_touchitem_.velocitytracker.html" class="tsd-signature-type">VelocityTracker</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L104">components/TouchItem.ts:104</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A helper to track and calculate velocity.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="x" class="tsd-anchor"></a>
+					<h3>x</h3>
+					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L139">components/TouchItem.ts:139</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current X coordinate in the current element.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="y" class="tsd-anchor"></a>
 					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L27">components/TouchItem.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L143">components/TouchItem.ts:143</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The Y coordinate of this TouchItem in the current element.</p>
+							<p>The current Y coordinate in the current element.</p>
 						</div>
 					</div>
 				</section>
@@ -288,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L80">components/TouchItem.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L210">components/TouchItem.ts:210</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -302,36 +444,60 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="equals" class="tsd-anchor"></a>
-					<h3>equals</h3>
+					<a name="onupdate" class="tsd-anchor"></a>
+					<h3>on<wbr>Update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>that<span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Update<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/02bfb1c/src/components/TouchItem.ts#L65">components/TouchItem.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L193">components/TouchItem.ts:193</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>item: <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="switchsourceelement" class="tsd-anchor"></a>
+					<h3>switch<wbr>Source<wbr>Element</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">switch<wbr>Source<wbr>Element<span class="tsd-signature-symbol">(</span>srcElement<span class="tsd-signature-symbol">: </span><a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/components/TouchItem.ts#L172">components/TouchItem.ts:172</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks whether two TouchItems are equal.
-										The result is true if and only if the argument is a TouchItem object that has same identifier
-									and location.</p>
+									<p>Clones a new TouchItem instance by this one, but change the src element.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>that: <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h5>
+									<h5>srcElement: <a href="_components_xobject_.xobject.html" class="tsd-signature-type">XObject</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the Object to compare with this TouchItem.</p>
+										<p>the new src element.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the objects are equal; false otherwise.</p>
+							<h4 class="tsd-returns-title">Returns <a href="_components_touchitem_.touchitem.html" class="tsd-signature-type">TouchItem</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -359,16 +525,43 @@
 								<a href="_components_touchitem_.touchitem.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#currenttarget" class="tsd-kind-icon">current<wbr>Target</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#direction" class="tsd-kind-icon">direction</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_components_touchitem_.touchitem.html#identifier" class="tsd-kind-icon">identifier</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#pressed" class="tsd-kind-icon">pressed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#speed" class="tsd-kind-icon">speed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_components_touchitem_.touchitem.html#srcelement" class="tsd-kind-icon">src<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#srcstagex" class="tsd-kind-icon">src<wbr>StageX</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#srcstagey" class="tsd-kind-icon">src<wbr>StageY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#srctimestamp" class="tsd-kind-icon">src<wbr>Timestamp</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_components_touchitem_.touchitem.html#stagex" class="tsd-kind-icon">stageX</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_components_touchitem_.touchitem.html#stagey" class="tsd-kind-icon">stageY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#timestamp" class="tsd-kind-icon">timestamp</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_components_touchitem_.touchitem.html#velocitytracker" class="tsd-kind-icon">velocity<wbr>Tracker</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_components_touchitem_.touchitem.html#x" class="tsd-kind-icon">x</a>
@@ -380,12 +573,27 @@
 								<a href="_components_touchitem_.touchitem.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_components_touchitem_.touchitem.html#equals" class="tsd-kind-icon">equals</a>
+								<a href="_components_touchitem_.touchitem.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_components_touchitem_.touchitem.html#switchsourceelement" class="tsd-kind-icon">switch<wbr>Source<wbr>Element</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_components_touchitem_.velocitytracker.html" class="tsd-kind-icon">Velocity<wbr>Tracker</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_components_touchitem_.html#touchposition" class="tsd-kind-icon">Touch<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_components_touchitem_.html#velocity" class="tsd-kind-icon">Velocity</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_components_touchitem_.html#track_duration" class="tsd-kind-icon">TRACK_<wbr>DURATION</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

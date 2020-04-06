@@ -199,9 +199,9 @@ var Sprite = /*#__PURE__*/function (_XObject) {
       if (stage) {
         this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
         this.animation.addEventListener('complete', function () {
-          return _this3.dispatchEvent(new _XObject2.TouchEvent(_this3, 'stop'));
+          return _this3.dispatchEvent(new _XObject2.TouchEvent('stop', false, true, _this3));
         });
-        this.dispatchEvent(new _XObject2.TouchEvent(this, 'play'));
+        this.dispatchEvent(new _XObject2.TouchEvent('play', false, true, this));
       }
 
       return this;
@@ -215,7 +215,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
     key: "pause",
     value: function pause() {
       if (this.animation && this.animation.pause()) {
-        this.dispatchEvent(new _XObject2.TouchEvent(this, 'pause'));
+        this.dispatchEvent(new _XObject2.TouchEvent('pause', false, true, this));
       }
 
       return this;
@@ -229,7 +229,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
     key: "resume",
     value: function resume() {
       if (this.animation && this.animation.resume()) {
-        this.dispatchEvent(new _XObject2.TouchEvent(this, 'resume'));
+        this.dispatchEvent(new _XObject2.TouchEvent('resume', false, true, this));
       }
 
       return this;

@@ -30,8 +30,7 @@ export declare class Stage extends Container {
     readonly animationFactory: AnimationFactory;
     readonly resourceRegistry: ResourceRegistry;
     readonly option: StageOptions;
-    private touchedChildren;
-    private hoverChildren;
+    private touchItems;
     private started;
     private needUpdate;
     private eventHandlerInstalled;

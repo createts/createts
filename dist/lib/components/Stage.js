@@ -265,11 +265,7 @@ var Stage = /*#__PURE__*/function (_Container) {
    */
 
   /**
-   * Contains paris of touched children and touch information.
-   */
-
-  /**
-   * Contains paris of hovered children and touch information.
+   * Contains current touch items of this stage.
    */
 
   /**
@@ -341,8 +337,7 @@ var Stage = /*#__PURE__*/function (_Container) {
        */
       autoClear: true
     };
-    _this.touchedChildren = new TouchedObjectSet();
-    _this.hoverChildren = new TouchedObjectSet();
+    _this.touchItems = new TouchedObjectSet();
     _this.started = false;
     _this.needUpdate = false;
     _this.eventHandlerInstalled = false;
@@ -459,7 +454,7 @@ var Stage = /*#__PURE__*/function (_Container) {
     key: "getPressedTouchItems",
     value: function getPressedTouchItems(child) {
       if (!child) child = this;
-      var touches = this.touchedChildren.getTouches(child);
+      var touches = this.touchItems.getTouches(child);
       var result = [];
       var _iteratorNormalCompletion4 = true;
       var _didIteratorError4 = false;
@@ -468,11 +463,8 @@ var Stage = /*#__PURE__*/function (_Container) {
       try {
         for (var _iterator4 = touches[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
           var touch = _step4.value;
-          var cloned = touch.clone();
-          var pt = this.localToLocal(touch.stageX, touch.stageY, child);
-          cloned.x = pt.x;
-          cloned.y = pt.y;
-          result.push(cloned);
+          if (!touch.pressed) continue;
+          result.push(touch.clone());
         }
       } catch (err) {
         _didIteratorError4 = true;
@@ -641,7 +633,7 @@ var Stage = /*#__PURE__*/function (_Container) {
   }, {
     key: "dispatchTouchEvent",
     value: function dispatchTouchEvent(element, type, currentTouch, bubble, cancellable, e) {
-      var event = new _XObject.TouchEvent(element, type, bubble, currentTouch, cancellable);
+      var event = new _XObject.TouchEvent(type, bubble, cancellable, element, currentTouch);
       event.stage = this;
       event.nativeEvent = e;
       element.dispatchEvent(event);
@@ -656,6 +648,7 @@ var Stage = /*#__PURE__*/function (_Container) {
     key: "onTouchMove",
     value: function onTouchMove(touches, e) {
       var movedTouches = [];
+      var newTouches = [];
       var _iteratorNormalCompletion5 = true;
       var _didIteratorError5 = false;
       var _iteratorError5 = undefined;
@@ -663,16 +656,15 @@ var Stage = /*#__PURE__*/function (_Container) {
       try {
         for (var _iterator5 = touches[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
           var touch = _step5.value;
-          var item = this.touchedChildren.get(touch.identifier);
+          var item = this.touchItems.get(touch.identifier);
 
           if (item) {
             if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
-              item.stageX = touch.stageX;
-              item.stageY = touch.stageY;
+              item.onUpdate(touch);
               movedTouches.push(item);
             }
           } else {
-            movedTouches.push(touch);
+            newTouches.push(touch);
           }
         }
       } catch (err) {
@@ -699,47 +691,55 @@ var Stage = /*#__PURE__*/function (_Container) {
           this.dispatchTouchEvent(element, 'move', _touch, true, true, e);
         }
 
-        var touchedItem = this.touchedChildren.get(_touch.identifier);
-
-        if (touchedItem) {
-          this.dispatchTouchEvent(touchedItem.srcElement, 'pressmove', _touch, true, true, e);
+        if (_touch.pressed) {
+          this.dispatchTouchEvent(_touch.srcElement, 'pressmove', _touch, true, true, e);
         } // Checks enter/leave
 
 
-        var hoveredItem = this.hoverChildren.get(_touch.identifier);
-
-        if (hoveredItem && element) {
-          if (hoveredItem.srcElement !== element) {
+        if (element) {
+          if (_touch.currentTarget !== element) {
             var enterElement = element;
-            var leaveElement = hoveredItem.srcElement;
-            hoveredItem.srcElement = element;
-            hoveredItem.stageX = _touch.stageX;
-            hoveredItem.stageY = _touch.stageY;
+            var leaveElement = _touch.currentTarget;
+            _touch.currentTarget = element;
 
             while (leaveElement) {
               if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
                 break;
               }
 
-              this.dispatchTouchEvent(leaveElement, 'leave', hoveredItem, false, true, e);
+              this.dispatchTouchEvent(leaveElement, 'leave', _touch, false, true, e);
               leaveElement = leaveElement.parent;
             }
 
             while (enterElement && enterElement !== leaveElement) {
-              this.dispatchTouchEvent(enterElement, 'enter', hoveredItem, false, true, e);
+              this.dispatchTouchEvent(enterElement, 'enter', _touch, false, true, e);
               enterElement = enterElement.parent;
             }
           }
-        } else if (element) {
-          var newMove = _touch.clone();
-
-          newMove.srcElement = element;
-          this.hoverChildren.add(newMove);
-          this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
-        } else if (hoveredItem) {
-          this.hoverChildren.remove(_touch.identifier);
-          this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);
+        } else if (_touch.currentTarget) {
+          this.dispatchTouchEvent(_touch.currentTarget, 'leave', _touch, false, true, e);
+          _touch.currentTarget = undefined;
         }
+      }
+
+      for (var _i2 = 0, _newTouches = newTouches; _i2 < _newTouches.length; _i2++) {
+        var _touch2 = _newTouches[_i2];
+
+        var _pt = this.globalToLocal(_touch2.stageX, _touch2.stageY);
+
+        var _element = this.getObjectUnderPoint(_pt.x, _pt.y, true);
+
+        if (!_element) {
+          continue;
+        }
+
+        var newMove = _touch2.switchSourceElement(_element);
+
+        newMove.pressed = false;
+        newMove.currentTarget = _element;
+        this.touchItems.add(newMove);
+        this.dispatchTouchEvent(_element, 'move', newMove, true, true, e);
+        this.dispatchTouchEvent(_element, 'enter', newMove, false, true, e);
       }
     }
     /**
@@ -759,14 +759,21 @@ var Stage = /*#__PURE__*/function (_Container) {
       try {
         for (var _iterator6 = touches[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
           var touch = _step6.value;
+          var existing = this.touchItems.get(touch.identifier);
 
-          if (!this.touchedChildren.contains(touch.identifier)) {
+          if (!existing || !existing.pressed) {
+            if (existing) {
+              this.touchItems.remove(existing.identifier);
+            }
+
             var element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
 
             if (element) {
-              touch.srcElement = element;
-              newTouches.add(touch);
-              this.touchedChildren.add(touch);
+              var item = touch.switchSourceElement(element);
+              item.currentTarget = element;
+              item.pressed = true;
+              newTouches.add(item);
+              this.touchItems.add(item);
             }
           }
         }
@@ -791,8 +798,8 @@ var Stage = /*#__PURE__*/function (_Container) {
 
       try {
         for (var _iterator7 = newTouches.touchItems[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var item = _step7.value;
-          this.dispatchTouchEvent(item.srcElement, 'touchdown', item, true, true, e);
+          var _item = _step7.value;
+          this.dispatchTouchEvent(_item.srcElement, 'touchdown', _item, true, true, e);
         }
       } catch (err) {
         _didIteratorError7 = true;
@@ -827,7 +834,7 @@ var Stage = /*#__PURE__*/function (_Container) {
       var _iteratorError8 = undefined;
 
       try {
-        for (var _iterator8 = this.touchedChildren.touchItems[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+        for (var _iterator8 = this.touchItems.touchItems[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
           var item = _step8.value;
           var exists = false;
           var _iteratorNormalCompletion11 = true;
@@ -883,9 +890,8 @@ var Stage = /*#__PURE__*/function (_Container) {
 
       try {
         for (var _iterator9 = endedTouches.touchItems[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-          var _item = _step9.value;
-          this.touchedChildren.remove(_item.identifier);
-          this.hoverChildren.remove(_item.identifier);
+          var _item2 = _step9.value;
+          this.touchItems.remove(_item2.identifier);
         }
       } catch (err) {
         _didIteratorError9 = true;
@@ -908,17 +914,22 @@ var Stage = /*#__PURE__*/function (_Container) {
 
       try {
         for (var _iterator10 = endedTouches.touchItems[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-          var _item2 = _step10.value;
-          var element = this.getObjectUnderPoint(_item2.stageX, _item2.stageY, true);
+          var _item3 = _step10.value;
 
-          if (element) {
-            this.dispatchTouchEvent(element, 'touchup', _item2, true, true, e);
+          if (!_item3.pressed) {
+            continue;
           }
 
-          this.dispatchTouchEvent(_item2.srcElement, 'pressup', _item2, true, true, e);
+          var element = this.getObjectUnderPoint(_item3.stageX, _item3.stageY, true);
 
-          if (element === _item2.srcElement || _item2.srcElement.isChildOf(element)) {
-            this.dispatchTouchEvent(element, 'click', _item2, true, true, e);
+          if (element) {
+            this.dispatchTouchEvent(element, 'touchup', _item3, true, true, e);
+          }
+
+          this.dispatchTouchEvent(_item3.srcElement, 'pressup', _item3, true, true, e);
+
+          if (element === _item3.srcElement || _item3.srcElement.isChildOf(element)) {
+            this.dispatchTouchEvent(element, 'click', _item3, true, true, e);
           }
         }
       } catch (err) {

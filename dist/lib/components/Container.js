@@ -181,7 +181,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         var idx = this.children.indexOf(child);
         this.children.splice(idx, 1);
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.TouchEvent(child, 'moved', false));
+        child.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, child));
         return this;
       } else {
         if (parent) {
@@ -190,7 +190,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.TouchEvent(child, 'added', false));
+        child.dispatchEvent(new _XObject2.TouchEvent('added', false, true, child));
         return this;
       }
     }
@@ -241,7 +241,7 @@ var Container = /*#__PURE__*/function (_XObject) {
           this.children.splice(current, 1);
         }
 
-        child.dispatchEvent(new _XObject2.TouchEvent(child, 'moved', false));
+        child.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, child));
         return this;
       } else {
         if (parent) {
@@ -250,7 +250,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.splice(index, 0, child);
-        child.dispatchEvent(new _XObject2.TouchEvent(child, 'added', false));
+        child.dispatchEvent(new _XObject2.TouchEvent('added', false, true, child));
         return this;
       }
     }
@@ -271,7 +271,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       } else {
         this.children.splice(idx, 1);
         child.parent = undefined;
-        child.dispatchEvent(new _XObject2.TouchEvent(child, 'removed', false));
+        child.dispatchEvent(new _XObject2.TouchEvent('removed', false, true, child));
         return child;
       }
     }
@@ -290,7 +290,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
       var child = this.children[index];
       this.children.splice(index, 1);
-      child.dispatchEvent(new _XObject2.TouchEvent(child, 'removed', false));
+      child.dispatchEvent(new _XObject2.TouchEvent('removed', false, true, child));
       return child;
     }
     /**
@@ -366,8 +366,8 @@ var Container = /*#__PURE__*/function (_XObject) {
       var o2 = this.children[index2];
       this.children[index1] = o2;
       this.children[index2] = o1;
-      o1.dispatchEvent(new _XObject2.TouchEvent(o1, 'moved', false));
-      o2.dispatchEvent(new _XObject2.TouchEvent(o2, 'moved', false));
+      o1.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, o1));
+      o2.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, o2));
       return this;
     }
     /**

@@ -76,7 +76,7 @@ export class Container extends XObject {
       const idx = this.children.indexOf(child);
       this.children.splice(idx, 1);
       this.children.push(child);
-      child.dispatchEvent(new TouchEvent(child, 'moved', false));
+      child.dispatchEvent(new TouchEvent('moved', false, true, child));
       return this;
     } else {
       if (parent) {
@@ -84,7 +84,7 @@ export class Container extends XObject {
       }
       child.parent = this;
       this.children.push(child);
-      child.dispatchEvent(new TouchEvent(child, 'added', false));
+      child.dispatchEvent(new TouchEvent('added', false, true, child));
       return this;
     }
   }
@@ -121,7 +121,7 @@ export class Container extends XObject {
         this.children.splice(index, 0, child);
         this.children.splice(current, 1);
       }
-      child.dispatchEvent(new TouchEvent(child, 'moved', false));
+      child.dispatchEvent(new TouchEvent('moved', false, true, child));
       return this;
     } else {
       if (parent) {
@@ -129,7 +129,7 @@ export class Container extends XObject {
       }
       child.parent = this;
       this.children.splice(index, 0, child);
-      child.dispatchEvent(new TouchEvent(child, 'added', false));
+      child.dispatchEvent(new TouchEvent('added', false, true, child));
       return this;
     }
   }
@@ -147,7 +147,7 @@ export class Container extends XObject {
     } else {
       this.children.splice(idx, 1);
       child.parent = undefined;
-      child.dispatchEvent(new TouchEvent(child, 'removed', false));
+      child.dispatchEvent(new TouchEvent('removed', false, true, child));
       return child;
     }
   }
@@ -163,7 +163,7 @@ export class Container extends XObject {
     }
     const child = this.children[index];
     this.children.splice(index, 1);
-    child.dispatchEvent(new TouchEvent(child, 'removed', false));
+    child.dispatchEvent(new TouchEvent('removed', false, true, child));
     return child;
   }
 
@@ -225,8 +225,8 @@ export class Container extends XObject {
     const o2 = this.children[index2];
     this.children[index1] = o2;
     this.children[index2] = o1;
-    o1.dispatchEvent(new TouchEvent(o1, 'moved', false));
-    o2.dispatchEvent(new TouchEvent(o2, 'moved', false));
+    o1.dispatchEvent(new TouchEvent('moved', false, true, o1));
+    o2.dispatchEvent(new TouchEvent('moved', false, true, o2));
     return this;
   }
 

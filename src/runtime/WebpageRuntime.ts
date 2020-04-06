@@ -164,7 +164,7 @@ export class WebpageRuntime implements IRuntime {
     // Translate to multiple touch event
     const x = e.offsetX * scaleX;
     const y = e.offsetY * scaleY;
-    stage.handleMouseOrTouchEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
+    stage.handleMouseOrTouchEvent(type, [new TouchItem(0, stage, x, y, Date.now())], e);
   }
 
   /**
@@ -178,16 +178,10 @@ export class WebpageRuntime implements IRuntime {
     const scaleX = stage.canvas.width / stage.canvas.clientWidth;
     const scaleY = stage.canvas.height / stage.canvas.clientHeight;
     const touches = [];
+    const now = Date.now();
     for (const touch of e.touches) {
       touches.push(
-        new TouchItem(
-          touch.identifier,
-          undefined,
-          touch.clientX * scaleX,
-          touch.clientY * scaleY,
-          0,
-          0
-        )
+        new TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now)
       );
     }
     stage.handleMouseOrTouchEvent(type, touches, e);

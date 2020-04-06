@@ -94,11 +94,11 @@ test('should dispatch mouse events', function () {
     ++stageClickTimes;
   }); // Inside child.
 
-  stage.handleMouseOrTouchEvent('mousedown', [new _TouchItem.TouchItem(0, undefined, 110, 100)], undefined); // Outside child.
+  stage.handleMouseOrTouchEvent('mousedown', [new _TouchItem.TouchItem(0, undefined, 110, 100, Date.now())], undefined); // Outside child.
 
-  stage.handleMouseOrTouchEvent('mouseup', [new _TouchItem.TouchItem(0, undefined, 80, 100)], undefined); // Outside child.
+  stage.handleMouseOrTouchEvent('mouseup', [new _TouchItem.TouchItem(0, undefined, 80, 100, Date.now())], undefined); // Outside child.
 
-  stage.handleMouseOrTouchEvent('mousedown', [new _TouchItem.TouchItem(0, undefined, 90, 100)], undefined);
+  stage.handleMouseOrTouchEvent('mousedown', [new _TouchItem.TouchItem(0, undefined, 90, 100, Date.now())], undefined);
   expect(childTouchDownTimes).toBe(1);
   expect(childTouchUpTimes).toBe(0);
   expect(childPressUpTimes).toBe(1);

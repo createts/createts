@@ -21,6 +21,10 @@ export class TouchEvent extends Event {
    */
   public stage?: Stage;
   /**
+   * The touch item related to this event;
+   */
+  readonly touchItem?: TouchItem;
+  /**
    * The native event, note that the location of this event is not transferred to the stage.
    */
   public nativeEvent: any = null;
@@ -66,22 +70,22 @@ export class TouchEvent extends Event {
    * therefore prevented as if the event never happened.
    */
   constructor(
-    srcElement: XObject,
     type: string,
     bubbles: boolean = true,
-    touch?: TouchItem,
-    cancelable: boolean = true
+    cancelable: boolean = true,
+    srcElement: XObject,
+    touchItem?: TouchItem,
+    currentTarget?: XObject
   ) {
     super(type, bubbles, cancelable);
     this.srcElement = srcElement;
-    if (touch) {
-      this.identifier = touch.identifier;
-      this.stageX = touch.stageX;
-      this.stageY = touch.stageY;
-      this.x = touch.x;
-      this.y = touch.y;
+    this.touchItem = touchItem;
+    this.currentTarget = currentTarget;
+    if (touchItem) {
+      this.identifier = touchItem.identifier;
+      this.stageX = touchItem.stageX;
+      this.stageY = touchItem.stageY;
     }
-    this.currentTarget = srcElement;
   }
 
   /**
@@ -658,12 +662,12 @@ export class XObject extends EventDispatcher<TouchEvent> {
    */
   private doDispatchEvent(event: TouchEvent) {
     event.currentTarget = this;
-    if (event.stage) {
-      if (this.willTrigger(event.type)) {
-        const pt = event.stage.localToLocal(event.stageX, event.stageY, this);
-        event.x = pt.x;
-        event.y = pt.y;
-      }
+    if (event.stage && event.touchItem && this.willTrigger(event.type)) {
+      const pt = event.stage.localToLocal(event.touchItem.stageX, event.touchItem.stageY, this);
+      event.x = pt.x;
+      event.y = pt.y;
+      event.touchItem.x = pt.x;
+      event.touchItem.y = pt.y;
     }
     super.dispatchEvent(event);
   }

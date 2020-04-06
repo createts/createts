@@ -184,16 +184,10 @@ export class WechatMiniGameRuntime implements IRuntime {
     const scaleX = stage.canvas.width / this.systemInfo.windowWidth;
     const scaleY = stage.canvas.height / this.systemInfo.windowHeight;
     const touches = [];
+    const now = Date.now();
     for (const touch of e.touches) {
       touches.push(
-        new TouchItem(
-          touch.identifier,
-          undefined,
-          touch.clientX * scaleX,
-          touch.clientY * scaleY,
-          0,
-          0
-        )
+        new TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now)
       );
     }
     stage.handleMouseOrTouchEvent(type, touches, e);

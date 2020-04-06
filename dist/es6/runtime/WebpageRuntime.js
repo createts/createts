@@ -204,7 +204,7 @@ export var WebpageRuntime = /*#__PURE__*/function () {
 
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
-      stage.handleMouseOrTouchEvent(type, [new TouchItem(0, undefined, x, y, 0, 0)], e);
+      stage.handleMouseOrTouchEvent(type, [new TouchItem(0, stage, x, y, Date.now())], e);
     }
     /**
      * Handles touch event, translate the coordinates of multiple touches to stage space and send to
@@ -220,6 +220,7 @@ export var WebpageRuntime = /*#__PURE__*/function () {
       var scaleX = stage.canvas.width / stage.canvas.clientWidth;
       var scaleY = stage.canvas.height / stage.canvas.clientHeight;
       var touches = [];
+      var now = Date.now();
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -227,7 +228,7 @@ export var WebpageRuntime = /*#__PURE__*/function () {
       try {
         for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var touch = _step.value;
-          touches.push(new TouchItem(touch.identifier, undefined, touch.clientX * scaleX, touch.clientY * scaleY, 0, 0));
+          touches.push(new TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now));
         }
       } catch (err) {
         _didIteratorError = true;

@@ -195,14 +195,9 @@ export class Stage extends Container {
   };
 
   /**
-   * Contains paris of touched children and touch information.
+   * Contains current touch items of this stage.
    */
-  private touchedChildren: TouchedObjectSet = new TouchedObjectSet();
-
-  /**
-   * Contains paris of hovered children and touch information.
-   */
-  private hoverChildren: TouchedObjectSet = new TouchedObjectSet();
+  private touchItems: TouchedObjectSet = new TouchedObjectSet();
   /**
    * Indicated whether this stage object is started to render or not.
    */
@@ -329,14 +324,11 @@ export class Stage extends Container {
    */
   public getPressedTouchItems(child?: XObject): TouchItem[] {
     if (!child) child = this;
-    const touches = this.touchedChildren.getTouches(child);
+    const touches = this.touchItems.getTouches(child);
     const result = [];
     for (const touch of touches) {
-      const cloned = touch.clone();
-      const pt = this.localToLocal(touch.stageX, touch.stageY, child);
-      cloned.x = pt.x;
-      cloned.y = pt.y;
-      result.push(cloned);
+      if (!touch.pressed) continue;
+      result.push(touch.clone());
     }
     return result;
   }
@@ -470,7 +462,7 @@ export class Stage extends Container {
     cancellable: boolean,
     e: any
   ) {
-    const event = new TouchEvent(element, type, bubble, currentTouch, cancellable);
+    const event = new TouchEvent(type, bubble, cancellable, element, currentTouch);
     event.stage = this;
     event.nativeEvent = e;
     element.dispatchEvent(event);
@@ -483,58 +475,64 @@ export class Stage extends Container {
    */
   private onTouchMove(touches: TouchItem[], e: any) {
     const movedTouches: TouchItem[] = [];
+    const newTouches: TouchItem[] = [];
     for (const touch of touches) {
-      const item = this.touchedChildren.get(touch.identifier);
+      const item = this.touchItems.get(touch.identifier);
       if (item) {
         if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
-          item.stageX = touch.stageX;
-          item.stageY = touch.stageY;
+          item.onUpdate(touch);
           movedTouches.push(item);
         }
       } else {
-        movedTouches.push(touch);
+        newTouches.push(touch);
       }
     }
+
     for (const touch of movedTouches) {
       const pt = this.globalToLocal(touch.stageX, touch.stageY);
       const element: XObject | undefined = this.getObjectUnderPoint(pt.x, pt.y, true);
       if (element) {
         this.dispatchTouchEvent(element, 'move', touch, true, true, e);
       }
-      const touchedItem = this.touchedChildren.get(touch.identifier);
-      if (touchedItem) {
-        this.dispatchTouchEvent(touchedItem.srcElement, 'pressmove', touch, true, true, e);
+      if (touch.pressed) {
+        this.dispatchTouchEvent(touch.srcElement, 'pressmove', touch, true, true, e);
       }
       // Checks enter/leave
-      const hoveredItem = this.hoverChildren.get(touch.identifier);
-      if (hoveredItem && element) {
-        if (hoveredItem.srcElement !== element) {
+      if (element) {
+        if (touch.currentTarget !== element) {
           let enterElement = element;
-          let leaveElement = hoveredItem.srcElement;
-          hoveredItem.srcElement = element;
-          hoveredItem.stageX = touch.stageX;
-          hoveredItem.stageY = touch.stageY;
+          let leaveElement = touch.currentTarget;
+          touch.currentTarget = element;
           while (leaveElement) {
             if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
               break;
             }
-            this.dispatchTouchEvent(leaveElement, 'leave', hoveredItem, false, true, e);
+            this.dispatchTouchEvent(leaveElement, 'leave', touch, false, true, e);
             leaveElement = leaveElement.parent;
           }
           while (enterElement && enterElement !== leaveElement) {
-            this.dispatchTouchEvent(enterElement, 'enter', hoveredItem, false, true, e);
+            this.dispatchTouchEvent(enterElement, 'enter', touch, false, true, e);
             enterElement = enterElement.parent;
           }
         }
-      } else if (element) {
-        const newMove = touch.clone();
-        newMove.srcElement = element;
-        this.hoverChildren.add(newMove);
-        this.dispatchTouchEvent(element, 'enter', newMove, true, false, e);
-      } else if (hoveredItem) {
-        this.hoverChildren.remove(touch.identifier);
-        this.dispatchTouchEvent(hoveredItem.srcElement, 'leave', hoveredItem, true, false, e);
+      } else if (touch.currentTarget) {
+        this.dispatchTouchEvent(touch.currentTarget, 'leave', touch, false, true, e);
+        touch.currentTarget = undefined;
       }
+    }
+
+    for (const touch of newTouches) {
+      const pt = this.globalToLocal(touch.stageX, touch.stageY);
+      const element: XObject | undefined = this.getObjectUnderPoint(pt.x, pt.y, true);
+      if (!element) {
+        continue;
+      }
+      const newMove = touch.switchSourceElement(element);
+      newMove.pressed = false;
+      newMove.currentTarget = element;
+      this.touchItems.add(newMove);
+      this.dispatchTouchEvent(element, 'move', newMove, true, true, e);
+      this.dispatchTouchEvent(element, 'enter', newMove, false, true, e);
     }
   }
 
@@ -546,12 +544,18 @@ export class Stage extends Container {
   private handleTouchStartEvent(touches: TouchItem[], e: any) {
     const newTouches: TouchedObjectSet = new TouchedObjectSet();
     for (const touch of touches) {
-      if (!this.touchedChildren.contains(touch.identifier)) {
+      const existing = this.touchItems.get(touch.identifier);
+      if (!existing || !existing.pressed) {
+        if (existing) {
+          this.touchItems.remove(existing.identifier);
+        }
         const element = this.getObjectUnderPoint(touch.stageX, touch.stageY, true);
         if (element) {
-          touch.srcElement = element;
-          newTouches.add(touch);
-          this.touchedChildren.add(touch);
+          const item = touch.switchSourceElement(element);
+          item.currentTarget = element;
+          item.pressed = true;
+          newTouches.add(item);
+          this.touchItems.add(item);
         }
       }
     }
@@ -569,7 +573,7 @@ export class Stage extends Container {
   private handleTouchEndEvent(touches: TouchItem[], e: any) {
     this.onTouchMove(touches, e);
     const endedTouches: TouchedObjectSet = new TouchedObjectSet();
-    for (const item of this.touchedChildren.touchItems) {
+    for (const item of this.touchItems.touchItems) {
       let exists = false;
       for (const touch of touches) {
         if (touch.identifier === item.identifier) {
@@ -582,10 +586,12 @@ export class Stage extends Container {
       }
     }
     for (const item of endedTouches.touchItems) {
-      this.touchedChildren.remove(item.identifier);
-      this.hoverChildren.remove(item.identifier);
+      this.touchItems.remove(item.identifier);
     }
     for (const item of endedTouches.touchItems) {
+      if (!item.pressed) {
+        continue;
+      }
       const element = this.getObjectUnderPoint(item.stageX, item.stageY, true);
       if (element) {
         this.dispatchTouchEvent(element, 'touchup', item, true, true, e);
