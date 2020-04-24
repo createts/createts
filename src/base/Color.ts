@@ -1,3 +1,4 @@
+import { IAnimatable } from '../animation/Animation';
 import { FunctionParser } from '../parser/FunctionParser';
 
 const REG_VALUE = /^([0-9]+|[0-9]+\.[0-9]*|[0-9]*\.[0-9]+)%?$/;
@@ -27,7 +28,7 @@ const REG_HEX = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
  * const white2 = Color.of('rgba(100%, 255, 255, 1)');
  * ```
  */
-export class Color {
+export class Color implements IAnimatable<Color> {
   public static readonly TRANSPARENT = Color.of('#0000');
   public static readonly ALICEBLUE = Color.of('#F0F8FF')!;
   public static readonly ANTIQUEWHITE = Color.of('#FAEBD7')!;
@@ -348,5 +349,27 @@ export class Color {
    */
   public toString(): string {
     return `rgba(${this.r},${this.g},${this.b},${this.a})`;
+  }
+
+  update(target: Color, progress: number): Color {
+    return new Color(
+      this.r + (target.r - this.r) * progress,
+      this.g + (target.g - this.g) * progress,
+      this.b + (target.b - this.b) * progress,
+      this.a + (target.a - this.a) * progress
+    );
+  }
+
+  convertFrom(src: any): Color {
+    const result = Color.of(src + '');
+    if (result === undefined) {
+      return Color.BLACK;
+    } else {
+      return result;
+    }
+  }
+
+  isAnimatable(): boolean {
+    return true;
   }
 }

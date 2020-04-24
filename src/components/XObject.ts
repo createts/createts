@@ -15,7 +15,7 @@ import { TouchItem } from './TouchItem';
  * This class represents an event object for both touch event (in mobile devices) and mouse event
  * (in desktop).
  */
-export class TouchEvent extends Event {
+export class XObjectEvent extends Event {
   /**
    * The stage object of the target element.
    */
@@ -61,7 +61,7 @@ export class TouchEvent extends Event {
   public readonly srcElement: XObject;
 
   /**
-   * Creates an instance of TouchEvent.
+   * Creates an instance of XObjectEvent.
    * @param srcElement The source element of this event.
    * @param type Event type.
    * @param bubbles Indicates whether the event bubbles up through its parents or not.
@@ -89,11 +89,11 @@ export class TouchEvent extends Event {
   }
 
   /**
-   * Returns a string representation of this TouchEvent object.
-   * @returns a string representation of this TouchEvent object.
+   * Returns a string representation of this XObjectEvent object.
+   * @returns a string representation of this XObjectEvent object.
    */
   toString() {
-    return '[TouchEvent (type=' + this.type + ')]';
+    return '[XObjectEvent (type=' + this.type + ')]';
   }
 }
 
@@ -120,7 +120,6 @@ enum CacheState {
  * Options to create an XObject instance.
  */
 export interface IXObjectOptions {
-  style: Style;
   attributes: { [key: string]: string };
   text?: string;
 }
@@ -129,7 +128,7 @@ export interface IXObjectOptions {
  * This class represents an basic object (XObject), contains id, style, cache and cache status,
  * etc.
  */
-export class XObject extends EventDispatcher<TouchEvent> {
+export class XObject extends EventDispatcher<XObjectEvent> {
   /**
    * The string if of this object.
    */
@@ -137,7 +136,7 @@ export class XObject extends EventDispatcher<TouchEvent> {
   /**
    * The style of this object.
    */
-  public style: Style;
+  readonly style: Style;
   /**
    * The calculated location and size of this object.
    * Note: it is a computed result, do not change it manually, it maybe re-calculated in next
@@ -166,10 +165,25 @@ export class XObject extends EventDispatcher<TouchEvent> {
    */
   constructor(opt?: IXObjectOptions) {
     super();
-    this.style = opt && opt.style ? opt.style : new Style();
-    if (opt && opt.attributes.id) {
-      this.id = opt.attributes.id;
+
+    this.style = new Style();
+    const defaultStyle = this.getDefaultStyle();
+    if (defaultStyle) {
+      this.style.apply(defaultStyle);
     }
+
+    if (opt) {
+      if (opt.attributes.style) {
+        this.style.apply(Style.parse(opt.attributes.style));
+      }
+      if (opt.attributes.id) {
+        this.id = opt.attributes.id;
+      }
+    }
+  }
+
+  getDefaultStyle(): { [key: string]: string | number } | undefined {
+    return undefined;
   }
 
   /**
@@ -186,7 +200,7 @@ export class XObject extends EventDispatcher<TouchEvent> {
    * @param event The event to be dispatched.
    * @returns True if the event is prevented, false otherwise.
    */
-  public dispatchEvent(event: TouchEvent): boolean {
+  public dispatchEvent(event: XObjectEvent): boolean {
     if (!event.bubbles || !this.parent) {
       this.doDispatchEvent(event);
     } else {
@@ -660,7 +674,7 @@ export class XObject extends EventDispatcher<TouchEvent> {
    * Do dispatch a touch event to a this element.
    * @param event The event to be dispatched.
    */
-  private doDispatchEvent(event: TouchEvent) {
+  private doDispatchEvent(event: XObjectEvent) {
     event.currentTarget = this;
     if (event.stage && event.touchItem && this.willTrigger(event.type)) {
       const pt = event.stage.localToLocal(event.touchItem.stageX, event.touchItem.stageY, this);

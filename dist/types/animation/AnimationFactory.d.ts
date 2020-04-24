@@ -1,9 +1,8 @@
 import { Event, EventDispatcher } from '../base/Event';
-import { XObject } from '../components/XObject';
-import { Animation } from './Animation';
+import { Animation, AnimationTarget } from './Animation';
 export declare class AnimationFactory extends EventDispatcher<Event> {
-    create(target: XObject, override?: boolean): Animation;
-    removeByTarget(target: XObject): void;
+    create(target: AnimationTarget, override?: boolean): Animation;
+    removeByTarget(target: AnimationTarget): void;
     clear(): void;
     onInterval(): boolean;
     private animations;

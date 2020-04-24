@@ -1,45 +1,45 @@
-import { BaseValue } from '../base/BaseValue';
-import { Color } from '../base/Color';
 import { Event, EventDispatcher } from '../base/Event';
 import { XObject } from '../components/XObject';
-import { Border } from '../style/Border';
-import { Shadow } from '../style/Shadow';
 import { IAlgorithm } from './AlgorithmFactory';
 export declare enum AnimationValueType {
     NUMBER = 1,
-    BASEVALUE = 2,
-    COLOR = 3,
-    BORDER = 4,
-    SHADOW = 5
+    ANIMATABLE = 2
 }
 export declare enum AnimateEventType {
     UPDATE = "update",
     COMPLETE = "complete"
 }
 export declare class AnimateEvent extends Event {
+    readonly step: number;
     readonly progress: number;
-    readonly currentStep: number;
-    readonly currentProgress: number;
-    constructor(type: string, progress: number, currentStep: number, currentProgress: number);
+    readonly value: AnimationValues | IAnimatable<any> | number | undefined;
+    constructor(type: string, step: number, progress: number, value?: AnimationValues | number | IAnimatable<any>);
     toString(): string;
 }
-export interface IAnimationStyleAttributes {
+export interface IAnimatable<T> {
+    update(target: T, progress: number): T;
+    convertFrom(src: any): T;
+    isAnimatable(): boolean;
+}
+export declare type AnimationValues = {
+    [key: string]: number | string | IAnimatable<any>;
+};
+export declare type AnimationProps = {
     [key: string]: {
         type: AnimationValueType;
-        from: number | BaseValue | Color | Border | Shadow | undefined;
-        to: number | BaseValue | Color | Border | Shadow;
+        from: number | IAnimatable<any>;
+        to: number | IAnimatable<any>;
+        current?: number | IAnimatable<any>;
     };
-}
-export interface IAnimationValues {
-    [key: string]: number | string;
-}
+};
+export declare type AnimationTarget = number | IAnimatable<any> | AnimationValues | XObject;
 export declare abstract class AnimationStep {
     readonly duration: number;
-    readonly target: XObject;
+    readonly target: AnimationTarget;
     endTime: number;
-    constructor(target: XObject, duration: number);
+    constructor(target: AnimationTarget, duration: number);
     onStart(): void;
-    onUpdate(percent: number): boolean;
+    onUpdate(percent: number): AnimationValues | number | IAnimatable<any> | undefined;
     onEnd(): void;
 }
 export declare enum AnimationState {
@@ -51,7 +51,7 @@ export declare enum AnimationState {
 export declare class Animation extends EventDispatcher<AnimateEvent> {
     playTimes: number;
     state: AnimationState;
-    target: XObject;
+    target: AnimationTarget;
     private steps;
     private roundStartTime;
     private beginTime;
@@ -59,19 +59,19 @@ export declare class Animation extends EventDispatcher<AnimateEvent> {
     private duration;
     private currentStepIndex;
     private currentStepProgress;
-    private totalProgress;
-    constructor(target: XObject, loop?: boolean);
+    constructor(target: AnimationTarget, loop?: boolean);
     toPromise(): Promise<AnimateEvent>;
     pause(): boolean;
     resume(): boolean;
     loop(loop: boolean): Animation;
     times(times: number): Animation;
     to(props: any, duration: number, algorithm?: string | IAlgorithm): Animation;
+    css(props: any, duration: number, algorithm?: string | IAlgorithm): Animation;
     call(call: () => any): Animation;
     wait(duration: number): Animation;
     onInterval(): boolean;
     cancel(): void;
-    private onUpdateInternal;
+    private doUpdateInternal;
     addStep(step: AnimationStep): Animation;
 }
 //# sourceMappingURL=Animation.d.ts.map

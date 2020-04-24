@@ -162,6 +162,14 @@ var TouchItem = /*#__PURE__*/function () {
    */
 
   /**
+   * mousewheel event only, the delta in X direction.
+   */
+
+  /**
+   * mousewheel event only, the delta in Y direction.
+   */
+
+  /**
    * Constructs and initializes a TouchItem at the specified identifier and (x,y) location in the
    * coordinate space.
    * @param identifier the identifier of the newly constructed TouchItem
@@ -187,6 +195,8 @@ var TouchItem = /*#__PURE__*/function () {
     this.currentTarget = void 0;
     this.x = 0;
     this.y = 0;
+    this.deltaX = void 0;
+    this.deltaY = void 0;
     this.identifier = identifier;
     this.srcElement = srcElement;
     this.srcStageX = this.stageX = stageX;
@@ -194,13 +204,36 @@ var TouchItem = /*#__PURE__*/function () {
     this.srcTimestamp = this.timestamp = timestamp;
     this.speed = this.direction = 0;
   }
-  /**
-   * Clones a new TouchItem instance by this one, but change the src element.
-   * @param srcElement the new src element.
-   */
-
 
   _createClass(TouchItem, [{
+    key: "getDelta",
+    value: function getDelta() {
+      if (this.deltaX !== undefined && this.deltaY !== undefined) {
+        return {
+          x: this.deltaX,
+          y: this.deltaY
+        };
+      }
+
+      if (!this.velocityTracker || this.velocityTracker.positions.length <= 1) {
+        return {
+          x: 0,
+          y: 0
+        };
+      } else {
+        var size = this.velocityTracker.positions.length;
+        return {
+          x: this.velocityTracker.positions[size - 1].x - this.velocityTracker.positions[size - 2].x,
+          y: this.velocityTracker.positions[size - 1].y - this.velocityTracker.positions[size - 2].y
+        };
+      }
+    }
+    /**
+     * Clones a new TouchItem instance by this one, but change the src element.
+     * @param srcElement the new src element.
+     */
+
+  }, {
     key: "switchSourceElement",
     value: function switchSourceElement(srcElement) {
       var cloned = new TouchItem(this.identifier, srcElement, this.srcStageX, this.srcStageY, this.srcTimestamp);

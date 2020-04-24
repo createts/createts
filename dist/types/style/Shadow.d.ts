@@ -1,5 +1,6 @@
+import { IAnimatable } from '../animation/Animation';
 import { Color } from '../base/Color';
-export declare class Shadow {
+export declare class Shadow implements IAnimatable<Shadow> {
     color: Color;
     offsetX: number;
     offsetY: number;
@@ -9,5 +10,8 @@ export declare class Shadow {
     toString(): string;
     clone(): Shadow;
     isEnable(): boolean;
+    update(target: Shadow, progress: number): Shadow;
+    convertFrom(src: any): Shadow;
+    isAnimatable(): boolean;
 }
 //# sourceMappingURL=Shadow.d.ts.map

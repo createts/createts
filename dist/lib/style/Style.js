@@ -531,6 +531,21 @@ var Style = /*#__PURE__*/function () {
       return result;
     }
   }, {
+    key: "applyAnimationResult",
+    value: function applyAnimationResult(result) {
+      for (var name in result) {
+        if (name === 'backgroundColor') {
+          if (!this.background) {
+            this.background = new _Background.Background();
+          }
+
+          this.background.color = result[name];
+        } else {
+          this[name] = result[name];
+        }
+      }
+    }
+  }, {
     key: "clone",
     value: function clone() {
       var cloned = new Style();
@@ -669,66 +684,110 @@ var Style = /*#__PURE__*/function () {
         case 'skewX':
         case 'skewY':
         case 'aspectRatio':
-          var numberTo = typeof to === 'string' ? parseFloat(to) : to;
+          {
+            var numberTo = NaN;
 
-          if (!isNaN(numberTo)) {
+            if (typeof to === 'number') {
+              numberTo = to;
+            } else if (typeof to === 'string') {
+              numberTo = parseFloat(to);
+            }
+
+            if (isNaN(numberTo)) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
             result[key] = {
               from: this[key],
               to: numberTo,
               type: _Animation.AnimationValueType.NUMBER
             };
           }
-
           break;
 
+        case 'paddingRight':
+        case 'paddingLeft':
+        case 'marginRight':
+        case 'marginLeft':
+        case 'borderRadiusRight':
+        case 'borderRadiusLeft':
         case 'transformX':
         case 'width':
         case 'left':
         case 'right':
         case 'perspectiveOriginX':
           {
-            var tb = _BaseValue.BaseValue.of(to);
+            var toBaseValue;
+
+            if (typeof to === 'number' || typeof to === 'string') {
+              toBaseValue = _BaseValue.BaseValue.of(to);
+            } else if (to instanceof _BaseValue.BaseValue) {
+              toBaseValue = to;
+            }
+
+            if (!toBaseValue) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
 
             var from = this[key] || _BaseValue.BaseValue.of(0);
 
-            if (tb.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+            if (toBaseValue.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
               result[key] = {
                 from: from.toPercentage(target.getWidth()),
-                to: tb,
-                type: _Animation.AnimationValueType.BASEVALUE
+                to: toBaseValue,
+                type: _Animation.AnimationValueType.ANIMATABLE
               };
             } else {
               result[key] = {
                 from: from.toAbsolute(target.getWidth()),
-                to: tb,
-                type: _Animation.AnimationValueType.BASEVALUE
+                to: toBaseValue,
+                type: _Animation.AnimationValueType.ANIMATABLE
               };
             }
 
             break;
           }
 
+        case 'paddingTop':
+        case 'paddingBottom':
+        case 'marginTop':
+        case 'marginBottom':
+        case 'borderRadiusTop':
+        case 'borderRadiusBottom':
         case 'transformY':
         case 'height':
         case 'top':
         case 'bottom':
         case 'perspectiveOriginY':
           {
-            var _tb = _BaseValue.BaseValue.of(to);
+            var _toBaseValue;
+
+            if (typeof to === 'number' || typeof to === 'string') {
+              _toBaseValue = _BaseValue.BaseValue.of(to);
+            } else if (to instanceof _BaseValue.BaseValue) {
+              _toBaseValue = to;
+            }
+
+            if (!_toBaseValue) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
 
             var _from = this[key] || _BaseValue.BaseValue.of(0);
 
-            if (_tb.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
+            if (_toBaseValue.unit === _BaseValue.BaseValueUnit.PERCENTAGE) {
               result[key] = {
                 from: _from.toPercentage(target.getHeight()),
-                to: _tb,
-                type: _Animation.AnimationValueType.BASEVALUE
+                to: _toBaseValue,
+                type: _Animation.AnimationValueType.ANIMATABLE
               };
             } else {
               result[key] = {
                 from: _from.toAbsolute(target.getHeight()),
-                to: _tb,
-                type: _Animation.AnimationValueType.BASEVALUE
+                to: _toBaseValue,
+                type: _Animation.AnimationValueType.ANIMATABLE
               };
             }
 
@@ -737,52 +796,49 @@ var Style = /*#__PURE__*/function () {
 
         case 'color':
           {
-            var color = _Color.Color.of(to + '');
+            var color;
 
-            if (color) {
-              result[key] = {
-                from: this[key],
-                to: color,
-                type: _Animation.AnimationValueType.COLOR
-              };
+            if (typeof to === 'string') {
+              color = _Color.Color.of(to);
+            } else if (to instanceof _Color.Color) {
+              color = to;
             }
 
+            if (!color) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key],
+              to: color,
+              type: _Animation.AnimationValueType.ANIMATABLE
+            };
             break;
           }
 
         case 'backgroundColor':
           {
-            var _color = _Color.Color.of(to + '');
+            var _color;
 
-            if (_color) {
-              result[key] = {
-                from: this.background && this.background.color || _Color.Color.WHITE,
-                to: _color,
-                type: _Animation.AnimationValueType.COLOR
-              };
+            if (typeof to === 'string') {
+              _color = _Color.Color.of(to);
+            } else if (to instanceof _Color.Color) {
+              _color = to;
             }
 
+            if (!_color) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this.background && this.background.color || _Color.Color.WHITE,
+              to: _color,
+              type: _Animation.AnimationValueType.ANIMATABLE
+            };
             break;
           }
-
-        case 'paddingTop':
-        case 'paddingRight':
-        case 'paddingBottom':
-        case 'paddingLeft':
-        case 'marginTop':
-        case 'marginRight':
-        case 'marginBottom':
-        case 'marginLeft':
-        case 'borderRadiusTop':
-        case 'borderRadiusRight':
-        case 'borderRadiusBottom':
-        case 'borderRadiusLeft':
-          result[key] = {
-            from: this[key],
-            to: _BaseValue.BaseValue.of(to + ''),
-            type: _Animation.AnimationValueType.BASEVALUE
-          };
-          break;
 
         case 'padding':
           this.fillSnapshotForAnimation(target, 'paddingTop', to, result);
@@ -825,11 +881,26 @@ var Style = /*#__PURE__*/function () {
         case 'borderTop':
         case 'borderBottom':
         case 'textBorder':
-          result[key] = {
-            from: this[key] || _Border.Border.DEFAULT,
-            to: _Border.Border.of(to + '') || _Border.Border.DEFAULT,
-            type: _Animation.AnimationValueType.BORDER
-          };
+          {
+            var border;
+
+            if (typeof to === 'string') {
+              border = _Border.Border.of(to);
+            } else if (to instanceof _Border.Border) {
+              border = to;
+            }
+
+            if (!border) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key] || _Border.Border.DEFAULT,
+              to: border,
+              type: _Animation.AnimationValueType.ANIMATABLE
+            };
+          }
           break;
 
         case 'border':
@@ -841,11 +912,26 @@ var Style = /*#__PURE__*/function () {
 
         case 'shadow':
         case 'textShadow':
-          result[key] = {
-            from: this[key] || new _Shadow.Shadow(0, 0, 0, _Color.Color.WHITE),
-            to: _Shadow.Shadow.of(to + '') || new _Shadow.Shadow(0, 0, 0, _Color.Color.WHITE),
-            type: _Animation.AnimationValueType.SHADOW
-          };
+          {
+            var shadow;
+
+            if (typeof to === 'string') {
+              shadow = _Shadow.Shadow.of(to);
+            } else if (to instanceof _Shadow.Shadow) {
+              shadow = to;
+            }
+
+            if (!shadow) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key] || new _Shadow.Shadow(0, 0, 0, _Color.Color.WHITE),
+              to: shadow,
+              type: _Animation.AnimationValueType.ANIMATABLE
+            };
+          }
           break;
 
         default:
@@ -893,6 +979,11 @@ var Style = /*#__PURE__*/function () {
     key: "of",
     value: function of(value) {
       var style = new Style();
+      return style.apply(this.parse(value));
+    }
+  }, {
+    key: "parse",
+    value: function parse(value) {
       var attrs = {};
 
       var matches = _StringUtils.StringUtils.matchAll(value, REG_ATTRS);
@@ -921,7 +1012,7 @@ var Style = /*#__PURE__*/function () {
         }
       }
 
-      return style.apply(attrs);
+      return attrs;
     }
   }, {
     key: "parse4Dirs",

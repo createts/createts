@@ -10,6 +10,7 @@ export declare class WebpageRuntime implements IRuntime {
     enableEvents(stage: Stage): void;
     requestAnimationFrame(listener: (time: number) => void): void;
     private handleMouseEvent;
+    private handleMouseWheelEvent;
     private handleTouchEvent;
 }
 //# sourceMappingURL=WebpageRuntime.d.ts.map

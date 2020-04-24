@@ -39,16 +39,16 @@ Object.defineProperty(exports, "AnimateEvent", {
     return _Animation.AnimateEvent;
   }
 });
-Object.defineProperty(exports, "IAnimationStyleAttributes", {
+Object.defineProperty(exports, "AnimationValues", {
   enumerable: true,
   get: function get() {
-    return _Animation.IAnimationStyleAttributes;
+    return _Animation.AnimationValues;
   }
 });
-Object.defineProperty(exports, "IAnimationValues", {
+Object.defineProperty(exports, "AnimationProps", {
   enumerable: true,
   get: function get() {
-    return _Animation.IAnimationValues;
+    return _Animation.AnimationProps;
   }
 });
 Object.defineProperty(exports, "AnimationStep", {
@@ -252,7 +252,7 @@ Object.defineProperty(exports, "EventDispatcher", {
 Object.defineProperty(exports, "TouchEvent", {
   enumerable: true,
   get: function get() {
-    return _XObject.TouchEvent;
+    return _XObject.XObjectEvent;
   }
 });
 Object.defineProperty(exports, "IXObjectOptions", {
@@ -289,6 +289,12 @@ Object.defineProperty(exports, "Stage", {
   enumerable: true,
   get: function get() {
     return _Stage.Stage;
+  }
+});
+Object.defineProperty(exports, "Scrollable", {
+  enumerable: true,
+  get: function get() {
+    return _Scrollable.Scrollable;
   }
 });
 Object.defineProperty(exports, "Text", {
@@ -567,6 +573,12 @@ Object.defineProperty(exports, "CRC32", {
     return _CRC.CRC32;
   }
 });
+Object.defineProperty(exports, "Base64", {
+  enumerable: true,
+  get: function get() {
+    return _Base.Base64;
+  }
+});
 Object.defineProperty(exports, "DrawUtils", {
   enumerable: true,
   get: function get() {
@@ -601,6 +613,8 @@ var _Event = require("./base/Event");
 var _XObject = require("./components/XObject");
 
 var _Stage = require("./components/Stage");
+
+var _Scrollable = require("./components/Scrollable");
 
 var _Text = require("./components/Text");
 
@@ -645,5 +659,7 @@ var _LayoutUtils = require("./utils/LayoutUtils");
 var _StringUtils = require("./utils/StringUtils");
 
 var _CRC = require("./utils/CRC32");
+
+var _Base = require("./utils/Base64");
 
 var _DrawUtils = require("./utils/DrawUtils");

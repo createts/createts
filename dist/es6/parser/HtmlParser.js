@@ -5,7 +5,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 import { Container } from '../components/Container';
-import { Style } from '../style/Style';
 var ParseState;
 
 (function (ParseState) {
@@ -396,14 +395,12 @@ export var HtmlParser = /*#__PURE__*/function () {
       var type = HtmlParser.tagMap[node.tag.toLowerCase()];
 
       if (!type) {
-        console.warn('unknow tag:' + node.tag.toLowerCase());
+        console.warn('unknown tag:' + node.tag.toLowerCase());
         return undefined;
       }
 
-      var style = Style.of(node.attributes.style || '');
       var options = {
         attributes: node.attributes,
-        style: style,
         text: node.text
       };
       var component = new type(options);

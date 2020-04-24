@@ -1,4 +1,4 @@
-import { Animation } from '../animation/Animation';
+import { Animation, AnimationTarget } from '../animation/Animation';
 import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Ticker } from '../Ticker';
@@ -11,7 +11,7 @@ export declare enum StageLayoutPolicy {
 }
 export declare enum StageUpdatePolicy {
     NEVER = "never",
-    IN_ANIMATION = "in_animation",
+    AUTO = "auto",
     ALWAYS = "always"
 }
 export declare type StageOptions = {
@@ -43,10 +43,11 @@ export declare class Stage extends Container {
     disableEvents(): Stage;
     getPressedTouchItems(child?: XObject): TouchItem[];
     handleMouseOrTouchEvent(type: string, touches: TouchItem[], e: any): void;
+    handleMouseWheelEvent(stageX: number, stageY: number, deltaX: number, deltaY: number, e: any): void;
     update(): void;
     calculateSize(): void;
-    animate(element: XObject, override?: boolean): Animation;
-    stopAnimation(element: XObject): void;
+    animate(element: AnimationTarget, override?: boolean): Animation;
+    stopAnimation(element: AnimationTarget): void;
     toString(): string;
     private dispatchTouchEvent;
     private onTouchMove;

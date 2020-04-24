@@ -1,3 +1,4 @@
+import { IAnimatable } from '../animation/Animation';
 import { Color } from '../base/Color';
 import { CSSTokenizer } from '../parser/CSSTokenizer';
 
@@ -7,7 +8,7 @@ import { CSSTokenizer } from '../parser/CSSTokenizer';
  *
  * Please note that wechat mini game does not support shadow.
  */
-export class Shadow {
+export class Shadow implements IAnimatable<Shadow> {
   /**
    * Specifies the color of the shadow.
    */
@@ -28,7 +29,7 @@ export class Shadow {
   /**
    * Convert a string to a Shadow object.
    * @param value a string present a shadow object, the format is [X] [Y] [blur] [color].
-   * @param [silent] if ture, ignore warning for an invalid value.
+   * @param [silent] if true, ignore warning for an invalid value.
    * @returns A Shadow object for valid value, otherwise returns undefined.
    */
   public static of(value: string, silent: boolean = false): Shadow | undefined {
@@ -90,5 +91,27 @@ export class Shadow {
    */
   public isEnable(): boolean {
     return this.color.a > 0 && (this.offsetX !== 0 || this.offsetY !== 0 || this.blur !== 0);
+  }
+
+  update(target: Shadow, progress: number): Shadow {
+    return new Shadow(
+      this.offsetX + (target.offsetX - this.offsetX) * progress,
+      this.offsetY + (target.offsetY - this.offsetY) * progress,
+      this.blur + (target.blur - this.blur) * progress,
+      this.color.update(target.color, progress)
+    );
+  }
+
+  convertFrom(src: any): Shadow {
+    const result = Shadow.of(src + '');
+    if (result === undefined) {
+      return new Shadow(0, 0, 0, Color.BLACK);
+    } else {
+      return result;
+    }
+  }
+
+  isAnimatable(): boolean {
+    return true;
   }
 }

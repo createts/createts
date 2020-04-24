@@ -97,14 +97,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#bubbles" class="tsd-kind-icon">bubbles</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#cancelable" class="tsd-kind-icon">cancelable</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_animation_animation_.animateevent.html#currentprogress" class="tsd-kind-icon">current<wbr>Progress</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_animation_animation_.animateevent.html#currentstep" class="tsd-kind-icon">current<wbr>Step</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#immediatepropagationstopped" class="tsd-kind-icon">immediate<wbr>Propagation<wbr>Stopped</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_animation_animation_.animateevent.html#progress" class="tsd-kind-icon">progress</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_animation_animation_.animateevent.html#step" class="tsd-kind-icon">step</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_animation_animation_.animateevent.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_animation_animation_.animateevent.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -125,14 +125,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Animate<wbr>Event<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, currentStep<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, currentProgress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_animation_animation_.animateevent.html" class="tsd-signature-type">AnimateEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Animate<wbr>Event<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, value<span class="tsd-signature-symbol">?: </span><a href="../modules/_animation_animation_.html#animationvalues" class="tsd-signature-type">AnimationValues</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-signature-type">IAnimatable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_animation_animation_.animateevent.html" class="tsd-signature-type">AnimateEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/animation/Animation.ts#L26">animation/Animation.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/animation/Animation.ts#L19">animation/Animation.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,13 +141,13 @@
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
+									<h5>step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>currentStep: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>currentProgress: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> value: <a href="../modules/_animation_animation_.html#animationvalues" class="tsd-signature-type">AnimationValues</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-signature-type">IAnimatable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_animation_animation_.animateevent.html" class="tsd-signature-type">AnimateEvent</a></h4>
@@ -164,7 +164,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#bubbles">bubbles</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L31">base/Event.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L31">base/Event.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,7 +181,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#cancelable">cancelable</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L39">base/Event.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L39">base/Event.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -193,26 +193,6 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="currentprogress" class="tsd-anchor"></a>
-					<h3>current<wbr>Progress</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/animation/Animation.ts#L26">animation/Animation.ts:26</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="currentstep" class="tsd-anchor"></a>
-					<h3>current<wbr>Step</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/animation/Animation.ts#L25">animation/Animation.ts:25</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="defaultprevented" class="tsd-anchor"></a>
 					<h3>default<wbr>Prevented</h3>
@@ -220,7 +200,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#defaultprevented">defaultPrevented</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L9">base/Event.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L9">base/Event.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -237,7 +217,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#immediatepropagationstopped">immediatePropagationStopped</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L20">base/Event.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L20">base/Event.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,7 +232,7 @@
 					<div class="tsd-signature tsd-kind-icon">progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/animation/Animation.ts#L24">animation/Animation.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/animation/Animation.ts#L18">animation/Animation.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -263,7 +243,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#propagationstopped">propagationStopped</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L15">base/Event.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L15">base/Event.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -273,6 +253,16 @@
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="step" class="tsd-anchor"></a>
+					<h3>step</h3>
+					<div class="tsd-signature tsd-kind-icon">step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/animation/Animation.ts#L17">animation/Animation.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="timestamp" class="tsd-anchor"></a>
 					<h3>time<wbr>Stamp</h3>
@@ -280,7 +270,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#timestamp">timeStamp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L45">base/Event.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L45">base/Event.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -297,7 +287,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L25">base/Event.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L25">base/Event.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -305,6 +295,16 @@
 							<p>Type of event.</p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <a href="../modules/_animation_animation_.html#animationvalues" class="tsd-signature-type">AnimationValues</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-signature-type">IAnimatable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/animation/Animation.ts#L19">animation/Animation.ts:19</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -320,7 +320,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#preventdefault">preventDefault</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L70">base/Event.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L70">base/Event.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +349,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#stopimmediatepropagation">stopImmediatePropagation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L90">base/Event.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L90">base/Event.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -376,7 +376,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#stoppropagation">stopPropagation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/Event.ts#L78">base/Event.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/Event.ts#L78">base/Event.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -400,7 +400,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_base_event_.event.html">Event</a>.<a href="_base_event_.event.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/animation/Animation.ts#L35">animation/Animation.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/animation/Animation.ts#L33">animation/Animation.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -445,12 +445,6 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#cancelable" class="tsd-kind-icon">cancelable</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_animation_animation_.animateevent.html#currentprogress" class="tsd-kind-icon">current<wbr>Progress</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_animation_animation_.animateevent.html#currentstep" class="tsd-kind-icon">current<wbr>Step</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#defaultprevented" class="tsd-kind-icon">default<wbr>Prevented</a>
 							</li>
@@ -463,11 +457,17 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#propagationstopped" class="tsd-kind-icon">propagation<wbr>Stopped</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_animation_animation_.animateevent.html#step" class="tsd-kind-icon">step</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#timestamp" class="tsd-kind-icon">time<wbr>Stamp</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_animation_animation_.animateevent.html#value" class="tsd-kind-icon">value</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_animation_animation_.animateevent.html#preventdefault" class="tsd-kind-icon">prevent<wbr>Default</a>
@@ -495,16 +495,31 @@
 						<a href="_animation_animation_.callstep.html" class="tsd-kind-icon">Call<wbr>Step</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_animation_animation_.stylestep.html" class="tsd-kind-icon">Style<wbr>Step</a>
+						<a href="_animation_animation_.cssstep.html" class="tsd-kind-icon">Css<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_animation_animation_.tostep.html" class="tsd-kind-icon">To<wbr>Step</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_animation_animation_.waitstep.html" class="tsd-kind-icon">Wait<wbr>Step</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_animation_animation_.ianimationstyleattributes.html" class="tsd-kind-icon">IAnimation<wbr>Style<wbr>Attributes</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-kind-icon">IAnimatable</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_animation_animation_.ianimationvalues.html" class="tsd-kind-icon">IAnimation<wbr>Values</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_animation_animation_.html#animationprops" class="tsd-kind-icon">Animation<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_animation_animation_.html#animationtarget" class="tsd-kind-icon">Animation<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_animation_animation_.html#animationvalues" class="tsd-kind-icon">Animation<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_animation_animation_.html#isianimatable" class="tsd-kind-icon">isIAnimatable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_animation_animation_.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a>
 					</li>
 				</ul>
 			</nav>

@@ -86,6 +86,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-signature-type">IAnimatable</a><span class="tsd-signature-symbol">&lt;</span><a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -109,8 +115,11 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#convertfrom" class="tsd-kind-icon">convert<wbr>From</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#isanimatable" class="tsd-kind-icon">is<wbr>Animatable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#isenable" class="tsd-kind-icon">is<wbr>Enable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_style_shadow_.shadow.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_style_shadow_.shadow.html#of" class="tsd-kind-icon">of</a></li>
 							</ul>
 						</section>
@@ -129,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L54">style/Shadow.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L55">style/Shadow.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">blur<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L26">style/Shadow.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L27">style/Shadow.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -201,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <a href="_base_color_.color.html" class="tsd-signature-type">Color</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L14">style/Shadow.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L15">style/Shadow.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -216,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">offsetX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L18">style/Shadow.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L19">style/Shadow.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -231,7 +240,7 @@
 					<div class="tsd-signature tsd-kind-icon">offsetY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L22">style/Shadow.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L23">style/Shadow.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -253,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L83">style/Shadow.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L84">style/Shadow.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,6 +276,48 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="convertfrom" class="tsd-anchor"></a>
+					<h3>convert<wbr>From</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<span class="tsd-signature-symbol">(</span>src<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_animation_animation_.ianimatable.html">IAnimatable</a>.<a href="../interfaces/_animation_animation_.ianimatable.html#convertfrom">convertFrom</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L105">style/Shadow.ts:105</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>src: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isanimatable" class="tsd-anchor"></a>
+					<h3>is<wbr>Animatable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Animatable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_animation_animation_.ianimatable.html">IAnimatable</a>.<a href="../interfaces/_animation_animation_.ianimatable.html#isanimatable">isAnimatable</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L114">style/Shadow.ts:114</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="isenable" class="tsd-anchor"></a>
 					<h3>is<wbr>Enable</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -276,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L91">style/Shadow.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L92">style/Shadow.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -299,7 +350,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L75">style/Shadow.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L76">style/Shadow.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -309,6 +360,32 @@
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 							<p>a string representation of this object.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a>, progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L96">style/Shadow.ts:96</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a></h5>
+								</li>
+								<li>
+									<h5>progress: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_style_shadow_.shadow.html" class="tsd-signature-type">Shadow</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -322,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/style/Shadow.ts#L34">style/Shadow.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/style/Shadow.ts#L35">style/Shadow.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,10 +463,19 @@
 								<a href="_style_shadow_.shadow.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_style_shadow_.shadow.html#convertfrom" class="tsd-kind-icon">convert<wbr>From</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_style_shadow_.shadow.html#isanimatable" class="tsd-kind-icon">is<wbr>Animatable</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_style_shadow_.shadow.html#isenable" class="tsd-kind-icon">is<wbr>Enable</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_style_shadow_.shadow.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_style_shadow_.shadow.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_style_shadow_.shadow.html#of" class="tsd-kind-icon">of</a>

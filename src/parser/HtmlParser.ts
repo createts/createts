@@ -289,13 +289,12 @@ export class HtmlParser {
   private node2Component(node: Node): XObject | undefined {
     const type = HtmlParser.tagMap[node.tag.toLowerCase()];
     if (!type) {
-      console.warn('unknow tag:' + node.tag.toLowerCase());
+      console.warn('unknown tag:' + node.tag.toLowerCase());
       return undefined;
     }
-    const style = Style.of(node.attributes.style || '');
+
     const options = {
       attributes: node.attributes,
-      style,
       text: node.text
     };
     const component = new type(options);

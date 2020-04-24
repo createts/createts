@@ -25,6 +25,10 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
@@ -76,6 +80,43 @@ var Img = /*#__PURE__*/function (_XObject) {
     value: function setSourceRect(sourceRect) {
       this.sourceRect = sourceRect;
       return this;
+    }
+    /**
+     * Calculates size of current object.
+     */
+
+  }, {
+    key: "calculateSize",
+    value: function calculateSize() {
+      _get(_getPrototypeOf(Img.prototype), "calculateSize", this).call(this);
+
+      if (!this.style.width) {
+        if (this.sourceRect) {
+          this.rect.width = this.sourceRect.width;
+        } else if (this.image) {
+          this.rect.width = this.image.width;
+        } else if (this.src) {
+          var image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
+
+          if (image) {
+            this.rect.width = image.width;
+          }
+        }
+      }
+
+      if (!this.style.height) {
+        if (this.sourceRect) {
+          this.rect.height = this.sourceRect.height;
+        } else if (this.image) {
+          this.rect.height = this.image.height;
+        } else if (this.src) {
+          var _image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
+
+          if (_image) {
+            this.rect.height = _image.height;
+          }
+        }
+      }
     }
   }, {
     key: "drawContent",

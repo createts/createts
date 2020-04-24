@@ -145,6 +145,14 @@ var WebpageRuntime = /*#__PURE__*/function () {
     value: function enableEvents(stage) {
       var _this = this;
 
+      stage.canvas.onpointerdown = function (e) {
+        stage.canvas.setPointerCapture(e.pointerId);
+      };
+
+      stage.canvas.onpointerup = function (e) {
+        stage.canvas.releasePointerCapture(e.pointerId);
+      };
+
       stage.canvas.addEventListener('mousedown', function (e) {
         _this.handleMouseEvent('mousedown', stage, e);
       });
@@ -162,6 +170,9 @@ var WebpageRuntime = /*#__PURE__*/function () {
       });
       stage.canvas.addEventListener('mouseleave', function (e) {
         _this.handleMouseEvent('mouseleave', stage, e);
+      });
+      stage.canvas.addEventListener('mousewheel', function (e) {
+        _this.handleMouseWheelEvent(stage, e);
       });
       stage.canvas.addEventListener('touchstart', function (e) {
         _this.handleTouchEvent('touchstart', stage, e);
@@ -212,6 +223,20 @@ var WebpageRuntime = /*#__PURE__*/function () {
       var x = e.offsetX * scaleX;
       var y = e.offsetY * scaleY;
       stage.handleMouseOrTouchEvent(type, [new _TouchItem.TouchItem(0, stage, x, y, Date.now())], e);
+    }
+    /**
+     * Handles mouse wheel event, translate the coordinate to stage space and send to stage instance.
+     * @param type Type of the mouse event.
+     * @param stage The stage to receive this event.
+     * @param e The native mouse event.
+     */
+
+  }, {
+    key: "handleMouseWheelEvent",
+    value: function handleMouseWheelEvent(stage, e) {
+      var scaleX = stage.canvas.width / stage.canvas.clientWidth;
+      var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+      stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
     }
     /**
      * Handles touch event, translate the coordinates of multiple touches to stage space and send to

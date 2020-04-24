@@ -505,6 +505,21 @@ export var Style = /*#__PURE__*/function () {
       return result;
     }
   }, {
+    key: "applyAnimationResult",
+    value: function applyAnimationResult(result) {
+      for (var name in result) {
+        if (name === 'backgroundColor') {
+          if (!this.background) {
+            this.background = new Background();
+          }
+
+          this.background.color = result[name];
+        } else {
+          this[name] = result[name];
+        }
+      }
+    }
+  }, {
     key: "clone",
     value: function clone() {
       var cloned = new Style();
@@ -643,65 +658,110 @@ export var Style = /*#__PURE__*/function () {
         case 'skewX':
         case 'skewY':
         case 'aspectRatio':
-          var numberTo = typeof to === 'string' ? parseFloat(to) : to;
+          {
+            var numberTo = NaN;
 
-          if (!isNaN(numberTo)) {
+            if (typeof to === 'number') {
+              numberTo = to;
+            } else if (typeof to === 'string') {
+              numberTo = parseFloat(to);
+            }
+
+            if (isNaN(numberTo)) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
             result[key] = {
               from: this[key],
               to: numberTo,
               type: AnimationValueType.NUMBER
             };
           }
-
           break;
 
+        case 'paddingRight':
+        case 'paddingLeft':
+        case 'marginRight':
+        case 'marginLeft':
+        case 'borderRadiusRight':
+        case 'borderRadiusLeft':
         case 'transformX':
         case 'width':
         case 'left':
         case 'right':
         case 'perspectiveOriginX':
           {
-            var tb = BaseValue.of(to);
+            var toBaseValue;
+
+            if (typeof to === 'number' || typeof to === 'string') {
+              toBaseValue = BaseValue.of(to);
+            } else if (to instanceof BaseValue) {
+              toBaseValue = to;
+            }
+
+            if (!toBaseValue) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
             var from = this[key] || BaseValue.of(0);
 
-            if (tb.unit === BaseValueUnit.PERCENTAGE) {
+            if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
               result[key] = {
                 from: from.toPercentage(target.getWidth()),
-                to: tb,
-                type: AnimationValueType.BASEVALUE
+                to: toBaseValue,
+                type: AnimationValueType.ANIMATABLE
               };
             } else {
               result[key] = {
                 from: from.toAbsolute(target.getWidth()),
-                to: tb,
-                type: AnimationValueType.BASEVALUE
+                to: toBaseValue,
+                type: AnimationValueType.ANIMATABLE
               };
             }
 
             break;
           }
 
+        case 'paddingTop':
+        case 'paddingBottom':
+        case 'marginTop':
+        case 'marginBottom':
+        case 'borderRadiusTop':
+        case 'borderRadiusBottom':
         case 'transformY':
         case 'height':
         case 'top':
         case 'bottom':
         case 'perspectiveOriginY':
           {
-            var _tb = BaseValue.of(to);
+            var _toBaseValue;
+
+            if (typeof to === 'number' || typeof to === 'string') {
+              _toBaseValue = BaseValue.of(to);
+            } else if (to instanceof BaseValue) {
+              _toBaseValue = to;
+            }
+
+            if (!_toBaseValue) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
 
             var _from = this[key] || BaseValue.of(0);
 
-            if (_tb.unit === BaseValueUnit.PERCENTAGE) {
+            if (_toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
               result[key] = {
                 from: _from.toPercentage(target.getHeight()),
-                to: _tb,
-                type: AnimationValueType.BASEVALUE
+                to: _toBaseValue,
+                type: AnimationValueType.ANIMATABLE
               };
             } else {
               result[key] = {
                 from: _from.toAbsolute(target.getHeight()),
-                to: _tb,
-                type: AnimationValueType.BASEVALUE
+                to: _toBaseValue,
+                type: AnimationValueType.ANIMATABLE
               };
             }
 
@@ -710,52 +770,49 @@ export var Style = /*#__PURE__*/function () {
 
         case 'color':
           {
-            var color = Color.of(to + '');
+            var color;
 
-            if (color) {
-              result[key] = {
-                from: this[key],
-                to: color,
-                type: AnimationValueType.COLOR
-              };
+            if (typeof to === 'string') {
+              color = Color.of(to);
+            } else if (to instanceof Color) {
+              color = to;
             }
 
+            if (!color) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key],
+              to: color,
+              type: AnimationValueType.ANIMATABLE
+            };
             break;
           }
 
         case 'backgroundColor':
           {
-            var _color = Color.of(to + '');
+            var _color;
 
-            if (_color) {
-              result[key] = {
-                from: this.background && this.background.color || Color.WHITE,
-                to: _color,
-                type: AnimationValueType.COLOR
-              };
+            if (typeof to === 'string') {
+              _color = Color.of(to);
+            } else if (to instanceof Color) {
+              _color = to;
             }
 
+            if (!_color) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this.background && this.background.color || Color.WHITE,
+              to: _color,
+              type: AnimationValueType.ANIMATABLE
+            };
             break;
           }
-
-        case 'paddingTop':
-        case 'paddingRight':
-        case 'paddingBottom':
-        case 'paddingLeft':
-        case 'marginTop':
-        case 'marginRight':
-        case 'marginBottom':
-        case 'marginLeft':
-        case 'borderRadiusTop':
-        case 'borderRadiusRight':
-        case 'borderRadiusBottom':
-        case 'borderRadiusLeft':
-          result[key] = {
-            from: this[key],
-            to: BaseValue.of(to + ''),
-            type: AnimationValueType.BASEVALUE
-          };
-          break;
 
         case 'padding':
           this.fillSnapshotForAnimation(target, 'paddingTop', to, result);
@@ -798,11 +855,26 @@ export var Style = /*#__PURE__*/function () {
         case 'borderTop':
         case 'borderBottom':
         case 'textBorder':
-          result[key] = {
-            from: this[key] || Border.DEFAULT,
-            to: Border.of(to + '') || Border.DEFAULT,
-            type: AnimationValueType.BORDER
-          };
+          {
+            var border;
+
+            if (typeof to === 'string') {
+              border = Border.of(to);
+            } else if (to instanceof Border) {
+              border = to;
+            }
+
+            if (!border) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key] || Border.DEFAULT,
+              to: border,
+              type: AnimationValueType.ANIMATABLE
+            };
+          }
           break;
 
         case 'border':
@@ -814,11 +886,26 @@ export var Style = /*#__PURE__*/function () {
 
         case 'shadow':
         case 'textShadow':
-          result[key] = {
-            from: this[key] || new Shadow(0, 0, 0, Color.WHITE),
-            to: Shadow.of(to + '') || new Shadow(0, 0, 0, Color.WHITE),
-            type: AnimationValueType.SHADOW
-          };
+          {
+            var shadow;
+
+            if (typeof to === 'string') {
+              shadow = Shadow.of(to);
+            } else if (to instanceof Shadow) {
+              shadow = to;
+            }
+
+            if (!shadow) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            result[key] = {
+              from: this[key] || new Shadow(0, 0, 0, Color.WHITE),
+              to: shadow,
+              type: AnimationValueType.ANIMATABLE
+            };
+          }
           break;
 
         default:
@@ -866,6 +953,11 @@ export var Style = /*#__PURE__*/function () {
     key: "of",
     value: function of(value) {
       var style = new Style();
+      return style.apply(this.parse(value));
+    }
+  }, {
+    key: "parse",
+    value: function parse(value) {
       var attrs = {};
       var matches = StringUtils.matchAll(value, REG_ATTRS);
       var _iteratorNormalCompletion2 = true;
@@ -892,7 +984,7 @@ export var Style = /*#__PURE__*/function () {
         }
       }
 
-      return style.apply(attrs);
+      return attrs;
     }
   }, {
     key: "parse4Dirs",

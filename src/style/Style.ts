@@ -1,9 +1,10 @@
 import {
-    AnimationValueType, IAnimationStyleAttributes, IAnimationValues
+    AnimationProps, AnimationValues, AnimationValueType, IAnimatable
 } from '../animation/Animation';
 import { BaseValue, BaseValueUnit } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { XObject } from '../components/XObject';
+import { Base64 } from '../utils/Base64';
 import { EnumUtils } from '../utils/EnumUtils';
 import { StringUtils } from '../utils/StringUtils';
 import { Background } from './Background';
@@ -61,12 +62,16 @@ const REG_ATTRS = /([^\s:;]+)[\s]*:[\s]*([^;]+)/gm;
 export class Style {
   public static of(value: string): Style {
     const style = new Style();
+    return style.apply(this.parse(value));
+  }
+
+  public static parse(value: string): { [key: string]: string } {
     const attrs: { [key: string]: string } = {};
     const matches = StringUtils.matchAll(value, REG_ATTRS);
     for (const match of matches) {
       attrs[match[1].toLowerCase()] = match[2];
     }
-    return style.apply(attrs);
+    return attrs;
   }
 
   public width?: BaseValue;
@@ -410,15 +415,25 @@ export class Style {
     return this;
   }
 
-  public getSnapshotForAnimation(
-    target: XObject,
-    props: IAnimationValues
-  ): IAnimationStyleAttributes {
-    const result: IAnimationStyleAttributes = {};
+  public getSnapshotForAnimation(target: XObject, props: AnimationValues): AnimationProps {
+    const result: AnimationProps = {};
     for (const name in props) {
       this.fillSnapshotForAnimation(target, name, props[name], result);
     }
     return result;
+  }
+
+  public applyAnimationResult(result: AnimationValues) {
+    for (const name in result) {
+      if (name === 'backgroundColor') {
+        if (!this.background) {
+          this.background = new Background();
+        }
+        this.background.color = result[name] as Color;
+      } else {
+        (this as any)[name] = result[name];
+      }
+    }
   }
 
   clone(): Style {
@@ -523,8 +538,8 @@ export class Style {
   private fillSnapshotForAnimation(
     target: XObject,
     name: string,
-    to: string | number,
-    result: IAnimationStyleAttributes
+    to: string | number | IAnimatable<any>,
+    result: AnimationProps
   ) {
     const key = this.normalize(name);
     switch (key) {
@@ -535,8 +550,17 @@ export class Style {
       case 'skewX':
       case 'skewY':
       case 'aspectRatio':
-        const numberTo = typeof to === 'string' ? parseFloat(to) : to;
-        if (!isNaN(numberTo)) {
+        {
+          let numberTo = NaN;
+          if (typeof to === 'number') {
+            numberTo = to;
+          } else if (typeof to === 'string') {
+            numberTo = parseFloat(to);
+          }
+          if (isNaN(numberTo)) {
+            console.warn(`invalid value (${to}) for ${key}`);
+            break;
+          }
           result[key] = {
             from: this[key],
             to: numberTo,
@@ -544,90 +568,117 @@ export class Style {
           };
         }
         break;
+
+      case 'paddingRight':
+      case 'paddingLeft':
+      case 'marginRight':
+      case 'marginLeft':
+      case 'borderRadiusRight':
+      case 'borderRadiusLeft':
       case 'transformX':
       case 'width':
       case 'left':
       case 'right':
       case 'perspectiveOriginX': {
-        const tb = BaseValue.of(to);
+        let toBaseValue: BaseValue | undefined;
+        if (typeof to === 'number' || typeof to === 'string') {
+          toBaseValue = BaseValue.of(to);
+        } else if (to instanceof BaseValue) {
+          toBaseValue = to;
+        }
+        if (!toBaseValue) {
+          console.warn(`invalid value (${to}) for ${key}`);
+          break;
+        }
         const from: BaseValue = this[key] || BaseValue.of(0);
-        if (tb.unit === BaseValueUnit.PERCENTAGE) {
+        if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
           result[key] = {
             from: from.toPercentage(target.getWidth()),
-            to: tb,
-            type: AnimationValueType.BASEVALUE
+            to: toBaseValue,
+            type: AnimationValueType.ANIMATABLE
           };
         } else {
           result[key] = {
             from: from.toAbsolute(target.getWidth()),
-            to: tb,
-            type: AnimationValueType.BASEVALUE
-          };
-        }
-        break;
-      }
-      case 'transformY':
-      case 'height':
-      case 'top':
-      case 'bottom':
-      case 'perspectiveOriginY': {
-        const tb = BaseValue.of(to);
-        const from: BaseValue = this[key] || BaseValue.of(0);
-        if (tb.unit === BaseValueUnit.PERCENTAGE) {
-          result[key] = {
-            from: from.toPercentage(target.getHeight()),
-            to: tb,
-            type: AnimationValueType.BASEVALUE
-          };
-        } else {
-          result[key] = {
-            from: from.toAbsolute(target.getHeight()),
-            to: tb,
-            type: AnimationValueType.BASEVALUE
-          };
-        }
-        break;
-      }
-      case 'color': {
-        const color = Color.of(to + '');
-        if (color) {
-          result[key] = {
-            from: this[key],
-            to: color,
-            type: AnimationValueType.COLOR
-          };
-        }
-        break;
-      }
-      case 'backgroundColor': {
-        const color = Color.of(to + '');
-        if (color) {
-          result[key] = {
-            from: (this.background && this.background.color) || Color.WHITE,
-            to: color,
-            type: AnimationValueType.COLOR
+            to: toBaseValue,
+            type: AnimationValueType.ANIMATABLE
           };
         }
         break;
       }
       case 'paddingTop':
-      case 'paddingRight':
       case 'paddingBottom':
-      case 'paddingLeft':
       case 'marginTop':
-      case 'marginRight':
       case 'marginBottom':
-      case 'marginLeft':
       case 'borderRadiusTop':
-      case 'borderRadiusRight':
       case 'borderRadiusBottom':
-      case 'borderRadiusLeft':
+      case 'transformY':
+      case 'height':
+      case 'top':
+      case 'bottom':
+      case 'perspectiveOriginY': {
+        let toBaseValue: BaseValue | undefined;
+        if (typeof to === 'number' || typeof to === 'string') {
+          toBaseValue = BaseValue.of(to);
+        } else if (to instanceof BaseValue) {
+          toBaseValue = to;
+        }
+        if (!toBaseValue) {
+          console.warn(`invalid value (${to}) for ${key}`);
+          break;
+        }
+        const from: BaseValue = this[key] || BaseValue.of(0);
+        if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
+          result[key] = {
+            from: from.toPercentage(target.getHeight()),
+            to: toBaseValue,
+            type: AnimationValueType.ANIMATABLE
+          };
+        } else {
+          result[key] = {
+            from: from.toAbsolute(target.getHeight()),
+            to: toBaseValue,
+            type: AnimationValueType.ANIMATABLE
+          };
+        }
+        break;
+      }
+      case 'color': {
+        let color: Color | undefined;
+        if (typeof to === 'string') {
+          color = Color.of(to);
+        } else if (to instanceof Color) {
+          color = to;
+        }
+        if (!color) {
+          console.warn(`invalid value (${to}) for ${key}`);
+          break;
+        }
         result[key] = {
           from: this[key],
-          to: BaseValue.of(to + ''),
-          type: AnimationValueType.BASEVALUE
+          to: color,
+          type: AnimationValueType.ANIMATABLE
         };
         break;
+      }
+      case 'backgroundColor': {
+        let color: Color | undefined;
+        if (typeof to === 'string') {
+          color = Color.of(to);
+        } else if (to instanceof Color) {
+          color = to;
+        }
+        if (!color) {
+          console.warn(`invalid value (${to}) for ${key}`);
+          break;
+        }
+        result[key] = {
+          from: (this.background && this.background.color) || Color.WHITE,
+          to: color,
+          type: AnimationValueType.ANIMATABLE
+        };
+        break;
+      }
       case 'padding':
         this.fillSnapshotForAnimation(target, 'paddingTop', to, result);
         this.fillSnapshotForAnimation(target, 'paddingRight', to, result);
@@ -663,11 +714,23 @@ export class Style {
       case 'borderTop':
       case 'borderBottom':
       case 'textBorder':
-        result[key] = {
-          from: this[key] || Border.DEFAULT,
-          to: Border.of(to + '') || Border.DEFAULT,
-          type: AnimationValueType.BORDER
-        };
+        {
+          let border: Border | undefined;
+          if (typeof to === 'string') {
+            border = Border.of(to);
+          } else if (to instanceof Border) {
+            border = to;
+          }
+          if (!border) {
+            console.warn(`invalid value (${to}) for ${key}`);
+            break;
+          }
+          result[key] = {
+            from: this[key] || Border.DEFAULT,
+            to: border,
+            type: AnimationValueType.ANIMATABLE
+          };
+        }
         break;
       case 'border':
         this.fillSnapshotForAnimation(target, 'borderLeft', to, result);
@@ -677,11 +740,23 @@ export class Style {
         break;
       case 'shadow':
       case 'textShadow':
-        result[key] = {
-          from: this[key] || new Shadow(0, 0, 0, Color.WHITE),
-          to: Shadow.of(to + '') || new Shadow(0, 0, 0, Color.WHITE),
-          type: AnimationValueType.SHADOW
-        };
+        {
+          let shadow: Shadow | undefined;
+          if (typeof to === 'string') {
+            shadow = Shadow.of(to);
+          } else if (to instanceof Shadow) {
+            shadow = to;
+          }
+          if (!shadow) {
+            console.warn(`invalid value (${to}) for ${key}`);
+            break;
+          }
+          result[key] = {
+            from: this[key] || new Shadow(0, 0, 0, Color.WHITE),
+            to: shadow,
+            type: AnimationValueType.ANIMATABLE
+          };
+        }
         break;
       default:
         console.warn('unsupported animation attribute:' + name);

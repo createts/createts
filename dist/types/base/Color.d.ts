@@ -1,4 +1,5 @@
-export declare class Color {
+import { IAnimatable } from '../animation/Animation';
+export declare class Color implements IAnimatable<Color> {
     static readonly TRANSPARENT: Color;
     static readonly ALICEBLUE: Color;
     static readonly ANTIQUEWHITE: Color;
@@ -161,5 +162,8 @@ export declare class Color {
     equals(that: Color): boolean;
     clone(): Color;
     toString(): string;
+    update(target: Color, progress: number): Color;
+    convertFrom(src: any): Color;
+    isAnimatable(): boolean;
 }
 //# sourceMappingURL=Color.d.ts.map

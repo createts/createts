@@ -36,6 +36,37 @@ export class Img extends XObject {
     return this;
   }
 
+  /**
+   * Calculates size of current object.
+   */
+  public calculateSize() {
+    super.calculateSize();
+    if (!this.style.width) {
+      if (this.sourceRect) {
+        this.rect.width = this.sourceRect.width;
+      } else if (this.image) {
+        this.rect.width = this.image.width;
+      } else if (this.src) {
+        const image = ResourceRegistry.DefaultInstance.get(this.src) as HTMLImageElement;
+        if (image) {
+          this.rect.width = image.width;
+        }
+      }
+    }
+    if (!this.style.height) {
+      if (this.sourceRect) {
+        this.rect.height = this.sourceRect.height;
+      } else if (this.image) {
+        this.rect.height = this.image.height;
+      } else if (this.src) {
+        const image = ResourceRegistry.DefaultInstance.get(this.src) as HTMLImageElement;
+        if (image) {
+          this.rect.height = image.height;
+        }
+      }
+    }
+  }
+
   public drawContent(ctx: CanvasRenderingContext2D) {
     let image: HTMLImageElement;
     if (this.image) {

@@ -28,7 +28,7 @@ export class DrawUtils {
       ctx.globalCompositeOperation = style.compositeOperation;
     }
 
-    // Step 1, caculate border.
+    // Step 1, calculate border.
     const topWidth = style.borderTop ? style.borderTop.width : 0;
     const rightWidth = style.borderRight ? style.borderRight.width : 0;
     const bottomWidth = style.borderBottom ? style.borderBottom.width : 0;

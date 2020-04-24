@@ -112,6 +112,12 @@ export class WebpageRuntime implements IRuntime {
    * @param stage The target Stage instance to be added event handlers.
    */
   public enableEvents(stage: Stage) {
+    stage.canvas.onpointerdown = e => {
+      stage.canvas.setPointerCapture(e.pointerId);
+    };
+    stage.canvas.onpointerup = e => {
+      stage.canvas.releasePointerCapture(e.pointerId);
+    };
     stage.canvas.addEventListener('mousedown', (e: any) => {
       this.handleMouseEvent('mousedown', stage, e);
     });
@@ -129,6 +135,9 @@ export class WebpageRuntime implements IRuntime {
     });
     stage.canvas.addEventListener('mouseleave', (e: any) => {
       this.handleMouseEvent('mouseleave', stage, e);
+    });
+    stage.canvas.addEventListener('mousewheel', (e: any) => {
+      this.handleMouseWheelEvent(stage, e);
     });
     stage.canvas.addEventListener('touchstart', (e: any) => {
       this.handleTouchEvent('touchstart', stage, e);
@@ -165,6 +174,18 @@ export class WebpageRuntime implements IRuntime {
     const x = e.offsetX * scaleX;
     const y = e.offsetY * scaleY;
     stage.handleMouseOrTouchEvent(type, [new TouchItem(0, stage, x, y, Date.now())], e);
+  }
+
+  /**
+   * Handles mouse wheel event, translate the coordinate to stage space and send to stage instance.
+   * @param type Type of the mouse event.
+   * @param stage The stage to receive this event.
+   * @param e The native mouse event.
+   */
+  private handleMouseWheelEvent(stage: Stage, e: any) {
+    const scaleX = stage.canvas.width / stage.canvas.clientWidth;
+    const scaleY = stage.canvas.height / stage.canvas.clientHeight;
+    stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
   }
 
   /**

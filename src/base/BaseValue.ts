@@ -1,3 +1,5 @@
+import { IAnimatable } from '../animation/Animation';
+
 export enum BaseValueUnit {
   PX = 1,
   PERCENTAGE = 2
@@ -10,7 +12,7 @@ export enum BaseValueUnit {
  * 1. PX: absolute value.
  * 1. PERCENTAGE: the percentage of parent value.
  */
-export class BaseValue {
+export class BaseValue implements IAnimatable<BaseValue> {
   public static ZERO = BaseValue.of('0');
   /**
    * Convert a string to a BaseValue object.
@@ -126,5 +128,25 @@ export class BaseValue {
    */
   public clone(): BaseValue {
     return new BaseValue(this.numberValue, this.unit);
+  }
+
+  update(target: BaseValue, progress: number): BaseValue {
+    return new BaseValue(
+      this.numberValue + (target.numberValue - this.numberValue) * progress,
+      target.unit
+    );
+  }
+
+  convertFrom(src: any): BaseValue {
+    const result = BaseValue.of(src);
+    if (result === undefined) {
+      return new BaseValue(0);
+    } else {
+      return result;
+    }
+  }
+
+  isAnimatable(): boolean {
+    return true;
   }
 }

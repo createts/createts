@@ -44,7 +44,7 @@ var DrawUtils = /*#__PURE__*/function () {
 
       if (style.compositeOperation) {
         ctx.globalCompositeOperation = style.compositeOperation;
-      } // Step 1, caculate border.
+      } // Step 1, calculate border.
 
 
       var topWidth = style.borderTop ? style.borderTop.width : 0;

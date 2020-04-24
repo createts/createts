@@ -1,7 +1,7 @@
 import { HtmlParser } from '../parser/HtmlParser';
-import { Display, Position, TextAlign } from '../style/Style';
+import { Display, Overflow, Position, TextAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
-import { IXObjectOptions, TouchEvent, XObject } from './XObject';
+import { XObject, XObjectEvent } from './XObject';
 
 /**
  * A Container is a nestable display list that allows you to work with compound objects, it can be
@@ -76,7 +76,7 @@ export class Container extends XObject {
       const idx = this.children.indexOf(child);
       this.children.splice(idx, 1);
       this.children.push(child);
-      child.dispatchEvent(new TouchEvent('moved', false, true, child));
+      child.dispatchEvent(new XObjectEvent('moved', false, true, child));
       return this;
     } else {
       if (parent) {
@@ -84,7 +84,7 @@ export class Container extends XObject {
       }
       child.parent = this;
       this.children.push(child);
-      child.dispatchEvent(new TouchEvent('added', false, true, child));
+      child.dispatchEvent(new XObjectEvent('added', false, true, child));
       return this;
     }
   }
@@ -121,7 +121,7 @@ export class Container extends XObject {
         this.children.splice(index, 0, child);
         this.children.splice(current, 1);
       }
-      child.dispatchEvent(new TouchEvent('moved', false, true, child));
+      child.dispatchEvent(new XObjectEvent('moved', false, true, child));
       return this;
     } else {
       if (parent) {
@@ -129,7 +129,7 @@ export class Container extends XObject {
       }
       child.parent = this;
       this.children.splice(index, 0, child);
-      child.dispatchEvent(new TouchEvent('added', false, true, child));
+      child.dispatchEvent(new XObjectEvent('added', false, true, child));
       return this;
     }
   }
@@ -147,7 +147,7 @@ export class Container extends XObject {
     } else {
       this.children.splice(idx, 1);
       child.parent = undefined;
-      child.dispatchEvent(new TouchEvent('removed', false, true, child));
+      child.dispatchEvent(new XObjectEvent('removed', false, true, child));
       return child;
     }
   }
@@ -163,7 +163,7 @@ export class Container extends XObject {
     }
     const child = this.children[index];
     this.children.splice(index, 1);
-    child.dispatchEvent(new TouchEvent('removed', false, true, child));
+    child.dispatchEvent(new XObjectEvent('removed', false, true, child));
     return child;
   }
 
@@ -225,8 +225,8 @@ export class Container extends XObject {
     const o2 = this.children[index2];
     this.children[index1] = o2;
     this.children[index2] = o1;
-    o1.dispatchEvent(new TouchEvent('moved', false, true, o1));
-    o2.dispatchEvent(new TouchEvent('moved', false, true, o2));
+    o1.dispatchEvent(new XObjectEvent('moved', false, true, o1));
+    o2.dispatchEvent(new XObjectEvent('moved', false, true, o2));
     return this;
   }
 
@@ -252,10 +252,7 @@ export class Container extends XObject {
    * Layouts current container's children.
    */
   public layoutChildren() {
-    // Step1, calculate size
-    this.calculateSize();
-
-    // Step2, layout all children
+    // Step1, layout all children
     const absolutes = [];
     const relatives = [];
 
@@ -275,7 +272,7 @@ export class Container extends XObject {
       }
     }
 
-    // Step3, break children into lines
+    // Step2, break children into lines
     const lines: XObject[][] = [];
     let line: XObject[] = [];
     let lineWidth = 0;
@@ -297,7 +294,7 @@ export class Container extends XObject {
       lines.push(line);
     }
 
-    // Step 4, arrange children
+    // Step 3, arrange children
     const lineHeight = this.getLineHeight();
     let contentHeight = 0;
     for (const l of lines) {
@@ -333,14 +330,14 @@ export class Container extends XObject {
     }
 
     // Update width/height
-    // TODO: add css (min/max width, overflow) support.
-    if (contentWidth > contentRect.width) {
+    // TODO: add css (min/max width) support.
+    if (!this.style.width && contentWidth > contentRect.width) {
       this.rect.width += contentWidth - contentRect.width;
     }
-    if (contentHeight > contentRect.height) {
+    if (!this.style.height && contentHeight > contentRect.height) {
       this.rect.height += contentHeight - contentRect.height;
     }
-    // Step 5, arrange absolutes
+    // Step 4, arrange absolutes
     for (const child of absolutes) {
       LayoutUtils.updatePositionForAbsoluteElement(child, this.rect.width, this.rect.height);
     }

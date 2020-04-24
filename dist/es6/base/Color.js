@@ -205,6 +205,27 @@ export var Color = /*#__PURE__*/function () {
     value: function toString() {
       return "rgba(".concat(this.r, ",").concat(this.g, ",").concat(this.b, ",").concat(this.a, ")");
     }
+  }, {
+    key: "update",
+    value: function update(target, progress) {
+      return new Color(this.r + (target.r - this.r) * progress, this.g + (target.g - this.g) * progress, this.b + (target.b - this.b) * progress, this.a + (target.a - this.a) * progress);
+    }
+  }, {
+    key: "convertFrom",
+    value: function convertFrom(src) {
+      var result = Color.of(src + '');
+
+      if (result === undefined) {
+        return Color.BLACK;
+      } else {
+        return result;
+      }
+    }
+  }, {
+    key: "isAnimatable",
+    value: function isAnimatable() {
+      return true;
+    }
   }]);
 
   return Color;

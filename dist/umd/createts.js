@@ -534,20 +534,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseValue_1 = __webpack_require__(/*! ../base/BaseValue */ "./src/base/BaseValue.ts");
-var Color_1 = __webpack_require__(/*! ../base/Color */ "./src/base/Color.ts");
 var Event_1 = __webpack_require__(/*! ../base/Event */ "./src/base/Event.ts");
-var Background_1 = __webpack_require__(/*! ../style/Background */ "./src/style/Background.ts");
-var Border_1 = __webpack_require__(/*! ../style/Border */ "./src/style/Border.ts");
-var Shadow_1 = __webpack_require__(/*! ../style/Shadow */ "./src/style/Shadow.ts");
+var XObject_1 = __webpack_require__(/*! ../components/XObject */ "./src/components/XObject.ts");
+var ContainerUtils_1 = __webpack_require__(/*! ../utils/ContainerUtils */ "./src/utils/ContainerUtils.ts");
 var AlgorithmFactory_1 = __webpack_require__(/*! ./AlgorithmFactory */ "./src/animation/AlgorithmFactory.ts");
 var AnimationValueType;
 (function (AnimationValueType) {
     AnimationValueType[AnimationValueType["NUMBER"] = 1] = "NUMBER";
-    AnimationValueType[AnimationValueType["BASEVALUE"] = 2] = "BASEVALUE";
-    AnimationValueType[AnimationValueType["COLOR"] = 3] = "COLOR";
-    AnimationValueType[AnimationValueType["BORDER"] = 4] = "BORDER";
-    AnimationValueType[AnimationValueType["SHADOW"] = 5] = "SHADOW";
+    AnimationValueType[AnimationValueType["ANIMATABLE"] = 2] = "ANIMATABLE";
 })(AnimationValueType = exports.AnimationValueType || (exports.AnimationValueType = {}));
 var AnimateEventType;
 (function (AnimateEventType) {
@@ -556,11 +550,11 @@ var AnimateEventType;
 })(AnimateEventType = exports.AnimateEventType || (exports.AnimateEventType = {}));
 var AnimateEvent = (function (_super) {
     __extends(AnimateEvent, _super);
-    function AnimateEvent(type, progress, currentStep, currentProgress) {
+    function AnimateEvent(type, step, progress, value) {
         var _this = _super.call(this, type, false, true) || this;
+        _this.step = step;
         _this.progress = progress;
-        _this.currentStep = currentStep;
-        _this.currentProgress = currentProgress;
+        _this.value = value;
         return _this;
     }
     AnimateEvent.prototype.toString = function () {
@@ -569,17 +563,27 @@ var AnimateEvent = (function (_super) {
     return AnimateEvent;
 }(Event_1.Event));
 exports.AnimateEvent = AnimateEvent;
+function isIAnimatable(obj) {
+    return obj && obj.isAnimatable && obj.isAnimatable();
+}
+function isNumber(obj) {
+    return typeof obj === 'number';
+}
 var AnimationStep = (function () {
     function AnimationStep(target, duration) {
         this.endTime = 0;
         this.target = target;
         this.duration = duration;
     }
-    AnimationStep.prototype.onStart = function () { };
-    AnimationStep.prototype.onUpdate = function (percent) {
-        return false;
+    AnimationStep.prototype.onStart = function () {
+        return;
     };
-    AnimationStep.prototype.onEnd = function () { };
+    AnimationStep.prototype.onUpdate = function (percent) {
+        return undefined;
+    };
+    AnimationStep.prototype.onEnd = function () {
+        return;
+    };
     return AnimationStep;
 }());
 exports.AnimationStep = AnimationStep;
@@ -590,9 +594,9 @@ var WaitStep = (function (_super) {
     }
     return WaitStep;
 }(AnimationStep));
-var StyleStep = (function (_super) {
-    __extends(StyleStep, _super);
-    function StyleStep(target, props, algorithm, duration) {
+var ToStep = (function (_super) {
+    __extends(ToStep, _super);
+    function ToStep(target, value, algorithm, duration) {
         var _this = _super.call(this, target, duration) || this;
         if (typeof algorithm === 'string') {
             var algo = AlgorithmFactory_1.AlgorithmFactory.get(algorithm);
@@ -604,73 +608,168 @@ var StyleStep = (function (_super) {
         else {
             _this.algorithm = algorithm;
         }
-        _this.props = props;
+        _this.values = value;
         return _this;
     }
-    StyleStep.prototype.onStart = function () {
-        this.computed = this.target.style.getSnapshotForAnimation(this.target, this.props);
-    };
-    StyleStep.prototype.onUpdate = function (percent) {
-        if (!this.computed) {
-            return false;
+    ToStep.prototype.onStart = function () {
+        this.computed = {};
+        if (isNumber(this.target)) {
+            this.computed.value = {
+                type: AnimationValueType.NUMBER,
+                from: this.target,
+                to: this.values
+            };
         }
-        for (var name_1 in this.computed) {
-            var attr = this.computed[name_1];
+        else if (isIAnimatable(this.target)) {
+            var target = this.target;
+            this.computed.value = {
+                type: AnimationValueType.ANIMATABLE,
+                from: target,
+                to: target.convertFrom(this.values)
+            };
+        }
+        else {
+            var values = this.values;
+            for (var key in values) {
+                var dest = values[key];
+                var src = this.target[key];
+                if (isIAnimatable(dest)) {
+                    var to = dest;
+                    this.computed[key] = {
+                        type: AnimationValueType.ANIMATABLE,
+                        from: to.convertFrom(src),
+                        to: to
+                    };
+                }
+                else if (isIAnimatable(src)) {
+                    var from = src;
+                    this.computed[key] = {
+                        type: AnimationValueType.ANIMATABLE,
+                        from: from,
+                        to: from.convertFrom(dest)
+                    };
+                }
+                else if (typeof dest === 'number') {
+                    var from = src;
+                    if (isNaN(from)) {
+                        from = parseFloat(src + '');
+                        if (isNaN(from)) {
+                            from = 0;
+                        }
+                    }
+                    this.computed[key] = {
+                        type: AnimationValueType.NUMBER,
+                        from: from,
+                        to: dest
+                    };
+                }
+            }
+        }
+    };
+    ToStep.prototype.onUpdate = function (percent) {
+        if (ContainerUtils_1.ContainerUtils.isEmpty(this.computed)) {
+            return undefined;
+        }
+        if (isNumber(this.target)) {
+            var from = this.computed.value.from;
+            var to = this.computed.value.to;
+            this.computed.value.current = from + (to - from) * this.algorithm.calculate(percent);
+            return this.computed.value.current;
+        }
+        else if (isIAnimatable(this.target)) {
+            var from = this.computed.value.from;
+            var to = this.computed.value.to;
+            this.computed.value.current = from.update(to, this.algorithm.calculate(percent));
+            return this.computed.value.current;
+        }
+        else {
+            var result = {};
+            var updated = false;
+            for (var name_1 in this.computed) {
+                var attr = this.computed[name_1];
+                switch (attr.type) {
+                    case AnimationValueType.NUMBER:
+                        {
+                            var from = attr.from;
+                            var to = attr.to;
+                            attr.current = from + (to - from) * this.algorithm.calculate(percent);
+                        }
+                        break;
+                    case AnimationValueType.ANIMATABLE:
+                        {
+                            var from = attr.from;
+                            var to = attr.to;
+                            attr.current = from.update(to, this.algorithm.calculate(percent));
+                        }
+                        break;
+                }
+                this.target[name_1] = attr.current;
+                result[name_1] = attr.current;
+                updated = true;
+            }
+            return updated ? result : undefined;
+        }
+    };
+    return ToStep;
+}(AnimationStep));
+var CssStep = (function (_super) {
+    __extends(CssStep, _super);
+    function CssStep(target, values, algorithm, duration) {
+        var _this = _super.call(this, target, duration) || this;
+        if (typeof algorithm === 'string') {
+            var algo = AlgorithmFactory_1.AlgorithmFactory.get(algorithm);
+            if (!algo) {
+                throw new Error('unknown algorithm:' + algorithm);
+            }
+            _this.algorithm = algo;
+        }
+        else {
+            _this.algorithm = algorithm;
+        }
+        _this.values = values;
+        return _this;
+    }
+    CssStep.prototype.onStart = function () {
+        this.computed = this.target.style.getSnapshotForAnimation(this.target, this.values);
+    };
+    CssStep.prototype.onUpdate = function (percent) {
+        if (ContainerUtils_1.ContainerUtils.isEmpty(this.computed)) {
+            return undefined;
+        }
+        var result = {};
+        var updated = false;
+        var target = this.target;
+        for (var name_2 in this.computed) {
+            var attr = this.computed[name_2];
             switch (attr.type) {
                 case AnimationValueType.NUMBER:
                     {
                         var from = attr.from;
                         var to = attr.to;
-                        this.target.style[name_1] =
-                            from + (to - from) * this.algorithm.calculate(percent);
+                        attr.current = from + (to - from) * this.algorithm.calculate(percent);
                     }
                     break;
-                case AnimationValueType.BASEVALUE:
+                case AnimationValueType.ANIMATABLE:
                     {
                         var from = attr.from;
                         var to = attr.to;
-                        this.target.style[name_1] = new BaseValue_1.BaseValue(from.numberValue +
-                            (to.numberValue - from.numberValue) * this.algorithm.calculate(percent), to.unit);
-                    }
-                    break;
-                case AnimationValueType.COLOR:
-                    {
-                        var from = attr.from;
-                        var to = attr.to;
-                        var v = this.algorithm.calculate(percent);
-                        var color = new Color_1.Color(from.r + (to.r - from.r) * v, from.g + (to.g - from.g) * v, from.b + (to.b - from.b) * v, from.a + (to.a - from.a) * v);
-                        if (name_1 === 'backgroundColor') {
-                            if (!this.target.style.background) {
-                                this.target.style.background = new Background_1.Background();
-                            }
-                            this.target.style.background.color = color;
-                        }
-                        else {
-                            this.target.style[name_1] = color;
-                        }
-                    }
-                    break;
-                case AnimationValueType.BORDER:
-                    {
-                        var from = attr.from;
-                        var to = attr.to;
-                        var v = this.algorithm.calculate(percent);
-                        this.target.style[name_1] = new Border_1.Border(from.width + (to.width - from.width) * v, from.style, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
-                    }
-                    break;
-                case AnimationValueType.SHADOW:
-                    {
-                        var from = attr.from;
-                        var to = attr.to;
-                        var v = this.algorithm.calculate(percent);
-                        this.target.style[name_1] = new Shadow_1.Shadow(from.offsetX + (to.offsetX - from.offsetX) * v, from.offsetY + (to.offsetY - from.offsetY) * v, from.blur + (to.blur - from.blur) * v, new Color_1.Color(from.color.r + (to.color.r - from.color.r) * v, from.color.g + (to.color.g - from.color.g) * v, from.color.b + (to.color.b - from.color.b) * v, from.color.a + (to.color.a - from.color.a) * v));
+                        attr.current = from.update(to, this.algorithm.calculate(percent));
                     }
                     break;
             }
+            result[name_2] = attr.current;
+            updated = true;
         }
-        return true;
+        if (updated) {
+            target.style.applyAnimationResult(result);
+            target.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, target));
+            return result;
+        }
+        else {
+            return undefined;
+        }
     };
-    return StyleStep;
+    return CssStep;
 }(AnimationStep));
 var CallStep = (function (_super) {
     __extends(CallStep, _super);
@@ -680,7 +779,7 @@ var CallStep = (function (_super) {
         return _this;
     }
     CallStep.prototype.onEnd = function () {
-        this.call();
+        this.call(this.target);
     };
     return CallStep;
 }(AnimationStep));
@@ -702,7 +801,6 @@ var Animation = (function (_super) {
         _this.duration = 0;
         _this.currentStepIndex = 0;
         _this.currentStepProgress = 0;
-        _this.totalProgress = 0;
         _this.target = target;
         _this.playTimes = loop ? 0 : 1;
         _this.roundStartTime = _this.beginTime = Date.now();
@@ -750,7 +848,12 @@ var Animation = (function (_super) {
     };
     Animation.prototype.to = function (props, duration, algorithm) {
         if (algorithm === void 0) { algorithm = 'linear'; }
-        this.addStep(new StyleStep(this.target, props, algorithm, duration));
+        this.addStep(new ToStep(this.target, props, algorithm, duration));
+        return this;
+    };
+    Animation.prototype.css = function (props, duration, algorithm) {
+        if (algorithm === void 0) { algorithm = 'linear'; }
+        this.addStep(new CssStep(this.target, props, algorithm, duration));
         return this;
     };
     Animation.prototype.call = function (call) {
@@ -770,12 +873,12 @@ var Animation = (function (_super) {
         var passed = now - this.roundStartTime;
         var currentStep = this.steps[this.currentStepIndex];
         if (passed >= this.duration) {
-            currentStep.onUpdate(1);
+            this.doUpdateInternal(1);
             currentStep.onEnd();
             for (++this.currentStepIndex; this.currentStepIndex < this.steps.length; ++this.currentStepIndex) {
                 var step = this.steps[this.currentStepIndex];
                 step.onStart();
-                step.onUpdate(1);
+                this.doUpdateInternal(1);
                 step.onEnd();
             }
             var newRound = true;
@@ -784,9 +887,8 @@ var Animation = (function (_super) {
             }
             if (!newRound) {
                 this.currentStepIndex = this.steps.length - 1;
-                this.onUpdateInternal(1, 1);
                 this.state = AnimationState.COMPLETED;
-                this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+                this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.currentStepIndex, this.currentStepProgress));
             }
             else {
                 passed = passed % this.duration;
@@ -797,11 +899,11 @@ var Animation = (function (_super) {
                     step.onStart();
                     if (step.endTime > passed) {
                         var progress = 1 - (step.endTime - passed) / step.duration;
-                        this.onUpdateInternal(progress, passed / this.duration);
+                        this.doUpdateInternal(progress);
                         break;
                     }
                     else {
-                        step.onUpdate(1);
+                        this.doUpdateInternal(1);
                         step.onEnd();
                         ++this.currentStepIndex;
                     }
@@ -811,10 +913,10 @@ var Animation = (function (_super) {
         else {
             if (currentStep.endTime > passed) {
                 var progress = 1 - (currentStep.endTime - passed) / currentStep.duration;
-                this.onUpdateInternal(progress, passed / this.duration);
+                this.doUpdateInternal(progress);
             }
             else {
-                currentStep.onUpdate(1);
+                this.doUpdateInternal(1);
                 currentStep.onEnd();
                 ++this.currentStepIndex;
                 while (true) {
@@ -822,11 +924,11 @@ var Animation = (function (_super) {
                     step.onStart();
                     if (step.endTime > passed && step.duration > 0) {
                         var progress = 1 - (step.endTime - passed) / step.duration;
-                        this.onUpdateInternal(progress, passed / this.duration);
+                        this.doUpdateInternal(progress);
                         break;
                     }
                     else {
-                        step.onUpdate(1);
+                        this.doUpdateInternal(1);
                         step.onEnd();
                         ++this.currentStepIndex;
                     }
@@ -837,13 +939,14 @@ var Animation = (function (_super) {
     };
     Animation.prototype.cancel = function () {
         this.state = AnimationState.CANCELLED;
-        this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+        this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.currentStepIndex, this.currentStepProgress));
     };
-    Animation.prototype.onUpdateInternal = function (currentStepProgress, totalProgress) {
-        this.currentStepProgress = currentStepProgress;
-        this.totalProgress = totalProgress;
-        this.steps[this.currentStepIndex].onUpdate(currentStepProgress);
-        this.dispatchEvent(new AnimateEvent(AnimateEventType.UPDATE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+    Animation.prototype.doUpdateInternal = function (progress) {
+        this.currentStepProgress = progress;
+        var result = this.steps[this.currentStepIndex].onUpdate(progress);
+        if (result) {
+            this.dispatchEvent(new AnimateEvent(AnimateEventType.UPDATE, this.currentStepIndex, this.currentStepProgress, result));
+        }
     };
     Animation.prototype.addStep = function (step) {
         this.steps.push(step);
@@ -894,7 +997,7 @@ var AnimationFactory = (function (_super) {
         return _this;
     }
     AnimationFactory.prototype.create = function (target, override) {
-        if (override) {
+        if (override || typeof target !== 'number') {
             this.removeByTarget(target);
         }
         var animation = new Animation_1.Animation(target);
@@ -1026,6 +1129,21 @@ var BaseValue = (function () {
     BaseValue.prototype.clone = function () {
         return new BaseValue(this.numberValue, this.unit);
     };
+    BaseValue.prototype.update = function (target, progress) {
+        return new BaseValue(this.numberValue + (target.numberValue - this.numberValue) * progress, target.unit);
+    };
+    BaseValue.prototype.convertFrom = function (src) {
+        var result = BaseValue.of(src);
+        if (result === undefined) {
+            return new BaseValue(0);
+        }
+        else {
+            return result;
+        }
+    };
+    BaseValue.prototype.isAnimatable = function () {
+        return true;
+    };
     BaseValue.ZERO = BaseValue.of('0');
     return BaseValue;
 }());
@@ -1142,6 +1260,21 @@ var Color = (function () {
     };
     Color.prototype.toString = function () {
         return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+    };
+    Color.prototype.update = function (target, progress) {
+        return new Color(this.r + (target.r - this.r) * progress, this.g + (target.g - this.g) * progress, this.b + (target.b - this.b) * progress, this.a + (target.a - this.a) * progress);
+    };
+    Color.prototype.convertFrom = function (src) {
+        var result = Color.of(src + '');
+        if (result === undefined) {
+            return Color.BLACK;
+        }
+        else {
+            return result;
+        }
+    };
+    Color.prototype.isAnimatable = function () {
+        return true;
     };
     Color.TRANSPARENT = Color.of('#0000');
     Color.ALICEBLUE = Color.of('#F0F8FF');
@@ -2010,7 +2143,7 @@ var Container = (function (_super) {
             var idx = this.children.indexOf(child);
             this.children.splice(idx, 1);
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, child));
+            child.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, child));
             return this;
         }
         else {
@@ -2019,7 +2152,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.push(child);
-            child.dispatchEvent(new XObject_1.TouchEvent('added', false, true, child));
+            child.dispatchEvent(new XObject_1.XObjectEvent('added', false, true, child));
             return this;
         }
     };
@@ -2049,7 +2182,7 @@ var Container = (function (_super) {
                 this.children.splice(index, 0, child);
                 this.children.splice(current, 1);
             }
-            child.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, child));
+            child.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, child));
             return this;
         }
         else {
@@ -2058,7 +2191,7 @@ var Container = (function (_super) {
             }
             child.parent = this;
             this.children.splice(index, 0, child);
-            child.dispatchEvent(new XObject_1.TouchEvent('added', false, true, child));
+            child.dispatchEvent(new XObject_1.XObjectEvent('added', false, true, child));
             return this;
         }
     };
@@ -2070,7 +2203,7 @@ var Container = (function (_super) {
         else {
             this.children.splice(idx, 1);
             child.parent = undefined;
-            child.dispatchEvent(new XObject_1.TouchEvent('removed', false, true, child));
+            child.dispatchEvent(new XObject_1.XObjectEvent('removed', false, true, child));
             return child;
         }
     };
@@ -2080,7 +2213,7 @@ var Container = (function (_super) {
         }
         var child = this.children[index];
         this.children.splice(index, 1);
-        child.dispatchEvent(new XObject_1.TouchEvent('removed', false, true, child));
+        child.dispatchEvent(new XObject_1.XObjectEvent('removed', false, true, child));
         return child;
     };
     Container.prototype.removeAllChildren = function () {
@@ -2113,8 +2246,8 @@ var Container = (function (_super) {
         var o2 = this.children[index2];
         this.children[index1] = o2;
         this.children[index2] = o1;
-        o1.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, o1));
-        o2.dispatchEvent(new XObject_1.TouchEvent('moved', false, true, o2));
+        o1.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, o1));
+        o2.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, o2));
         return this;
     };
     Container.prototype.swapChildren = function (child1, child2) {
@@ -2125,7 +2258,6 @@ var Container = (function (_super) {
         this.layoutChildren();
     };
     Container.prototype.layoutChildren = function () {
-        this.calculateSize();
         var absolutes = [];
         var relatives = [];
         var contentRect = this.getContentRect();
@@ -2195,10 +2327,10 @@ var Container = (function (_super) {
                 x += child.getOuterWidth();
             }
         }
-        if (contentWidth > contentRect.width) {
+        if (!this.style.width && contentWidth > contentRect.width) {
             this.rect.width += contentWidth - contentRect.width;
         }
-        if (contentHeight > contentRect.height) {
+        if (!this.style.height && contentHeight > contentRect.height) {
             this.rect.height += contentHeight - contentRect.height;
         }
         for (var _f = 0, absolutes_1 = absolutes; _f < absolutes_1.length; _f++) {
@@ -2305,6 +2437,37 @@ var Img = (function (_super) {
         this.sourceRect = sourceRect;
         return this;
     };
+    Img.prototype.calculateSize = function () {
+        _super.prototype.calculateSize.call(this);
+        if (!this.style.width) {
+            if (this.sourceRect) {
+                this.rect.width = this.sourceRect.width;
+            }
+            else if (this.image) {
+                this.rect.width = this.image.width;
+            }
+            else if (this.src) {
+                var image = ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
+                if (image) {
+                    this.rect.width = image.width;
+                }
+            }
+        }
+        if (!this.style.height) {
+            if (this.sourceRect) {
+                this.rect.height = this.sourceRect.height;
+            }
+            else if (this.image) {
+                this.rect.height = this.image.height;
+            }
+            else if (this.src) {
+                var image = ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
+                if (image) {
+                    this.rect.height = image.height;
+                }
+            }
+        }
+    };
     Img.prototype.drawContent = function (ctx) {
         var image;
         if (this.image) {
@@ -2329,6 +2492,125 @@ var Img = (function (_super) {
 exports.Img = Img;
 HtmlParser_1.HtmlParser.registerTag('img', Img);
 HtmlParser_1.HtmlParser.registerTag('image', Img);
+
+
+/***/ }),
+
+/***/ "./src/components/Scrollable.ts":
+/*!**************************************!*\
+  !*** ./src/components/Scrollable.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
+var Container_1 = __webpack_require__(/*! ./Container */ "./src/components/Container.ts");
+var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
+var Scrollable = (function (_super) {
+    __extends(Scrollable, _super);
+    function Scrollable(opt) {
+        var _this = _super.call(this, opt) || this;
+        _this.viewRect = new Rect_1.Rect(0, 0, 0, 0);
+        _this.verticalSnappingSize = 0;
+        _this.horizontalSnappingSize = 200;
+        _this.on('pressmove', function (e) {
+            _this.scroll(e.touchItem.getDelta());
+            e.stage.updateOnce();
+        });
+        _this.on('mousewheel', function (e) {
+            var delta = e.touchItem.getDelta();
+            delta.x = -delta.x;
+            delta.y = -delta.y;
+            _this.scroll(delta, false);
+            e.stage.updateOnce();
+        });
+        _this.on('pressup', function (e) {
+            if (e.stage.getPressedTouchItems(_this).length === 0) {
+                _this.onRelease(e.stage);
+                e.stage.updateOnce();
+            }
+        });
+        return _this;
+    }
+    Scrollable.prototype.getDefaultStyle = function () {
+        return {
+            overflow: 'hidden'
+        };
+    };
+    Scrollable.prototype.fixPosition = function (val, min, max) {
+        if (val > max) {
+            return max;
+        }
+        else if (val < min) {
+            return min;
+        }
+        else {
+            return val;
+        }
+    };
+    Scrollable.prototype.scroll = function (delta, enableSnapping) {
+        if (enableSnapping === void 0) { enableSnapping = true; }
+        this.viewRect.x = this.fixPosition(this.viewRect.x + delta.x, Math.min(0, this.getContentWidth() - this.viewRect.width) -
+            (enableSnapping ? this.horizontalSnappingSize : 0), enableSnapping ? this.horizontalSnappingSize : 0);
+        this.viewRect.y = this.fixPosition(this.viewRect.y + delta.y, Math.min(0, this.getContentHeight() - this.viewRect.height) -
+            (enableSnapping ? this.verticalSnappingSize : 0), enableSnapping ? this.verticalSnappingSize : 0);
+    };
+    Scrollable.prototype.onRelease = function (stage) {
+        var _this = this;
+        var back = {
+            x: this.fixPosition(this.viewRect.x, Math.min(0, this.getContentWidth() - this.viewRect.width), 0),
+            y: this.fixPosition(this.viewRect.y, Math.min(0, this.getContentHeight() - this.viewRect.height), 0)
+        };
+        if (back.x === this.viewRect.x && back.y === this.viewRect.y) {
+            return;
+        }
+        stage
+            .animate({ x: this.viewRect.x, y: this.viewRect.y }, true)
+            .to(back, 200, 'quadIn')
+            .on('update', function (e) {
+            if (back.x !== undefined) {
+                _this.viewRect.x = e.value.x;
+            }
+            if (back.y !== undefined) {
+                _this.viewRect.y = e.value.y;
+            }
+            _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+        });
+    };
+    Scrollable.prototype.layoutChildren = function () {
+        _super.prototype.layoutChildren.call(this);
+        this.viewRect.width = 0;
+        this.viewRect.height = 0;
+        var paddingRect = this.getPaddingRect();
+        for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
+            var child = _a[_i];
+            this.viewRect.width = Math.max(this.viewRect.width, child.rect.x + child.getOuterWidth() - paddingRect.x);
+            this.viewRect.height = Math.max(this.viewRect.height, child.rect.y + child.getOuterHeight() - paddingRect.y);
+            child.rect.x += this.viewRect.x;
+            child.rect.y += this.viewRect.y;
+        }
+    };
+    return Scrollable;
+}(Container_1.Container));
+exports.Scrollable = Scrollable;
+HtmlParser_1.HtmlParser.registerTag('scrollable', Scrollable);
 
 
 /***/ }),
@@ -2370,15 +2652,18 @@ var SpriteAnimationStep = (function (_super) {
     }
     SpriteAnimationStep.prototype.onUpdate = function (percent) {
         if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
-            return false;
+            return undefined;
         }
         var index = Math.min(this.sprite.spriteSheet.frames.length - 1, Math.floor(this.sprite.spriteSheet.frames.length * percent));
         if (index === this.sprite.currentFrame) {
-            return false;
+            return undefined;
         }
         else {
             this.sprite.currentFrame = index;
-            return true;
+            this.sprite.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this.sprite));
+            return {
+                currentFrame: index
+            };
         }
     };
     return SpriteAnimationStep;
@@ -2421,21 +2706,21 @@ var Sprite = (function (_super) {
                 .addStep(new SpriteAnimationStep(this))
                 .times(times);
             this.animation.addEventListener('complete', function () {
-                return _this.dispatchEvent(new XObject_1.TouchEvent('stop', false, true, _this));
+                return _this.dispatchEvent(new XObject_1.XObjectEvent('stop', false, true, _this));
             });
-            this.dispatchEvent(new XObject_1.TouchEvent('play', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('play', false, true, this));
         }
         return this;
     };
     Sprite.prototype.pause = function () {
         if (this.animation && this.animation.pause()) {
-            this.dispatchEvent(new XObject_1.TouchEvent('pause', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('pause', false, true, this));
         }
         return this;
     };
     Sprite.prototype.resume = function () {
         if (this.animation && this.animation.resume()) {
-            this.dispatchEvent(new XObject_1.TouchEvent('resume', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('resume', false, true, this));
         }
         return this;
     };
@@ -2534,6 +2819,7 @@ var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Run
 var Ticker_1 = __webpack_require__(/*! ../Ticker */ "./src/Ticker.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
 var Container_1 = __webpack_require__(/*! ./Container */ "./src/components/Container.ts");
+var TouchItem_1 = __webpack_require__(/*! ./TouchItem */ "./src/components/TouchItem.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var StageLayoutPolicy;
 (function (StageLayoutPolicy) {
@@ -2543,7 +2829,7 @@ var StageLayoutPolicy;
 var StageUpdatePolicy;
 (function (StageUpdatePolicy) {
     StageUpdatePolicy["NEVER"] = "never";
-    StageUpdatePolicy["IN_ANIMATION"] = "in_animation";
+    StageUpdatePolicy["AUTO"] = "auto";
     StageUpdatePolicy["ALWAYS"] = "always";
 })(StageUpdatePolicy = exports.StageUpdatePolicy || (exports.StageUpdatePolicy = {}));
 var TouchedObjectSet = (function () {
@@ -2599,7 +2885,7 @@ var Stage = (function (_super) {
         _this.option = {
             fps: 60,
             layoutPolicy: StageLayoutPolicy.ALWAYS,
-            updatePolicy: StageUpdatePolicy.IN_ANIMATION,
+            updatePolicy: StageUpdatePolicy.AUTO,
             autoClear: true
         };
         _this.touchItems = new TouchedObjectSet();
@@ -2638,15 +2924,17 @@ var Stage = (function (_super) {
             this.layout();
             this.needUpdate = true;
             this.ticker.addEventListener('tick', function (_) {
-                if (_this.animationFactory.onInterval()) {
-                    _this.needUpdate = true;
-                }
-                if (_this.needUpdate || _this.option.updatePolicy === StageUpdatePolicy.ALWAYS) {
+                _this.animationFactory.onInterval();
+                if (_this.option.updatePolicy !== StageUpdatePolicy.NEVER &&
+                    (_this.needUpdate || _this.option.updatePolicy === StageUpdatePolicy.ALWAYS)) {
                     _this.update();
                     _this.needUpdate = false;
                 }
             });
             ResourceRegistry_1.ResourceRegistry.DefaultInstance.addEventListener('load', function (e) {
+                _this.updateOnce();
+            });
+            this.on('update', function () {
                 _this.updateOnce();
             });
         }
@@ -2702,6 +2990,16 @@ var Stage = (function (_super) {
                 break;
         }
     };
+    Stage.prototype.handleMouseWheelEvent = function (stageX, stageY, deltaX, deltaY, e) {
+        var pt = this.globalToLocal(stageX, stageY);
+        var element = this.getObjectUnderPoint(pt.x, pt.y, true);
+        if (element) {
+            var touch = new TouchItem_1.TouchItem(0, element, stageX, stageY, Date.now());
+            touch.deltaX = deltaX;
+            touch.deltaY = deltaY;
+            this.dispatchTouchEvent(element, 'mousewheel', touch, true, true, e);
+        }
+    };
     Stage.prototype.update = function () {
         if (!this.canvas || !this.isVisible()) {
             return;
@@ -2741,7 +3039,7 @@ var Stage = (function (_super) {
         return "[Stage (id=" + this.id + ")]";
     };
     Stage.prototype.dispatchTouchEvent = function (element, type, currentTouch, bubble, cancellable, e) {
-        var event = new XObject_1.TouchEvent(type, bubble, cancellable, element, currentTouch);
+        var event = new XObject_1.XObjectEvent(type, bubble, cancellable, element, currentTouch);
         event.stage = this;
         event.nativeEvent = e;
         element.dispatchEvent(event);
@@ -3060,6 +3358,21 @@ var TouchItem = (function () {
         this.srcTimestamp = this.timestamp = timestamp;
         this.speed = this.direction = 0;
     }
+    TouchItem.prototype.getDelta = function () {
+        if (this.deltaX !== undefined && this.deltaY !== undefined) {
+            return { x: this.deltaX, y: this.deltaY };
+        }
+        if (!this.velocityTracker || this.velocityTracker.positions.length <= 1) {
+            return { x: 0, y: 0 };
+        }
+        else {
+            var size = this.velocityTracker.positions.length;
+            return {
+                x: this.velocityTracker.positions[size - 1].x - this.velocityTracker.positions[size - 2].x,
+                y: this.velocityTracker.positions[size - 1].y - this.velocityTracker.positions[size - 2].y
+            };
+        }
+    };
     TouchItem.prototype.switchSourceElement = function (srcElement) {
         var cloned = new TouchItem(this.identifier, srcElement, this.srcStageX, this.srcStageY, this.srcTimestamp);
         cloned.x = this.x;
@@ -3122,9 +3435,9 @@ var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Run
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
-var TouchEvent = (function (_super) {
-    __extends(TouchEvent, _super);
-    function TouchEvent(type, bubbles, cancelable, srcElement, touchItem, currentTarget) {
+var XObjectEvent = (function (_super) {
+    __extends(XObjectEvent, _super);
+    function XObjectEvent(type, bubbles, cancelable, srcElement, touchItem, currentTarget) {
         if (bubbles === void 0) { bubbles = true; }
         if (cancelable === void 0) { cancelable = true; }
         var _this = _super.call(this, type, bubbles, cancelable) || this;
@@ -3139,12 +3452,12 @@ var TouchEvent = (function (_super) {
         }
         return _this;
     }
-    TouchEvent.prototype.toString = function () {
-        return '[TouchEvent (type=' + this.type + ')]';
+    XObjectEvent.prototype.toString = function () {
+        return '[XObjectEvent (type=' + this.type + ')]';
     };
-    return TouchEvent;
+    return XObjectEvent;
 }(Event_1.Event));
-exports.TouchEvent = TouchEvent;
+exports.XObjectEvent = XObjectEvent;
 var CacheState;
 (function (CacheState) {
     CacheState[CacheState["DISABLED"] = 1] = "DISABLED";
@@ -3158,12 +3471,24 @@ var XObject = (function (_super) {
         _this.id = undefined;
         _this.rect = new Rect_1.Rect(0, 0, 0, 0);
         _this.cacheState = CacheState.DISABLED;
-        _this.style = opt && opt.style ? opt.style : new Style_1.Style();
-        if (opt && opt.attributes.id) {
-            _this.id = opt.attributes.id;
+        _this.style = new Style_1.Style();
+        var defaultStyle = _this.getDefaultStyle();
+        if (defaultStyle) {
+            _this.style.apply(defaultStyle);
+        }
+        if (opt) {
+            if (opt.attributes.style) {
+                _this.style.apply(Style_1.Style.parse(opt.attributes.style));
+            }
+            if (opt.attributes.id) {
+                _this.id = opt.attributes.id;
+            }
         }
         return _this;
     }
+    XObject.prototype.getDefaultStyle = function () {
+        return undefined;
+    };
     XObject.prototype.remove = function () {
         if (this.parent) {
             this.parent.removeChild(this);
@@ -3534,13 +3859,15 @@ exports.Event = Event_1.Event;
 var Event_2 = __webpack_require__(/*! ./base/Event */ "./src/base/Event.ts");
 exports.EventDispatcher = Event_2.EventDispatcher;
 var XObject_1 = __webpack_require__(/*! ./components/XObject */ "./src/components/XObject.ts");
-exports.TouchEvent = XObject_1.TouchEvent;
+exports.TouchEvent = XObject_1.XObjectEvent;
 var XObject_2 = __webpack_require__(/*! ./components/XObject */ "./src/components/XObject.ts");
 exports.XObject = XObject_2.XObject;
 var Stage_1 = __webpack_require__(/*! ./components/Stage */ "./src/components/Stage.ts");
 exports.StageLayoutPolicy = Stage_1.StageLayoutPolicy;
 var Stage_2 = __webpack_require__(/*! ./components/Stage */ "./src/components/Stage.ts");
 exports.StageUpdatePolicy = Stage_2.StageUpdatePolicy;
+var Scrollable_1 = __webpack_require__(/*! ./components/Scrollable */ "./src/components/Scrollable.ts");
+exports.Scrollable = Scrollable_1.Scrollable;
 var Stage_3 = __webpack_require__(/*! ./components/Stage */ "./src/components/Stage.ts");
 exports.Stage = Stage_3.Stage;
 var Text_1 = __webpack_require__(/*! ./components/Text */ "./src/components/Text.ts");
@@ -3629,6 +3956,8 @@ var StringUtils_1 = __webpack_require__(/*! ./utils/StringUtils */ "./src/utils/
 exports.StringUtils = StringUtils_1.StringUtils;
 var CRC32_1 = __webpack_require__(/*! ./utils/CRC32 */ "./src/utils/CRC32.ts");
 exports.CRC32 = CRC32_1.CRC32;
+var Base64_1 = __webpack_require__(/*! ./utils/Base64 */ "./src/utils/Base64.ts");
+exports.Base64 = Base64_1.Base64;
 var DrawUtils_1 = __webpack_require__(/*! ./utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 exports.DrawUtils = DrawUtils_1.DrawUtils;
 
@@ -4125,7 +4454,6 @@ exports.FunctionParser = FunctionParser;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Container_1 = __webpack_require__(/*! ../components/Container */ "./src/components/Container.ts");
-var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var ParseState;
 (function (ParseState) {
     ParseState[ParseState["START"] = 1] = "START";
@@ -4414,13 +4742,11 @@ var HtmlParser = (function () {
     HtmlParser.prototype.node2Component = function (node) {
         var type = HtmlParser.tagMap[node.tag.toLowerCase()];
         if (!type) {
-            console.warn('unknow tag:' + node.tag.toLowerCase());
+            console.warn('unknown tag:' + node.tag.toLowerCase());
             return undefined;
         }
-        var style = Style_1.Style.of(node.attributes.style || '');
         var options = {
             attributes: node.attributes,
-            style: style,
             text: node.text
         };
         var component = new type(options);
@@ -4836,6 +5162,12 @@ var WebpageRuntime = (function () {
     };
     WebpageRuntime.prototype.enableEvents = function (stage) {
         var _this = this;
+        stage.canvas.onpointerdown = function (e) {
+            stage.canvas.setPointerCapture(e.pointerId);
+        };
+        stage.canvas.onpointerup = function (e) {
+            stage.canvas.releasePointerCapture(e.pointerId);
+        };
         stage.canvas.addEventListener('mousedown', function (e) {
             _this.handleMouseEvent('mousedown', stage, e);
         });
@@ -4853,6 +5185,9 @@ var WebpageRuntime = (function () {
         });
         stage.canvas.addEventListener('mouseleave', function (e) {
             _this.handleMouseEvent('mouseleave', stage, e);
+        });
+        stage.canvas.addEventListener('mousewheel', function (e) {
+            _this.handleMouseWheelEvent(stage, e);
         });
         stage.canvas.addEventListener('touchstart', function (e) {
             _this.handleTouchEvent('touchstart', stage, e);
@@ -4876,6 +5211,11 @@ var WebpageRuntime = (function () {
         var x = e.offsetX * scaleX;
         var y = e.offsetY * scaleY;
         stage.handleMouseOrTouchEvent(type, [new TouchItem_1.TouchItem(0, stage, x, y, Date.now())], e);
+    };
+    WebpageRuntime.prototype.handleMouseWheelEvent = function (stage, e) {
+        var scaleX = stage.canvas.width / stage.canvas.clientWidth;
+        var scaleY = stage.canvas.height / stage.canvas.clientHeight;
+        stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
     };
     WebpageRuntime.prototype.handleTouchEvent = function (type, stage, e) {
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
@@ -6266,6 +6606,21 @@ var Border = (function () {
     Border.prototype.clone = function () {
         return new Border(this.width, this.style, this.color.clone());
     };
+    Border.prototype.update = function (target, progress) {
+        return new Border(this.width + (target.width - this.width) * progress, this.style, this.color.update(target.color, progress));
+    };
+    Border.prototype.convertFrom = function (src) {
+        var result = Border.of(src + '');
+        if (result === undefined) {
+            return new Border(0, BorderStyle.SOLID, Color_1.Color.BLACK);
+        }
+        else {
+            return result;
+        }
+    };
+    Border.prototype.isAnimatable = function () {
+        return true;
+    };
     Border.DEFAULT = new Border(0, BorderStyle.SOLID, Color_1.Color.BLACK);
     return Border;
 }());
@@ -6530,6 +6885,21 @@ var Shadow = (function () {
     Shadow.prototype.isEnable = function () {
         return this.color.a > 0 && (this.offsetX !== 0 || this.offsetY !== 0 || this.blur !== 0);
     };
+    Shadow.prototype.update = function (target, progress) {
+        return new Shadow(this.offsetX + (target.offsetX - this.offsetX) * progress, this.offsetY + (target.offsetY - this.offsetY) * progress, this.blur + (target.blur - this.blur) * progress, this.color.update(target.color, progress));
+    };
+    Shadow.prototype.convertFrom = function (src) {
+        var result = Shadow.of(src + '');
+        if (result === undefined) {
+            return new Shadow(0, 0, 0, Color_1.Color.BLACK);
+        }
+        else {
+            return result;
+        }
+    };
+    Shadow.prototype.isAnimatable = function () {
+        return true;
+    };
     return Shadow;
 }());
 exports.Shadow = Shadow;
@@ -6626,13 +6996,16 @@ var Style = (function () {
     }
     Style.of = function (value) {
         var style = new Style();
+        return style.apply(this.parse(value));
+    };
+    Style.parse = function (value) {
         var attrs = {};
         var matches = StringUtils_1.StringUtils.matchAll(value, REG_ATTRS);
         for (var _i = 0, matches_1 = matches; _i < matches_1.length; _i++) {
             var match = matches_1[_i];
             attrs[match[1].toLowerCase()] = match[2];
         }
-        return style.apply(attrs);
+        return attrs;
     };
     Style.prototype.apply = function (attrs) {
         for (var k in attrs) {
@@ -6925,6 +7298,19 @@ var Style = (function () {
         }
         return result;
     };
+    Style.prototype.applyAnimationResult = function (result) {
+        for (var name_2 in result) {
+            if (name_2 === 'backgroundColor') {
+                if (!this.background) {
+                    this.background = new Background_1.Background();
+                }
+                this.background.color = result[name_2];
+            }
+            else {
+                this[name_2] = result[name_2];
+            }
+        }
+    };
     Style.prototype.clone = function () {
         var cloned = new Style();
         cloned.width = this.width;
@@ -7032,8 +7418,18 @@ var Style = (function () {
             case 'skewX':
             case 'skewY':
             case 'aspectRatio':
-                var numberTo = typeof to === 'string' ? parseFloat(to) : to;
-                if (!isNaN(numberTo)) {
+                {
+                    var numberTo = NaN;
+                    if (typeof to === 'number') {
+                        numberTo = to;
+                    }
+                    else if (typeof to === 'string') {
+                        numberTo = parseFloat(to);
+                    }
+                    if (isNaN(numberTo)) {
+                        console.warn("invalid value (" + to + ") for " + key);
+                        break;
+                    }
                     result[key] = {
                         from: this[key],
                         to: numberTo,
@@ -7041,92 +7437,122 @@ var Style = (function () {
                     };
                 }
                 break;
+            case 'paddingRight':
+            case 'paddingLeft':
+            case 'marginRight':
+            case 'marginLeft':
+            case 'borderRadiusRight':
+            case 'borderRadiusLeft':
             case 'transformX':
             case 'width':
             case 'left':
             case 'right':
             case 'perspectiveOriginX': {
-                var tb = BaseValue_1.BaseValue.of(to);
+                var toBaseValue = void 0;
+                if (typeof to === 'number' || typeof to === 'string') {
+                    toBaseValue = BaseValue_1.BaseValue.of(to);
+                }
+                else if (to instanceof BaseValue_1.BaseValue) {
+                    toBaseValue = to;
+                }
+                if (!toBaseValue) {
+                    console.warn("invalid value (" + to + ") for " + key);
+                    break;
+                }
                 var from = this[key] || BaseValue_1.BaseValue.of(0);
-                if (tb.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
+                if (toBaseValue.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
                     result[key] = {
                         from: from.toPercentage(target.getWidth()),
-                        to: tb,
-                        type: Animation_1.AnimationValueType.BASEVALUE
+                        to: toBaseValue,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
                     };
                 }
                 else {
                     result[key] = {
                         from: from.toAbsolute(target.getWidth()),
-                        to: tb,
-                        type: Animation_1.AnimationValueType.BASEVALUE
-                    };
-                }
-                break;
-            }
-            case 'transformY':
-            case 'height':
-            case 'top':
-            case 'bottom':
-            case 'perspectiveOriginY': {
-                var tb = BaseValue_1.BaseValue.of(to);
-                var from = this[key] || BaseValue_1.BaseValue.of(0);
-                if (tb.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
-                    result[key] = {
-                        from: from.toPercentage(target.getHeight()),
-                        to: tb,
-                        type: Animation_1.AnimationValueType.BASEVALUE
-                    };
-                }
-                else {
-                    result[key] = {
-                        from: from.toAbsolute(target.getHeight()),
-                        to: tb,
-                        type: Animation_1.AnimationValueType.BASEVALUE
-                    };
-                }
-                break;
-            }
-            case 'color': {
-                var color = Color_1.Color.of(to + '');
-                if (color) {
-                    result[key] = {
-                        from: this[key],
-                        to: color,
-                        type: Animation_1.AnimationValueType.COLOR
-                    };
-                }
-                break;
-            }
-            case 'backgroundColor': {
-                var color = Color_1.Color.of(to + '');
-                if (color) {
-                    result[key] = {
-                        from: (this.background && this.background.color) || Color_1.Color.WHITE,
-                        to: color,
-                        type: Animation_1.AnimationValueType.COLOR
+                        to: toBaseValue,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
                     };
                 }
                 break;
             }
             case 'paddingTop':
-            case 'paddingRight':
             case 'paddingBottom':
-            case 'paddingLeft':
             case 'marginTop':
-            case 'marginRight':
             case 'marginBottom':
-            case 'marginLeft':
             case 'borderRadiusTop':
-            case 'borderRadiusRight':
             case 'borderRadiusBottom':
-            case 'borderRadiusLeft':
+            case 'transformY':
+            case 'height':
+            case 'top':
+            case 'bottom':
+            case 'perspectiveOriginY': {
+                var toBaseValue = void 0;
+                if (typeof to === 'number' || typeof to === 'string') {
+                    toBaseValue = BaseValue_1.BaseValue.of(to);
+                }
+                else if (to instanceof BaseValue_1.BaseValue) {
+                    toBaseValue = to;
+                }
+                if (!toBaseValue) {
+                    console.warn("invalid value (" + to + ") for " + key);
+                    break;
+                }
+                var from = this[key] || BaseValue_1.BaseValue.of(0);
+                if (toBaseValue.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
+                    result[key] = {
+                        from: from.toPercentage(target.getHeight()),
+                        to: toBaseValue,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
+                    };
+                }
+                else {
+                    result[key] = {
+                        from: from.toAbsolute(target.getHeight()),
+                        to: toBaseValue,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
+                    };
+                }
+                break;
+            }
+            case 'color': {
+                var color = void 0;
+                if (typeof to === 'string') {
+                    color = Color_1.Color.of(to);
+                }
+                else if (to instanceof Color_1.Color) {
+                    color = to;
+                }
+                if (!color) {
+                    console.warn("invalid value (" + to + ") for " + key);
+                    break;
+                }
                 result[key] = {
                     from: this[key],
-                    to: BaseValue_1.BaseValue.of(to + ''),
-                    type: Animation_1.AnimationValueType.BASEVALUE
+                    to: color,
+                    type: Animation_1.AnimationValueType.ANIMATABLE
                 };
                 break;
+            }
+            case 'backgroundColor': {
+                var color = void 0;
+                if (typeof to === 'string') {
+                    color = Color_1.Color.of(to);
+                }
+                else if (to instanceof Color_1.Color) {
+                    color = to;
+                }
+                if (!color) {
+                    console.warn("invalid value (" + to + ") for " + key);
+                    break;
+                }
+                result[key] = {
+                    from: (this.background && this.background.color) || Color_1.Color.WHITE,
+                    to: color,
+                    type: Animation_1.AnimationValueType.ANIMATABLE
+                };
+                break;
+            }
             case 'padding':
                 this.fillSnapshotForAnimation(target, 'paddingTop', to, result);
                 this.fillSnapshotForAnimation(target, 'paddingRight', to, result);
@@ -7162,11 +7588,24 @@ var Style = (function () {
             case 'borderTop':
             case 'borderBottom':
             case 'textBorder':
-                result[key] = {
-                    from: this[key] || Border_1.Border.DEFAULT,
-                    to: Border_1.Border.of(to + '') || Border_1.Border.DEFAULT,
-                    type: Animation_1.AnimationValueType.BORDER
-                };
+                {
+                    var border = void 0;
+                    if (typeof to === 'string') {
+                        border = Border_1.Border.of(to);
+                    }
+                    else if (to instanceof Border_1.Border) {
+                        border = to;
+                    }
+                    if (!border) {
+                        console.warn("invalid value (" + to + ") for " + key);
+                        break;
+                    }
+                    result[key] = {
+                        from: this[key] || Border_1.Border.DEFAULT,
+                        to: border,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
+                    };
+                }
                 break;
             case 'border':
                 this.fillSnapshotForAnimation(target, 'borderLeft', to, result);
@@ -7176,11 +7615,24 @@ var Style = (function () {
                 break;
             case 'shadow':
             case 'textShadow':
-                result[key] = {
-                    from: this[key] || new Shadow_1.Shadow(0, 0, 0, Color_1.Color.WHITE),
-                    to: Shadow_1.Shadow.of(to + '') || new Shadow_1.Shadow(0, 0, 0, Color_1.Color.WHITE),
-                    type: Animation_1.AnimationValueType.SHADOW
-                };
+                {
+                    var shadow = void 0;
+                    if (typeof to === 'string') {
+                        shadow = Shadow_1.Shadow.of(to);
+                    }
+                    else if (to instanceof Shadow_1.Shadow) {
+                        shadow = to;
+                    }
+                    if (!shadow) {
+                        console.warn("invalid value (" + to + ") for " + key);
+                        break;
+                    }
+                    result[key] = {
+                        from: this[key] || new Shadow_1.Shadow(0, 0, 0, Color_1.Color.WHITE),
+                        to: shadow,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
+                    };
+                }
                 break;
             default:
                 console.warn('unsupported animation attribute:' + name);
@@ -7346,6 +7798,35 @@ var CRC32 = (function () {
     return CRC32;
 }());
 exports.CRC32 = CRC32;
+
+
+/***/ }),
+
+/***/ "./src/utils/ContainerUtils.ts":
+/*!*************************************!*\
+  !*** ./src/utils/ContainerUtils.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ContainerUtils = (function () {
+    function ContainerUtils() {
+    }
+    ContainerUtils.isEmpty = function (map) {
+        if (!map)
+            return true;
+        for (var key in map) {
+            if (map.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    };
+    return ContainerUtils;
+}());
+exports.ContainerUtils = ContainerUtils;
 
 
 /***/ }),

@@ -20,7 +20,7 @@ import { AnimationStep } from '../animation/Animation';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Stage } from './Stage';
-import { TouchEvent, XObject } from './XObject';
+import { XObject, XObjectEvent } from './XObject';
 /**
  * The definition of sprite, a sprite contains size, fps, image and frames.
  */
@@ -62,16 +62,19 @@ var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
     key: "onUpdate",
     value: function onUpdate(percent) {
       if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
-        return false;
+        return undefined;
       }
 
       var index = Math.min(this.sprite.spriteSheet.frames.length - 1, Math.floor(this.sprite.spriteSheet.frames.length * percent));
 
       if (index === this.sprite.currentFrame) {
-        return false;
+        return undefined;
       } else {
         this.sprite.currentFrame = index;
-        return true;
+        this.sprite.dispatchEvent(new XObjectEvent('update', true, true, this.sprite));
+        return {
+          currentFrame: index
+        };
       }
     }
   }]);
@@ -191,9 +194,9 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
       if (stage) {
         this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
         this.animation.addEventListener('complete', function () {
-          return _this3.dispatchEvent(new TouchEvent('stop', false, true, _this3));
+          return _this3.dispatchEvent(new XObjectEvent('stop', false, true, _this3));
         });
-        this.dispatchEvent(new TouchEvent('play', false, true, this));
+        this.dispatchEvent(new XObjectEvent('play', false, true, this));
       }
 
       return this;
@@ -207,7 +210,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
     key: "pause",
     value: function pause() {
       if (this.animation && this.animation.pause()) {
-        this.dispatchEvent(new TouchEvent('pause', false, true, this));
+        this.dispatchEvent(new XObjectEvent('pause', false, true, this));
       }
 
       return this;
@@ -221,7 +224,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
     key: "resume",
     value: function resume() {
       if (this.animation && this.animation.resume()) {
-        this.dispatchEvent(new TouchEvent('resume', false, true, this));
+        this.dispatchEvent(new XObjectEvent('resume', false, true, this));
       }
 
       return this;

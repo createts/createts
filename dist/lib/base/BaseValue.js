@@ -170,6 +170,27 @@ var BaseValue = /*#__PURE__*/function () {
     value: function clone() {
       return new BaseValue(this.numberValue, this.unit);
     }
+  }, {
+    key: "update",
+    value: function update(target, progress) {
+      return new BaseValue(this.numberValue + (target.numberValue - this.numberValue) * progress, target.unit);
+    }
+  }, {
+    key: "convertFrom",
+    value: function convertFrom(src) {
+      var result = BaseValue.of(src);
+
+      if (result === undefined) {
+        return new BaseValue(0);
+      } else {
+        return result;
+      }
+    }
+  }, {
+    key: "isAnimatable",
+    value: function isAnimatable() {
+      return true;
+    }
   }]);
 
   return BaseValue;

@@ -138,6 +138,27 @@ var Border = /*#__PURE__*/function () {
     value: function clone() {
       return new Border(this.width, this.style, this.color.clone());
     }
+  }, {
+    key: "update",
+    value: function update(target, progress) {
+      return new Border(this.width + (target.width - this.width) * progress, this.style, this.color.update(target.color, progress));
+    }
+  }, {
+    key: "convertFrom",
+    value: function convertFrom(src) {
+      var result = Border.of(src + '');
+
+      if (result === undefined) {
+        return new Border(0, BorderStyle.SOLID, _Color.Color.BLACK);
+      } else {
+        return result;
+      }
+    }
+  }, {
+    key: "isAnimatable",
+    value: function isAnimatable() {
+      return true;
+    }
   }]);
 
   return Border;

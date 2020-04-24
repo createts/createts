@@ -89,6 +89,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/_animation_animation_.ianimatable.html" class="tsd-signature-type">IAnimatable</a><span class="tsd-signature-symbol">&lt;</span><a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -111,11 +117,14 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#convertfrom" class="tsd-kind-icon">convert<wbr>From</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#equals" class="tsd-kind-icon">equals</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#isanimatable" class="tsd-kind-icon">is<wbr>Animatable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#toabsolute" class="tsd-kind-icon">to<wbr>Absolute</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#topercentage" class="tsd-kind-icon">to<wbr>Percentage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_base_basevalue_.basevalue.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_base_basevalue_.basevalue.html#of" class="tsd-kind-icon">of</a></li>
 							</ul>
 						</section>
@@ -134,7 +143,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L46">base/BaseValue.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L48">base/BaseValue.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">number<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L42">base/BaseValue.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L44">base/BaseValue.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">unit<span class="tsd-signature-symbol">:</span> <a href="../enums/_base_basevalue_.basevalueunit.html" class="tsd-signature-type">BaseValueUnit</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L46">base/BaseValue.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L48">base/BaseValue.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">ZERO<span class="tsd-signature-symbol">:</span> <a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a><span class="tsd-signature-symbol"> = BaseValue.of(&#x27;0&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L14">base/BaseValue.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L16">base/BaseValue.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -221,7 +230,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L127">base/BaseValue.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L129">base/BaseValue.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -235,6 +244,30 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="convertfrom" class="tsd-anchor"></a>
+					<h3>convert<wbr>From</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<span class="tsd-signature-symbol">(</span>src<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_animation_animation_.ianimatable.html">IAnimatable</a>.<a href="../interfaces/_animation_animation_.ianimatable.html#convertfrom">convertFrom</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L140">base/BaseValue.ts:140</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>src: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="equals" class="tsd-anchor"></a>
 					<h3>equals</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -244,7 +277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L119">base/BaseValue.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L121">base/BaseValue.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,7 +310,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L63">base/BaseValue.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L65">base/BaseValue.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -300,6 +333,24 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isanimatable" class="tsd-anchor"></a>
+					<h3>is<wbr>Animatable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Animatable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_animation_animation_.ianimatable.html">IAnimatable</a>.<a href="../interfaces/_animation_animation_.ianimatable.html#isanimatable">isAnimatable</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L149">base/BaseValue.ts:149</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="toabsolute" class="tsd-anchor"></a>
 					<h3>to<wbr>Absolute</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -309,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L77">base/BaseValue.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L79">base/BaseValue.ts:79</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +392,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L91">base/BaseValue.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L93">base/BaseValue.ts:93</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -373,7 +424,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L104">base/BaseValue.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L106">base/BaseValue.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -383,6 +434,32 @@
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 							<p>a string representation of this object</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a>, progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L133">base/BaseValue.ts:133</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a></h5>
+								</li>
+								<li>
+									<h5>progress: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_base_basevalue_.basevalue.html" class="tsd-signature-type">BaseValue</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -396,7 +473,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/base/BaseValue.ts#L20">base/BaseValue.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/base/BaseValue.ts#L22">base/BaseValue.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,10 +537,16 @@
 								<a href="_base_basevalue_.basevalue.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_basevalue_.basevalue.html#convertfrom" class="tsd-kind-icon">convert<wbr>From</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_base_basevalue_.basevalue.html#equals" class="tsd-kind-icon">equals</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_base_basevalue_.basevalue.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_basevalue_.basevalue.html#isanimatable" class="tsd-kind-icon">is<wbr>Animatable</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_base_basevalue_.basevalue.html#toabsolute" class="tsd-kind-icon">to<wbr>Absolute</a>
@@ -473,6 +556,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_base_basevalue_.basevalue.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_base_basevalue_.basevalue.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_base_basevalue_.basevalue.html#of" class="tsd-kind-icon">of</a>

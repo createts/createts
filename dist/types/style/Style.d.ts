@@ -1,4 +1,4 @@
-import { IAnimationStyleAttributes, IAnimationValues } from '../animation/Animation';
+import { AnimationProps, AnimationValues } from '../animation/Animation';
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { XObject } from '../components/XObject';
@@ -45,6 +45,9 @@ export declare enum Visibility {
 }
 export declare class Style {
     static of(value: string): Style;
+    static parse(value: string): {
+        [key: string]: string;
+    };
     width?: BaseValue;
     height?: BaseValue;
     position: Position;
@@ -99,7 +102,8 @@ export declare class Style {
     apply(attrs: {
         [key: string]: string | number;
     }): Style;
-    getSnapshotForAnimation(target: XObject, props: IAnimationValues): IAnimationStyleAttributes;
+    getSnapshotForAnimation(target: XObject, props: AnimationValues): AnimationProps;
+    applyAnimationResult(result: AnimationValues): void;
     clone(): Style;
     private fillSnapshotForAnimation;
     private static parse4Dirs;

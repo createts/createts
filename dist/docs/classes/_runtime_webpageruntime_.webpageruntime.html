@@ -105,6 +105,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_webpageruntime_.webpageruntime.html#enableevents" class="tsd-kind-icon">enable<wbr>Events</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_runtime_webpageruntime_.webpageruntime.html#handlemouseevent" class="tsd-kind-icon">handle<wbr>Mouse<wbr>Event</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_runtime_webpageruntime_.webpageruntime.html#handlemousewheelevent" class="tsd-kind-icon">handle<wbr>Mouse<wbr>Wheel<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_runtime_webpageruntime_.webpageruntime.html#handletouchevent" class="tsd-kind-icon">handle<wbr>Touch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_webpageruntime_.webpageruntime.html#loadarraybuffer" class="tsd-kind-icon">load<wbr>Array<wbr>Buffer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_webpageruntime_.webpageruntime.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a></li>
@@ -125,7 +126,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L12">runtime/WebpageRuntime.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L12">runtime/WebpageRuntime.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -148,7 +149,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#enableevents">enableEvents</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L114">runtime/WebpageRuntime.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L114">runtime/WebpageRuntime.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -179,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L161">runtime/WebpageRuntime.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L170">runtime/WebpageRuntime.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,6 +214,43 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="handlemousewheelevent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> handle<wbr>Mouse<wbr>Wheel<wbr>Event</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Mouse<wbr>Wheel<wbr>Event<span class="tsd-signature-symbol">(</span>stage<span class="tsd-signature-symbol">: </span><a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a>, e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L185">runtime/WebpageRuntime.ts:185</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles mouse wheel event, translate the coordinate to stage space and send to stage instance.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>stage: <a href="_components_stage_.stage.html" class="tsd-signature-type">Stage</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The stage to receive this event.</p>
+									</div>
+								</li>
+								<li>
+									<h5>e: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The native mouse event.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="handletouchevent" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> handle<wbr>Touch<wbr>Event</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -222,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L177">runtime/WebpageRuntime.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L198">runtime/WebpageRuntime.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,7 +305,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#loadarraybuffer">loadArrayBuffer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L45">runtime/WebpageRuntime.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L45">runtime/WebpageRuntime.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -299,7 +337,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#loadimage">loadImage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L75">runtime/WebpageRuntime.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L75">runtime/WebpageRuntime.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +370,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#newcanvas">newCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L17">runtime/WebpageRuntime.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L17">runtime/WebpageRuntime.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +393,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#newimage">newImage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L37">runtime/WebpageRuntime.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L37">runtime/WebpageRuntime.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,7 +416,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#releasecanvas">releaseCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L29">runtime/WebpageRuntime.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L29">runtime/WebpageRuntime.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -409,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/0d5709e/src/runtime/WebpageRuntime.ts#L151">runtime/WebpageRuntime.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/e82f3c0/src/runtime/WebpageRuntime.ts#L160">runtime/WebpageRuntime.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -476,6 +514,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_runtime_webpageruntime_.webpageruntime.html#handlemouseevent" class="tsd-kind-icon">handle<wbr>Mouse<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_runtime_webpageruntime_.webpageruntime.html#handlemousewheelevent" class="tsd-kind-icon">handle<wbr>Mouse<wbr>Wheel<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_runtime_webpageruntime_.webpageruntime.html#handletouchevent" class="tsd-kind-icon">handle<wbr>Touch<wbr>Event</a>

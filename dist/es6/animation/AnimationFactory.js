@@ -40,7 +40,7 @@ export var AnimationFactory = /*#__PURE__*/function (_EventDispatcher) {
   _createClass(AnimationFactory, [{
     key: "create",
     value: function create(target, override) {
-      if (override) {
+      if (override || typeof target !== 'number') {
         this.removeByTarget(target);
       }
 

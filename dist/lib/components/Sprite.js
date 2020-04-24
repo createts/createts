@@ -70,16 +70,19 @@ var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
     key: "onUpdate",
     value: function onUpdate(percent) {
       if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
-        return false;
+        return undefined;
       }
 
       var index = Math.min(this.sprite.spriteSheet.frames.length - 1, Math.floor(this.sprite.spriteSheet.frames.length * percent));
 
       if (index === this.sprite.currentFrame) {
-        return false;
+        return undefined;
       } else {
         this.sprite.currentFrame = index;
-        return true;
+        this.sprite.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this.sprite));
+        return {
+          currentFrame: index
+        };
       }
     }
   }]);
@@ -199,9 +202,9 @@ var Sprite = /*#__PURE__*/function (_XObject) {
       if (stage) {
         this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
         this.animation.addEventListener('complete', function () {
-          return _this3.dispatchEvent(new _XObject2.TouchEvent('stop', false, true, _this3));
+          return _this3.dispatchEvent(new _XObject2.XObjectEvent('stop', false, true, _this3));
         });
-        this.dispatchEvent(new _XObject2.TouchEvent('play', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('play', false, true, this));
       }
 
       return this;
@@ -215,7 +218,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
     key: "pause",
     value: function pause() {
       if (this.animation && this.animation.pause()) {
-        this.dispatchEvent(new _XObject2.TouchEvent('pause', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('pause', false, true, this));
       }
 
       return this;
@@ -229,7 +232,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
     key: "resume",
     value: function resume() {
       if (this.animation && this.animation.resume()) {
-        this.dispatchEvent(new _XObject2.TouchEvent('resume', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('resume', false, true, this));
       }
 
       return this;

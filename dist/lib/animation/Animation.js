@@ -5,17 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Animation = exports.AnimationState = exports.AnimationStep = exports.AnimateEvent = exports.AnimateEventType = exports.AnimationValueType = void 0;
 
-var _BaseValue = require("../base/BaseValue");
-
-var _Color = require("../base/Color");
-
 var _Event2 = require("../base/Event");
 
-var _Background = require("../style/Background");
+var _XObject = require("../components/XObject");
 
-var _Border = require("../style/Border");
-
-var _Shadow = require("../style/Shadow");
+var _ContainerUtils = require("../utils/ContainerUtils");
 
 var _AlgorithmFactory = require("./AlgorithmFactory");
 
@@ -42,10 +36,7 @@ exports.AnimationValueType = AnimationValueType;
 
 (function (AnimationValueType) {
   AnimationValueType[AnimationValueType["NUMBER"] = 1] = "NUMBER";
-  AnimationValueType[AnimationValueType["BASEVALUE"] = 2] = "BASEVALUE";
-  AnimationValueType[AnimationValueType["COLOR"] = 3] = "COLOR";
-  AnimationValueType[AnimationValueType["BORDER"] = 4] = "BORDER";
-  AnimationValueType[AnimationValueType["SHADOW"] = 5] = "SHADOW";
+  AnimationValueType[AnimationValueType["ANIMATABLE"] = 2] = "ANIMATABLE";
 })(AnimationValueType || (exports.AnimationValueType = AnimationValueType = {}));
 
 var AnimateEventType;
@@ -59,18 +50,18 @@ exports.AnimateEventType = AnimateEventType;
 var AnimateEvent = /*#__PURE__*/function (_Event) {
   _inherits(AnimateEvent, _Event);
 
-  function AnimateEvent(type, progress, currentStep, currentProgress) {
+  function AnimateEvent(type, step, progress, value) {
     var _this;
 
     _classCallCheck(this, AnimateEvent);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AnimateEvent).call(this, type, false, true));
+    _this.step = void 0;
     _this.progress = void 0;
-    _this.currentStep = void 0;
-    _this.currentProgress = void 0;
+    _this.value = void 0;
+    _this.step = step;
     _this.progress = progress;
-    _this.currentStep = currentStep;
-    _this.currentProgress = currentProgress;
+    _this.value = value;
     return _this;
   }
 
@@ -86,6 +77,14 @@ var AnimateEvent = /*#__PURE__*/function (_Event) {
 
 exports.AnimateEvent = AnimateEvent;
 
+function isIAnimatable(obj) {
+  return obj && obj.isAnimatable && obj.isAnimatable();
+}
+
+function isNumber(obj) {
+  return typeof obj === 'number';
+}
+
 var AnimationStep = /*#__PURE__*/function () {
   function AnimationStep(target, duration) {
     _classCallCheck(this, AnimationStep);
@@ -95,22 +94,23 @@ var AnimationStep = /*#__PURE__*/function () {
     this.endTime = 0;
     this.target = target;
     this.duration = duration;
-  } // tslint:disable-next-line: no-empty
-
+  }
 
   _createClass(AnimationStep, [{
     key: "onStart",
-    value: function onStart() {} // Returns true to ask stage to update the canvas.
-
+    value: function onStart() {
+      return;
+    }
   }, {
     key: "onUpdate",
     value: function onUpdate(percent) {
-      return false;
-    } // tslint:disable-next-line: no-empty
-
+      return undefined;
+    }
   }, {
     key: "onEnd",
-    value: function onEnd() {}
+    value: function onEnd() {
+      return;
+    }
   }]);
 
   return AnimationStep;
@@ -130,17 +130,17 @@ var WaitStep = /*#__PURE__*/function (_AnimationStep) {
   return WaitStep;
 }(AnimationStep);
 
-var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
-  _inherits(StyleStep, _AnimationStep2);
+var ToStep = /*#__PURE__*/function (_AnimationStep2) {
+  _inherits(ToStep, _AnimationStep2);
 
-  function StyleStep(target, props, algorithm, duration) {
+  function ToStep(target, value, algorithm, duration) {
     var _this2;
 
-    _classCallCheck(this, StyleStep);
+    _classCallCheck(this, ToStep);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(StyleStep).call(this, target, duration));
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(ToStep).call(this, target, duration));
     _this2.algorithm = void 0;
-    _this2.props = void 0;
+    _this2.values = void 0;
     _this2.computed = void 0;
 
     if (typeof algorithm === 'string') {
@@ -155,21 +155,168 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
       _this2.algorithm = algorithm;
     }
 
-    _this2.props = props;
+    _this2.values = value;
     return _this2;
   }
 
-  _createClass(StyleStep, [{
+  _createClass(ToStep, [{
     key: "onStart",
     value: function onStart() {
-      this.computed = this.target.style.getSnapshotForAnimation(this.target, this.props);
+      this.computed = {};
+
+      if (isNumber(this.target)) {
+        this.computed.value = {
+          type: AnimationValueType.NUMBER,
+          from: this.target,
+          to: this.values
+        };
+      } else if (isIAnimatable(this.target)) {
+        var _target = this.target;
+        this.computed.value = {
+          type: AnimationValueType.ANIMATABLE,
+          from: _target,
+          to: _target.convertFrom(this.values)
+        };
+      } else {
+        var values = this.values;
+
+        for (var _key in values) {
+          var dest = values[_key];
+          var _src = this.target[_key];
+
+          if (isIAnimatable(dest)) {
+            var to = dest;
+            this.computed[_key] = {
+              type: AnimationValueType.ANIMATABLE,
+              from: to.convertFrom(_src),
+              to: to
+            };
+          } else if (isIAnimatable(_src)) {
+            var from = _src;
+            this.computed[_key] = {
+              type: AnimationValueType.ANIMATABLE,
+              from: from,
+              to: from.convertFrom(dest)
+            };
+          } else if (typeof dest === 'number') {
+            var _from = _src;
+
+            if (isNaN(_from)) {
+              _from = parseFloat(_src + '');
+
+              if (isNaN(_from)) {
+                _from = 0;
+              }
+            }
+
+            this.computed[_key] = {
+              type: AnimationValueType.NUMBER,
+              from: _from,
+              to: dest
+            };
+          }
+        }
+      }
     }
   }, {
     key: "onUpdate",
     value: function onUpdate(percent) {
-      if (!this.computed) {
-        return false;
+      if (_ContainerUtils.ContainerUtils.isEmpty(this.computed)) {
+        return undefined;
       }
+
+      if (isNumber(this.target)) {
+        var from = this.computed.value.from;
+        var to = this.computed.value.to;
+        this.computed.value.current = from + (to - from) * this.algorithm.calculate(percent);
+        return this.computed.value.current;
+      } else if (isIAnimatable(this.target)) {
+        var _from2 = this.computed.value.from;
+        var _to = this.computed.value.to;
+        this.computed.value.current = _from2.update(_to, this.algorithm.calculate(percent));
+        return this.computed.value.current;
+      } else {
+        var result = {};
+        var updated = false;
+
+        for (var name in this.computed) {
+          var attr = this.computed[name];
+
+          switch (attr.type) {
+            case AnimationValueType.NUMBER:
+              {
+                var _from3 = attr.from;
+                var _to2 = attr.to;
+                attr.current = _from3 + (_to2 - _from3) * this.algorithm.calculate(percent);
+              }
+              break;
+
+            case AnimationValueType.ANIMATABLE:
+              {
+                var _from4 = attr.from;
+                var _to3 = attr.to;
+                attr.current = _from4.update(_to3, this.algorithm.calculate(percent));
+              }
+              break;
+          }
+
+          this.target[name] = attr.current;
+          result[name] = attr.current;
+          updated = true;
+        }
+
+        return updated ? result : undefined;
+      }
+    }
+  }]);
+
+  return ToStep;
+}(AnimationStep);
+
+var CssStep = /*#__PURE__*/function (_AnimationStep3) {
+  _inherits(CssStep, _AnimationStep3);
+
+  function CssStep(target, values, algorithm, duration) {
+    var _this3;
+
+    _classCallCheck(this, CssStep);
+
+    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(CssStep).call(this, target, duration));
+    _this3.algorithm = void 0;
+    _this3.values = void 0;
+    _this3.computed = void 0;
+
+    if (typeof algorithm === 'string') {
+      var algo = _AlgorithmFactory.AlgorithmFactory.get(algorithm);
+
+      if (!algo) {
+        throw new Error('unknown algorithm:' + algorithm);
+      }
+
+      _this3.algorithm = algo;
+    } else {
+      _this3.algorithm = algorithm;
+    }
+
+    _this3.values = values;
+    return _this3;
+  }
+
+  _createClass(CssStep, [{
+    key: "onStart",
+    value: function onStart() {
+      this.computed = this.target.style.getSnapshotForAnimation(this.target, this.values);
+    }
+  }, {
+    key: "onUpdate",
+    value: function onUpdate(percent) {
+      if (_ContainerUtils.ContainerUtils.isEmpty(this.computed)) {
+        return undefined;
+      }
+
+      var result = {};
+      var updated = false;
+      var target = this.target;
 
       for (var name in this.computed) {
         var attr = this.computed[name];
@@ -179,86 +326,54 @@ var StyleStep = /*#__PURE__*/function (_AnimationStep2) {
             {
               var from = attr.from;
               var to = attr.to;
-              this.target.style[name] = from + (to - from) * this.algorithm.calculate(percent);
+              attr.current = from + (to - from) * this.algorithm.calculate(percent);
             }
             break;
 
-          case AnimationValueType.BASEVALUE:
+          case AnimationValueType.ANIMATABLE:
             {
-              var _from = attr.from;
-              var _to = attr.to;
-              this.target.style[name] = new _BaseValue.BaseValue(_from.numberValue + (_to.numberValue - _from.numberValue) * this.algorithm.calculate(percent), _to.unit);
-            }
-            break;
-
-          case AnimationValueType.COLOR:
-            {
-              var _from2 = attr.from;
-              var _to2 = attr.to;
-              var v = this.algorithm.calculate(percent);
-              var color = new _Color.Color(_from2.r + (_to2.r - _from2.r) * v, _from2.g + (_to2.g - _from2.g) * v, _from2.b + (_to2.b - _from2.b) * v, _from2.a + (_to2.a - _from2.a) * v);
-
-              if (name === 'backgroundColor') {
-                if (!this.target.style.background) {
-                  this.target.style.background = new _Background.Background();
-                }
-
-                this.target.style.background.color = color;
-              } else {
-                this.target.style[name] = color;
-              }
-            }
-            break;
-
-          case AnimationValueType.BORDER:
-            {
-              var _from3 = attr.from;
-              var _to3 = attr.to;
-
-              var _v = this.algorithm.calculate(percent);
-
-              this.target.style[name] = new _Border.Border(_from3.width + (_to3.width - _from3.width) * _v, _from3.style, new _Color.Color(_from3.color.r + (_to3.color.r - _from3.color.r) * _v, _from3.color.g + (_to3.color.g - _from3.color.g) * _v, _from3.color.b + (_to3.color.b - _from3.color.b) * _v, _from3.color.a + (_to3.color.a - _from3.color.a) * _v));
-            }
-            break;
-
-          case AnimationValueType.SHADOW:
-            {
-              var _from4 = attr.from;
+              var _from5 = attr.from;
               var _to4 = attr.to;
-
-              var _v2 = this.algorithm.calculate(percent);
-
-              this.target.style[name] = new _Shadow.Shadow(_from4.offsetX + (_to4.offsetX - _from4.offsetX) * _v2, _from4.offsetY + (_to4.offsetY - _from4.offsetY) * _v2, _from4.blur + (_to4.blur - _from4.blur) * _v2, new _Color.Color(_from4.color.r + (_to4.color.r - _from4.color.r) * _v2, _from4.color.g + (_to4.color.g - _from4.color.g) * _v2, _from4.color.b + (_to4.color.b - _from4.color.b) * _v2, _from4.color.a + (_to4.color.a - _from4.color.a) * _v2));
+              attr.current = _from5.update(_to4, this.algorithm.calculate(percent));
             }
             break;
         }
+
+        result[name] = attr.current;
+        updated = true;
       }
 
-      return true;
+      if (updated) {
+        target.style.applyAnimationResult(result);
+        target.dispatchEvent(new _XObject.XObjectEvent('update', true, true, target));
+        return result;
+      } else {
+        return undefined;
+      }
     }
   }]);
 
-  return StyleStep;
+  return CssStep;
 }(AnimationStep);
 
-var CallStep = /*#__PURE__*/function (_AnimationStep3) {
-  _inherits(CallStep, _AnimationStep3);
+var CallStep = /*#__PURE__*/function (_AnimationStep4) {
+  _inherits(CallStep, _AnimationStep4);
 
   function CallStep(target, call) {
-    var _this3;
+    var _this4;
 
     _classCallCheck(this, CallStep);
 
-    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(CallStep).call(this, target, 0));
-    _this3.call = void 0;
-    _this3.call = call;
-    return _this3;
+    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(CallStep).call(this, target, 0));
+    _this4.call = void 0;
+    _this4.call = call;
+    return _this4;
   }
 
   _createClass(CallStep, [{
     key: "onEnd",
     value: function onEnd() {
-      this.call();
+      this.call(this.target);
     }
   }]);
 
@@ -279,37 +394,36 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Animation, _EventDispatcher);
 
   function Animation(target, loop) {
-    var _this4;
+    var _this5;
 
     _classCallCheck(this, Animation);
 
-    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(Animation).call(this));
-    _this4.playTimes = 1;
-    _this4.state = AnimationState.RUNNING;
-    _this4.target = void 0;
-    _this4.steps = [];
-    _this4.roundStartTime = 0;
-    _this4.beginTime = void 0;
-    _this4.pauseTime = void 0;
-    _this4.duration = 0;
-    _this4.currentStepIndex = 0;
-    _this4.currentStepProgress = 0;
-    _this4.totalProgress = 0;
-    _this4.target = target;
-    _this4.playTimes = loop ? 0 : 1;
-    _this4.roundStartTime = _this4.beginTime = Date.now();
-    _this4.currentStepIndex = 0;
-    _this4.state = AnimationState.RUNNING;
-    return _this4;
+    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(Animation).call(this));
+    _this5.playTimes = 1;
+    _this5.state = AnimationState.RUNNING;
+    _this5.target = void 0;
+    _this5.steps = [];
+    _this5.roundStartTime = 0;
+    _this5.beginTime = void 0;
+    _this5.pauseTime = void 0;
+    _this5.duration = 0;
+    _this5.currentStepIndex = 0;
+    _this5.currentStepProgress = 0;
+    _this5.target = target;
+    _this5.playTimes = loop ? 0 : 1;
+    _this5.roundStartTime = _this5.beginTime = Date.now();
+    _this5.currentStepIndex = 0;
+    _this5.state = AnimationState.RUNNING;
+    return _this5;
   }
 
   _createClass(Animation, [{
     key: "toPromise",
     value: function toPromise() {
-      var _this5 = this;
+      var _this6 = this;
 
       return new Promise(function (resolve, reject) {
-        _this5.addEventListener(AnimateEventType.COMPLETE, function (event) {
+        _this6.addEventListener(AnimateEventType.COMPLETE, function (event) {
           resolve(event);
         });
       });
@@ -354,7 +468,14 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
     key: "to",
     value: function to(props, duration) {
       var algorithm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'linear';
-      this.addStep(new StyleStep(this.target, props, algorithm, duration));
+      this.addStep(new ToStep(this.target, props, algorithm, duration));
+      return this;
+    }
+  }, {
+    key: "css",
+    value: function css(props, duration) {
+      var algorithm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'linear';
+      this.addStep(new CssStep(this.target, props, algorithm, duration));
       return this;
     }
   }, {
@@ -388,13 +509,13 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
 
       if (passed >= this.duration) {
         // To end
-        currentStep.onUpdate(1);
+        this.doUpdateInternal(1);
         currentStep.onEnd();
 
         for (++this.currentStepIndex; this.currentStepIndex < this.steps.length; ++this.currentStepIndex) {
           var step = this.steps[this.currentStepIndex];
           step.onStart();
-          step.onUpdate(1);
+          this.doUpdateInternal(1);
           step.onEnd();
         } // Check whether to start a new round
 
@@ -407,9 +528,8 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
 
         if (!newRound) {
           this.currentStepIndex = this.steps.length - 1;
-          this.onUpdateInternal(1, 1);
           this.state = AnimationState.COMPLETED;
-          this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+          this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.currentStepIndex, this.currentStepProgress));
         } else {
           // New loop
           passed = passed % this.duration;
@@ -422,11 +542,12 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
             _step.onStart();
 
             if (_step.endTime > passed) {
-              var progress = 1 - (_step.endTime - passed) / _step.duration;
-              this.onUpdateInternal(progress, passed / this.duration);
+              var _progress = 1 - (_step.endTime - passed) / _step.duration;
+
+              this.doUpdateInternal(_progress);
               break;
             } else {
-              _step.onUpdate(1);
+              this.doUpdateInternal(1);
 
               _step.onEnd();
 
@@ -436,11 +557,11 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
         }
       } else {
         if (currentStep.endTime > passed) {
-          var _progress = 1 - (currentStep.endTime - passed) / currentStep.duration;
+          var _progress2 = 1 - (currentStep.endTime - passed) / currentStep.duration;
 
-          this.onUpdateInternal(_progress, passed / this.duration);
+          this.doUpdateInternal(_progress2);
         } else {
-          currentStep.onUpdate(1);
+          this.doUpdateInternal(1);
           currentStep.onEnd();
           ++this.currentStepIndex;
 
@@ -450,12 +571,12 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
             _step2.onStart();
 
             if (_step2.endTime > passed && _step2.duration > 0) {
-              var _progress2 = 1 - (_step2.endTime - passed) / _step2.duration;
+              var _progress3 = 1 - (_step2.endTime - passed) / _step2.duration;
 
-              this.onUpdateInternal(_progress2, passed / this.duration);
+              this.doUpdateInternal(_progress3);
               break;
             } else {
-              _step2.onUpdate(1);
+              this.doUpdateInternal(1);
 
               _step2.onEnd();
 
@@ -471,15 +592,17 @@ var Animation = /*#__PURE__*/function (_EventDispatcher) {
     key: "cancel",
     value: function cancel() {
       this.state = AnimationState.CANCELLED;
-      this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+      this.dispatchEvent(new AnimateEvent(AnimateEventType.COMPLETE, this.currentStepIndex, this.currentStepProgress));
     }
   }, {
-    key: "onUpdateInternal",
-    value: function onUpdateInternal(currentStepProgress, totalProgress) {
-      this.currentStepProgress = currentStepProgress;
-      this.totalProgress = totalProgress;
-      this.steps[this.currentStepIndex].onUpdate(currentStepProgress);
-      this.dispatchEvent(new AnimateEvent(AnimateEventType.UPDATE, this.totalProgress, this.currentStepIndex, this.currentStepProgress));
+    key: "doUpdateInternal",
+    value: function doUpdateInternal(progress) {
+      this.currentStepProgress = progress;
+      var result = this.steps[this.currentStepIndex].onUpdate(progress);
+
+      if (result) {
+        this.dispatchEvent(new AnimateEvent(AnimateEventType.UPDATE, this.currentStepIndex, this.currentStepProgress, result));
+      }
     }
   }, {
     key: "addStep",

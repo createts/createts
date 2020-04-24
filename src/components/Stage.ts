@@ -1,4 +1,4 @@
-import { Animation } from '../animation/Animation';
+import { Animation, AnimationTarget } from '../animation/Animation';
 import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Runtime } from '../runtime/Runtime';
@@ -6,7 +6,7 @@ import { Ticker } from '../Ticker';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
 import { TouchItem } from './TouchItem';
-import { TouchEvent, XObject } from './XObject';
+import { XObject, XObjectEvent } from './XObject';
 
 /**
  * An enum to identify how the stage instance do layout during the update process:
@@ -25,12 +25,12 @@ export enum StageLayoutPolicy {
  *
  * 1. **NEVER**: stage never update the canvas, you must call stage.update method manually to
  * update the canvas.
- * 1. **IN_ANIMATION**: stage only update canvas during the animation.
+ * 1. **AUTO**: stage only update canvas after listens a 'update' event.
  * 1. **ALWAYS**: stage update canvas in each ticker callback.
  */
 export enum StageUpdatePolicy {
   NEVER = 'never',
-  IN_ANIMATION = 'in_animation',
+  AUTO = 'auto',
   ALWAYS = 'always'
 }
 
@@ -187,7 +187,7 @@ export class Stage extends Container {
     /**
      * Update policy of this stage instance, default is 'in-animation'.
      */
-    updatePolicy: StageUpdatePolicy.IN_ANIMATION,
+    updatePolicy: StageUpdatePolicy.AUTO,
     /**
      * Whether clear the stage before rendering, default is true.
      */
@@ -275,15 +275,19 @@ export class Stage extends Container {
       this.layout();
       this.needUpdate = true;
       this.ticker.addEventListener('tick', _ => {
-        if (this.animationFactory.onInterval()) {
-          this.needUpdate = true;
-        }
-        if (this.needUpdate || this.option.updatePolicy === StageUpdatePolicy.ALWAYS) {
+        this.animationFactory.onInterval();
+        if (
+          this.option.updatePolicy !== StageUpdatePolicy.NEVER &&
+          (this.needUpdate || this.option.updatePolicy === StageUpdatePolicy.ALWAYS)
+        ) {
           this.update();
           this.needUpdate = false;
         }
       });
       ResourceRegistry.DefaultInstance.addEventListener('load', e => {
+        this.updateOnce();
+      });
+      this.on('update', () => {
         this.updateOnce();
       });
     }
@@ -366,6 +370,30 @@ export class Stage extends Container {
   }
 
   /**
+   * Handles the mouse/touch events from runtime.
+   * @param type The type of this event.
+   * @param touches The list of touches, if the event is a mouse event, the first touch item
+   * contains mouse location and the identifier is always 0.
+   * @param e The native event object.
+   */
+  public handleMouseWheelEvent(
+    stageX: number,
+    stageY: number,
+    deltaX: number,
+    deltaY: number,
+    e: any
+  ) {
+    const pt = this.globalToLocal(stageX, stageY);
+    const element: XObject | undefined = this.getObjectUnderPoint(pt.x, pt.y, true);
+    if (element) {
+      const touch = new TouchItem(0, element, stageX, stageY, Date.now());
+      touch.deltaX = deltaX;
+      touch.deltaY = deltaY;
+      this.dispatchTouchEvent(element, 'mousewheel', touch, true, true, e);
+    }
+  }
+
+  /**
    * Render the stage to target canvas.
    * For performance respective, do not call this method directly, calls updateOnce to let stage
    * render at next ticker.
@@ -404,7 +432,7 @@ export class Stage extends Container {
   }
 
   /**
-   * A wrapper function to use this stage's animationFactory to create animation for the given child.
+   * A wrapper function to use this stage's animationFactory to create animation for the given object.
    *
    * ```typescript
    *
@@ -417,12 +445,12 @@ export class Stage extends Container {
    * @param element The target element to create the animation for.
    * @param override Whether to remove the existing animation of this element.
    */
-  public animate(element: XObject, override: boolean = true): Animation {
+  public animate(element: AnimationTarget, override: boolean = true): Animation {
     return this.animationFactory.create(element, override);
   }
 
   /**
-   * A wrapper function to use this stage's animationFactory to stop animation for the given child.
+   * A wrapper function to use this stage's animationFactory to stop animation for the given object.
    *
    * ```typescript
    *
@@ -433,7 +461,7 @@ export class Stage extends Container {
    * ```
    * @param element The target element to create the animation for.
    */
-  public stopAnimation(element: XObject) {
+  public stopAnimation(element: AnimationTarget) {
     this.animationFactory.removeByTarget(element);
   }
 
@@ -462,7 +490,7 @@ export class Stage extends Container {
     cancellable: boolean,
     e: any
   ) {
-    const event = new TouchEvent(type, bubble, cancellable, element, currentTouch);
+    const event = new XObjectEvent(type, bubble, cancellable, element, currentTouch);
     event.stage = this;
     event.nativeEvent = e;
     element.dispatchEvent(event);

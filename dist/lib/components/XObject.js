@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.XObject = exports.TouchEvent = void 0;
+exports.XObject = exports.XObjectEvent = void 0;
 
 var _Event2 = require("../base/Event");
 
@@ -45,8 +45,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
  * This class represents an event object for both touch event (in mobile devices) and mouse event
  * (in desktop).
  */
-var TouchEvent = /*#__PURE__*/function (_Event) {
-  _inherits(TouchEvent, _Event);
+var XObjectEvent = /*#__PURE__*/function (_Event) {
+  _inherits(XObjectEvent, _Event);
 
   /**
    * The stage object of the target element.
@@ -91,7 +91,7 @@ var TouchEvent = /*#__PURE__*/function (_Event) {
    */
 
   /**
-   * Creates an instance of TouchEvent.
+   * Creates an instance of XObjectEvent.
    * @param srcElement The source element of this event.
    * @param type Event type.
    * @param bubbles Indicates whether the event bubbles up through its parents or not.
@@ -99,7 +99,7 @@ var TouchEvent = /*#__PURE__*/function (_Event) {
    * @param cancelable Interface indicates whether the event can be canceled, and
    * therefore prevented as if the event never happened.
    */
-  function TouchEvent(type) {
+  function XObjectEvent(type) {
     var _this;
 
     var bubbles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -108,9 +108,9 @@ var TouchEvent = /*#__PURE__*/function (_Event) {
     var touchItem = arguments.length > 4 ? arguments[4] : undefined;
     var currentTarget = arguments.length > 5 ? arguments[5] : undefined;
 
-    _classCallCheck(this, TouchEvent);
+    _classCallCheck(this, XObjectEvent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(TouchEvent).call(this, type, bubbles, cancelable));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(XObjectEvent).call(this, type, bubbles, cancelable));
     _this.stage = void 0;
     _this.touchItem = void 0;
     _this.nativeEvent = null;
@@ -134,26 +134,26 @@ var TouchEvent = /*#__PURE__*/function (_Event) {
     return _this;
   }
   /**
-   * Returns a string representation of this TouchEvent object.
-   * @returns a string representation of this TouchEvent object.
+   * Returns a string representation of this XObjectEvent object.
+   * @returns a string representation of this XObjectEvent object.
    */
 
 
-  _createClass(TouchEvent, [{
+  _createClass(XObjectEvent, [{
     key: "toString",
     value: function toString() {
-      return '[TouchEvent (type=' + this.type + ')]';
+      return '[XObjectEvent (type=' + this.type + ')]';
     }
   }]);
 
-  return TouchEvent;
+  return XObjectEvent;
 }(_Event2.Event);
 /**
  * Indicates the cache state of this object.
  */
 
 
-exports.TouchEvent = TouchEvent;
+exports.XObjectEvent = XObjectEvent;
 var CacheState;
 /**
  * Options to create an XObject instance.
@@ -217,20 +217,37 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
     _this2.parent = void 0;
     _this2.cacheCanvas = void 0;
     _this2.cacheState = CacheState.DISABLED;
-    _this2.style = opt && opt.style ? opt.style : new _Style.Style();
+    _this2.style = new _Style.Style();
 
-    if (opt && opt.attributes.id) {
-      _this2.id = opt.attributes.id;
+    var defaultStyle = _this2.getDefaultStyle();
+
+    if (defaultStyle) {
+      _this2.style.apply(defaultStyle);
+    }
+
+    if (opt) {
+      if (opt.attributes.style) {
+        _this2.style.apply(_Style.Style.parse(opt.attributes.style));
+      }
+
+      if (opt.attributes.id) {
+        _this2.id = opt.attributes.id;
+      }
     }
 
     return _this2;
   }
-  /**
-   * This this element from its parent.
-   */
-
 
   _createClass(XObject, [{
+    key: "getDefaultStyle",
+    value: function getDefaultStyle() {
+      return undefined;
+    }
+    /**
+     * This this element from its parent.
+     */
+
+  }, {
     key: "remove",
     value: function remove() {
       if (this.parent) {

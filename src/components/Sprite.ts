@@ -1,8 +1,8 @@
-import { Animation, AnimationStep } from '../animation/Animation';
+import { Animation, AnimationStep, AnimationTarget, AnimationValues } from '../animation/Animation';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Stage } from './Stage';
-import { IXObjectOptions, TouchEvent, XObject } from './XObject';
+import { IXObjectOptions, XObject, XObjectEvent } from './XObject';
 
 /**
  * The definition of sprite, a sprite contains size, fps, image and frames.
@@ -117,19 +117,22 @@ class SpriteAnimationStep extends AnimationStep {
    * @param percent the current process of an animation play cycle.
    * @returns True if switch frame, false otherwise.
    */
-  onUpdate(percent: number): boolean {
+  onUpdate(percent: number): AnimationValues | undefined {
     if (!this.sprite.spriteSheet || this.sprite.spriteSheet.frames.length === 0) {
-      return false;
+      return undefined;
     }
     const index = Math.min(
       this.sprite.spriteSheet.frames.length - 1,
       Math.floor(this.sprite.spriteSheet.frames.length * percent)
     );
     if (index === this.sprite.currentFrame) {
-      return false;
+      return undefined;
     } else {
       this.sprite.currentFrame = index;
-      return true;
+      this.sprite.dispatchEvent(new XObjectEvent('update', true, true, this.sprite));
+      return {
+        currentFrame: index
+      };
     }
   }
 }
@@ -221,9 +224,9 @@ export class Sprite extends XObject {
         .addStep(new SpriteAnimationStep(this))
         .times(times);
       this.animation.addEventListener('complete', () =>
-        this.dispatchEvent(new TouchEvent('stop', false, true, this))
+        this.dispatchEvent(new XObjectEvent('stop', false, true, this))
       );
-      this.dispatchEvent(new TouchEvent('play', false, true, this));
+      this.dispatchEvent(new XObjectEvent('play', false, true, this));
     }
     return this;
   }
@@ -234,7 +237,7 @@ export class Sprite extends XObject {
    */
   public pause(): Sprite {
     if (this.animation && this.animation.pause()) {
-      this.dispatchEvent(new TouchEvent('pause', false, true, this));
+      this.dispatchEvent(new XObjectEvent('pause', false, true, this));
     }
     return this;
   }
@@ -245,7 +248,7 @@ export class Sprite extends XObject {
    */
   public resume(): Sprite {
     if (this.animation && this.animation.resume()) {
-      this.dispatchEvent(new TouchEvent('resume', false, true, this));
+      this.dispatchEvent(new XObjectEvent('resume', false, true, this));
     }
     return this;
   }

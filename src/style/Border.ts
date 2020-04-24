@@ -1,3 +1,4 @@
+import { IAnimatable } from '../animation/Animation';
 import { Color } from '../base/Color';
 
 /**
@@ -18,7 +19,7 @@ const BORDER_PATTERN = /^[\s]*([^\s]+)[\s]+([\w]+)[\s]+(.*)$/;
 /**
  * This class represents an immutable border object contains width, style and color.
  */
-export class Border {
+export class Border implements IAnimatable<Border> {
   /**
    * Default border object with 0 border size.
    */
@@ -106,5 +107,26 @@ export class Border {
    */
   public clone(): Border {
     return new Border(this.width, this.style, this.color.clone());
+  }
+
+  update(target: Border, progress: number): Border {
+    return new Border(
+      this.width + (target.width - this.width) * progress,
+      this.style,
+      this.color.update(target.color, progress)
+    );
+  }
+
+  convertFrom(src: any): Border {
+    const result = Border.of(src + '');
+    if (result === undefined) {
+      return new Border(0, BorderStyle.SOLID, Color.BLACK);
+    } else {
+      return result;
+    }
+  }
+
+  isAnimatable(): boolean {
+    return true;
   }
 }

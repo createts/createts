@@ -28,7 +28,7 @@ class VelocityTracker {
   /**
    * All the moves in 100 milliseconds.
    */
-  private positions: TouchPosition[] = [];
+  readonly positions: TouchPosition[] = [];
 
   /**
    * Removes the expired moves.
@@ -141,6 +141,14 @@ export class TouchItem {
    * The current Y coordinate in the current element.
    */
   public y: number = 0;
+  /**
+   * mousewheel event only, the delta in X direction.
+   */
+  public deltaX?: number;
+  /**
+   * mousewheel event only, the delta in Y direction.
+   */
+  public deltaY?: number;
 
   /**
    * Constructs and initializes a TouchItem at the specified identifier and (x,y) location in the
@@ -163,6 +171,21 @@ export class TouchItem {
     this.srcStageY = this.stageY = stageY;
     this.srcTimestamp = this.timestamp = timestamp;
     this.speed = this.direction = 0;
+  }
+
+  getDelta(): { x: number; y: number } {
+    if (this.deltaX !== undefined && this.deltaY !== undefined) {
+      return { x: this.deltaX, y: this.deltaY };
+    }
+    if (!this.velocityTracker || this.velocityTracker.positions.length <= 1) {
+      return { x: 0, y: 0 };
+    } else {
+      const size = this.velocityTracker.positions.length;
+      return {
+        x: this.velocityTracker.positions[size - 1].x - this.velocityTracker.positions[size - 2].x,
+        y: this.velocityTracker.positions[size - 1].y - this.velocityTracker.positions[size - 2].y
+      };
+    }
   }
 
   /**

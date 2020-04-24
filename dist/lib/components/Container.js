@@ -181,7 +181,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         var idx = this.children.indexOf(child);
         this.children.splice(idx, 1);
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, child));
+        child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
         return this;
       } else {
         if (parent) {
@@ -190,7 +190,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.TouchEvent('added', false, true, child));
+        child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
         return this;
       }
     }
@@ -241,7 +241,7 @@ var Container = /*#__PURE__*/function (_XObject) {
           this.children.splice(current, 1);
         }
 
-        child.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, child));
+        child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
         return this;
       } else {
         if (parent) {
@@ -250,7 +250,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.splice(index, 0, child);
-        child.dispatchEvent(new _XObject2.TouchEvent('added', false, true, child));
+        child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
         return this;
       }
     }
@@ -271,7 +271,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       } else {
         this.children.splice(idx, 1);
         child.parent = undefined;
-        child.dispatchEvent(new _XObject2.TouchEvent('removed', false, true, child));
+        child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
         return child;
       }
     }
@@ -290,7 +290,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
       var child = this.children[index];
       this.children.splice(index, 1);
-      child.dispatchEvent(new _XObject2.TouchEvent('removed', false, true, child));
+      child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
       return child;
     }
     /**
@@ -366,8 +366,8 @@ var Container = /*#__PURE__*/function (_XObject) {
       var o2 = this.children[index2];
       this.children[index1] = o2;
       this.children[index2] = o1;
-      o1.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, o1));
-      o2.dispatchEvent(new _XObject2.TouchEvent('moved', false, true, o2));
+      o1.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o1));
+      o2.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o2));
       return this;
     }
     /**
@@ -399,9 +399,7 @@ var Container = /*#__PURE__*/function (_XObject) {
   }, {
     key: "layoutChildren",
     value: function layoutChildren() {
-      // Step1, calculate size
-      this.calculateSize(); // Step2, layout all children
-
+      // Step1, layout all children
       var absolutes = [];
       var relatives = [];
       var contentRect = this.getContentRect();
@@ -426,7 +424,7 @@ var Container = /*#__PURE__*/function (_XObject) {
             relatives.push(child);
             contentWidth = Math.max(contentWidth, child.getOuterWidth());
           }
-        } // Step3, break children into lines
+        } // Step2, break children into lines
 
       } catch (err) {
         _didIteratorError3 = true;
@@ -463,7 +461,7 @@ var Container = /*#__PURE__*/function (_XObject) {
 
       if (line.length > 0) {
         lines.push(line);
-      } // Step 4, arrange children
+      } // Step 3, arrange children
 
 
       var lineHeight = this.getLineHeight();
@@ -541,16 +539,16 @@ var Container = /*#__PURE__*/function (_XObject) {
           }
         }
       } // Update width/height
-      // TODO: add css (min/max width, overflow) support.
+      // TODO: add css (min/max width) support.
 
 
-      if (contentWidth > contentRect.width) {
+      if (!this.style.width && contentWidth > contentRect.width) {
         this.rect.width += contentWidth - contentRect.width;
       }
 
-      if (contentHeight > contentRect.height) {
+      if (!this.style.height && contentHeight > contentRect.height) {
         this.rect.height += contentHeight - contentRect.height;
-      } // Step 5, arrange absolutes
+      } // Step 4, arrange absolutes
 
 
       for (var _i4 = 0, _absolutes = absolutes; _i4 < _absolutes.length; _i4++) {

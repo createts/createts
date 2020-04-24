@@ -24,7 +24,13 @@ export declare class TouchItem {
     currentTarget?: XObject;
     x: number;
     y: number;
+    deltaX?: number;
+    deltaY?: number;
     constructor(identifier: number, srcElement: XObject, stageX: number, stageY: number, timestamp: number);
+    getDelta(): {
+        x: number;
+        y: number;
+    };
     switchSourceElement(srcElement: XObject): TouchItem;
     onUpdate(item: TouchItem): void;
     clone(): TouchItem;

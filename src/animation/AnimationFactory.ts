@@ -1,10 +1,9 @@
 import { Event, EventDispatcher } from '../base/Event';
-import { XObject } from '../components/XObject';
-import { Animation, AnimationState } from './Animation';
+import { Animation, AnimationState, AnimationTarget } from './Animation';
 
 export class AnimationFactory extends EventDispatcher<Event> {
-  public create(target: XObject, override?: boolean): Animation {
-    if (override) {
+  public create(target: AnimationTarget, override?: boolean): Animation {
+    if (override || typeof target !== 'number') {
       this.removeByTarget(target);
     }
     const animation = new Animation(target);
@@ -12,7 +11,7 @@ export class AnimationFactory extends EventDispatcher<Event> {
     return animation;
   }
 
-  public removeByTarget(target: XObject) {
+  public removeByTarget(target: AnimationTarget) {
     for (const animation of this.animations) {
       if (animation.target === target && animation.state === AnimationState.RUNNING) {
         animation.cancel();

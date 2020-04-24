@@ -7,7 +7,7 @@ import { Style } from '../style/Style';
 import { Container } from './Container';
 import { Stage } from './Stage';
 import { TouchItem } from './TouchItem';
-export declare class TouchEvent extends Event {
+export declare class XObjectEvent extends Event {
     stage?: Stage;
     readonly touchItem?: TouchItem;
     nativeEvent: any;
@@ -22,22 +22,24 @@ export declare class TouchEvent extends Event {
     toString(): string;
 }
 export interface IXObjectOptions {
-    style: Style;
     attributes: {
         [key: string]: string;
     };
     text?: string;
 }
-export declare class XObject extends EventDispatcher<TouchEvent> {
+export declare class XObject extends EventDispatcher<XObjectEvent> {
     id?: string;
-    style: Style;
+    readonly style: Style;
     rect: Rect;
     parent?: Container;
     private cacheCanvas?;
     private cacheState;
     constructor(opt?: IXObjectOptions);
+    getDefaultStyle(): {
+        [key: string]: string | number;
+    } | undefined;
     remove(): void;
-    dispatchEvent(event: TouchEvent): boolean;
+    dispatchEvent(event: XObjectEvent): boolean;
     isVisible(): boolean;
     isPointerEventsEnabled(): boolean;
     getCacheCanvas(): HTMLCanvasElement | undefined;

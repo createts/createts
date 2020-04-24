@@ -36,7 +36,7 @@ export var Shadow = /*#__PURE__*/function () {
     /**
      * Convert a string to a Shadow object.
      * @param value a string present a shadow object, the format is [X] [Y] [blur] [color].
-     * @param [silent] if ture, ignore warning for an invalid value.
+     * @param [silent] if true, ignore warning for an invalid value.
      * @returns A Shadow object for valid value, otherwise returns undefined.
      */
     value: function of(value) {
@@ -119,6 +119,27 @@ export var Shadow = /*#__PURE__*/function () {
     key: "isEnable",
     value: function isEnable() {
       return this.color.a > 0 && (this.offsetX !== 0 || this.offsetY !== 0 || this.blur !== 0);
+    }
+  }, {
+    key: "update",
+    value: function update(target, progress) {
+      return new Shadow(this.offsetX + (target.offsetX - this.offsetX) * progress, this.offsetY + (target.offsetY - this.offsetY) * progress, this.blur + (target.blur - this.blur) * progress, this.color.update(target.color, progress));
+    }
+  }, {
+    key: "convertFrom",
+    value: function convertFrom(src) {
+      var result = Shadow.of(src + '');
+
+      if (result === undefined) {
+        return new Shadow(0, 0, 0, Color.BLACK);
+      } else {
+        return result;
+      }
+    }
+  }, {
+    key: "isAnimatable",
+    value: function isAnimatable() {
+      return true;
     }
   }]);
 

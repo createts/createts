@@ -7,8 +7,6 @@ exports.HtmlParser = void 0;
 
 var _Container = require("../components/Container");
 
-var _Style = require("../style/Style");
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -405,15 +403,12 @@ var HtmlParser = /*#__PURE__*/function () {
       var type = HtmlParser.tagMap[node.tag.toLowerCase()];
 
       if (!type) {
-        console.warn('unknow tag:' + node.tag.toLowerCase());
+        console.warn('unknown tag:' + node.tag.toLowerCase());
         return undefined;
       }
 
-      var style = _Style.Style.of(node.attributes.style || '');
-
       var options = {
         attributes: node.attributes,
-        style: style,
         text: node.text
       };
       var component = new type(options);
