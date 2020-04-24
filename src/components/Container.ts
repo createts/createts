@@ -77,6 +77,7 @@ export class Container extends XObject {
       this.children.splice(idx, 1);
       this.children.push(child);
       child.dispatchEvent(new XObjectEvent('moved', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     } else {
       if (parent) {
@@ -85,6 +86,7 @@ export class Container extends XObject {
       child.parent = this;
       this.children.push(child);
       child.dispatchEvent(new XObjectEvent('added', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     }
   }
@@ -122,6 +124,7 @@ export class Container extends XObject {
         this.children.splice(current, 1);
       }
       child.dispatchEvent(new XObjectEvent('moved', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     } else {
       if (parent) {
@@ -130,6 +133,7 @@ export class Container extends XObject {
       child.parent = this;
       this.children.splice(index, 0, child);
       child.dispatchEvent(new XObjectEvent('added', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     }
   }
@@ -148,6 +152,7 @@ export class Container extends XObject {
       this.children.splice(idx, 1);
       child.parent = undefined;
       child.dispatchEvent(new XObjectEvent('removed', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return child;
     }
   }
@@ -164,6 +169,7 @@ export class Container extends XObject {
     const child = this.children[index];
     this.children.splice(index, 1);
     child.dispatchEvent(new XObjectEvent('removed', false, true, child));
+    this.dispatchEvent(new XObjectEvent('update', false, true, this));
     return child;
   }
 
@@ -193,6 +199,7 @@ export class Container extends XObject {
    */
   public sortChildren(sortFunction: (a: XObject, b: XObject) => number): Container {
     this.children.sort(sortFunction);
+    this.dispatchEvent(new XObjectEvent('update', false, true, this));
     return this;
   }
 
@@ -227,6 +234,7 @@ export class Container extends XObject {
     this.children[index2] = o1;
     o1.dispatchEvent(new XObjectEvent('moved', false, true, o1));
     o2.dispatchEvent(new XObjectEvent('moved', false, true, o2));
+    this.dispatchEvent(new XObjectEvent('update', false, true, this));
     return this;
   }
 

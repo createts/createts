@@ -182,6 +182,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         this.children.splice(idx, 1);
         this.children.push(child);
         child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
         return this;
       } else {
         if (parent) {
@@ -191,6 +192,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         child.parent = this;
         this.children.push(child);
         child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
         return this;
       }
     }
@@ -242,6 +244,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         }
 
         child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
         return this;
       } else {
         if (parent) {
@@ -251,6 +254,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         child.parent = this;
         this.children.splice(index, 0, child);
         child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
         return this;
       }
     }
@@ -272,6 +276,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         this.children.splice(idx, 1);
         child.parent = undefined;
         child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
         return child;
       }
     }
@@ -291,6 +296,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       var child = this.children[index];
       this.children.splice(index, 1);
       child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
       return child;
     }
     /**
@@ -327,6 +333,7 @@ var Container = /*#__PURE__*/function (_XObject) {
     key: "sortChildren",
     value: function sortChildren(sortFunction) {
       this.children.sort(sortFunction);
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
       return this;
     }
     /**
@@ -368,6 +375,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       this.children[index2] = o1;
       o1.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o1));
       o2.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o2));
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
       return this;
     }
     /**

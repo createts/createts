@@ -172,6 +172,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
         this.children.splice(idx, 1);
         this.children.push(child);
         child.dispatchEvent(new XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new XObjectEvent('update', false, true, this));
         return this;
       } else {
         if (parent) {
@@ -181,6 +182,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
         child.parent = this;
         this.children.push(child);
         child.dispatchEvent(new XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new XObjectEvent('update', false, true, this));
         return this;
       }
     }
@@ -232,6 +234,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
         }
 
         child.dispatchEvent(new XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new XObjectEvent('update', false, true, this));
         return this;
       } else {
         if (parent) {
@@ -241,6 +244,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
         child.parent = this;
         this.children.splice(index, 0, child);
         child.dispatchEvent(new XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new XObjectEvent('update', false, true, this));
         return this;
       }
     }
@@ -262,6 +266,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
         this.children.splice(idx, 1);
         child.parent = undefined;
         child.dispatchEvent(new XObjectEvent('removed', false, true, child));
+        this.dispatchEvent(new XObjectEvent('update', false, true, this));
         return child;
       }
     }
@@ -281,6 +286,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
       var child = this.children[index];
       this.children.splice(index, 1);
       child.dispatchEvent(new XObjectEvent('removed', false, true, child));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return child;
     }
     /**
@@ -317,6 +323,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
     key: "sortChildren",
     value: function sortChildren(sortFunction) {
       this.children.sort(sortFunction);
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     }
     /**
@@ -358,6 +365,7 @@ export var Container = /*#__PURE__*/function (_XObject) {
       this.children[index2] = o1;
       o1.dispatchEvent(new XObjectEvent('moved', false, true, o1));
       o2.dispatchEvent(new XObjectEvent('moved', false, true, o2));
+      this.dispatchEvent(new XObjectEvent('update', false, true, this));
       return this;
     }
     /**
