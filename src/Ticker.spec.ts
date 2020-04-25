@@ -27,7 +27,7 @@ test('duration should be bigger than fps', () => {
     ticker.setFps(10);
     ticker.start();
     ticker.on('tick', e => {
-      expect(e.delay >= 100).toBe(true);
+      expect(e.delay === 0 || e.delay >= 100).toBe(true); // Delay of first tick can be 0.
       ++times;
       if (times >= 10) {
         resolve();
