@@ -1,23 +1,74 @@
 import { HtmlParser } from '../parser/HtmlParser';
 import { TextAlign, TextBorderPosition } from '../style/Style';
-import { IXObjectOptions, XObject } from './XObject';
+import { IXObjectOptions, XObject, XObjectEvent } from './XObject';
 
+/**
+ * A Text object is used to display text with specified styles like font size, font family, color,
+ * etc.
+ *
+ * Text in this element can not be wrapped automatically, you must add '\n' by yourself in case of
+ * wrapping the text; and Text element can not be 'inline' either, which means text siblings are
+ * displayed block by block.
+ *
+ * Code example:
+ *
+ * ```typescript
+ * const html = "<text style='color:red'>hello</text><text style='color:green'>world</text>";
+ * container.load(html);
+ * ```
+ */
 export class Text extends XObject {
+  /**
+   * The text of this element.
+   */
   private text: string = '';
 
+  /**
+   * Create a text element with given options.
+   * @param options 'text' attribute of this option will be the 'text' of this element.
+   */
   constructor(options?: IXObjectOptions) {
     super(options);
     this.text = (options && options.text) || '';
   }
 
-  public setText(text: string) {
-    this.text = text;
+  /**
+   * Returns the default text style:
+   * 1. **color**: black.
+   * 1. **font-size**: 26px.
+   * @returns the default text style.
+   */
+  getDefaultStyle(): { [key: string]: string | number } | undefined {
+    return {
+      color: 'black',
+      fontSize: 26
+    };
   }
 
+  /**
+   * Update the text of this element, if the new text is different with current text, update the
+   * text and dispatch an 'update' event.
+   * @param text the new text.
+   */
+  public setText(text: string) {
+    if (this.text !== text) {
+      this.text = text;
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
+    }
+  }
+
+  /**
+   * Returns the text of this element.
+   * @returns Text of this element.
+   */
   public getText(): string {
     return this.text;
   }
 
+  /**
+   * Draw the text into given canvas context.
+   * @param ctx The canvas rendering context of stage canvas.
+   */
   public drawContent(ctx: CanvasRenderingContext2D) {
     if (this.text === '' || !this.style.font) {
       return;
@@ -81,6 +132,10 @@ export class Text extends XObject {
     return true;
   }
 
+  /**
+   * Calculates size of current object, if there is no width or height specified in element style,
+   * system will calculate the text width and height by text and font size.
+   */
   public layout() {
     super.layout();
     if (this.style.font) {

@@ -168,6 +168,7 @@ export class WebpageRuntime implements IRuntime {
    * @param e The native mouse event.
    */
   private handleMouseEvent(type: string, stage: Stage, e: any) {
+    e.preventDefault();
     const scaleX = stage.canvas.width / stage.canvas.clientWidth;
     const scaleY = stage.canvas.height / stage.canvas.clientHeight;
     // Translate to multiple touch event
@@ -183,6 +184,7 @@ export class WebpageRuntime implements IRuntime {
    * @param e The native mouse event.
    */
   private handleMouseWheelEvent(stage: Stage, e: any) {
+    e.preventDefault();
     const scaleX = stage.canvas.width / stage.canvas.clientWidth;
     const scaleY = stage.canvas.height / stage.canvas.clientHeight;
     stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
@@ -196,6 +198,7 @@ export class WebpageRuntime implements IRuntime {
    * @param e The native touch event.
    */
   private handleTouchEvent(type: string, stage: Stage, e: any) {
+    e.preventDefault();
     const scaleX = stage.canvas.width / stage.canvas.clientWidth;
     const scaleY = stage.canvas.height / stage.canvas.clientHeight;
     const touches = [];

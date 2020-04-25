@@ -7,6 +7,12 @@ exports.WebpageRuntime = void 0;
 
 var _TouchItem = require("../components/TouchItem");
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -217,6 +223,7 @@ var WebpageRuntime = /*#__PURE__*/function () {
   }, {
     key: "handleMouseEvent",
     value: function handleMouseEvent(type, stage, e) {
+      e.preventDefault();
       var scaleX = stage.canvas.width / stage.canvas.clientWidth;
       var scaleY = stage.canvas.height / stage.canvas.clientHeight; // Translate to multiple touch event
 
@@ -234,6 +241,7 @@ var WebpageRuntime = /*#__PURE__*/function () {
   }, {
     key: "handleMouseWheelEvent",
     value: function handleMouseWheelEvent(stage, e) {
+      e.preventDefault();
       var scaleX = stage.canvas.width / stage.canvas.clientWidth;
       var scaleY = stage.canvas.height / stage.canvas.clientHeight;
       stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
@@ -249,32 +257,24 @@ var WebpageRuntime = /*#__PURE__*/function () {
   }, {
     key: "handleTouchEvent",
     value: function handleTouchEvent(type, stage, e) {
+      e.preventDefault();
       var scaleX = stage.canvas.width / stage.canvas.clientWidth;
       var scaleY = stage.canvas.height / stage.canvas.clientHeight;
       var touches = [];
       var now = Date.now();
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(e.touches),
+          _step;
 
       try {
-        for (var _iterator = e.touches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var touch = _step.value;
           touches.push(new _TouchItem.TouchItem(touch.identifier, stage, touch.clientX * scaleX, touch.clientY * scaleY, now));
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       stage.handleMouseOrTouchEvent(type, touches, e);

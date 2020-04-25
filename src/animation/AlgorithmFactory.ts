@@ -225,6 +225,11 @@ export class ElasticInOut implements IAlgorithm {
  */
 export class AlgorithmFactory {
   /**
+   * Prevent creating instance.
+   */
+  private constructor() {}
+
+  /**
    * Registers algorithm with a specified name.
    * @param name name of algorithm
    * @param algorithm the implementation instance of the algorithm

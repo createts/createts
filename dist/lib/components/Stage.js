@@ -23,15 +23,25 @@ var _XObject = require("./XObject");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -95,12 +105,11 @@ var TouchedObjectSet = /*#__PURE__*/function () {
      * @returns True if this instance contains a TouchItem with same identifier, false otherwise.
      */
     value: function contains(identifier) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(this.touchItems),
+          _step;
 
       try {
-        for (var _iterator = this.touchItems[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var item = _step.value;
 
           if (item.identifier === identifier) {
@@ -108,18 +117,9 @@ var TouchedObjectSet = /*#__PURE__*/function () {
           }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return false;
@@ -133,12 +133,11 @@ var TouchedObjectSet = /*#__PURE__*/function () {
   }, {
     key: "get",
     value: function get(identifier) {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iterator2 = _createForOfIteratorHelper(this.touchItems),
+          _step2;
 
       try {
-        for (var _iterator2 = this.touchItems[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var item = _step2.value;
 
           if (item.identifier === identifier) {
@@ -146,18 +145,9 @@ var TouchedObjectSet = /*#__PURE__*/function () {
           }
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _iterator2.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-            _iterator2["return"]();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
+        _iterator2.f();
       }
 
       return undefined;
@@ -199,12 +189,12 @@ var TouchedObjectSet = /*#__PURE__*/function () {
     key: "getTouches",
     value: function getTouches(object) {
       var result = [];
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
+
+      var _iterator3 = _createForOfIteratorHelper(this.touchItems),
+          _step3;
 
       try {
-        for (var _iterator3 = this.touchItems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var item = _step3.value;
 
           if (item.srcElement === object || item.srcElement.isChildOf(object)) {
@@ -212,18 +202,9 @@ var TouchedObjectSet = /*#__PURE__*/function () {
           }
         }
       } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
+        _iterator3.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-            _iterator3["return"]();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
+        _iterator3.f();
       }
 
       return result;
@@ -241,6 +222,8 @@ var TouchedObjectSet = /*#__PURE__*/function () {
 
 var Stage = /*#__PURE__*/function (_Container) {
   _inherits(Stage, _Container);
+
+  var _super = _createSuper(Stage);
 
   /**
    * The canvas instance where this stage render the image to.
@@ -313,7 +296,7 @@ var Stage = /*#__PURE__*/function (_Container) {
 
     _classCallCheck(this, Stage);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Stage).call(this));
+    _this = _super.call(this);
     _this.canvas = void 0;
     _this.ticker = void 0;
     _this.animationFactory = void 0;
@@ -460,29 +443,20 @@ var Stage = /*#__PURE__*/function (_Container) {
       if (!child) child = this;
       var touches = this.touchItems.getTouches(child);
       var result = [];
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
+
+      var _iterator4 = _createForOfIteratorHelper(touches),
+          _step4;
 
       try {
-        for (var _iterator4 = touches[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
           var touch = _step4.value;
           if (!touch.pressed) continue;
           result.push(touch.clone());
         }
       } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
+        _iterator4.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-            _iterator4["return"]();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
+        _iterator4.f();
       }
 
       return result;
@@ -674,83 +648,74 @@ var Stage = /*#__PURE__*/function (_Container) {
     value: function onTouchMove(touches, e) {
       var movedTouches = [];
       var newTouches = [];
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
+
+      var _iterator5 = _createForOfIteratorHelper(touches),
+          _step5;
 
       try {
-        for (var _iterator5 = touches[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var touch = _step5.value;
-          var item = this.touchItems.get(touch.identifier);
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var _touch2 = _step5.value;
+          var item = this.touchItems.get(_touch2.identifier);
 
           if (item) {
-            if (item.stageX !== touch.stageX || item.stageY !== touch.stageY) {
-              item.onUpdate(touch);
+            if (item.stageX !== _touch2.stageX || item.stageY !== _touch2.stageY) {
+              item.onUpdate(_touch2);
               movedTouches.push(item);
             }
           } else {
-            newTouches.push(touch);
+            newTouches.push(_touch2);
           }
         }
       } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _iterator5.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-            _iterator5["return"]();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
+        _iterator5.f();
       }
 
       for (var _i = 0, _movedTouches = movedTouches; _i < _movedTouches.length; _i++) {
-        var _touch = _movedTouches[_i];
-        var pt = this.globalToLocal(_touch.stageX, _touch.stageY);
+        var touch = _movedTouches[_i];
+        var pt = this.globalToLocal(touch.stageX, touch.stageY);
         var element = this.getObjectUnderPoint(pt.x, pt.y, true);
 
         if (element) {
-          this.dispatchTouchEvent(element, 'move', _touch, true, true, e);
+          this.dispatchTouchEvent(element, 'move', touch, true, true, e);
         }
 
-        if (_touch.pressed) {
-          this.dispatchTouchEvent(_touch.srcElement, 'pressmove', _touch, true, true, e);
+        if (touch.pressed) {
+          this.dispatchTouchEvent(touch.srcElement, 'pressmove', touch, true, true, e);
         } // Checks enter/leave
 
 
         if (element) {
-          if (_touch.currentTarget !== element) {
+          if (touch.currentTarget !== element) {
             var enterElement = element;
-            var leaveElement = _touch.currentTarget;
-            _touch.currentTarget = element;
+            var leaveElement = touch.currentTarget;
+            touch.currentTarget = element;
 
             while (leaveElement) {
               if (enterElement.isChildOf(leaveElement) || enterElement === leaveElement) {
                 break;
               }
 
-              this.dispatchTouchEvent(leaveElement, 'leave', _touch, false, true, e);
+              this.dispatchTouchEvent(leaveElement, 'leave', touch, false, true, e);
               leaveElement = leaveElement.parent;
             }
 
             while (enterElement && enterElement !== leaveElement) {
-              this.dispatchTouchEvent(enterElement, 'enter', _touch, false, true, e);
+              this.dispatchTouchEvent(enterElement, 'enter', touch, false, true, e);
               enterElement = enterElement.parent;
             }
           }
-        } else if (_touch.currentTarget) {
-          this.dispatchTouchEvent(_touch.currentTarget, 'leave', _touch, false, true, e);
-          _touch.currentTarget = undefined;
+        } else if (touch.currentTarget) {
+          this.dispatchTouchEvent(touch.currentTarget, 'leave', touch, false, true, e);
+          touch.currentTarget = undefined;
         }
       }
 
       for (var _i2 = 0, _newTouches = newTouches; _i2 < _newTouches.length; _i2++) {
-        var _touch2 = _newTouches[_i2];
+        var _touch = _newTouches[_i2];
 
-        var _pt = this.globalToLocal(_touch2.stageX, _touch2.stageY);
+        var _pt = this.globalToLocal(_touch.stageX, _touch.stageY);
 
         var _element = this.getObjectUnderPoint(_pt.x, _pt.y, true);
 
@@ -758,7 +723,7 @@ var Stage = /*#__PURE__*/function (_Container) {
           continue;
         }
 
-        var newMove = _touch2.switchSourceElement(_element);
+        var newMove = _touch.switchSourceElement(_element);
 
         newMove.pressed = false;
         newMove.currentTarget = _element;
@@ -777,12 +742,12 @@ var Stage = /*#__PURE__*/function (_Container) {
     key: "handleTouchStartEvent",
     value: function handleTouchStartEvent(touches, e) {
       var newTouches = new TouchedObjectSet();
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
+
+      var _iterator6 = _createForOfIteratorHelper(touches),
+          _step6;
 
       try {
-        for (var _iterator6 = touches[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
           var touch = _step6.value;
           var existing = this.touchItems.get(touch.identifier);
 
@@ -803,42 +768,23 @@ var Stage = /*#__PURE__*/function (_Container) {
           }
         }
       } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
+        _iterator6.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-            _iterator6["return"]();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
-        }
+        _iterator6.f();
       }
 
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iterator7 = _createForOfIteratorHelper(newTouches.touchItems),
+          _step7;
 
       try {
-        for (var _iterator7 = newTouches.touchItems[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
           var _item = _step7.value;
           this.dispatchTouchEvent(_item.srcElement, 'touchdown', _item, true, true, e);
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _iterator7.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-            _iterator7["return"]();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
-        }
+        _iterator7.f();
       }
 
       this.onTouchMove(touches, e);
@@ -854,20 +800,20 @@ var Stage = /*#__PURE__*/function (_Container) {
     value: function handleTouchEndEvent(touches, e) {
       this.onTouchMove(touches, e);
       var endedTouches = new TouchedObjectSet();
-      var _iteratorNormalCompletion8 = true;
-      var _didIteratorError8 = false;
-      var _iteratorError8 = undefined;
+
+      var _iterator8 = _createForOfIteratorHelper(this.touchItems.touchItems),
+          _step8;
 
       try {
-        for (var _iterator8 = this.touchItems.touchItems[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
           var item = _step8.value;
           var exists = false;
-          var _iteratorNormalCompletion11 = true;
-          var _didIteratorError11 = false;
-          var _iteratorError11 = undefined;
+
+          var _iterator11 = _createForOfIteratorHelper(touches),
+              _step11;
 
           try {
-            for (var _iterator11 = touches[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
               var touch = _step11.value;
 
               if (touch.identifier === item.identifier) {
@@ -876,18 +822,9 @@ var Stage = /*#__PURE__*/function (_Container) {
               }
             }
           } catch (err) {
-            _didIteratorError11 = true;
-            _iteratorError11 = err;
+            _iterator11.e(err);
           } finally {
-            try {
-              if (!_iteratorNormalCompletion11 && _iterator11["return"] != null) {
-                _iterator11["return"]();
-              }
-            } finally {
-              if (_didIteratorError11) {
-                throw _iteratorError11;
-              }
-            }
+            _iterator11.f();
           }
 
           if (!exists) {
@@ -895,50 +832,30 @@ var Stage = /*#__PURE__*/function (_Container) {
           }
         }
       } catch (err) {
-        _didIteratorError8 = true;
-        _iteratorError8 = err;
+        _iterator8.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
-            _iterator8["return"]();
-          }
-        } finally {
-          if (_didIteratorError8) {
-            throw _iteratorError8;
-          }
-        }
+        _iterator8.f();
       }
 
-      var _iteratorNormalCompletion9 = true;
-      var _didIteratorError9 = false;
-      var _iteratorError9 = undefined;
+      var _iterator9 = _createForOfIteratorHelper(endedTouches.touchItems),
+          _step9;
 
       try {
-        for (var _iterator9 = endedTouches.touchItems[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
           var _item2 = _step9.value;
           this.touchItems.remove(_item2.identifier);
         }
       } catch (err) {
-        _didIteratorError9 = true;
-        _iteratorError9 = err;
+        _iterator9.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion9 && _iterator9["return"] != null) {
-            _iterator9["return"]();
-          }
-        } finally {
-          if (_didIteratorError9) {
-            throw _iteratorError9;
-          }
-        }
+        _iterator9.f();
       }
 
-      var _iteratorNormalCompletion10 = true;
-      var _didIteratorError10 = false;
-      var _iteratorError10 = undefined;
+      var _iterator10 = _createForOfIteratorHelper(endedTouches.touchItems),
+          _step10;
 
       try {
-        for (var _iterator10 = endedTouches.touchItems[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
           var _item3 = _step10.value;
 
           if (!_item3.pressed) {
@@ -958,18 +875,9 @@ var Stage = /*#__PURE__*/function (_Container) {
           }
         }
       } catch (err) {
-        _didIteratorError10 = true;
-        _iteratorError10 = err;
+        _iterator10.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion10 && _iterator10["return"] != null) {
-            _iterator10["return"]();
-          }
-        } finally {
-          if (_didIteratorError10) {
-            throw _iteratorError10;
-          }
-        }
+        _iterator10.f();
       }
     }
   }]);

@@ -15,13 +15,19 @@ var _XObject2 = require("./XObject");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29,15 +35,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 /**
  * A Container is a nestable display list that allows you to work with compound objects, it can be
@@ -56,9 +66,9 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 var Container = /*#__PURE__*/function (_XObject) {
   _inherits(Container, _XObject);
 
-  function Container() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(Container);
 
+  function Container() {
     var _this;
 
     _classCallCheck(this, Container);
@@ -67,7 +77,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Container)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
     _this.children = [];
     return _this;
   }
@@ -84,12 +94,11 @@ var Container = /*#__PURE__*/function (_XObject) {
         return this;
       }
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(this.children),
+          _step;
 
       try {
-        for (var _iterator = this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var child = _step.value;
 
           if (child.id === id) {
@@ -105,18 +114,9 @@ var Container = /*#__PURE__*/function (_XObject) {
           }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return undefined;
@@ -130,12 +130,12 @@ var Container = /*#__PURE__*/function (_XObject) {
     key: "drawContent",
     value: function drawContent(ctx) {
       var list = this.children.slice();
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+
+      var _iterator2 = _createForOfIteratorHelper(list),
+          _step2;
 
       try {
-        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var child = _step2.value;
 
           if (!child.isVisible()) {
@@ -148,18 +148,9 @@ var Container = /*#__PURE__*/function (_XObject) {
           ctx.restore();
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _iterator2.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-            _iterator2["return"]();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
+        _iterator2.f();
       }
     }
     /**
@@ -412,41 +403,32 @@ var Container = /*#__PURE__*/function (_XObject) {
       var relatives = [];
       var contentRect = this.getContentRect();
       var contentWidth = contentRect.width;
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
+
+      var _iterator3 = _createForOfIteratorHelper(this.children),
+          _step3;
 
       try {
-        for (var _iterator3 = this.children[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var child = _step3.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _child4 = _step3.value;
 
-          if (!child.isVisible()) {
+          if (!_child4.isVisible()) {
             continue;
           }
 
-          child.layout();
+          _child4.layout();
 
-          if (child.style.position === _Style.Position.ABSOLUTE || child.style.position === _Style.Position.FIXED) {
-            absolutes.push(child);
+          if (_child4.style.position === _Style.Position.ABSOLUTE || _child4.style.position === _Style.Position.FIXED) {
+            absolutes.push(_child4);
           } else {
-            relatives.push(child);
-            contentWidth = Math.max(contentWidth, child.getOuterWidth());
+            relatives.push(_child4);
+            contentWidth = Math.max(contentWidth, _child4.getOuterWidth());
           }
         } // Step2, break children into lines
 
       } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
+        _iterator3.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-            _iterator3["return"]();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
+        _iterator3.f();
       }
 
       var lines = [];
@@ -454,17 +436,17 @@ var Container = /*#__PURE__*/function (_XObject) {
       var lineWidth = 0;
 
       for (var _i2 = 0, _relatives = relatives; _i2 < _relatives.length; _i2++) {
-        var _child = _relatives[_i2];
+        var child = _relatives[_i2];
 
-        if (line.length > 0 && _child.style.display === _Style.Display.BLOCK || lineWidth + _child.getOuterWidth() > contentWidth) {
+        if (line.length > 0 && child.style.display === _Style.Display.BLOCK || lineWidth + child.getOuterWidth() > contentWidth) {
           // Break the current line
           lines.push(line);
           line = [];
           lineWidth = 0;
         }
 
-        line.push(_child);
-        lineWidth += _child.getOuterWidth();
+        line.push(child);
+        lineWidth += child.getOuterWidth();
       }
 
       if (line.length > 0) {
@@ -479,31 +461,22 @@ var Container = /*#__PURE__*/function (_XObject) {
         var l = _lines[_i3];
         var lineMaxHeight = 0;
         lineWidth = 0;
-        var _iteratorNormalCompletion4 = true;
-        var _didIteratorError4 = false;
-        var _iteratorError4 = undefined;
+
+        var _iterator4 = _createForOfIteratorHelper(l),
+            _step4;
 
         try {
-          for (var _iterator4 = l[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-            var _child2 = _step4.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var _child = _step4.value;
             // Align to top
-            _child2.rect.y = contentHeight + contentRect.y + (_child2.style.marginTop ? _child2.style.marginTop.getValue(this.rect.height) : 0);
-            lineMaxHeight = Math.max(lineMaxHeight, _child2.getOuterHeight());
-            lineWidth += _child2.getOuterWidth();
+            _child.rect.y = contentHeight + contentRect.y + (_child.style.marginTop ? _child.style.marginTop.getValue(this.rect.height) : 0);
+            lineMaxHeight = Math.max(lineMaxHeight, _child.getOuterHeight());
+            lineWidth += _child.getOuterWidth();
           }
         } catch (err) {
-          _didIteratorError4 = true;
-          _iteratorError4 = err;
+          _iterator4.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-              _iterator4["return"]();
-            }
-          } finally {
-            if (_didIteratorError4) {
-              throw _iteratorError4;
-            }
-          }
+          _iterator4.f();
         }
 
         contentHeight += Math.max(lineHeight, lineMaxHeight);
@@ -522,29 +495,19 @@ var Container = /*#__PURE__*/function (_XObject) {
             x = contentRect.x;
         }
 
-        var _iteratorNormalCompletion5 = true;
-        var _didIteratorError5 = false;
-        var _iteratorError5 = undefined;
+        var _iterator5 = _createForOfIteratorHelper(l),
+            _step5;
 
         try {
-          for (var _iterator5 = l[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-            var _child3 = _step5.value;
-            _child3.rect.x = x + (_child3.style.marginLeft ? _child3.style.marginLeft.getValue(this.rect.width) : 0);
-            x += _child3.getOuterWidth();
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            var _child2 = _step5.value;
+            _child2.rect.x = x + (_child2.style.marginLeft ? _child2.style.marginLeft.getValue(this.rect.width) : 0);
+            x += _child2.getOuterWidth();
           }
         } catch (err) {
-          _didIteratorError5 = true;
-          _iteratorError5 = err;
+          _iterator5.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-              _iterator5["return"]();
-            }
-          } finally {
-            if (_didIteratorError5) {
-              throw _iteratorError5;
-            }
-          }
+          _iterator5.f();
         }
       } // Update width/height
       // TODO: add css (min/max width) support.
@@ -560,9 +523,9 @@ var Container = /*#__PURE__*/function (_XObject) {
 
 
       for (var _i4 = 0, _absolutes = absolutes; _i4 < _absolutes.length; _i4++) {
-        var _child4 = _absolutes[_i4];
+        var _child3 = _absolutes[_i4];
 
-        _LayoutUtils.LayoutUtils.updatePositionForAbsoluteElement(_child4, this.rect.width, this.rect.height);
+        _LayoutUtils.LayoutUtils.updatePositionForAbsoluteElement(_child3, this.rect.width, this.rect.height);
       }
     }
     /**

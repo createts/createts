@@ -6,7 +6,7 @@ import { Runtime } from '../runtime/Runtime';
 /**
  * Resource load state.
  */
-export enum LoadState {
+enum LoadState {
   LOADING = 1,
   LOADED = 2,
   ERROR = 3
@@ -21,15 +21,11 @@ export enum ResourceType {
 }
 
 export type Resource = HTMLImageElement | SpriteSheet;
-type Resolve = (resource: Resource) => void;
-type Reject = (error: any) => void;
 
-interface IPromiseHandler {
-  resolve: Resolve;
-  reject: Reject;
-}
-
-export type ResourceItem = {
+/**
+ * Defines a resource item type contains source url, type, download stats, etc.
+ */
+type ResourceItem = {
   url: string;
   type: ResourceType;
   resource?: Resource;
@@ -38,7 +34,7 @@ export type ResourceItem = {
   totalBytes: number;
   error?: any;
   progress: number;
-  promiseHandlers: IPromiseHandler[];
+  promiseHandlers: { resolve: (resource: Resource) => void; reject: (error: any) => void }[];
 };
 
 /**
@@ -54,40 +50,35 @@ export class ResourceRegistryEvent extends Event {
   }
 }
 
+/**
+ * The ResourceRegistry instance is used to load and manage image resources.
+ *
+ * Load an image programmatically:
+ * ```typescript
+ * const img = new Img();
+ * ResourceRegistry.DefaultInstance.add('/image.jpg', ResourceType.IMAGE)
+ * .then(image => {
+ *   img.setImage(image);
+ * });
+ * ```
+ *
+ * By default Img instance use ResourceRegistry.DefaultInstance to load image, you can simplify the
+ * code above as:
+ * ```typescript
+ * const img = new Img();
+ * img.setSrc('/image.jpg');
+ * ```
+ *
+ * Or
+ * ```typescript
+ * container.load(`<img src='/image.jpg'>`);
+ * ```
+ */
 export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
-  public add(url: string, type: ResourceType): Promise<Resource> {
-    return new Promise<Resource>((resolve, reject) => {
-      for (const item of this.items) {
-        if (item.url === url) {
-          if (item.state === LoadState.LOADED) {
-            resolve(item.resource);
-          } else if (item.state === LoadState.ERROR) {
-            reject(item.error);
-          } else {
-            item.promiseHandlers.push({
-              resolve,
-              reject
-            });
-          }
-          return;
-        }
-      }
-
-      const newItem: ResourceItem = {
-        url,
-        type,
-        resource: undefined,
-        state: LoadState.LOADING,
-        progress: 0,
-        loadedBytes: 0,
-        totalBytes: 0,
-        promiseHandlers: [{ resolve, reject }]
-      };
-      this.items.push(newItem);
-      this.load(newItem);
-    });
-  }
-
+  /**
+   * Load the resource.
+   * @param item The resource item to be loaded.
+   */
   private load(item: ResourceItem) {
     switch (item.type) {
       case ResourceType.IMAGE:
@@ -99,6 +90,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     }
   }
 
+  /**
+   * Calls current runtime to load the image resource.
+   * @param item The image resource item to be loaded.
+   */
   private loadImage(item: ResourceItem) {
     Runtime.get().loadImage({
       url: item.url,
@@ -118,6 +113,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     });
   }
 
+  /**
+   * Calls current runtime to load the apng resource.
+   * @param item The apng resource item to be loaded.
+   */
   private loadApng(item: ResourceItem) {
     Runtime.get().loadArrayBuffer({
       url: item.url,
@@ -156,6 +155,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     });
   }
 
+  /**
+   * Calculate the current total loading progress.
+   * @returns the total progress of current loading status.
+   */
   private getTotalProgress(): number {
     let progress = 0;
     for (const item of this.items) {
@@ -164,6 +167,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     return progress / this.items.length;
   }
 
+  /**
+   * Callback while loading progress changes.
+   * @param item the loading item who changes the progress.
+   */
   private onProgress(item: ResourceItem) {
     if (item.state === LoadState.LOADING && item.totalBytes > 0) {
       item.progress = item.loadedBytes / item.totalBytes;
@@ -178,6 +185,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     );
   }
 
+  /**
+   * Callback while a resource is loaded successfully.
+   * @param item the loaded resource.
+   */
   private onLoad(item: ResourceItem) {
     item.state = LoadState.LOADED;
     item.loadedBytes = item.totalBytes;
@@ -202,6 +213,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     }
   }
 
+  /**
+   * Callback while a resource is failed to been loaded.
+   * @param item the resource is failed to been loaded.
+   */
   private onError(item: ResourceItem) {
     item.state = LoadState.ERROR;
     for (const handler of item.promiseHandlers) {
@@ -211,6 +226,49 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     this.dispatchEvent(new ResourceRegistryEvent('error', this.getTotalProgress(), item));
   }
 
+  /**
+   * Load the resource by url, please note that the resource with same url will be loaded once.
+   * @param url Resource of this url to be loaded.
+   * @returns A promise object od the loaded resource.
+   */
+  public add(url: string, type: ResourceType = ResourceType.IMAGE): Promise<Resource> {
+    return new Promise<Resource>((resolve, reject) => {
+      for (const item of this.items) {
+        if (item.url === url) {
+          if (item.state === LoadState.LOADED) {
+            resolve(item.resource);
+          } else if (item.state === LoadState.ERROR) {
+            reject(item.error);
+          } else {
+            item.promiseHandlers.push({
+              resolve,
+              reject
+            });
+          }
+          return;
+        }
+      }
+
+      const newItem: ResourceItem = {
+        url,
+        type,
+        resource: undefined,
+        state: LoadState.LOADING,
+        progress: 0,
+        loadedBytes: 0,
+        totalBytes: 0,
+        promiseHandlers: [{ resolve, reject }]
+      };
+      this.items.push(newItem);
+      this.load(newItem);
+    });
+  }
+
+  /**
+   * Get a loaded resource by url, or undefined in case of url is not loaded.
+   * @param url the url of resource.
+   * @returns The loaded resource of this url, or undefined for unloaded resource.
+   */
   public get(url: string): Resource | undefined {
     for (const item of this.items) {
       if (item.url === url) {
@@ -224,18 +282,30 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     return undefined;
   }
 
-  public release(url: string): ResourceItem | undefined {
+  /**
+   * Release the resource by url.
+   * @param url Resource of this url to be released.
+   * @returns the released resource or undefined for a unloaded resource.
+   */
+  public release(url: string): Resource | undefined {
     for (let i = 0; i < this.items.length; ++i) {
       const item = this.items[i];
       if (item.url === url) {
         this.items.splice(i, 1);
-        return item;
+        item.promiseHandlers.length = 0;
+        return item.resource;
       }
     }
     return undefined;
   }
 
+  /**
+   * The resources in this registry.
+   */
   private items: ResourceItem[] = [];
 
-  static readonly DefaultInstance: ResourceRegistry = new ResourceRegistry();
+  /**
+   * The default ResourceRegistry instance.
+   */
+  public static readonly DefaultInstance: ResourceRegistry = new ResourceRegistry();
 }

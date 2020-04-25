@@ -10,15 +10,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
@@ -34,6 +38,8 @@ import { LayoutUtils } from '../utils/LayoutUtils';
  */
 export var XObjectEvent = /*#__PURE__*/function (_Event) {
   _inherits(XObjectEvent, _Event);
+
+  var _super = _createSuper(XObjectEvent);
 
   /**
    * The stage object of the target element.
@@ -97,7 +103,7 @@ export var XObjectEvent = /*#__PURE__*/function (_Event) {
 
     _classCallCheck(this, XObjectEvent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(XObjectEvent).call(this, type, bubbles, cancelable));
+    _this = _super.call(this, type, bubbles, cancelable);
     _this.stage = void 0;
     _this.touchItem = void 0;
     _this.nativeEvent = null;
@@ -157,6 +163,8 @@ var CacheState;
 export var XObject = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(XObject, _EventDispatcher);
 
+  var _super2 = _createSuper(XObject);
+
   /**
    * The string if of this object.
    */
@@ -195,7 +203,7 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
 
     _classCallCheck(this, XObject);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(XObject).call(this));
+    _this2 = _super2.call(this);
     _this2.id = undefined;
     _this2.style = void 0;
     _this2.rect = new Rect(0, 0, 0, 0);

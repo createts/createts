@@ -148,17 +148,21 @@ var Ticker = (function (_super) {
         _this.start();
         return _this;
     }
+    Ticker.prototype.setFps = function (fps) {
+        this.duration = 1000 / fps;
+    };
     Ticker.prototype.start = function () {
         if (this.stopped) {
             this.stopped = false;
             Runtime_1.Runtime.get().requestAnimationFrame(this.onAnimationFrame.bind(this));
+            var now = Date.now();
+            this.dispatchEvent(new TickerEvent('start', now, now - this.lastTickTime));
         }
-    };
-    Ticker.prototype.setFps = function (fps) {
-        this.duration = 1000 / fps;
     };
     Ticker.prototype.stop = function () {
         this.stopped = true;
+        var now = Date.now();
+        this.dispatchEvent(new TickerEvent('stop', now, now - this.lastTickTime));
     };
     Ticker.prototype.onAnimationFrame = function (time) {
         if (this.stopped) {
@@ -2424,8 +2428,7 @@ var Img = (function (_super) {
         var _this = _super.call(this, options) || this;
         if (options && options.attributes) {
             if (options.attributes.src) {
-                _this.src = options.attributes.src;
-                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(_this.src, ResourceRegistry_1.ResourceType.IMAGE);
+                _this.setSrc(options.attributes.src);
             }
             if (options.attributes.sourcerect) {
                 _this.sourceRect = Rect_1.Rect.of(options.attributes.sourcerect);
@@ -2434,11 +2437,20 @@ var Img = (function (_super) {
         return _this;
     }
     Img.prototype.setSrc = function (src) {
-        this.src = src;
+        var _this = this;
+        if (this.src !== src) {
+            this.src = src;
+            ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.src, ResourceRegistry_1.ResourceType.IMAGE).then(function (image) {
+                _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+            });
+        }
         return this;
     };
     Img.prototype.setImage = function (image) {
-        this.image = image;
+        if (this.image !== image) {
+            this.image = image;
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
+        }
         return this;
     };
     Img.prototype.setSourceRect = function (sourceRect) {
@@ -2688,6 +2700,7 @@ var Sprite = (function (_super) {
         if (this.spriteSheet && this.spriteSheet.url) {
             ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceRegistry_1.ResourceType.IMAGE);
         }
+        this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return this;
     };
     Sprite.prototype.getStage = function () {
@@ -3218,8 +3231,17 @@ var Text = (function (_super) {
         _this.text = (options && options.text) || '';
         return _this;
     }
+    Text.prototype.getDefaultStyle = function () {
+        return {
+            color: 'black',
+            fontSize: 26
+        };
+    };
     Text.prototype.setText = function (text) {
-        this.text = text;
+        if (this.text !== text) {
+            this.text = text;
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
+        }
     };
     Text.prototype.getText = function () {
         return this.text;
@@ -3903,13 +3925,11 @@ exports.ApngParser = ApngParser_3.ApngParser;
 var HtmlParser_1 = __webpack_require__(/*! ./parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 exports.HtmlParser = HtmlParser_1.HtmlParser;
 var ResourceRegistry_1 = __webpack_require__(/*! ./resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
-exports.LoadState = ResourceRegistry_1.LoadState;
+exports.ResourceType = ResourceRegistry_1.ResourceType;
 var ResourceRegistry_2 = __webpack_require__(/*! ./resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
-exports.ResourceType = ResourceRegistry_2.ResourceType;
+exports.ResourceRegistryEvent = ResourceRegistry_2.ResourceRegistryEvent;
 var ResourceRegistry_3 = __webpack_require__(/*! ./resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
-exports.ResourceRegistryEvent = ResourceRegistry_3.ResourceRegistryEvent;
-var ResourceRegistry_4 = __webpack_require__(/*! ./resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
-exports.ResourceRegistry = ResourceRegistry_4.ResourceRegistry;
+exports.ResourceRegistry = ResourceRegistry_3.ResourceRegistry;
 var Border_1 = __webpack_require__(/*! ./style/Border */ "./src/style/Border.ts");
 exports.BorderStyle = Border_1.BorderStyle;
 var Border_2 = __webpack_require__(/*! ./style/Border */ "./src/style/Border.ts");
@@ -4822,7 +4842,7 @@ var LoadState;
     LoadState[LoadState["LOADING"] = 1] = "LOADING";
     LoadState[LoadState["LOADED"] = 2] = "LOADED";
     LoadState[LoadState["ERROR"] = 3] = "ERROR";
-})(LoadState = exports.LoadState || (exports.LoadState = {}));
+})(LoadState || (LoadState = {}));
 var ResourceType;
 (function (ResourceType) {
     ResourceType["IMAGE"] = "image";
@@ -4846,41 +4866,6 @@ var ResourceRegistry = (function (_super) {
         _this.items = [];
         return _this;
     }
-    ResourceRegistry.prototype.add = function (url, type) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
-                var item = _a[_i];
-                if (item.url === url) {
-                    if (item.state === LoadState.LOADED) {
-                        resolve(item.resource);
-                    }
-                    else if (item.state === LoadState.ERROR) {
-                        reject(item.error);
-                    }
-                    else {
-                        item.promiseHandlers.push({
-                            resolve: resolve,
-                            reject: reject
-                        });
-                    }
-                    return;
-                }
-            }
-            var newItem = {
-                url: url,
-                type: type,
-                resource: undefined,
-                state: LoadState.LOADING,
-                progress: 0,
-                loadedBytes: 0,
-                totalBytes: 0,
-                promiseHandlers: [{ resolve: resolve, reject: reject }]
-            };
-            _this.items.push(newItem);
-            _this.load(newItem);
-        });
-    };
     ResourceRegistry.prototype.load = function (item) {
         switch (item.type) {
             case ResourceType.IMAGE:
@@ -4998,6 +4983,42 @@ var ResourceRegistry = (function (_super) {
         item.promiseHandlers = [];
         this.dispatchEvent(new ResourceRegistryEvent('error', this.getTotalProgress(), item));
     };
+    ResourceRegistry.prototype.add = function (url, type) {
+        var _this = this;
+        if (type === void 0) { type = ResourceType.IMAGE; }
+        return new Promise(function (resolve, reject) {
+            for (var _i = 0, _a = _this.items; _i < _a.length; _i++) {
+                var item = _a[_i];
+                if (item.url === url) {
+                    if (item.state === LoadState.LOADED) {
+                        resolve(item.resource);
+                    }
+                    else if (item.state === LoadState.ERROR) {
+                        reject(item.error);
+                    }
+                    else {
+                        item.promiseHandlers.push({
+                            resolve: resolve,
+                            reject: reject
+                        });
+                    }
+                    return;
+                }
+            }
+            var newItem = {
+                url: url,
+                type: type,
+                resource: undefined,
+                state: LoadState.LOADING,
+                progress: 0,
+                loadedBytes: 0,
+                totalBytes: 0,
+                promiseHandlers: [{ resolve: resolve, reject: reject }]
+            };
+            _this.items.push(newItem);
+            _this.load(newItem);
+        });
+    };
     ResourceRegistry.prototype.get = function (url) {
         for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
             var item = _a[_i];
@@ -5017,7 +5038,8 @@ var ResourceRegistry = (function (_super) {
             var item = this.items[i];
             if (item.url === url) {
                 this.items.splice(i, 1);
-                return item;
+                item.promiseHandlers.length = 0;
+                return item.resource;
             }
         }
         return undefined;
@@ -5214,6 +5236,7 @@ var WebpageRuntime = (function () {
         requestAnimationFrame(listener);
     };
     WebpageRuntime.prototype.handleMouseEvent = function (type, stage, e) {
+        e.preventDefault();
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var x = e.offsetX * scaleX;
@@ -5221,11 +5244,13 @@ var WebpageRuntime = (function () {
         stage.handleMouseOrTouchEvent(type, [new TouchItem_1.TouchItem(0, stage, x, y, Date.now())], e);
     };
     WebpageRuntime.prototype.handleMouseWheelEvent = function (stage, e) {
+        e.preventDefault();
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         stage.handleMouseWheelEvent(e.offsetX * scaleX, e.offsetY * scaleY, e.deltaX, e.deltaY, e);
     };
     WebpageRuntime.prototype.handleTouchEvent = function (type, stage, e) {
+        e.preventDefault();
         var scaleX = stage.canvas.width / stage.canvas.clientWidth;
         var scaleY = stage.canvas.height / stage.canvas.clientHeight;
         var touches = [];

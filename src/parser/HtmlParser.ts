@@ -1,6 +1,5 @@
 import { Container } from '../components/Container';
 import { XObject } from '../components/XObject';
-import { Style } from '../style/Style';
 
 type Node = {
   tag: string;

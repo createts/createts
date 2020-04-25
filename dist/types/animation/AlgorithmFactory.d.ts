@@ -86,6 +86,7 @@ export declare class ElasticInOut implements IAlgorithm {
     calculate(percent: number): number;
 }
 export declare class AlgorithmFactory {
+    private constructor();
     static register(name: string, algorithm: IAlgorithm): void;
     static registerAll(data: {
         [key: string]: IAlgorithm;

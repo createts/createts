@@ -69,6 +69,25 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The ResourceRegistry instance is used to load and manage image resources.</p>
+					</div>
+					<p>Load an image programmatically:</p>
+					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> img = <span class="hljs-keyword">new</span> Img();
+ResourceRegistry.DefaultInstance.add(<span class="hljs-string">'/image.jpg'</span>, ResourceType.IMAGE)
+.then(<span class="hljs-function"><span class="hljs-params">image</span> =&gt;</span> {
+  img.setImage(image);
+});</code></pre>
+					<p>By default Img instance use ResourceRegistry.DefaultInstance to load image, you can simplify the
+					code above as:</p>
+					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> img = <span class="hljs-keyword">new</span> Img();
+img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
+					<p>Or</p>
+					<pre><code class="language-typescript">container.load(<span class="hljs-string">`&lt;img src='/image.jpg'&gt;`</span>);</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -127,9 +146,14 @@
 					<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L238">resource/ResourceRegistry.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L305">resource/ResourceRegistry.ts:305</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The resources in this registry.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="defaultinstance" class="tsd-anchor"></a>
@@ -137,9 +161,14 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Instance<span class="tsd-signature-symbol">:</span> <a href="_resource_resourceregistry_.resourceregistry.html" class="tsd-signature-type">ResourceRegistry</a><span class="tsd-signature-symbol"> = new ResourceRegistry()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L240">resource/ResourceRegistry.ts:240</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L310">resource/ResourceRegistry.ts:310</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The default ResourceRegistry instance.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -148,25 +177,34 @@
 					<a name="add" class="tsd-anchor"></a>
 					<h3>add</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><a href="../enums/_resource_resourceregistry_.resourcetype.html" class="tsd-signature-type">ResourceType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">?: </span><a href="../enums/_resource_resourceregistry_.resourcetype.html" class="tsd-signature-type">ResourceType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L58">resource/ResourceRegistry.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L234">resource/ResourceRegistry.ts:234</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Load the resource by url, please note that the resource with same url will be loaded once.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Resource of this url to be loaded.</p>
+									</div>
 								</li>
 								<li>
-									<h5>type: <a href="../enums/_resource_resourceregistry_.resourcetype.html" class="tsd-signature-type">ResourceType</a></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> type: <a href="../enums/_resource_resourceregistry_.resourcetype.html" class="tsd-signature-type">ResourceType</a><span class="tsd-signature-symbol"> = ResourceType.IMAGE</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A promise object od the loaded resource.</p>
 						</li>
 					</ul>
 				</section>
@@ -181,7 +219,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L220">base/Event.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L220">base/Event.ts:220</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -253,16 +291,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L214">resource/ResourceRegistry.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L272">resource/ResourceRegistry.ts:272</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a loaded resource by url, or undefined in case of url is not loaded.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the url of resource.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>The loaded resource of this url, or undefined for unloaded resource.</p>
 						</li>
 					</ul>
 				</section>
@@ -276,10 +323,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L159">resource/ResourceRegistry.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L162">resource/ResourceRegistry.ts:162</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculate the current total loading progress.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>the total progress of current loading status.</p>
 						</li>
 					</ul>
 				</section>
@@ -294,7 +347,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L204">base/Event.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L204">base/Event.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -326,13 +379,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L91">resource/ResourceRegistry.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L82">resource/ResourceRegistry.ts:82</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Load the resource.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The resource item to be loaded.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -349,13 +410,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L121">resource/ResourceRegistry.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L120">resource/ResourceRegistry.ts:120</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls current runtime to load the apng resource.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The apng resource item to be loaded.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -372,13 +441,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L102">resource/ResourceRegistry.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L97">resource/ResourceRegistry.ts:97</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls current runtime to load the image resource.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The image resource item to be loaded.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -396,7 +473,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L182">base/Event.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L182">base/Event.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -428,7 +505,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L145">base/Event.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L145">base/Event.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -459,13 +536,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L205">resource/ResourceRegistry.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L220">resource/ResourceRegistry.ts:220</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Callback while a resource is failed to been loaded.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the resource is failed to been loaded.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -482,13 +567,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L181">resource/ResourceRegistry.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L192">resource/ResourceRegistry.ts:192</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Callback while a resource is loaded successfully.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the loaded resource.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -505,13 +598,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L167">resource/ResourceRegistry.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L174">resource/ResourceRegistry.ts:174</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Callback while loading progress changes.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>item: <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the loading item who changes the progress.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -522,22 +623,31 @@
 					<a name="release" class="tsd-anchor"></a>
 					<h3>release</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/resource/ResourceRegistry.ts#L227">resource/ResourceRegistry.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/resource/ResourceRegistry.ts#L290">resource/ResourceRegistry.ts:290</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Release the resource by url.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Resource of this url to be released.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-signature-type">Resource</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>the released resource or undefined for a unloaded resource.</p>
 						</li>
 					</ul>
 				</section>
@@ -552,7 +662,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L191">base/Event.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L191">base/Event.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -585,7 +695,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L155">base/Event.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L155">base/Event.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -624,7 +734,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5bab34c/src/base/Event.ts#L211">base/Event.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/186f680/src/base/Event.ts#L211">base/Event.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -657,7 +767,7 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../enums/_resource_resourceregistry_.loadstate.html" class="tsd-kind-icon">Load<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
@@ -735,19 +845,10 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="_resource_resourceregistry_.resourceregistryevent.html" class="tsd-kind-icon">Resource<wbr>Registry<wbr>Event</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_resource_resourceregistry_.ipromisehandler.html" class="tsd-kind-icon">IPromise<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_resource_resourceregistry_.html#reject" class="tsd-kind-icon">Reject</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_resource_resourceregistry_.html#resolve" class="tsd-kind-icon">Resolve</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_resource_resourceregistry_.html#resource" class="tsd-kind-icon">Resource</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-kind-icon">Resource<wbr>Item</a>
 					</li>
 				</ul>

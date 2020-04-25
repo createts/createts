@@ -1,4 +1,7 @@
 export class ContainerUtils {
+  /**
+   * Prevent creating instance.
+   */
   private constructor() {}
 
   /**

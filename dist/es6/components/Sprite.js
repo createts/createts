@@ -6,15 +6,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 import { AnimationStep } from '../animation/Animation';
 import { HtmlParser } from '../parser/HtmlParser';
@@ -33,6 +37,8 @@ import { XObject, XObjectEvent } from './XObject';
 var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
   _inherits(SpriteAnimationStep, _AnimationStep);
 
+  var _super = _createSuper(SpriteAnimationStep);
+
   /**
    * The targeted sprite instance.
    */
@@ -46,7 +52,7 @@ var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
 
     _classCallCheck(this, SpriteAnimationStep);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SpriteAnimationStep).call(this, sprite, sprite.spriteSheet.frames.length * 1000 / sprite.spriteSheet.fps));
+    _this = _super.call(this, sprite, sprite.spriteSheet.frames.length * 1000 / sprite.spriteSheet.fps);
     _this.sprite = void 0;
     _this.sprite = sprite;
     return _this;
@@ -106,6 +112,8 @@ var SpriteAnimationStep = /*#__PURE__*/function (_AnimationStep) {
 export var Sprite = /*#__PURE__*/function (_XObject) {
   _inherits(Sprite, _XObject);
 
+  var _super2 = _createSuper(Sprite);
+
   /**
    * The SpriteSheet instance to play back.
    */
@@ -127,7 +135,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
 
     _classCallCheck(this, Sprite);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Sprite).call(this, options));
+    _this2 = _super2.call(this, options);
     _this2.spriteSheet = void 0;
     _this2.currentFrame = 0;
     _this2.animation = void 0;
@@ -149,6 +157,7 @@ export var Sprite = /*#__PURE__*/function (_XObject) {
         ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceType.IMAGE);
       }
 
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
       return this;
     }
     /**

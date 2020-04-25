@@ -381,22 +381,10 @@ Object.defineProperty(exports, "HtmlParser", {
     return _HtmlParser.HtmlParser;
   }
 });
-Object.defineProperty(exports, "LoadState", {
-  enumerable: true,
-  get: function get() {
-    return _ResourceRegistry.LoadState;
-  }
-});
 Object.defineProperty(exports, "ResourceType", {
   enumerable: true,
   get: function get() {
     return _ResourceRegistry.ResourceType;
-  }
-});
-Object.defineProperty(exports, "ResourceItem", {
-  enumerable: true,
-  get: function get() {
-    return _ResourceRegistry.ResourceItem;
   }
 });
 Object.defineProperty(exports, "ResourceRegistryEvent", {

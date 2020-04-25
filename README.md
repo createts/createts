@@ -32,11 +32,11 @@ stage
 stage
   .animate(stage.findById('heart1'), true)
   .loop(true)
-  .to({ rotation: -180 }, 500, 'quadInOut')
-  .to({ transformY: 50 }, 500, 'quadInOut')
+  .css({ rotation: -180 }, 500, 'quadInOut')
+  .css({ transformY: 50 }, 500, 'quadInOut')
   .wait(2000)
-  .to({ transformY: 0 }, 500, 'quadInOut')
-  .to({ rotation: 0 }, 500, 'quadInOut')
+  .css({ transformY: 0 }, 500, 'quadInOut')
+  .css({ rotation: 0 }, 500, 'quadInOut')
   .wait(2000);
 ```
 

@@ -21,15 +21,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var AnimationValueType;
 exports.AnimationValueType = AnimationValueType;
@@ -50,12 +54,14 @@ exports.AnimateEventType = AnimateEventType;
 var AnimateEvent = /*#__PURE__*/function (_Event) {
   _inherits(AnimateEvent, _Event);
 
+  var _super = _createSuper(AnimateEvent);
+
   function AnimateEvent(type, step, progress, value) {
     var _this;
 
     _classCallCheck(this, AnimateEvent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AnimateEvent).call(this, type, false, true));
+    _this = _super.call(this, type, false, true);
     _this.step = void 0;
     _this.progress = void 0;
     _this.value = void 0;
@@ -121,10 +127,12 @@ exports.AnimationStep = AnimationStep;
 var WaitStep = /*#__PURE__*/function (_AnimationStep) {
   _inherits(WaitStep, _AnimationStep);
 
+  var _super2 = _createSuper(WaitStep);
+
   function WaitStep() {
     _classCallCheck(this, WaitStep);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(WaitStep).apply(this, arguments));
+    return _super2.apply(this, arguments);
   }
 
   return WaitStep;
@@ -133,12 +141,14 @@ var WaitStep = /*#__PURE__*/function (_AnimationStep) {
 var ToStep = /*#__PURE__*/function (_AnimationStep2) {
   _inherits(ToStep, _AnimationStep2);
 
+  var _super3 = _createSuper(ToStep);
+
   function ToStep(target, value, algorithm, duration) {
     var _this2;
 
     _classCallCheck(this, ToStep);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(ToStep).call(this, target, duration));
+    _this2 = _super3.call(this, target, duration);
     _this2.algorithm = void 0;
     _this2.values = void 0;
     _this2.computed = void 0;
@@ -276,12 +286,14 @@ var ToStep = /*#__PURE__*/function (_AnimationStep2) {
 var CssStep = /*#__PURE__*/function (_AnimationStep3) {
   _inherits(CssStep, _AnimationStep3);
 
+  var _super4 = _createSuper(CssStep);
+
   function CssStep(target, values, algorithm, duration) {
     var _this3;
 
     _classCallCheck(this, CssStep);
 
-    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(CssStep).call(this, target, duration));
+    _this3 = _super4.call(this, target, duration);
     _this3.algorithm = void 0;
     _this3.values = void 0;
     _this3.computed = void 0;
@@ -359,12 +371,14 @@ var CssStep = /*#__PURE__*/function (_AnimationStep3) {
 var CallStep = /*#__PURE__*/function (_AnimationStep4) {
   _inherits(CallStep, _AnimationStep4);
 
+  var _super5 = _createSuper(CallStep);
+
   function CallStep(target, call) {
     var _this4;
 
     _classCallCheck(this, CallStep);
 
-    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(CallStep).call(this, target, 0));
+    _this4 = _super5.call(this, target, 0);
     _this4.call = void 0;
     _this4.call = call;
     return _this4;
@@ -393,12 +407,14 @@ exports.AnimationState = AnimationState;
 var Animation = /*#__PURE__*/function (_EventDispatcher) {
   _inherits(Animation, _EventDispatcher);
 
+  var _super6 = _createSuper(Animation);
+
   function Animation(target, loop) {
     var _this5;
 
     _classCallCheck(this, Animation);
 
-    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(Animation).call(this));
+    _this5 = _super6.call(this);
     _this5.playTimes = 1;
     _this5.state = AnimationState.RUNNING;
     _this5.target = void 0;

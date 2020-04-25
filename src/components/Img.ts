@@ -1,7 +1,7 @@
 import { Rect } from '../base/Rect';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
-import { IXObjectOptions, XObject } from './XObject';
+import { IXObjectOptions, XObject, XObjectEvent } from './XObject';
 
 export class Img extends XObject {
   private src?: string;
@@ -12,8 +12,7 @@ export class Img extends XObject {
     super(options);
     if (options && options.attributes) {
       if (options.attributes.src) {
-        this.src = options.attributes.src;
-        ResourceRegistry.DefaultInstance.add(this.src, ResourceType.IMAGE);
+        this.setSrc(options.attributes.src);
       }
       if (options.attributes.sourcerect) {
         this.sourceRect = Rect.of(options.attributes.sourcerect);
@@ -22,12 +21,20 @@ export class Img extends XObject {
   }
 
   public setSrc(src: string): Img {
-    this.src = src;
+    if (this.src !== src) {
+      this.src = src;
+      ResourceRegistry.DefaultInstance.add(this.src, ResourceType.IMAGE).then(image => {
+        this.dispatchEvent(new XObjectEvent('update', true, true, this));
+      });
+    }
     return this;
   }
 
   public setImage(image: HTMLImageElement): Img {
-    this.image = image;
+    if (this.image !== image) {
+      this.image = image;
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
+    }
     return this;
   }
 

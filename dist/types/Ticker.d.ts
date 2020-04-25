@@ -9,8 +9,8 @@ export declare class Ticker extends EventDispatcher<TickerEvent> {
     private lastTickTime;
     private stopped;
     constructor(fps?: number);
-    start(): void;
     setFps(fps: number): void;
+    start(): void;
     stop(): void;
     private onAnimationFrame;
 }

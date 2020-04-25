@@ -6,41 +6,46 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 import { Rect } from '../base/Rect';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
-import { XObject } from './XObject';
+import { XObject, XObjectEvent } from './XObject';
 export var Img = /*#__PURE__*/function (_XObject) {
   _inherits(Img, _XObject);
+
+  var _super = _createSuper(Img);
 
   function Img(options) {
     var _this;
 
     _classCallCheck(this, Img);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Img).call(this, options));
+    _this = _super.call(this, options);
     _this.src = void 0;
     _this.image = void 0;
     _this.sourceRect = void 0;
 
     if (options && options.attributes) {
       if (options.attributes.src) {
-        _this.src = options.attributes.src;
-        ResourceRegistry.DefaultInstance.add(_this.src, ResourceType.IMAGE);
+        _this.setSrc(options.attributes.src);
       }
 
       if (options.attributes.sourcerect) {
@@ -54,13 +59,25 @@ export var Img = /*#__PURE__*/function (_XObject) {
   _createClass(Img, [{
     key: "setSrc",
     value: function setSrc(src) {
-      this.src = src;
+      var _this2 = this;
+
+      if (this.src !== src) {
+        this.src = src;
+        ResourceRegistry.DefaultInstance.add(this.src, ResourceType.IMAGE).then(function (image) {
+          _this2.dispatchEvent(new XObjectEvent('update', true, true, _this2));
+        });
+      }
+
       return this;
     }
   }, {
     key: "setImage",
     value: function setImage(image) {
-      this.image = image;
+      if (this.image !== image) {
+        this.image = image;
+        this.dispatchEvent(new XObjectEvent('update', true, true, this));
+      }
+
       return this;
     }
   }, {

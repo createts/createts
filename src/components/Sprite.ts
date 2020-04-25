@@ -189,6 +189,7 @@ export class Sprite extends XObject {
     if (this.spriteSheet && this.spriteSheet.url) {
       ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceType.IMAGE);
     }
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
   }
 
