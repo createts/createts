@@ -1,5 +1,5 @@
-import { BaseValue } from '../base/BaseValue';
 import { Rect } from '../base/Rect';
+import { BorderRadius } from '../style/BorderRadius';
 export declare class RoundRect {
     x1: number;
     y1: number;
@@ -16,7 +16,7 @@ export declare class RoundRect {
     constructor(x1?: number, y1?: number, x2?: number, y2?: number);
     toRect(): Rect;
     applySize(width: number, height: number): RoundRect;
-    applyRadius(radiusLeftTop?: BaseValue, radiusRightTop?: BaseValue, radiusRightBottom?: BaseValue, radiusLeftBottom?: BaseValue): RoundRect;
+    applyRadius(borderTopLeftRadius?: BorderRadius, borderTopRightRadius?: BorderRadius, borderBottomLeftRadius?: BorderRadius, borderBottomRightRadius?: BorderRadius): RoundRect;
     applyBorder(top: number, right: number, bottom: number, left: number): RoundRect;
     makePath(ctx: CanvasRenderingContext2D, newPath: boolean, clockwise: boolean): void;
     clip(ctx: CanvasRenderingContext2D): RoundRect;

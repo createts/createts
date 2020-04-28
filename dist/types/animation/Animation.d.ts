@@ -21,6 +21,7 @@ export interface IAnimatable<T> {
     convertFrom(src: any): T;
     isAnimatable(): boolean;
 }
+export declare function isIAnimatable(obj: any): boolean;
 export declare type AnimationValues = {
     [key: string]: number | string | IAnimatable<any>;
 };

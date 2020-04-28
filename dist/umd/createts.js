@@ -570,6 +570,7 @@ exports.AnimateEvent = AnimateEvent;
 function isIAnimatable(obj) {
     return obj && obj.isAnimatable && obj.isAnimatable();
 }
+exports.isIAnimatable = isIAnimatable;
 function isNumber(obj) {
     return typeof obj === 'number';
 }
@@ -1900,24 +1901,44 @@ var RoundRect = (function () {
         this.y2 = this.y1 + height - 1;
         return this;
     };
-    RoundRect.prototype.applyRadius = function (radiusLeftTop, radiusRightTop, radiusRightBottom, radiusLeftBottom) {
+    RoundRect.prototype.applyRadius = function (borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius) {
         var width = this.x2 - this.x1 + 1;
         var height = this.y2 - this.y1 + 1;
-        if (radiusLeftTop) {
-            this.leftTopRadiusX = radiusLeftTop.getValue(width);
-            this.leftTopRadiusY = radiusLeftTop.getValue(height);
+        if (borderTopLeftRadius) {
+            this.leftTopRadiusX = borderTopLeftRadius.value1.getValue(width);
+            this.leftTopRadiusY = borderTopLeftRadius.value2.getValue(height);
         }
-        if (radiusRightTop) {
-            this.rightTopRadiusX = radiusRightTop.getValue(width);
-            this.rightTopRadiusY = radiusRightTop.getValue(height);
+        if (borderTopRightRadius) {
+            this.rightTopRadiusX = borderTopRightRadius.value1.getValue(width);
+            this.rightTopRadiusY = borderTopRightRadius.value2.getValue(height);
         }
-        if (radiusRightBottom) {
-            this.rightBottomRadiusX = radiusRightBottom.getValue(width);
-            this.rightBottomRadiusY = radiusRightBottom.getValue(height);
+        if (borderBottomLeftRadius) {
+            this.leftBottomRadiusX = borderBottomLeftRadius.value1.getValue(width);
+            this.leftBottomRadiusY = borderBottomLeftRadius.value1.getValue(height);
         }
-        if (radiusLeftBottom) {
-            this.leftBottomRadiusX = radiusLeftBottom.getValue(width);
-            this.leftBottomRadiusY = radiusLeftBottom.getValue(height);
+        if (borderBottomRightRadius) {
+            this.rightBottomRadiusX = borderBottomRightRadius.value1.getValue(width);
+            this.rightBottomRadiusY = borderBottomRightRadius.value2.getValue(height);
+        }
+        if (this.leftTopRadiusX + this.rightTopRadiusX > width) {
+            var scale = width / (this.leftTopRadiusX + this.rightTopRadiusX);
+            this.leftTopRadiusX *= scale;
+            this.rightTopRadiusX *= scale;
+        }
+        if (this.leftBottomRadiusX + this.rightBottomRadiusX > width) {
+            var scale = width / (this.leftBottomRadiusX + this.rightBottomRadiusX);
+            this.leftBottomRadiusX *= scale;
+            this.rightBottomRadiusX *= scale;
+        }
+        if (this.leftTopRadiusY + this.leftBottomRadiusY > height) {
+            var scale = height / (this.leftTopRadiusY + this.leftBottomRadiusY);
+            this.leftTopRadiusY *= scale;
+            this.leftBottomRadiusY *= scale;
+        }
+        if (this.rightTopRadiusY + this.rightBottomRadiusY > height) {
+            var scale = height / (this.rightTopRadiusY + this.rightBottomRadiusY);
+            this.rightTopRadiusY *= scale;
+            this.rightBottomRadiusY *= scale;
         }
         return this;
     };
@@ -6662,6 +6683,78 @@ exports.Border = Border;
 
 /***/ }),
 
+/***/ "./src/style/BorderRadius.ts":
+/*!***********************************!*\
+  !*** ./src/style/BorderRadius.ts ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseValue_1 = __webpack_require__(/*! ../base/BaseValue */ "./src/base/BaseValue.ts");
+var BorderRadius = (function () {
+    function BorderRadius(value1, value2) {
+        if (value2 === void 0) { value2 = value1; }
+        this.value1 = value1;
+        this.value2 = value2;
+    }
+    BorderRadius.of = function (value, silent) {
+        if (silent === void 0) { silent = false; }
+        if (typeof value === 'number') {
+            return new BorderRadius(BaseValue_1.BaseValue.of(value));
+        }
+        else {
+            var pieces = value.split(/\s+/);
+            var value1 = void 0;
+            var value2 = void 0;
+            if (pieces.length === 1) {
+                value1 = value2 = BaseValue_1.BaseValue.of(pieces[0]);
+            }
+            else if (pieces.length === 2) {
+                value1 = BaseValue_1.BaseValue.of(pieces[0]);
+                value2 = BaseValue_1.BaseValue.of(pieces[1]);
+            }
+            if (value1 && value2) {
+                return new BorderRadius(value1, value2);
+            }
+            else {
+                if (!silent) {
+                    console.warn("invalid border:" + value);
+                }
+                return undefined;
+            }
+        }
+    };
+    BorderRadius.prototype.toString = function () {
+        return this.value1.toString() + " " + this.value2.toString();
+    };
+    BorderRadius.prototype.clone = function () {
+        return new BorderRadius(this.value1, this.value2);
+    };
+    BorderRadius.prototype.update = function (target, progress) {
+        return new BorderRadius(this.value1.update(target.value1, progress), this.value2.update(target.value2, progress));
+    };
+    BorderRadius.prototype.convertFrom = function (src) {
+        var result = BorderRadius.of(src + '');
+        if (result === undefined) {
+            return new BorderRadius(BaseValue_1.BaseValue.ZERO, BaseValue_1.BaseValue.ZERO);
+        }
+        else {
+            return result;
+        }
+    };
+    BorderRadius.prototype.isAnimatable = function () {
+        return true;
+    };
+    return BorderRadius;
+}());
+exports.BorderRadius = BorderRadius;
+
+
+/***/ }),
+
 /***/ "./src/style/Font.ts":
 /*!***************************!*\
   !*** ./src/style/Font.ts ***!
@@ -6957,6 +7050,7 @@ var EnumUtils_1 = __webpack_require__(/*! ../utils/EnumUtils */ "./src/utils/Enu
 var StringUtils_1 = __webpack_require__(/*! ../utils/StringUtils */ "./src/utils/StringUtils.ts");
 var Background_1 = __webpack_require__(/*! ./Background */ "./src/style/Background.ts");
 var Border_1 = __webpack_require__(/*! ./Border */ "./src/style/Border.ts");
+var BorderRadius_1 = __webpack_require__(/*! ./BorderRadius */ "./src/style/BorderRadius.ts");
 var Font_1 = __webpack_require__(/*! ./Font */ "./src/style/Font.ts");
 var LineHeight_1 = __webpack_require__(/*! ./LineHeight */ "./src/style/LineHeight.ts");
 var Shadow_1 = __webpack_require__(/*! ./Shadow */ "./src/style/Shadow.ts");
@@ -7271,19 +7365,21 @@ var Style = (function () {
                     this.textAlign = EnumUtils_1.EnumUtils.fromString(TextAlign, value, TextAlign.LEFT);
                     break;
                 case 'borderRadius':
-                    var borderRadius = Style.parse4Dirs(value);
-                    if (borderRadius) {
-                        this.borderRadiusTop = borderRadius[0];
-                        this.borderRadiusRight = borderRadius[1];
-                        this.borderRadiusBottom = borderRadius[2];
-                        this.borderRadiusLeft = borderRadius[3];
+                    {
+                        var borderRadius = Style.parseBorderRadius(value);
+                        if (borderRadius) {
+                            this.borderTopLeftRadius = borderRadius[0];
+                            this.borderTopRightRadius = borderRadius[1];
+                            this.borderBottomRightRadius = borderRadius[2];
+                            this.borderBottomLeftRadius = borderRadius[3];
+                        }
                     }
                     break;
-                case 'borderRadiusTop':
-                case 'borderRadiusRight':
-                case 'borderRadiusBottom':
-                case 'borderRadiusLeft':
-                    this[key] = BaseValue_1.BaseValue.of(value);
+                case 'borderTopLeftRadius':
+                case 'borderTopRightRadius':
+                case 'borderBottomLeftRadius':
+                case 'borderBottomRightRadius':
+                    this[key] = BorderRadius_1.BorderRadius.of(value);
                     break;
                 case 'border':
                     this.borderTop = this.borderRight = this.borderLeft = this.borderBottom = Border_1.Border.of(value);
@@ -7421,17 +7517,17 @@ var Style = (function () {
         if (this.borderLeft) {
             cloned.borderLeft = this.borderLeft.clone();
         }
-        if (this.borderRadiusTop) {
-            cloned.borderRadiusTop = this.borderRadiusTop.clone();
+        if (this.borderTopLeftRadius) {
+            cloned.borderTopLeftRadius = this.borderTopLeftRadius.clone();
         }
-        if (this.borderRadiusRight) {
-            cloned.borderRadiusRight = this.borderRadiusRight.clone();
+        if (this.borderTopRightRadius) {
+            cloned.borderTopRightRadius = this.borderTopRightRadius.clone();
         }
-        if (this.borderRadiusBottom) {
-            cloned.borderRadiusBottom = this.borderRadiusBottom.clone();
+        if (this.borderBottomRightRadius) {
+            cloned.borderBottomRightRadius = this.borderBottomRightRadius.clone();
         }
-        if (this.borderRadiusLeft) {
-            cloned.borderRadiusLeft = this.borderRadiusLeft.clone();
+        if (this.borderBottomLeftRadius) {
+            cloned.borderBottomLeftRadius = this.borderBottomLeftRadius.clone();
         }
         cloned.overflow = this.overflow;
         cloned.compositeOperation = this.compositeOperation;
@@ -7474,38 +7570,15 @@ var Style = (function () {
             case 'paddingLeft':
             case 'marginRight':
             case 'marginLeft':
-            case 'borderRadiusRight':
-            case 'borderRadiusLeft':
             case 'transformX':
             case 'width':
             case 'left':
             case 'right':
             case 'perspectiveOriginX': {
-                var toBaseValue = void 0;
-                if (typeof to === 'number' || typeof to === 'string') {
-                    toBaseValue = BaseValue_1.BaseValue.of(to);
-                }
-                else if (to instanceof BaseValue_1.BaseValue) {
-                    toBaseValue = to;
-                }
-                if (!toBaseValue) {
-                    console.warn("invalid value (" + to + ") for " + key);
-                    break;
-                }
                 var from = this[key] || BaseValue_1.BaseValue.of(0);
-                if (toBaseValue.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
-                    result[key] = {
-                        from: from.toPercentage(target.getWidth()),
-                        to: toBaseValue,
-                        type: Animation_1.AnimationValueType.ANIMATABLE
-                    };
-                }
-                else {
-                    result[key] = {
-                        from: from.toAbsolute(target.getWidth()),
-                        to: toBaseValue,
-                        type: Animation_1.AnimationValueType.ANIMATABLE
-                    };
+                var animatedValue = Style.calculateAnimationBaseValue(key, from, to, target.getWidth());
+                if (animatedValue) {
+                    result[key] = animatedValue;
                 }
                 break;
             }
@@ -7513,38 +7586,15 @@ var Style = (function () {
             case 'paddingBottom':
             case 'marginTop':
             case 'marginBottom':
-            case 'borderRadiusTop':
-            case 'borderRadiusBottom':
             case 'transformY':
             case 'height':
             case 'top':
             case 'bottom':
             case 'perspectiveOriginY': {
-                var toBaseValue = void 0;
-                if (typeof to === 'number' || typeof to === 'string') {
-                    toBaseValue = BaseValue_1.BaseValue.of(to);
-                }
-                else if (to instanceof BaseValue_1.BaseValue) {
-                    toBaseValue = to;
-                }
-                if (!toBaseValue) {
-                    console.warn("invalid value (" + to + ") for " + key);
-                    break;
-                }
                 var from = this[key] || BaseValue_1.BaseValue.of(0);
-                if (toBaseValue.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
-                    result[key] = {
-                        from: from.toPercentage(target.getHeight()),
-                        to: toBaseValue,
-                        type: Animation_1.AnimationValueType.ANIMATABLE
-                    };
-                }
-                else {
-                    result[key] = {
-                        from: from.toAbsolute(target.getHeight()),
-                        to: toBaseValue,
-                        type: Animation_1.AnimationValueType.ANIMATABLE
-                    };
+                var animatedValue = Style.calculateAnimationBaseValue(key, from, to, target.getHeight());
+                if (animatedValue) {
+                    result[key] = animatedValue;
                 }
                 break;
             }
@@ -7611,10 +7661,51 @@ var Style = (function () {
                 this.fillSnapshotForAnimation(target, 'scaleY', to, result);
                 break;
             case 'borderRadius':
-                this.fillSnapshotForAnimation(target, 'borderRadiusTop', to, result);
-                this.fillSnapshotForAnimation(target, 'borderRadiusRight', to, result);
-                this.fillSnapshotForAnimation(target, 'borderRadiusBottom', to, result);
-                this.fillSnapshotForAnimation(target, 'borderRadiusLeft', to, result);
+                var borderRadius = Style.parseBorderRadius(to);
+                if (borderRadius) {
+                    this.fillSnapshotForAnimation(target, 'borderTopLeftRadius', borderRadius[0], result);
+                    this.fillSnapshotForAnimation(target, 'borderTopRightRadius', borderRadius[1], result);
+                    this.fillSnapshotForAnimation(target, 'borderBottomRightRadius', borderRadius[2], result);
+                    this.fillSnapshotForAnimation(target, 'borderBottomLeftRadius', borderRadius[3], result);
+                }
+                break;
+            case 'borderTopLeftRadius':
+            case 'borderTopRightRadius':
+            case 'borderBottomLeftRadius':
+            case 'borderBottomRightRadius':
+                {
+                    var radius = void 0;
+                    if (typeof to === 'string' || typeof to === 'number') {
+                        radius = BorderRadius_1.BorderRadius.of(to);
+                    }
+                    else if (to instanceof BorderRadius_1.BorderRadius) {
+                        radius = to;
+                    }
+                    if (!radius) {
+                        console.warn("invalid value (" + to + ") for " + key);
+                        break;
+                    }
+                    var from = this[key] || BorderRadius_1.BorderRadius.of(0);
+                    var value1 = void 0;
+                    if (radius.value1.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
+                        value1 = from.value1.toPercentage(target.getWidth());
+                    }
+                    else {
+                        value1 = from.value1.toAbsolute(target.getWidth());
+                    }
+                    var value2 = void 0;
+                    if (radius.value2.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
+                        value2 = from.value2.toPercentage(target.getHeight());
+                    }
+                    else {
+                        value2 = from.value2.toAbsolute(target.getHeight());
+                    }
+                    result[key] = {
+                        from: new BorderRadius_1.BorderRadius(value1, value2),
+                        to: radius,
+                        type: Animation_1.AnimationValueType.ANIMATABLE
+                    };
+                }
                 break;
             case 'borderLeft':
             case 'borderRight':
@@ -7672,8 +7763,77 @@ var Style = (function () {
                 break;
         }
     };
+    Style.calculateAnimationBaseValue = function (key, from, to, base) {
+        var toBaseValue;
+        if (typeof to === 'number' || typeof to === 'string') {
+            toBaseValue = BaseValue_1.BaseValue.of(to);
+        }
+        else if (to instanceof BaseValue_1.BaseValue) {
+            toBaseValue = to;
+        }
+        if (!toBaseValue) {
+            console.warn("invalid value (" + to + ") for " + key);
+            return undefined;
+        }
+        if (toBaseValue.unit === BaseValue_1.BaseValueUnit.PERCENTAGE) {
+            return {
+                from: from.toPercentage(base),
+                to: toBaseValue,
+                type: Animation_1.AnimationValueType.ANIMATABLE
+            };
+        }
+        else {
+            return {
+                from: from.toAbsolute(base),
+                to: toBaseValue,
+                type: Animation_1.AnimationValueType.ANIMATABLE
+            };
+        }
+    };
+    Style.parseBorderRadius = function (value) {
+        if (typeof value === 'number') {
+            var borderRadius = new BorderRadius_1.BorderRadius(BaseValue_1.BaseValue.of(value));
+            return [borderRadius, borderRadius, borderRadius, borderRadius];
+        }
+        else if (Animation_1.isIAnimatable(value)) {
+            return [
+                value,
+                value,
+                value,
+                value
+            ];
+        }
+        else {
+            var ps = value.toString().split('/');
+            if (ps.length === 1) {
+                var borderRadius = Style.parse4Dirs(ps[0]);
+                if (borderRadius) {
+                    return [
+                        new BorderRadius_1.BorderRadius(borderRadius[0]),
+                        new BorderRadius_1.BorderRadius(borderRadius[1]),
+                        new BorderRadius_1.BorderRadius(borderRadius[2]),
+                        new BorderRadius_1.BorderRadius(borderRadius[3])
+                    ];
+                }
+            }
+            else if (ps.length === 2) {
+                var borderRadius1 = Style.parse4Dirs(ps[0]);
+                var borderRadius2 = Style.parse4Dirs(ps[1]);
+                if (borderRadius1 && borderRadius2) {
+                    return [
+                        new BorderRadius_1.BorderRadius(borderRadius1[0], borderRadius2[0]),
+                        new BorderRadius_1.BorderRadius(borderRadius1[1], borderRadius2[1]),
+                        new BorderRadius_1.BorderRadius(borderRadius1[2], borderRadius2[2]),
+                        new BorderRadius_1.BorderRadius(borderRadius1[3], borderRadius2[3])
+                    ];
+                }
+            }
+            console.warn("invalid border radius:" + value);
+            return undefined;
+        }
+    };
     Style.parse4Dirs = function (value) {
-        var pieces = value.split(/\s+/);
+        var pieces = value.trim().split(/\s+/);
         if (pieces.length === 1) {
             return [
                 BaseValue_1.BaseValue.of(pieces[0]),
@@ -7959,7 +8119,7 @@ var DrawUtils = (function () {
         var leftWidth = style.borderLeft ? style.borderLeft.width : 0;
         var outerRect = new RoundRect_1.RoundRect()
             .applySize(element.rect.width, element.rect.height)
-            .applyRadius(style.borderRadiusTop, style.borderRadiusRight, style.borderRadiusBottom, style.borderRadiusLeft);
+            .applyRadius(style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomLeftRadius, style.borderBottomRightRadius);
         var innerRect;
         if (topWidth > 0 || rightWidth > 0 || bottomWidth > 0 || leftWidth > 0) {
             innerRect = outerRect.applyBorder(topWidth, rightWidth, bottomWidth, leftWidth);

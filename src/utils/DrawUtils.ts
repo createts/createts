@@ -36,10 +36,10 @@ export class DrawUtils {
     const outerRect = new RoundRect()
       .applySize(element.rect.width, element.rect.height)
       .applyRadius(
-        style.borderRadiusTop,
-        style.borderRadiusRight,
-        style.borderRadiusBottom,
-        style.borderRadiusLeft
+        style.borderTopLeftRadius,
+        style.borderTopRightRadius,
+        style.borderBottomLeftRadius,
+        style.borderBottomRightRadius
       );
     let innerRect: RoundRect;
     if (topWidth > 0 || rightWidth > 0 || bottomWidth > 0 || leftWidth > 0) {

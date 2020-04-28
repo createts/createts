@@ -5,11 +5,11 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 import { Rect } from '../base/Rect';
+
 /**
  * This class represents an rectangle object which contains start point (x, y) and size (width, height) with radius in
  * four corners.
  */
-
 export var RoundRect = /*#__PURE__*/function () {
   /**
    * The X coordinate of the left-top corner of the Rect.
@@ -111,37 +111,64 @@ export var RoundRect = /*#__PURE__*/function () {
     }
     /**
      * Apply the given radius of 4 corners.
-     * @param radiusLeftTop radius in left-top corner.
-     * @param radiusRightTop height in right-top corner.
-     * @param radiusRightBottom radius in right-bottom corner.
-     * @param radiusLeftBottom radius in left-bottom corner.
+     * @param borderTopLeftRadius radius in top-left corner.
+     * @param borderTopRightRadius height in top-right corner.
+     * @param borderBottomLeftRadius radius in bottom-right corner.
+     * @param borderBottomRightRadius radius in bottom-left corner.
      * @returns The current instance. Useful for chaining method calls.
      */
 
   }, {
     key: "applyRadius",
-    value: function applyRadius(radiusLeftTop, radiusRightTop, radiusRightBottom, radiusLeftBottom) {
+    value: function applyRadius(borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius) {
       var width = this.x2 - this.x1 + 1;
       var height = this.y2 - this.y1 + 1;
 
-      if (radiusLeftTop) {
-        this.leftTopRadiusX = radiusLeftTop.getValue(width);
-        this.leftTopRadiusY = radiusLeftTop.getValue(height);
+      if (borderTopLeftRadius) {
+        this.leftTopRadiusX = borderTopLeftRadius.value1.getValue(width);
+        this.leftTopRadiusY = borderTopLeftRadius.value2.getValue(height);
       }
 
-      if (radiusRightTop) {
-        this.rightTopRadiusX = radiusRightTop.getValue(width);
-        this.rightTopRadiusY = radiusRightTop.getValue(height);
+      if (borderTopRightRadius) {
+        this.rightTopRadiusX = borderTopRightRadius.value1.getValue(width);
+        this.rightTopRadiusY = borderTopRightRadius.value2.getValue(height);
       }
 
-      if (radiusRightBottom) {
-        this.rightBottomRadiusX = radiusRightBottom.getValue(width);
-        this.rightBottomRadiusY = radiusRightBottom.getValue(height);
+      if (borderBottomLeftRadius) {
+        this.leftBottomRadiusX = borderBottomLeftRadius.value1.getValue(width);
+        this.leftBottomRadiusY = borderBottomLeftRadius.value1.getValue(height);
       }
 
-      if (radiusLeftBottom) {
-        this.leftBottomRadiusX = radiusLeftBottom.getValue(width);
-        this.leftBottomRadiusY = radiusLeftBottom.getValue(height);
+      if (borderBottomRightRadius) {
+        this.rightBottomRadiusX = borderBottomRightRadius.value1.getValue(width);
+        this.rightBottomRadiusY = borderBottomRightRadius.value2.getValue(height);
+      }
+
+      if (this.leftTopRadiusX + this.rightTopRadiusX > width) {
+        var scale = width / (this.leftTopRadiusX + this.rightTopRadiusX);
+        this.leftTopRadiusX *= scale;
+        this.rightTopRadiusX *= scale;
+      }
+
+      if (this.leftBottomRadiusX + this.rightBottomRadiusX > width) {
+        var _scale = width / (this.leftBottomRadiusX + this.rightBottomRadiusX);
+
+        this.leftBottomRadiusX *= _scale;
+        this.rightBottomRadiusX *= _scale;
+      }
+
+      if (this.leftTopRadiusY + this.leftBottomRadiusY > height) {
+        var _scale2 = height / (this.leftTopRadiusY + this.leftBottomRadiusY);
+
+        this.leftTopRadiusY *= _scale2;
+        this.leftBottomRadiusY *= _scale2;
+      }
+
+      if (this.rightTopRadiusY + this.rightBottomRadiusY > height) {
+        var _scale3 = height / (this.rightTopRadiusY + this.rightBottomRadiusY);
+
+        this.rightTopRadiusY *= _scale3;
+        this.rightBottomRadiusY *= _scale3;
       }
 
       return this;

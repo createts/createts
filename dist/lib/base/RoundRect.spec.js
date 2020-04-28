@@ -1,6 +1,6 @@
 "use strict";
 
-var _BaseValue = require("./BaseValue");
+var _BorderRadius = require("../style/BorderRadius");
 
 var _RoundRect = require("./RoundRect");
 
@@ -21,7 +21,7 @@ test('should resize', function () {
 });
 test('should apply radius', function () {
   var roundRect = new _RoundRect.RoundRect(5, 5, 40, 50);
-  roundRect.applyRadius(_BaseValue.BaseValue.of(4), _BaseValue.BaseValue.of(5), _BaseValue.BaseValue.of(6), _BaseValue.BaseValue.of(7));
+  roundRect.applyRadius(_BorderRadius.BorderRadius.of('4'), _BorderRadius.BorderRadius.of('5'), _BorderRadius.BorderRadius.of('7'), _BorderRadius.BorderRadius.of('6'));
   expect(roundRect.leftTopRadiusX).toEqual(4);
   expect(roundRect.leftTopRadiusY).toEqual(4);
   expect(roundRect.rightTopRadiusX).toEqual(5);
@@ -33,7 +33,7 @@ test('should apply radius', function () {
 });
 test('should apply radius by percentage', function () {
   var roundRect = new _RoundRect.RoundRect(5, 5, 104, 54);
-  roundRect.applyRadius(_BaseValue.BaseValue.of('10%'), _BaseValue.BaseValue.of('20%'), _BaseValue.BaseValue.of('30%'), _BaseValue.BaseValue.of('40%'));
+  roundRect.applyRadius(_BorderRadius.BorderRadius.of('10%'), _BorderRadius.BorderRadius.of('20%'), _BorderRadius.BorderRadius.of('40%'), _BorderRadius.BorderRadius.of('30%'));
   expect(roundRect.leftTopRadiusX).toEqual(10);
   expect(roundRect.leftTopRadiusY).toEqual(5);
   expect(roundRect.rightTopRadiusX).toEqual(20);
@@ -45,7 +45,7 @@ test('should apply radius by percentage', function () {
 });
 test('should apply border', function () {
   var roundRect = new _RoundRect.RoundRect(5, 5, 104, 54);
-  roundRect.applyRadius(_BaseValue.BaseValue.of('10%'), _BaseValue.BaseValue.of('20%'), _BaseValue.BaseValue.of('30%'), _BaseValue.BaseValue.of('40%'));
+  roundRect.applyRadius(_BorderRadius.BorderRadius.of('10%'), _BorderRadius.BorderRadius.of('20%'), _BorderRadius.BorderRadius.of('40%'), _BorderRadius.BorderRadius.of('30%'));
   var newRoundRect = roundRect.applyBorder(5, 6, 7, 8);
   expect(newRoundRect.x1).toEqual(13);
   expect(newRoundRect.y1).toEqual(10);

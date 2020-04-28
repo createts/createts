@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isIAnimatable = isIAnimatable;
 exports.Animation = exports.AnimationState = exports.AnimationStep = exports.AnimateEvent = exports.AnimateEventType = exports.AnimationValueType = void 0;
 
 var _Event2 = require("../base/Event");

@@ -1,5 +1,4 @@
-import { BaseValue } from './BaseValue';
-import { Rect } from './Rect';
+import { BorderRadius } from '../style/BorderRadius';
 import { RoundRect } from './RoundRect';
 
 test('should hold values', () => {
@@ -21,7 +20,12 @@ test('should resize', () => {
 
 test('should apply radius', () => {
   const roundRect = new RoundRect(5, 5, 40, 50);
-  roundRect.applyRadius(BaseValue.of(4), BaseValue.of(5), BaseValue.of(6), BaseValue.of(7));
+  roundRect.applyRadius(
+    BorderRadius.of('4'),
+    BorderRadius.of('5'),
+    BorderRadius.of('7'),
+    BorderRadius.of('6')
+  );
   expect(roundRect.leftTopRadiusX).toEqual(4);
   expect(roundRect.leftTopRadiusY).toEqual(4);
   expect(roundRect.rightTopRadiusX).toEqual(5);
@@ -35,10 +39,10 @@ test('should apply radius', () => {
 test('should apply radius by percentage', () => {
   const roundRect = new RoundRect(5, 5, 104, 54);
   roundRect.applyRadius(
-    BaseValue.of('10%'),
-    BaseValue.of('20%'),
-    BaseValue.of('30%'),
-    BaseValue.of('40%')
+    BorderRadius.of('10%'),
+    BorderRadius.of('20%'),
+    BorderRadius.of('40%'),
+    BorderRadius.of('30%')
   );
   expect(roundRect.leftTopRadiusX).toEqual(10);
   expect(roundRect.leftTopRadiusY).toEqual(5);
@@ -53,10 +57,10 @@ test('should apply radius by percentage', () => {
 test('should apply border', () => {
   const roundRect = new RoundRect(5, 5, 104, 54);
   roundRect.applyRadius(
-    BaseValue.of('10%'),
-    BaseValue.of('20%'),
-    BaseValue.of('30%'),
-    BaseValue.of('40%')
+    BorderRadius.of('10%'),
+    BorderRadius.of('20%'),
+    BorderRadius.of('40%'),
+    BorderRadius.of('30%')
   );
   const newRoundRect = roundRect.applyBorder(5, 6, 7, 8);
   expect(newRoundRect.x1).toEqual(13);

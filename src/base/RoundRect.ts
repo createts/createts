@@ -1,5 +1,6 @@
 import { BaseValue } from '../base/BaseValue';
 import { Rect } from '../base/Rect';
+import { BorderRadius } from '../style/BorderRadius';
 
 /**
  * This class represents an rectangle object which contains start point (x, y) and size (width, height) with radius in
@@ -86,35 +87,55 @@ export class RoundRect {
 
   /**
    * Apply the given radius of 4 corners.
-   * @param radiusLeftTop radius in left-top corner.
-   * @param radiusRightTop height in right-top corner.
-   * @param radiusRightBottom radius in right-bottom corner.
-   * @param radiusLeftBottom radius in left-bottom corner.
+   * @param borderTopLeftRadius radius in top-left corner.
+   * @param borderTopRightRadius height in top-right corner.
+   * @param borderBottomLeftRadius radius in bottom-right corner.
+   * @param borderBottomRightRadius radius in bottom-left corner.
    * @returns The current instance. Useful for chaining method calls.
    */
   applyRadius(
-    radiusLeftTop?: BaseValue,
-    radiusRightTop?: BaseValue,
-    radiusRightBottom?: BaseValue,
-    radiusLeftBottom?: BaseValue
+    borderTopLeftRadius?: BorderRadius,
+    borderTopRightRadius?: BorderRadius,
+    borderBottomLeftRadius?: BorderRadius,
+    borderBottomRightRadius?: BorderRadius
   ): RoundRect {
     const width = this.x2 - this.x1 + 1;
     const height = this.y2 - this.y1 + 1;
-    if (radiusLeftTop) {
-      this.leftTopRadiusX = radiusLeftTop.getValue(width);
-      this.leftTopRadiusY = radiusLeftTop.getValue(height);
+    if (borderTopLeftRadius) {
+      this.leftTopRadiusX = borderTopLeftRadius.value1.getValue(width);
+      this.leftTopRadiusY = borderTopLeftRadius.value2.getValue(height);
     }
-    if (radiusRightTop) {
-      this.rightTopRadiusX = radiusRightTop.getValue(width);
-      this.rightTopRadiusY = radiusRightTop.getValue(height);
+    if (borderTopRightRadius) {
+      this.rightTopRadiusX = borderTopRightRadius.value1.getValue(width);
+      this.rightTopRadiusY = borderTopRightRadius.value2.getValue(height);
     }
-    if (radiusRightBottom) {
-      this.rightBottomRadiusX = radiusRightBottom.getValue(width);
-      this.rightBottomRadiusY = radiusRightBottom.getValue(height);
+    if (borderBottomLeftRadius) {
+      this.leftBottomRadiusX = borderBottomLeftRadius.value1.getValue(width);
+      this.leftBottomRadiusY = borderBottomLeftRadius.value1.getValue(height);
     }
-    if (radiusLeftBottom) {
-      this.leftBottomRadiusX = radiusLeftBottom.getValue(width);
-      this.leftBottomRadiusY = radiusLeftBottom.getValue(height);
+    if (borderBottomRightRadius) {
+      this.rightBottomRadiusX = borderBottomRightRadius.value1.getValue(width);
+      this.rightBottomRadiusY = borderBottomRightRadius.value2.getValue(height);
+    }
+    if (this.leftTopRadiusX + this.rightTopRadiusX > width) {
+      const scale = width / (this.leftTopRadiusX + this.rightTopRadiusX);
+      this.leftTopRadiusX *= scale;
+      this.rightTopRadiusX *= scale;
+    }
+    if (this.leftBottomRadiusX + this.rightBottomRadiusX > width) {
+      const scale = width / (this.leftBottomRadiusX + this.rightBottomRadiusX);
+      this.leftBottomRadiusX *= scale;
+      this.rightBottomRadiusX *= scale;
+    }
+    if (this.leftTopRadiusY + this.leftBottomRadiusY > height) {
+      const scale = height / (this.leftTopRadiusY + this.leftBottomRadiusY);
+      this.leftTopRadiusY *= scale;
+      this.leftBottomRadiusY *= scale;
+    }
+    if (this.rightTopRadiusY + this.rightBottomRadiusY > height) {
+      const scale = height / (this.rightTopRadiusY + this.rightBottomRadiusY);
+      this.rightTopRadiusY *= scale;
+      this.rightBottomRadiusY *= scale;
     }
     return this;
   }

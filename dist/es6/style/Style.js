@@ -10,13 +10,14 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-import { AnimationValueType } from '../animation/Animation';
+import { AnimationValueType, isIAnimatable } from '../animation/Animation';
 import { BaseValue, BaseValueUnit } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { EnumUtils } from '../utils/EnumUtils';
 import { StringUtils } from '../utils/StringUtils';
 import { Background } from './Background';
 import { Border } from './Border';
+import { BorderRadius } from './BorderRadius';
 import { Font, FontStyle, FontVariant, FontWeight } from './Font';
 import { LineHeight } from './LineHeight';
 import { Shadow } from './Shadow';
@@ -119,10 +120,10 @@ export var Style = /*#__PURE__*/function () {
     this.font = void 0;
     this.lineHeight = void 0;
     this.textAlign = TextAlign.LEFT;
-    this.borderRadiusTop = void 0;
-    this.borderRadiusRight = void 0;
-    this.borderRadiusBottom = void 0;
-    this.borderRadiusLeft = void 0;
+    this.borderTopLeftRadius = void 0;
+    this.borderTopRightRadius = void 0;
+    this.borderBottomLeftRadius = void 0;
+    this.borderBottomRightRadius = void 0;
     this.borderTop = void 0;
     this.borderRight = void 0;
     this.borderBottom = void 0;
@@ -432,22 +433,23 @@ export var Style = /*#__PURE__*/function () {
             break;
 
           case 'borderRadius':
-            var borderRadius = Style.parse4Dirs(value);
+            {
+              var borderRadius = Style.parseBorderRadius(value);
 
-            if (borderRadius) {
-              this.borderRadiusTop = borderRadius[0];
-              this.borderRadiusRight = borderRadius[1];
-              this.borderRadiusBottom = borderRadius[2];
-              this.borderRadiusLeft = borderRadius[3];
+              if (borderRadius) {
+                this.borderTopLeftRadius = borderRadius[0];
+                this.borderTopRightRadius = borderRadius[1];
+                this.borderBottomRightRadius = borderRadius[2];
+                this.borderBottomLeftRadius = borderRadius[3];
+              }
             }
-
             break;
 
-          case 'borderRadiusTop':
-          case 'borderRadiusRight':
-          case 'borderRadiusBottom':
-          case 'borderRadiusLeft':
-            this[_key] = BaseValue.of(value);
+          case 'borderTopLeftRadius':
+          case 'borderTopRightRadius':
+          case 'borderBottomLeftRadius':
+          case 'borderBottomRightRadius':
+            this[_key] = BorderRadius.of(value);
             break;
 
           case 'border':
@@ -627,20 +629,20 @@ export var Style = /*#__PURE__*/function () {
         cloned.borderLeft = this.borderLeft.clone();
       }
 
-      if (this.borderRadiusTop) {
-        cloned.borderRadiusTop = this.borderRadiusTop.clone();
+      if (this.borderTopLeftRadius) {
+        cloned.borderTopLeftRadius = this.borderTopLeftRadius.clone();
       }
 
-      if (this.borderRadiusRight) {
-        cloned.borderRadiusRight = this.borderRadiusRight.clone();
+      if (this.borderTopRightRadius) {
+        cloned.borderTopRightRadius = this.borderTopRightRadius.clone();
       }
 
-      if (this.borderRadiusBottom) {
-        cloned.borderRadiusBottom = this.borderRadiusBottom.clone();
+      if (this.borderBottomRightRadius) {
+        cloned.borderBottomRightRadius = this.borderBottomRightRadius.clone();
       }
 
-      if (this.borderRadiusLeft) {
-        cloned.borderRadiusLeft = this.borderRadiusLeft.clone();
+      if (this.borderBottomLeftRadius) {
+        cloned.borderBottomLeftRadius = this.borderBottomLeftRadius.clone();
       }
 
       cloned.overflow = this.overflow;
@@ -690,41 +692,17 @@ export var Style = /*#__PURE__*/function () {
         case 'paddingLeft':
         case 'marginRight':
         case 'marginLeft':
-        case 'borderRadiusRight':
-        case 'borderRadiusLeft':
         case 'transformX':
         case 'width':
         case 'left':
         case 'right':
         case 'perspectiveOriginX':
           {
-            var toBaseValue;
-
-            if (typeof to === 'number' || typeof to === 'string') {
-              toBaseValue = BaseValue.of(to);
-            } else if (to instanceof BaseValue) {
-              toBaseValue = to;
-            }
-
-            if (!toBaseValue) {
-              console.warn("invalid value (".concat(to, ") for ").concat(key));
-              break;
-            }
-
             var from = this[key] || BaseValue.of(0);
+            var animatedValue = Style.calculateAnimationBaseValue(key, from, to, target.getWidth());
 
-            if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
-              result[key] = {
-                from: from.toPercentage(target.getWidth()),
-                to: toBaseValue,
-                type: AnimationValueType.ANIMATABLE
-              };
-            } else {
-              result[key] = {
-                from: from.toAbsolute(target.getWidth()),
-                to: toBaseValue,
-                type: AnimationValueType.ANIMATABLE
-              };
+            if (animatedValue) {
+              result[key] = animatedValue;
             }
 
             break;
@@ -734,41 +712,18 @@ export var Style = /*#__PURE__*/function () {
         case 'paddingBottom':
         case 'marginTop':
         case 'marginBottom':
-        case 'borderRadiusTop':
-        case 'borderRadiusBottom':
         case 'transformY':
         case 'height':
         case 'top':
         case 'bottom':
         case 'perspectiveOriginY':
           {
-            var _toBaseValue;
-
-            if (typeof to === 'number' || typeof to === 'string') {
-              _toBaseValue = BaseValue.of(to);
-            } else if (to instanceof BaseValue) {
-              _toBaseValue = to;
-            }
-
-            if (!_toBaseValue) {
-              console.warn("invalid value (".concat(to, ") for ").concat(key));
-              break;
-            }
-
             var _from = this[key] || BaseValue.of(0);
 
-            if (_toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
-              result[key] = {
-                from: _from.toPercentage(target.getHeight()),
-                to: _toBaseValue,
-                type: AnimationValueType.ANIMATABLE
-              };
-            } else {
-              result[key] = {
-                from: _from.toAbsolute(target.getHeight()),
-                to: _toBaseValue,
-                type: AnimationValueType.ANIMATABLE
-              };
+            var _animatedValue = Style.calculateAnimationBaseValue(key, _from, to, target.getHeight());
+
+            if (_animatedValue) {
+              result[key] = _animatedValue;
             }
 
             break;
@@ -850,10 +805,59 @@ export var Style = /*#__PURE__*/function () {
           break;
 
         case 'borderRadius':
-          this.fillSnapshotForAnimation(target, 'borderRadiusTop', to, result);
-          this.fillSnapshotForAnimation(target, 'borderRadiusRight', to, result);
-          this.fillSnapshotForAnimation(target, 'borderRadiusBottom', to, result);
-          this.fillSnapshotForAnimation(target, 'borderRadiusLeft', to, result);
+          var borderRadius = Style.parseBorderRadius(to);
+
+          if (borderRadius) {
+            this.fillSnapshotForAnimation(target, 'borderTopLeftRadius', borderRadius[0], result);
+            this.fillSnapshotForAnimation(target, 'borderTopRightRadius', borderRadius[1], result);
+            this.fillSnapshotForAnimation(target, 'borderBottomRightRadius', borderRadius[2], result);
+            this.fillSnapshotForAnimation(target, 'borderBottomLeftRadius', borderRadius[3], result);
+          }
+
+          break;
+
+        case 'borderTopLeftRadius':
+        case 'borderTopRightRadius':
+        case 'borderBottomLeftRadius':
+        case 'borderBottomRightRadius':
+          {
+            var radius;
+
+            if (typeof to === 'string' || typeof to === 'number') {
+              radius = BorderRadius.of(to);
+            } else if (to instanceof BorderRadius) {
+              radius = to;
+            }
+
+            if (!radius) {
+              console.warn("invalid value (".concat(to, ") for ").concat(key));
+              break;
+            }
+
+            var _from2 = this[key] || BorderRadius.of(0);
+
+            var value1;
+
+            if (radius.value1.unit === BaseValueUnit.PERCENTAGE) {
+              value1 = _from2.value1.toPercentage(target.getWidth());
+            } else {
+              value1 = _from2.value1.toAbsolute(target.getWidth());
+            }
+
+            var value2;
+
+            if (radius.value2.unit === BaseValueUnit.PERCENTAGE) {
+              value2 = _from2.value2.toPercentage(target.getHeight());
+            } else {
+              value2 = _from2.value2.toAbsolute(target.getHeight());
+            }
+
+            result[key] = {
+              from: new BorderRadius(value1, value2),
+              to: radius,
+              type: AnimationValueType.ANIMATABLE
+            };
+          }
           break;
 
         case 'borderLeft':
@@ -975,9 +979,69 @@ export var Style = /*#__PURE__*/function () {
       return attrs;
     }
   }, {
+    key: "calculateAnimationBaseValue",
+    value: function calculateAnimationBaseValue(key, from, to, base) {
+      var toBaseValue;
+
+      if (typeof to === 'number' || typeof to === 'string') {
+        toBaseValue = BaseValue.of(to);
+      } else if (to instanceof BaseValue) {
+        toBaseValue = to;
+      }
+
+      if (!toBaseValue) {
+        console.warn("invalid value (".concat(to, ") for ").concat(key));
+        return undefined;
+      }
+
+      if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
+        return {
+          from: from.toPercentage(base),
+          to: toBaseValue,
+          type: AnimationValueType.ANIMATABLE
+        };
+      } else {
+        return {
+          from: from.toAbsolute(base),
+          to: toBaseValue,
+          type: AnimationValueType.ANIMATABLE
+        };
+      }
+    }
+  }, {
+    key: "parseBorderRadius",
+    value: function parseBorderRadius(value) {
+      if (typeof value === 'number') {
+        var borderRadius = new BorderRadius(BaseValue.of(value));
+        return [borderRadius, borderRadius, borderRadius, borderRadius];
+      } else if (isIAnimatable(value)) {
+        return [value, value, value, value];
+      } else {
+        var ps = value.toString().split('/');
+
+        if (ps.length === 1) {
+          var _borderRadius = Style.parse4Dirs(ps[0]);
+
+          if (_borderRadius) {
+            return [new BorderRadius(_borderRadius[0]), new BorderRadius(_borderRadius[1]), new BorderRadius(_borderRadius[2]), new BorderRadius(_borderRadius[3])];
+          }
+        } else if (ps.length === 2) {
+          var borderRadius1 = Style.parse4Dirs(ps[0]);
+          var borderRadius2 = Style.parse4Dirs(ps[1]);
+
+          if (borderRadius1 && borderRadius2) {
+            return [new BorderRadius(borderRadius1[0], borderRadius2[0]), new BorderRadius(borderRadius1[1], borderRadius2[1]), new BorderRadius(borderRadius1[2], borderRadius2[2]), new BorderRadius(borderRadius1[3], borderRadius2[3])];
+          }
+        }
+
+        console.warn("invalid border radius:".concat(value));
+        return undefined;
+      }
+    }
+  }, {
     key: "parse4Dirs",
     value: function parse4Dirs(value) {
-      var pieces = value.split(/\s+/);
+      var pieces = value.trim().split(/\s+/);
 
       if (pieces.length === 1) {
         return [BaseValue.of(pieces[0]), BaseValue.of(pieces[0]), BaseValue.of(pieces[0]), BaseValue.of(pieces[0])];

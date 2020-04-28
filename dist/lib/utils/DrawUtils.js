@@ -51,7 +51,7 @@ var DrawUtils = /*#__PURE__*/function () {
       var rightWidth = style.borderRight ? style.borderRight.width : 0;
       var bottomWidth = style.borderBottom ? style.borderBottom.width : 0;
       var leftWidth = style.borderLeft ? style.borderLeft.width : 0;
-      var outerRect = new _RoundRect.RoundRect().applySize(element.rect.width, element.rect.height).applyRadius(style.borderRadiusTop, style.borderRadiusRight, style.borderRadiusBottom, style.borderRadiusLeft);
+      var outerRect = new _RoundRect.RoundRect().applySize(element.rect.width, element.rect.height).applyRadius(style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomLeftRadius, style.borderBottomRightRadius);
       var innerRect;
 
       if (topWidth > 0 || rightWidth > 0 || bottomWidth > 0 || leftWidth > 0) {

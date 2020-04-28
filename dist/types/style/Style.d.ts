@@ -4,6 +4,7 @@ import { Color } from '../base/Color';
 import { XObject } from '../components/XObject';
 import { Background } from './Background';
 import { Border } from './Border';
+import { BorderRadius } from './BorderRadius';
 import { Font } from './Font';
 import { LineHeight } from './LineHeight';
 import { Shadow } from './Shadow';
@@ -82,10 +83,10 @@ export declare class Style {
     font?: Font;
     lineHeight?: LineHeight;
     textAlign: TextAlign;
-    borderRadiusTop?: BaseValue;
-    borderRadiusRight?: BaseValue;
-    borderRadiusBottom?: BaseValue;
-    borderRadiusLeft?: BaseValue;
+    borderTopLeftRadius?: BorderRadius;
+    borderTopRightRadius?: BorderRadius;
+    borderBottomLeftRadius?: BorderRadius;
+    borderBottomRightRadius?: BorderRadius;
     borderTop?: Border;
     borderRight?: Border;
     borderBottom?: Border;
@@ -106,6 +107,8 @@ export declare class Style {
     applyAnimationResult(result: AnimationValues): void;
     clone(): Style;
     private fillSnapshotForAnimation;
+    private static calculateAnimationBaseValue;
+    private static parseBorderRadius;
     private static parse4Dirs;
     private normalize;
 }

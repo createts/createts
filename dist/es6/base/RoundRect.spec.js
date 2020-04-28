@@ -1,4 +1,4 @@
-import { BaseValue } from './BaseValue';
+import { BorderRadius } from '../style/BorderRadius';
 import { RoundRect } from './RoundRect';
 test('should hold values', function () {
   var roundRect = new RoundRect(5, 5, 10, 10);
@@ -17,7 +17,7 @@ test('should resize', function () {
 });
 test('should apply radius', function () {
   var roundRect = new RoundRect(5, 5, 40, 50);
-  roundRect.applyRadius(BaseValue.of(4), BaseValue.of(5), BaseValue.of(6), BaseValue.of(7));
+  roundRect.applyRadius(BorderRadius.of('4'), BorderRadius.of('5'), BorderRadius.of('7'), BorderRadius.of('6'));
   expect(roundRect.leftTopRadiusX).toEqual(4);
   expect(roundRect.leftTopRadiusY).toEqual(4);
   expect(roundRect.rightTopRadiusX).toEqual(5);
@@ -29,7 +29,7 @@ test('should apply radius', function () {
 });
 test('should apply radius by percentage', function () {
   var roundRect = new RoundRect(5, 5, 104, 54);
-  roundRect.applyRadius(BaseValue.of('10%'), BaseValue.of('20%'), BaseValue.of('30%'), BaseValue.of('40%'));
+  roundRect.applyRadius(BorderRadius.of('10%'), BorderRadius.of('20%'), BorderRadius.of('40%'), BorderRadius.of('30%'));
   expect(roundRect.leftTopRadiusX).toEqual(10);
   expect(roundRect.leftTopRadiusY).toEqual(5);
   expect(roundRect.rightTopRadiusX).toEqual(20);
@@ -41,7 +41,7 @@ test('should apply radius by percentage', function () {
 });
 test('should apply border', function () {
   var roundRect = new RoundRect(5, 5, 104, 54);
-  roundRect.applyRadius(BaseValue.of('10%'), BaseValue.of('20%'), BaseValue.of('30%'), BaseValue.of('40%'));
+  roundRect.applyRadius(BorderRadius.of('10%'), BorderRadius.of('20%'), BorderRadius.of('40%'), BorderRadius.of('30%'));
   var newRoundRect = roundRect.applyBorder(5, 6, 7, 8);
   expect(newRoundRect.x1).toEqual(13);
   expect(newRoundRect.y1).toEqual(10);

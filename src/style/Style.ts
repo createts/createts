@@ -1,14 +1,14 @@
 import {
-    AnimationProps, AnimationValues, AnimationValueType, IAnimatable
+    AnimationProps, AnimationValues, AnimationValueType, IAnimatable, isIAnimatable
 } from '../animation/Animation';
 import { BaseValue, BaseValueUnit } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { XObject } from '../components/XObject';
-import { Base64 } from '../utils/Base64';
 import { EnumUtils } from '../utils/EnumUtils';
 import { StringUtils } from '../utils/StringUtils';
 import { Background } from './Background';
 import { Border } from './Border';
+import { BorderRadius } from './BorderRadius';
 import { Font, FontStyle, FontVariant, FontWeight } from './Font';
 import { LineHeight } from './LineHeight';
 import { Shadow } from './Shadow';
@@ -108,10 +108,12 @@ export class Style {
   public font?: Font;
   public lineHeight?: LineHeight;
   public textAlign: TextAlign = TextAlign.LEFT;
-  public borderRadiusTop?: BaseValue;
-  public borderRadiusRight?: BaseValue;
-  public borderRadiusBottom?: BaseValue;
-  public borderRadiusLeft?: BaseValue;
+
+  public borderTopLeftRadius?: BorderRadius;
+  public borderTopRightRadius?: BorderRadius;
+  public borderBottomLeftRadius?: BorderRadius;
+  public borderBottomRightRadius?: BorderRadius;
+
   public borderTop?: Border;
   public borderRight?: Border;
   public borderBottom?: Border;
@@ -122,6 +124,7 @@ export class Style {
   public filter?: string;
   public cursor?: string;
   public pointerEvents: PointerEvents = PointerEvents.AUTO;
+
   // Text style
   public textBorder?: Border;
   public textBorderPosition?: TextBorderPosition = TextBorderPosition.OUTER;
@@ -355,19 +358,21 @@ export class Style {
           this.textAlign = EnumUtils.fromString<TextAlign>(TextAlign, value, TextAlign.LEFT);
           break;
         case 'borderRadius':
-          const borderRadius = Style.parse4Dirs(value);
-          if (borderRadius) {
-            this.borderRadiusTop = borderRadius[0];
-            this.borderRadiusRight = borderRadius[1];
-            this.borderRadiusBottom = borderRadius[2];
-            this.borderRadiusLeft = borderRadius[3];
+          {
+            const borderRadius = Style.parseBorderRadius(value);
+            if (borderRadius) {
+              this.borderTopLeftRadius = borderRadius[0];
+              this.borderTopRightRadius = borderRadius[1];
+              this.borderBottomRightRadius = borderRadius[2];
+              this.borderBottomLeftRadius = borderRadius[3];
+            }
           }
           break;
-        case 'borderRadiusTop':
-        case 'borderRadiusRight':
-        case 'borderRadiusBottom':
-        case 'borderRadiusLeft':
-          this[key] = BaseValue.of(value);
+        case 'borderTopLeftRadius':
+        case 'borderTopRightRadius':
+        case 'borderBottomLeftRadius':
+        case 'borderBottomRightRadius':
+          this[key] = BorderRadius.of(value);
           break;
         case 'border':
           this.borderTop = this.borderRight = this.borderLeft = this.borderBottom = Border.of(
@@ -514,18 +519,19 @@ export class Style {
     if (this.borderLeft) {
       cloned.borderLeft = this.borderLeft.clone();
     }
-    if (this.borderRadiusTop) {
-      cloned.borderRadiusTop = this.borderRadiusTop.clone();
+    if (this.borderTopLeftRadius) {
+      cloned.borderTopLeftRadius = this.borderTopLeftRadius.clone();
     }
-    if (this.borderRadiusRight) {
-      cloned.borderRadiusRight = this.borderRadiusRight.clone();
+    if (this.borderTopRightRadius) {
+      cloned.borderTopRightRadius = this.borderTopRightRadius.clone();
     }
-    if (this.borderRadiusBottom) {
-      cloned.borderRadiusBottom = this.borderRadiusBottom.clone();
+    if (this.borderBottomRightRadius) {
+      cloned.borderBottomRightRadius = this.borderBottomRightRadius.clone();
     }
-    if (this.borderRadiusLeft) {
-      cloned.borderRadiusLeft = this.borderRadiusLeft.clone();
+    if (this.borderBottomLeftRadius) {
+      cloned.borderBottomLeftRadius = this.borderBottomLeftRadius.clone();
     }
+
     cloned.overflow = this.overflow;
     cloned.compositeOperation = this.compositeOperation;
     cloned.aspectRatio = this.aspectRatio;
@@ -573,36 +579,15 @@ export class Style {
       case 'paddingLeft':
       case 'marginRight':
       case 'marginLeft':
-      case 'borderRadiusRight':
-      case 'borderRadiusLeft':
       case 'transformX':
       case 'width':
       case 'left':
       case 'right':
       case 'perspectiveOriginX': {
-        let toBaseValue: BaseValue | undefined;
-        if (typeof to === 'number' || typeof to === 'string') {
-          toBaseValue = BaseValue.of(to);
-        } else if (to instanceof BaseValue) {
-          toBaseValue = to;
-        }
-        if (!toBaseValue) {
-          console.warn(`invalid value (${to}) for ${key}`);
-          break;
-        }
         const from: BaseValue = this[key] || BaseValue.of(0);
-        if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
-          result[key] = {
-            from: from.toPercentage(target.getWidth()),
-            to: toBaseValue,
-            type: AnimationValueType.ANIMATABLE
-          };
-        } else {
-          result[key] = {
-            from: from.toAbsolute(target.getWidth()),
-            to: toBaseValue,
-            type: AnimationValueType.ANIMATABLE
-          };
+        const animatedValue = Style.calculateAnimationBaseValue(key, from, to, target.getWidth());
+        if (animatedValue) {
+          result[key] = animatedValue;
         }
         break;
       }
@@ -610,36 +595,15 @@ export class Style {
       case 'paddingBottom':
       case 'marginTop':
       case 'marginBottom':
-      case 'borderRadiusTop':
-      case 'borderRadiusBottom':
       case 'transformY':
       case 'height':
       case 'top':
       case 'bottom':
       case 'perspectiveOriginY': {
-        let toBaseValue: BaseValue | undefined;
-        if (typeof to === 'number' || typeof to === 'string') {
-          toBaseValue = BaseValue.of(to);
-        } else if (to instanceof BaseValue) {
-          toBaseValue = to;
-        }
-        if (!toBaseValue) {
-          console.warn(`invalid value (${to}) for ${key}`);
-          break;
-        }
         const from: BaseValue = this[key] || BaseValue.of(0);
-        if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
-          result[key] = {
-            from: from.toPercentage(target.getHeight()),
-            to: toBaseValue,
-            type: AnimationValueType.ANIMATABLE
-          };
-        } else {
-          result[key] = {
-            from: from.toAbsolute(target.getHeight()),
-            to: toBaseValue,
-            type: AnimationValueType.ANIMATABLE
-          };
+        const animatedValue = Style.calculateAnimationBaseValue(key, from, to, target.getHeight());
+        if (animatedValue) {
+          result[key] = animatedValue;
         }
         break;
       }
@@ -704,10 +668,50 @@ export class Style {
         this.fillSnapshotForAnimation(target, 'scaleY', to, result);
         break;
       case 'borderRadius':
-        this.fillSnapshotForAnimation(target, 'borderRadiusTop', to, result);
-        this.fillSnapshotForAnimation(target, 'borderRadiusRight', to, result);
-        this.fillSnapshotForAnimation(target, 'borderRadiusBottom', to, result);
-        this.fillSnapshotForAnimation(target, 'borderRadiusLeft', to, result);
+        const borderRadius = Style.parseBorderRadius(to);
+        if (borderRadius) {
+          this.fillSnapshotForAnimation(target, 'borderTopLeftRadius', borderRadius[0], result);
+          this.fillSnapshotForAnimation(target, 'borderTopRightRadius', borderRadius[1], result);
+          this.fillSnapshotForAnimation(target, 'borderBottomRightRadius', borderRadius[2], result);
+          this.fillSnapshotForAnimation(target, 'borderBottomLeftRadius', borderRadius[3], result);
+        }
+        break;
+      case 'borderTopLeftRadius':
+      case 'borderTopRightRadius':
+      case 'borderBottomLeftRadius':
+      case 'borderBottomRightRadius':
+        {
+          let radius: BorderRadius | undefined;
+          if (typeof to === 'string' || typeof to === 'number') {
+            radius = BorderRadius.of(to);
+          } else if (to instanceof BorderRadius) {
+            radius = to;
+          }
+          if (!radius) {
+            console.warn(`invalid value (${to}) for ${key}`);
+            break;
+          }
+
+          const from = this[key] || BorderRadius.of(0);
+          let value1: BaseValue;
+          if (radius.value1.unit === BaseValueUnit.PERCENTAGE) {
+            value1 = from.value1.toPercentage(target.getWidth());
+          } else {
+            value1 = from.value1.toAbsolute(target.getWidth());
+          }
+          let value2: BaseValue;
+          if (radius.value2.unit === BaseValueUnit.PERCENTAGE) {
+            value2 = from.value2.toPercentage(target.getHeight());
+          } else {
+            value2 = from.value2.toAbsolute(target.getHeight());
+          }
+
+          result[key] = {
+            from: new BorderRadius(value1, value2),
+            to: radius,
+            type: AnimationValueType.ANIMATABLE
+          };
+        }
         break;
       case 'borderLeft':
       case 'borderRight':
@@ -764,8 +768,81 @@ export class Style {
     }
   }
 
+  private static calculateAnimationBaseValue(
+    key: string,
+    from: BaseValue,
+    to: string | number | IAnimatable<any>,
+    base: number
+  ) {
+    let toBaseValue: BaseValue | undefined;
+    if (typeof to === 'number' || typeof to === 'string') {
+      toBaseValue = BaseValue.of(to);
+    } else if (to instanceof BaseValue) {
+      toBaseValue = to;
+    }
+    if (!toBaseValue) {
+      console.warn(`invalid value (${to}) for ${key}`);
+      return undefined;
+    }
+    if (toBaseValue.unit === BaseValueUnit.PERCENTAGE) {
+      return {
+        from: from.toPercentage(base),
+        to: toBaseValue,
+        type: AnimationValueType.ANIMATABLE
+      };
+    } else {
+      return {
+        from: from.toAbsolute(base),
+        to: toBaseValue,
+        type: AnimationValueType.ANIMATABLE
+      };
+    }
+  }
+
+  private static parseBorderRadius(
+    value: string | number | IAnimatable<any>
+  ): BorderRadius[] | undefined {
+    if (typeof value === 'number') {
+      const borderRadius = new BorderRadius(BaseValue.of(value));
+      return [borderRadius, borderRadius, borderRadius, borderRadius];
+    } else if (isIAnimatable(value)) {
+      return [
+        value as BorderRadius,
+        value as BorderRadius,
+        value as BorderRadius,
+        value as BorderRadius
+      ];
+    } else {
+      const ps = value.toString().split('/');
+      if (ps.length === 1) {
+        const borderRadius = Style.parse4Dirs(ps[0]);
+        if (borderRadius) {
+          return [
+            new BorderRadius(borderRadius[0]),
+            new BorderRadius(borderRadius[1]),
+            new BorderRadius(borderRadius[2]),
+            new BorderRadius(borderRadius[3])
+          ];
+        }
+      } else if (ps.length === 2) {
+        const borderRadius1 = Style.parse4Dirs(ps[0]);
+        const borderRadius2 = Style.parse4Dirs(ps[1]);
+        if (borderRadius1 && borderRadius2) {
+          return [
+            new BorderRadius(borderRadius1[0], borderRadius2[0]),
+            new BorderRadius(borderRadius1[1], borderRadius2[1]),
+            new BorderRadius(borderRadius1[2], borderRadius2[2]),
+            new BorderRadius(borderRadius1[3], borderRadius2[3])
+          ];
+        }
+      }
+      console.warn(`invalid border radius:${value}`);
+      return undefined;
+    }
+  }
+
   private static parse4Dirs(value: string): BaseValue[] | undefined {
-    const pieces = value.split(/\s+/);
+    const pieces = value.trim().split(/\s+/);
     if (pieces.length === 1) {
       return [
         BaseValue.of(pieces[0]),

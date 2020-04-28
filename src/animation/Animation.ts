@@ -41,7 +41,7 @@ export interface IAnimatable<T> {
   isAnimatable(): boolean;
 }
 
-function isIAnimatable(obj: any): boolean {
+export function isIAnimatable(obj: any): boolean {
   return obj && obj.isAnimatable && obj.isAnimatable();
 }
 

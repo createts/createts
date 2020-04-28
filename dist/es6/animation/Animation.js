@@ -67,8 +67,7 @@ export var AnimateEvent = /*#__PURE__*/function (_Event) {
 
   return AnimateEvent;
 }(Event);
-
-function isIAnimatable(obj) {
+export function isIAnimatable(obj) {
   return obj && obj.isAnimatable && obj.isAnimatable();
 }
 
