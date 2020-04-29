@@ -111,7 +111,7 @@ export class RoundRect {
     }
     if (borderBottomLeftRadius) {
       this.leftBottomRadiusX = borderBottomLeftRadius.value1.getValue(width);
-      this.leftBottomRadiusY = borderBottomLeftRadius.value1.getValue(height);
+      this.leftBottomRadiusY = borderBottomLeftRadius.value2.getValue(height);
     }
     if (borderBottomRightRadius) {
       this.rightBottomRadiusX = borderBottomRightRadius.value1.getValue(width);
