@@ -235,7 +235,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         }
 
         child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
         return this;
       } else {
         if (parent) {
@@ -245,7 +245,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         child.parent = this;
         this.children.splice(index, 0, child);
         child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
         return this;
       }
     }
@@ -267,7 +267,7 @@ var Container = /*#__PURE__*/function (_XObject) {
         this.children.splice(idx, 1);
         child.parent = undefined;
         child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
         return child;
       }
     }
@@ -287,7 +287,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       var child = this.children[index];
       this.children.splice(index, 1);
       child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
       return child;
     }
     /**
@@ -298,10 +298,26 @@ var Container = /*#__PURE__*/function (_XObject) {
   }, {
     key: "removeAllChildren",
     value: function removeAllChildren() {
-      while (this.children.length > 0) {
-        this.removeChildAt(0);
+      if (this.children.length === 0) {
+        return this;
       }
 
+      var _iterator3 = _createForOfIteratorHelper(this.children),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var child = _step3.value;
+          child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      this.children.length = 0;
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -324,7 +340,7 @@ var Container = /*#__PURE__*/function (_XObject) {
     key: "sortChildren",
     value: function sortChildren(sortFunction) {
       this.children.sort(sortFunction);
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -366,7 +382,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       this.children[index2] = o1;
       o1.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o1));
       o2.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o2));
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -403,112 +419,117 @@ var Container = /*#__PURE__*/function (_XObject) {
       var relatives = [];
       var contentRect = this.getContentRect();
       var contentWidth = contentRect.width;
+      var contentHeight = contentRect.height;
 
-      var _iterator3 = _createForOfIteratorHelper(this.children),
-          _step3;
+      var _iterator4 = _createForOfIteratorHelper(this.children),
+          _step4;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var _child4 = _step3.value;
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var _child3 = _step4.value;
 
-          if (!_child4.isVisible()) {
+          if (!_child3.isVisible()) {
             continue;
           }
 
-          _child4.layout();
+          _child3.layout();
 
-          if (_child4.style.position === _Style.Position.ABSOLUTE || _child4.style.position === _Style.Position.FIXED) {
-            absolutes.push(_child4);
+          if (_child3.style.position === _Style.Position.ABSOLUTE || _child3.style.position === _Style.Position.FIXED) {
+            absolutes.push(_child3);
           } else {
-            relatives.push(_child4);
-            contentWidth = Math.max(contentWidth, _child4.getOuterWidth());
+            relatives.push(_child3);
+            contentWidth = Math.max(contentWidth, _child3.getOuterWidth());
+            contentHeight = Math.max(contentHeight, _child3.getOuterHeight());
           }
-        } // Step2, break children into lines
+        } // Step2, break children into lines.
 
       } catch (err) {
-        _iterator3.e(err);
+        _iterator4.e(err);
       } finally {
-        _iterator3.f();
+        _iterator4.f();
       }
 
+      var lineHeight = this.getLineHeight();
       var lines = [];
-      var line = [];
-      var lineWidth = 0;
+      var line = {
+        width: 0,
+        height: lineHeight,
+        children: []
+      };
 
       for (var _i2 = 0, _relatives = relatives; _i2 < _relatives.length; _i2++) {
         var child = _relatives[_i2];
 
-        if (line.length > 0 && child.style.display === _Style.Display.BLOCK || lineWidth + child.getOuterWidth() > contentWidth) {
+        if (line.children.length > 0 && child.style.display === _Style.Display.BLOCK || line.width + child.getOuterWidth() > contentWidth) {
           // Break the current line
           lines.push(line);
-          line = [];
-          lineWidth = 0;
+          line = {
+            width: 0,
+            height: lineHeight,
+            children: []
+          };
         }
 
-        line.push(child);
-        lineWidth += child.getOuterWidth();
+        line.children.push(child);
+        line.width += child.getOuterWidth();
+        line.height = Math.max(child.getOuterHeight(), line.height);
       }
 
-      if (line.length > 0) {
+      if (line.children.length > 0) {
         lines.push(line);
       } // Step 3, arrange children
 
 
-      var lineHeight = this.getLineHeight();
-      var contentHeight = 0;
+      var x = contentRect.x;
+      var y = contentRect.y;
 
       for (var _i3 = 0, _lines = lines; _i3 < _lines.length; _i3++) {
         var l = _lines[_i3];
-        var lineMaxHeight = 0;
-        lineWidth = 0;
-
-        var _iterator4 = _createForOfIteratorHelper(l),
-            _step4;
-
-        try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var _child = _step4.value;
-            // Align to top
-            _child.rect.y = contentHeight + contentRect.y + (_child.style.marginTop ? _child.style.marginTop.getValue(this.rect.height) : 0);
-            lineMaxHeight = Math.max(lineMaxHeight, _child.getOuterHeight());
-            lineWidth += _child.getOuterWidth();
-          }
-        } catch (err) {
-          _iterator4.e(err);
-        } finally {
-          _iterator4.f();
-        }
-
-        contentHeight += Math.max(lineHeight, lineMaxHeight);
-        var x = contentRect.x;
 
         switch (this.style.textAlign) {
           case _Style.TextAlign.RIGHT:
-            x = contentRect.x + contentWidth - lineWidth;
+            x = contentRect.x + contentWidth - l.width;
             break;
 
           case _Style.TextAlign.CENTER:
-            x = contentRect.x + (contentWidth - lineWidth) / 2;
+            x = contentRect.x + (contentWidth - l.width) / 2;
             break;
 
           default:
             x = contentRect.x;
         }
 
-        var _iterator5 = _createForOfIteratorHelper(l),
+        var _iterator5 = _createForOfIteratorHelper(l.children),
             _step5;
 
         try {
           for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-            var _child2 = _step5.value;
-            _child2.rect.x = x + (_child2.style.marginLeft ? _child2.style.marginLeft.getValue(this.rect.width) : 0);
-            x += _child2.getOuterWidth();
+            var _child = _step5.value;
+            // Calculates x position.
+            _child.rect.x = x + (_child.style.marginLeft ? _child.style.marginLeft.getValue(this.rect.width) : 0);
+            x += _child.getOuterWidth(); // Calculates y position.
+
+            switch (_child.style.verticalAlign) {
+              case _Style.VerticalAlign.BOTTOM:
+                _child.rect.y = y + l.height - (_child.style.marginBottom ? _child.style.marginBottom.getValue(this.rect.height) : 0) - _child.getHeight();
+                break;
+
+              case _Style.VerticalAlign.MIDDLE:
+                _child.rect.y = y + (l.height - _child.getOuterHeight()) / 2 + (_child.style.marginTop ? _child.style.marginTop.getValue(this.rect.height) : 0);
+                break;
+
+              default:
+                _child.rect.y = y + (_child.style.marginTop ? _child.style.marginTop.getValue(this.rect.height) : 0);
+            }
           }
         } catch (err) {
           _iterator5.e(err);
         } finally {
           _iterator5.f();
         }
+
+        y += l.height;
+        contentHeight = Math.max(contentHeight, y);
       } // Update width/height
       // TODO: add css (min/max width) support.
 
@@ -523,9 +544,9 @@ var Container = /*#__PURE__*/function (_XObject) {
 
 
       for (var _i4 = 0, _absolutes = absolutes; _i4 < _absolutes.length; _i4++) {
-        var _child3 = _absolutes[_i4];
+        var _child2 = _absolutes[_i4];
 
-        _LayoutUtils.LayoutUtils.updatePositionForAbsoluteElement(_child3, this.rect.width, this.rect.height);
+        _LayoutUtils.LayoutUtils.updatePositionForAbsoluteElement(_child2, this.rect.width, this.rect.height);
       }
     }
     /**

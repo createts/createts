@@ -63,8 +63,28 @@ export var WebpageRuntime = /*#__PURE__*/function () {
   }, {
     key: "loadArrayBuffer",
     value: function loadArrayBuffer(task) {
+      this.loadByType(task, 'arraybuffer');
+    }
+    /**
+     * Execute a load text content task.
+     * @param task The load text content task to be executed.
+     */
+
+  }, {
+    key: "loadText",
+    value: function loadText(task) {
+      this.loadByType(task, 'text');
+    }
+    /**
+     * Execute a load content task with specified response type.
+     * @param task The load task to be executed.
+     */
+
+  }, {
+    key: "loadByType",
+    value: function loadByType(task, type) {
       var xhr = new XMLHttpRequest();
-      xhr.responseType = 'arraybuffer';
+      xhr.responseType = type;
       xhr.open(task.method || 'GET', task.url, true);
 
       xhr.onload = function () {

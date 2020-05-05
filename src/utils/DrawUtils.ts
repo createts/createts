@@ -1,6 +1,10 @@
 import { Color } from '../base/Color';
+import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
+import { BitmapTextSheet } from '../components/BitmapText';
+import { SpriteFrame, SpriteSheet } from '../components/Sprite';
 import { XObject } from '../components/XObject';
+import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Overflow } from '../style/Style';
 
 /**
@@ -251,6 +255,112 @@ export class DrawUtils {
       ctx.restore();
     } else {
       element.drawContent(ctx);
+    }
+  }
+
+  /**
+   * Returns the image instance while drawing the frame.
+   * @param frame The current frame.
+   * @param parent The top level configuration.
+   * @returns The image instance for this frame.
+   */
+  public static getFrameImage(
+    frame: SpriteFrame,
+    parent: SpriteSheet | BitmapTextSheet
+  ): HTMLImageElement | undefined {
+    if (frame.image) {
+      return frame.image;
+    } else if (frame.url) {
+      return ResourceRegistry.DefaultInstance.get(frame.url);
+    } else if (parent.image) {
+      return parent.image;
+    } else if (parent.url) {
+      return ResourceRegistry.DefaultInstance.get(parent.url);
+    }
+    return undefined;
+  }
+
+  /**
+   * Calculate the size of each frame.
+   * @param frame The current frame.
+   * @param parent The top level configuration.
+   * @returns The size of current frame.
+   */
+  public static getFrameSize(
+    frame: SpriteFrame,
+    parent: SpriteSheet | BitmapTextSheet
+  ): { width: number; height: number } {
+    const size = { width: 0, height: 0 };
+    if (parent.width !== undefined) {
+      size.width = parent.width;
+    } else if (frame.destWidth !== undefined) {
+      size.width = frame.destWidth + (frame.destX || 0);
+    } else if (frame.srcWidth !== undefined) {
+      size.width = frame.srcWidth;
+    } else {
+      const image = this.getFrameImage(frame, parent);
+      if (image) {
+        size.width = image.width;
+      }
+    }
+    if (parent.height !== undefined) {
+      size.height = parent.height;
+    } else if (frame.destHeight !== undefined) {
+      size.height = frame.destHeight + (frame.destY || 0);
+    } else if (frame.srcHeight !== undefined) {
+      size.height = frame.srcHeight;
+    } else {
+      const image = this.getFrameImage(frame, parent);
+      if (image) {
+        size.height = image.height;
+      }
+    }
+    return size;
+  }
+
+  /**
+   * Draws content of this element to targeted canvas.
+   * @param ctx The canvas rendering context of targeted canvas.
+   */
+  public static drawFrame(
+    ctx: CanvasRenderingContext2D,
+    rect: Rect,
+    frame: SpriteFrame,
+    parent: SpriteSheet | BitmapTextSheet
+  ) {
+    // Get image
+    const image = this.getFrameImage(frame, parent);
+    if (!image) {
+      return;
+    }
+    const size = this.getFrameSize(frame, parent);
+    const scaleX = rect.width / size.width;
+    const scaleY = rect.height / size.height;
+
+    const destX = frame.destX !== undefined ? frame.destX : 0;
+    const destY = frame.destY !== undefined ? frame.destY : 0;
+    const destWidth = frame.destWidth !== undefined ? frame.destWidth : size.width - destX;
+    const destHeight = frame.destHeight !== undefined ? frame.destHeight : size.height - destY;
+
+    const srcX = frame.srcX !== undefined ? frame.srcX : 0;
+    const srcY = frame.srcY !== undefined ? frame.srcY : 0;
+    const srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
+    const srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
+
+    try {
+      ctx.drawImage(
+        image,
+        srcX,
+        srcY,
+        srcWidth,
+        srcHeight,
+        destX * scaleX + rect.x,
+        destY * scaleY + rect.y,
+        destWidth * scaleX,
+        destHeight * scaleY
+      );
+    } catch (e) {
+      return;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Stage } from '../components/Stage';
-import { IRuntime, LoadArrayBufferTask, LoadImageTask } from './Runtime';
+import { IRuntime, LoadTask } from './Runtime';
 export declare class WechatMiniGameRuntime implements IRuntime {
     private gameCanvas;
     private systemInfo;
@@ -8,8 +8,9 @@ export declare class WechatMiniGameRuntime implements IRuntime {
     newCanvas(): HTMLCanvasElement;
     releaseCanvas(canvas: HTMLCanvasElement): void;
     newImage(): HTMLImageElement;
-    loadArrayBuffer(task: LoadArrayBufferTask): void;
-    loadImage(task: LoadImageTask): void;
+    loadText(task: LoadTask<string>): void;
+    loadArrayBuffer(task: LoadTask<ArrayBuffer>): void;
+    loadImage(task: LoadTask<HTMLImageElement>): void;
     getGameCanvas(): HTMLCanvasElement;
     enableEvents(stage: Stage): void;
     requestAnimationFrame(listener: (time: number) => void): void;

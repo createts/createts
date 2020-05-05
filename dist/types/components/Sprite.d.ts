@@ -17,6 +17,7 @@ export declare type SpriteFrame = {
     destY?: number;
     destWidth?: number;
     destHeight?: number;
+    url?: string;
     image?: HTMLImageElement;
 };
 export declare class Sprite extends XObject {

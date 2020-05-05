@@ -98,6 +98,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_utils_drawutils_.drawutils.html#drawelement" class="tsd-kind-icon">draw<wbr>Element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_utils_drawutils_.drawutils.html#drawframe" class="tsd-kind-icon">draw<wbr>Frame</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_utils_drawutils_.drawutils.html#getframeimage" class="tsd-kind-icon">get<wbr>Frame<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_utils_drawutils_.drawutils.html#getframesize" class="tsd-kind-icon">get<wbr>Frame<wbr>Size</a></li>
 							</ul>
 						</section>
 					</div>
@@ -115,7 +118,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/utils/DrawUtils.ts#L9">utils/DrawUtils.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/utils/DrawUtils.ts#L13">utils/DrawUtils.ts:13</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -140,7 +143,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/utils/DrawUtils.ts#L25">utils/DrawUtils.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/utils/DrawUtils.ts#L29">utils/DrawUtils.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -172,6 +175,130 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="drawframe" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> draw<wbr>Frame</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">draw<wbr>Frame<span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CanvasRenderingContext2D</span>, rect<span class="tsd-signature-symbol">: </span><a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a>, frame<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a>, parent<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/utils/DrawUtils.ts#L325">utils/DrawUtils.ts:325</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Draws content of this element to targeted canvas.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The canvas rendering context of targeted canvas.</p>
+									</div>
+								</li>
+								<li>
+									<h5>rect: <a href="_base_rect_.rect.html" class="tsd-signature-type">Rect</a></h5>
+								</li>
+								<li>
+									<h5>frame: <a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a></h5>
+								</li>
+								<li>
+									<h5>parent: <a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="getframeimage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Frame<wbr>Image</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Frame<wbr>Image<span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a>, parent<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/utils/DrawUtils.ts#L267">utils/DrawUtils.ts:267</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the image instance while drawing the frame.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>frame: <a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The current frame.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parent: <a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The top level configuration.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>The image instance for this frame.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="getframesize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Frame<wbr>Size</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Frame<wbr>Size<span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a>, parent<span class="tsd-signature-symbol">: </span><a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/utils/DrawUtils.ts#L289">utils/DrawUtils.ts:289</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculate the size of each frame.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>frame: <a href="../modules/_components_sprite_.html#spriteframe" class="tsd-signature-type">SpriteFrame</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The current frame.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parent: <a href="../modules/_components_sprite_.html#spritesheet" class="tsd-signature-type">SpriteSheet</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The top level configuration.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+							<p>The size of current frame.</p>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -197,6 +324,15 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_utils_drawutils_.drawutils.html#drawelement" class="tsd-kind-icon">draw<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_utils_drawutils_.drawutils.html#drawframe" class="tsd-kind-icon">draw<wbr>Frame</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_utils_drawutils_.drawutils.html#getframeimage" class="tsd-kind-icon">get<wbr>Frame<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_utils_drawutils_.drawutils.html#getframesize" class="tsd-kind-icon">get<wbr>Frame<wbr>Size</a>
 							</li>
 						</ul>
 					</li>

@@ -44,6 +44,7 @@ export { IXObjectOptions } from './components/XObject';
 export { XObject } from './components/XObject';
 export { StageLayoutPolicy } from './components/Stage';
 export { StageUpdatePolicy } from './components/Stage';
+export { BitmapText } from './components/BitmapText';
 export { Scrollable } from './components/Scrollable';
 export { StageOptions } from './components/Stage';
 export { Stage } from './components/Stage';

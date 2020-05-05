@@ -1,12 +1,14 @@
 import { Stage } from '../components/Stage';
-import { IRuntime, LoadArrayBufferTask, LoadImageTask } from './Runtime';
+import { IRuntime, LoadTask } from './Runtime';
 export declare class WebpageRuntime implements IRuntime {
     private canvasCache;
     newCanvas(): HTMLCanvasElement;
     releaseCanvas(canvas: HTMLCanvasElement): void;
     newImage(): HTMLImageElement;
-    loadArrayBuffer(task: LoadArrayBufferTask): void;
-    loadImage(task: LoadImageTask): void;
+    loadArrayBuffer(task: LoadTask<ArrayBuffer>): void;
+    loadText(task: LoadTask<string>): void;
+    private loadByType;
+    loadImage(task: LoadTask<HTMLImageElement>): void;
     enableEvents(stage: Stage): void;
     requestAnimationFrame(listener: (time: number) => void): void;
     private handleMouseEvent;

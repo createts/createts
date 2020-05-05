@@ -14,7 +14,7 @@
   ],
   "keywords": [],
   "scripts": {
-    "build": "npm run build-cjs && npm run build-types && npm run build-es6 && rimraf dist/umd && npm run build-umd && npm run build-min && npm run doc",
+    "build": "npm run build-cjs && npm run build-types && npm run build-es6 && rimraf dist/umd && npm run build-umd && npm run build-min",
     "build-cjs": "rimraf dist/lib && cross-env NODE_ENV=commonjs babel ./src -d dist/lib --extensions '.ts'",
     "build-es6": "rimraf dist/es6 && cross-env NODE_ENV=es6 babel ./src -d dist/es6 --extensions '.ts'",
     "build-umd": "cross-env NODE_ENV=development webpack src/index.ts -o dist/umd/createts.js",

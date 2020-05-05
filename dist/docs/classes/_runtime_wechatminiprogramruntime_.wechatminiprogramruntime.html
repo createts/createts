@@ -118,6 +118,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#handletouchevent" class="tsd-kind-icon">handle<wbr>Touch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#loadarraybuffer" class="tsd-kind-icon">load<wbr>Array<wbr>Buffer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#loadtext" class="tsd-kind-icon">load<wbr>Text</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#newcanvas" class="tsd-kind-icon">new<wbr>Canvas</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#newimage" class="tsd-kind-icon">new<wbr>Image</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#releasecanvas" class="tsd-kind-icon">release<wbr>Canvas</a></li>
@@ -136,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L24">runtime/WechatMiniProgramRuntime.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L24">runtime/WechatMiniProgramRuntime.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">wx<wbr>Canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L20">runtime/WechatMiniProgramRuntime.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L20">runtime/WechatMiniProgramRuntime.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -169,7 +170,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#enableevents">enableEvents</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L171">runtime/WechatMiniProgramRuntime.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L205">runtime/WechatMiniProgramRuntime.ts:205</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -225,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L190">runtime/WechatMiniProgramRuntime.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L224">runtime/WechatMiniProgramRuntime.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,14 +264,14 @@
 					<a name="loadarraybuffer" class="tsd-anchor"></a>
 					<h3>load<wbr>Array<wbr>Buffer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Array<wbr>Buffer<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadarraybuffertask" class="tsd-signature-type">LoadArrayBufferTask</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Array<wbr>Buffer<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#loadarraybuffer">loadArrayBuffer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L62">runtime/WechatMiniProgramRuntime.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L96">runtime/WechatMiniProgramRuntime.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,7 +287,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>task: <a href="../modules/_runtime_runtime_.html#loadarraybuffertask" class="tsd-signature-type">LoadArrayBufferTask</a></h5>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The load raw content task to be executed.</p>
 									</div>
@@ -300,14 +301,14 @@
 					<a name="loadimage" class="tsd-anchor"></a>
 					<h3>load<wbr>Image</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadimagetask" class="tsd-signature-type">LoadImageTask</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#loadimage">loadImage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L95">runtime/WechatMiniProgramRuntime.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L129">runtime/WechatMiniProgramRuntime.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,9 +324,46 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>task: <a href="../modules/_runtime_runtime_.html#loadimagetask" class="tsd-signature-type">LoadImageTask</a></h5>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The load image task to be executed.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="loadtext" class="tsd-anchor"></a>
+					<h3>load<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Text<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#loadtext">loadText</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L62">runtime/WechatMiniProgramRuntime.ts:62</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Execute a load text content task.</p>
+									<ol>
+										<li>If the source of content is a relative path, uses wechat file system api to read the file.</li>
+										<li>If the source is an absolute url, use wechat network api to file a http request to get the
+										content, please note that you must whitelist the domain for your wechat mini program app.</li>
+									</ol>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The load text content task to be executed.</p>
 									</div>
 								</li>
 							</ul>
@@ -344,7 +382,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#newcanvas">newCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L33">runtime/WechatMiniProgramRuntime.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L33">runtime/WechatMiniProgramRuntime.ts:33</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,7 +405,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#newimage">newImage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L51">runtime/WechatMiniProgramRuntime.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L51">runtime/WechatMiniProgramRuntime.ts:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -390,7 +428,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_runtime_runtime_.iruntime.html">IRuntime</a>.<a href="../interfaces/_runtime_runtime_.iruntime.html#releasecanvas">releaseCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L44">runtime/WechatMiniProgramRuntime.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L44">runtime/WechatMiniProgramRuntime.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -421,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L179">runtime/WechatMiniProgramRuntime.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L213">runtime/WechatMiniProgramRuntime.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -470,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/WechatMiniProgramRuntime.ts#L26">runtime/WechatMiniProgramRuntime.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/WechatMiniProgramRuntime.ts#L26">runtime/WechatMiniProgramRuntime.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -520,6 +558,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#loadtext" class="tsd-kind-icon">load<wbr>Text</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_runtime_wechatminiprogramruntime_.wechatminiprogramruntime.html#newcanvas" class="tsd-kind-icon">new<wbr>Canvas</a>

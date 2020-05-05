@@ -291,6 +291,12 @@ Object.defineProperty(exports, "Stage", {
     return _Stage.Stage;
   }
 });
+Object.defineProperty(exports, "BitmapText", {
+  enumerable: true,
+  get: function get() {
+    return _BitmapText.BitmapText;
+  }
+});
 Object.defineProperty(exports, "Scrollable", {
   enumerable: true,
   get: function get() {
@@ -601,6 +607,8 @@ var _Event = require("./base/Event");
 var _XObject = require("./components/XObject");
 
 var _Stage = require("./components/Stage");
+
+var _BitmapText = require("./components/BitmapText");
 
 var _Scrollable = require("./components/Scrollable");
 

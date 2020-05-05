@@ -7,9 +7,10 @@ declare enum LoadState {
 }
 export declare enum ResourceType {
     IMAGE = "image",
-    APNG = "apng"
+    APNG = "apng",
+    JSON = "json"
 }
-export declare type Resource = HTMLImageElement | SpriteSheet;
+export declare type Resource = HTMLImageElement | SpriteSheet | any;
 declare type ResourceItem = {
     url: string;
     type: ResourceType;
@@ -32,6 +33,7 @@ export declare class ResourceRegistryEvent extends Event {
 export declare class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     private load;
     private loadImage;
+    private loadJson;
     private loadApng;
     private getTotalProgress;
     private onProgress;

@@ -17,10 +17,11 @@ enum LoadState {
  */
 export enum ResourceType {
   IMAGE = 'image',
-  APNG = 'apng'
+  APNG = 'apng',
+  JSON = 'json'
 }
 
-export type Resource = HTMLImageElement | SpriteSheet;
+export type Resource = HTMLImageElement | SpriteSheet | any; // `any` for json.
 
 /**
  * Defines a resource item type contains source url, type, download stats, etc.
@@ -87,6 +88,9 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
       case ResourceType.APNG:
         this.loadApng(item);
         break;
+      case ResourceType.JSON:
+        this.loadJson(item);
+        break;
     }
   }
 
@@ -99,6 +103,29 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
       url: item.url,
       onLoad: image => {
         item.resource = image;
+        this.onLoad(item);
+      },
+      onError: error => {
+        item.error = error;
+        this.onError(item);
+      },
+      onProgress: event => {
+        item.loadedBytes = event.loadedBytes;
+        item.totalBytes = event.totalBytes;
+        this.onProgress(item);
+      }
+    });
+  }
+
+  /**
+   * Calls current runtime to load the json resource.
+   * @param item The json resource item to be loaded.
+   */
+  private loadJson(item: ResourceItem) {
+    Runtime.get().loadText({
+      url: item.url,
+      onLoad: data => {
+        item.resource = JSON.parse(data);
         this.onLoad(item);
       },
       onError: error => {

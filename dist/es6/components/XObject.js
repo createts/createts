@@ -553,6 +553,7 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
     key: "css",
     value: function css(style) {
       this.style.apply(style);
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
       return this;
     }
     /**

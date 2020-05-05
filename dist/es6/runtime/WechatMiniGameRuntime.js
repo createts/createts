@@ -79,6 +79,42 @@ export var WechatMiniGameRuntime = /*#__PURE__*/function () {
       return wx.createImage();
     }
     /**
+     * Execute a load text content task.
+     * 1. If the source of content is a relative path, uses wechat file system api to read the file.
+     * 1. If the source is an absolute url, use wechat network api to file a http request to get the
+     * content, please note that you must whitelist the domain for your wechat mini game app.
+     * @param task The load text content task to be executed.
+     */
+
+  }, {
+    key: "loadText",
+    value: function loadText(task) {
+      if (URLUtils.isAbsolute(task.url)) {
+        wx.request({
+          url: task.url,
+          method: task.method || 'GET',
+          responseType: 'text',
+          success: function success(res) {
+            task.onLoad(res.data);
+          },
+          fail: function fail(error) {
+            task.onError(error);
+          }
+        });
+      } else {
+        wx.getFileSystemManager().readFile({
+          filePath: task.url,
+          encoding: 'utf-8',
+          success: function success(e) {
+            task.onLoad(e.data);
+          },
+          fail: function fail(e) {
+            task.onError(e);
+          }
+        });
+      }
+    }
+    /**
      * Execute a load raw content task.
      * 1. If the source of content is a relative path, uses wechat file system api to read the file.
      * 1. If the source is an absolute url, use wechat network api to file a http request to get the

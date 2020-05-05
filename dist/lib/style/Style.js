@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Style = exports.Visibility = exports.PointerEvents = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.TextAlign = exports.BoxSizing = void 0;
+exports.Style = exports.Visibility = exports.PointerEvents = exports.TextBorderPosition = exports.Overflow = exports.Display = exports.Position = exports.VerticalAlign = exports.TextAlign = exports.BoxSizing = void 0;
 
 var _Animation = require("../animation/Animation");
 
@@ -55,6 +55,15 @@ exports.TextAlign = TextAlign;
   TextAlign["RIGHT"] = "right";
   TextAlign["CENTER"] = "center";
 })(TextAlign || (exports.TextAlign = TextAlign = {}));
+
+var VerticalAlign;
+exports.VerticalAlign = VerticalAlign;
+
+(function (VerticalAlign) {
+  VerticalAlign["TOP"] = "top";
+  VerticalAlign["BOTTOM"] = "bottom";
+  VerticalAlign["MIDDLE"] = "middle";
+})(VerticalAlign || (exports.VerticalAlign = VerticalAlign = {}));
 
 var Position;
 exports.Position = Position;
@@ -146,7 +155,8 @@ var Style = /*#__PURE__*/function () {
     this.color = _Color.Color.BLACK;
     this.font = void 0;
     this.lineHeight = void 0;
-    this.textAlign = TextAlign.LEFT;
+    this.textAlign = void 0;
+    this.verticalAlign = void 0;
     this.borderTopLeftRadius = void 0;
     this.borderTopRightRadius = void 0;
     this.borderBottomLeftRadius = void 0;
@@ -456,7 +466,11 @@ var Style = /*#__PURE__*/function () {
             this.lineHeight = _LineHeight.LineHeight.of(value);
 
           case 'textAlign':
-            this.textAlign = _EnumUtils.EnumUtils.fromString(TextAlign, value, TextAlign.LEFT);
+            this.textAlign = _EnumUtils.EnumUtils.fromStringOrUndefined(TextAlign, value);
+            break;
+
+          case 'verticalAlign':
+            this.verticalAlign = _EnumUtils.EnumUtils.fromStringOrUndefined(VerticalAlign, value);
             break;
 
           case 'borderRadius':
@@ -639,6 +653,7 @@ var Style = /*#__PURE__*/function () {
 
       cloned.lineHeight = this.lineHeight;
       cloned.textAlign = this.textAlign;
+      cloned.verticalAlign = this.verticalAlign;
 
       if (this.borderTop) {
         cloned.borderTop = this.borderTop.clone();

@@ -368,9 +368,7 @@ export class XObject extends EventDispatcher<XObjectEvent> {
    * @returns A Point instance with x and y properties correlating to the transformed coordinates.
    */
   public globalToLocal(x: number, y: number): Point {
-    return this.getConcatenatedMatrix()
-      .invert()
-      .transformPoint(x, y);
+    return this.getConcatenatedMatrix().invert().transformPoint(x, y);
   }
 
   /**
@@ -462,6 +460,7 @@ export class XObject extends EventDispatcher<XObjectEvent> {
    */
   public css(style: { [key: string]: string | number }): XObject {
     this.style.apply(style);
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
   }
 

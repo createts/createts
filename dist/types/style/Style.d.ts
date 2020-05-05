@@ -17,6 +17,11 @@ export declare enum TextAlign {
     RIGHT = "right",
     CENTER = "center"
 }
+export declare enum VerticalAlign {
+    TOP = "top",
+    BOTTOM = "bottom",
+    MIDDLE = "middle"
+}
 export declare enum Position {
     STATIC = "static",
     RELATIVE = "relative",
@@ -82,7 +87,8 @@ export declare class Style {
     color: Color;
     font?: Font;
     lineHeight?: LineHeight;
-    textAlign: TextAlign;
+    textAlign?: TextAlign;
+    verticalAlign?: VerticalAlign;
     borderTopLeftRadius?: BorderRadius;
     borderTopRightRadius?: BorderRadius;
     borderBottomLeftRadius?: BorderRadius;

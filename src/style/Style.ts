@@ -24,6 +24,12 @@ export enum TextAlign {
   CENTER = 'center'
 }
 
+export enum VerticalAlign {
+  TOP = 'top',
+  BOTTOM = 'bottom',
+  MIDDLE = 'middle'
+}
+
 export enum Position {
   STATIC = 'static',
   RELATIVE = 'relative',
@@ -107,7 +113,8 @@ export class Style {
   public color: Color = Color.BLACK;
   public font?: Font;
   public lineHeight?: LineHeight;
-  public textAlign: TextAlign = TextAlign.LEFT;
+  public textAlign?: TextAlign;
+  public verticalAlign?: VerticalAlign;
 
   public borderTopLeftRadius?: BorderRadius;
   public borderTopRightRadius?: BorderRadius;
@@ -355,7 +362,10 @@ export class Style {
         case 'lineHeight':
           this.lineHeight = LineHeight.of(value);
         case 'textAlign':
-          this.textAlign = EnumUtils.fromString<TextAlign>(TextAlign, value, TextAlign.LEFT);
+          this.textAlign = EnumUtils.fromStringOrUndefined<TextAlign>(TextAlign, value);
+          break;
+        case 'verticalAlign':
+          this.verticalAlign = EnumUtils.fromStringOrUndefined<VerticalAlign>(VerticalAlign, value);
           break;
         case 'borderRadius':
           {
@@ -506,6 +516,7 @@ export class Style {
     }
     cloned.lineHeight = this.lineHeight;
     cloned.textAlign = this.textAlign;
+    cloned.verticalAlign = this.verticalAlign;
 
     if (this.borderTop) {
       cloned.borderTop = this.borderTop.clone();

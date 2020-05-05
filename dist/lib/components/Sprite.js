@@ -11,9 +11,17 @@ var _HtmlParser = require("../parser/HtmlParser");
 
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
+var _DrawUtils = require("../utils/DrawUtils");
+
 var _Stage = require("./Stage");
 
 var _XObject2 = require("./XObject");
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -147,6 +155,17 @@ var Sprite = /*#__PURE__*/function (_XObject) {
     _this2.spriteSheet = void 0;
     _this2.currentFrame = 0;
     _this2.animation = void 0;
+
+    if (options) {
+      if (options.attributes && options.attributes.src) {
+        _ResourceRegistry.ResourceRegistry.DefaultInstance.add(options.attributes.src, _ResourceRegistry.ResourceType.JSON).then(function (json) {
+          _this2.setSpriteSheet(json);
+
+          _this2.dispatchEvent(new _XObject2.XObjectEvent('load', false, true, _assertThisInitialized(_this2)));
+        });
+      }
+    }
+
     return _this2;
   }
   /**
@@ -159,10 +178,33 @@ var Sprite = /*#__PURE__*/function (_XObject) {
   _createClass(Sprite, [{
     key: "setSpriteSheet",
     value: function setSpriteSheet(spriteSheet) {
+      var _this3 = this;
+
       this.spriteSheet = spriteSheet;
 
-      if (this.spriteSheet && this.spriteSheet.url) {
-        _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, _ResourceRegistry.ResourceType.IMAGE);
+      if (this.spriteSheet) {
+        if (this.spriteSheet.url) {
+          _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, _ResourceRegistry.ResourceType.IMAGE);
+        }
+
+        var _iterator = _createForOfIteratorHelper(this.spriteSheet.frames),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var frame = _step.value;
+
+            if (frame.url) {
+              _ResourceRegistry.ResourceRegistry.DefaultInstance.add(frame.url, _ResourceRegistry.ResourceType.IMAGE).then(function () {
+                _this3.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, _this3));
+              });
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
       }
 
       this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
@@ -197,7 +239,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
   }, {
     key: "play",
     value: function play() {
-      var _this3 = this;
+      var _this4 = this;
 
       var times = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
 
@@ -211,7 +253,7 @@ var Sprite = /*#__PURE__*/function (_XObject) {
       if (stage) {
         this.animation = stage.animate(this).addStep(new SpriteAnimationStep(this)).times(times);
         this.animation.addEventListener('complete', function () {
-          return _this3.dispatchEvent(new _XObject2.XObjectEvent('stop', false, true, _this3));
+          return _this4.dispatchEvent(new _XObject2.XObjectEvent('stop', false, true, _this4));
         });
         this.dispatchEvent(new _XObject2.XObjectEvent('play', false, true, this));
       }
@@ -322,37 +364,9 @@ var Sprite = /*#__PURE__*/function (_XObject) {
         return;
       }
 
-      var frame = this.spriteSheet.frames[this.currentFrame]; // Get image
+      var frame = this.spriteSheet.frames[this.currentFrame];
 
-      var rect = this.getContentRect();
-      var image;
-
-      if (frame.image) {
-        image = frame.image;
-      } else {
-        image = this.spriteSheet.image || this.spriteSheet.url && _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.spriteSheet.url);
-      }
-
-      if (!image) {
-        return;
-      }
-
-      var scaleX = rect.width / this.spriteSheet.width;
-      var scaleY = rect.height / this.spriteSheet.height;
-      var destX = frame.destX !== undefined ? frame.destX : 0;
-      var destY = frame.destY !== undefined ? frame.destY : 0;
-      var destWidth = frame.destWidth !== undefined ? frame.destWidth : this.spriteSheet.width - destX;
-      var destHeight = frame.destHeight !== undefined ? frame.destHeight : this.spriteSheet.height - destY;
-      var srcX = frame.srcX !== undefined ? frame.srcX : 0;
-      var srcY = frame.srcY !== undefined ? frame.srcY : 0;
-      var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
-      var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
-
-      try {
-        ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
-      } catch (e) {
-        return;
-      }
+      _DrawUtils.DrawUtils.drawFrame(ctx, this.getContentRect(), frame, this.spriteSheet);
     }
   }]);
 

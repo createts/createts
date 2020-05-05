@@ -2094,6 +2094,150 @@ HtmlParser_1.HtmlParser.registerTag('apng', Apng);
 
 /***/ }),
 
+/***/ "./src/components/BitmapText.ts":
+/*!**************************************!*\
+  !*** ./src/components/BitmapText.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
+var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
+var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
+var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
+var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
+var BitmapText = (function (_super) {
+    __extends(BitmapText, _super);
+    function BitmapText(options) {
+        var _this = _super.call(this, options) || this;
+        _this.text = '';
+        if (options) {
+            _this.text = options.text || '';
+            if (options.attributes && options.attributes.src) {
+                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceRegistry_1.ResourceType.JSON).then(function (json) {
+                    _this.setBitmapTextSheet(json);
+                });
+            }
+        }
+        return _this;
+    }
+    BitmapText.prototype.setBitmapTextSheet = function (bitmapTextSheet) {
+        var _this = this;
+        this.bitmapTextSheet = bitmapTextSheet;
+        if (this.bitmapTextSheet) {
+            if (this.bitmapTextSheet.url) {
+                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.bitmapTextSheet.url, ResourceRegistry_1.ResourceType.IMAGE).then(function () {
+                    _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+                });
+            }
+            for (var text in this.bitmapTextSheet.texts) {
+                var frame = this.bitmapTextSheet.texts[text];
+                if (frame.url) {
+                    ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(frame.url, ResourceRegistry_1.ResourceType.IMAGE).then(function () {
+                        _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+                    });
+                }
+            }
+        }
+    };
+    BitmapText.prototype.setText = function (text) {
+        if (this.text !== text) {
+            this.text = text;
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
+        }
+    };
+    BitmapText.prototype.getText = function () {
+        return this.text;
+    };
+    BitmapText.prototype.drawContent = function (ctx) {
+        if (this.text === '' ||
+            !this.bitmapTextSheet ||
+            this.rect.width <= 0 ||
+            this.rect.height <= 0) {
+            return;
+        }
+        var contentRect = this.getContentRect();
+        var lines = this.text.split('\n');
+        ctx.save();
+        for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
+            var line = lines_1[_i];
+            var x = contentRect.x;
+            var y = contentRect.y;
+            var height = this.bitmapTextSheet.height || 0;
+            for (var _a = 0, line_1 = line; _a < line_1.length; _a++) {
+                var ch = line_1[_a];
+                var text = this.bitmapTextSheet.texts[ch];
+                if (text) {
+                    var size = DrawUtils_1.DrawUtils.getFrameSize(text, this.bitmapTextSheet);
+                    var rect = new Rect_1.Rect(x, y, size.width, size.height);
+                    DrawUtils_1.DrawUtils.drawFrame(ctx, rect, text, this.bitmapTextSheet);
+                    x += rect.width + (this.bitmapTextSheet.gapX || 0);
+                    height = Math.max(height, size.height);
+                }
+            }
+            y += height + (this.bitmapTextSheet.gapY || 0);
+        }
+        ctx.restore();
+        return true;
+    };
+    BitmapText.prototype.layout = function () {
+        _super.prototype.layout.call(this);
+        if (this.bitmapTextSheet) {
+            var lines = this.text.split('\n');
+            var contentRect = this.getContentRect();
+            var maxWidth = 0;
+            var maxHeight = 0;
+            for (var _i = 0, lines_2 = lines; _i < lines_2.length; _i++) {
+                var line = lines_2[_i];
+                var width = 0;
+                var height = this.bitmapTextSheet.height || 0;
+                for (var _a = 0, line_2 = line; _a < line_2.length; _a++) {
+                    var ch = line_2[_a];
+                    var text = this.bitmapTextSheet.texts[ch];
+                    var size = DrawUtils_1.DrawUtils.getFrameSize(text, this.bitmapTextSheet);
+                    if (width > 0 && !isNaN(this.bitmapTextSheet.gapX))
+                        width += this.bitmapTextSheet.gapX;
+                    width += size.width;
+                    height = Math.max(height, size.height);
+                }
+                if (maxHeight > 0 && !isNaN(this.bitmapTextSheet.gapY)) {
+                    maxHeight += this.bitmapTextSheet.gapY;
+                }
+                maxHeight += height;
+                maxWidth = Math.max(maxWidth, width);
+            }
+            if (maxWidth > contentRect.width) {
+                this.rect.width += maxWidth - contentRect.width;
+            }
+            if (maxHeight > contentRect.height) {
+                this.rect.height += maxHeight - contentRect.height;
+            }
+        }
+    };
+    return BitmapText;
+}(XObject_1.XObject));
+exports.BitmapText = BitmapText;
+HtmlParser_1.HtmlParser.registerTag('bitmaptext', BitmapText);
+
+
+/***/ }),
+
 /***/ "./src/components/Container.ts":
 /*!*************************************!*\
   !*** ./src/components/Container.ts ***!
@@ -2210,7 +2354,7 @@ var Container = (function (_super) {
                 this.children.splice(current, 1);
             }
             child.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, child));
-            this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
             return this;
         }
         else {
@@ -2220,7 +2364,7 @@ var Container = (function (_super) {
             child.parent = this;
             this.children.splice(index, 0, child);
             child.dispatchEvent(new XObject_1.XObjectEvent('added', false, true, child));
-            this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
             return this;
         }
     };
@@ -2233,7 +2377,7 @@ var Container = (function (_super) {
             this.children.splice(idx, 1);
             child.parent = undefined;
             child.dispatchEvent(new XObject_1.XObjectEvent('removed', false, true, child));
-            this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
             return child;
         }
     };
@@ -2244,13 +2388,19 @@ var Container = (function (_super) {
         var child = this.children[index];
         this.children.splice(index, 1);
         child.dispatchEvent(new XObject_1.XObjectEvent('removed', false, true, child));
-        this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return child;
     };
     Container.prototype.removeAllChildren = function () {
-        while (this.children.length > 0) {
-            this.removeChildAt(0);
+        if (this.children.length === 0) {
+            return this;
         }
+        for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
+            var child = _a[_i];
+            child.dispatchEvent(new XObject_1.XObjectEvent('removed', false, true, child));
+        }
+        this.children.length = 0;
+        this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return this;
     };
     Container.prototype.getChildAt = function (index) {
@@ -2258,7 +2408,7 @@ var Container = (function (_super) {
     };
     Container.prototype.sortChildren = function (sortFunction) {
         this.children.sort(sortFunction);
-        this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return this;
     };
     Container.prototype.getChildIndex = function (child) {
@@ -2280,7 +2430,7 @@ var Container = (function (_super) {
         this.children[index2] = o1;
         o1.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, o1));
         o2.dispatchEvent(new XObject_1.XObjectEvent('moved', false, true, o2));
-        this.dispatchEvent(new XObject_1.XObjectEvent('update', false, true, this));
+        this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return this;
     };
     Container.prototype.swapChildren = function (child1, child2) {
@@ -2295,6 +2445,7 @@ var Container = (function (_super) {
         var relatives = [];
         var contentRect = this.getContentRect();
         var contentWidth = contentRect.width;
+        var contentHeight = contentRect.height;
         for (var _i = 0, _a = this.children; _i < _a.length; _i++) {
             var child = _a[_i];
             if (!child.isVisible()) {
@@ -2307,58 +2458,74 @@ var Container = (function (_super) {
             else {
                 relatives.push(child);
                 contentWidth = Math.max(contentWidth, child.getOuterWidth());
+                contentHeight = Math.max(contentHeight, child.getOuterHeight());
             }
-        }
-        var lines = [];
-        var line = [];
-        var lineWidth = 0;
-        for (var _b = 0, relatives_1 = relatives; _b < relatives_1.length; _b++) {
-            var child = relatives_1[_b];
-            if ((line.length > 0 && child.style.display === Style_1.Display.BLOCK) ||
-                lineWidth + child.getOuterWidth() > contentWidth) {
-                lines.push(line);
-                line = [];
-                lineWidth = 0;
-            }
-            line.push(child);
-            lineWidth += child.getOuterWidth();
-        }
-        if (line.length > 0) {
-            lines.push(line);
         }
         var lineHeight = this.getLineHeight();
-        var contentHeight = 0;
+        var lines = [];
+        var line = {
+            width: 0,
+            height: lineHeight,
+            children: []
+        };
+        for (var _b = 0, relatives_1 = relatives; _b < relatives_1.length; _b++) {
+            var child = relatives_1[_b];
+            if ((line.children.length > 0 && child.style.display === Style_1.Display.BLOCK) ||
+                line.width + child.getOuterWidth() > contentWidth) {
+                lines.push(line);
+                line = {
+                    width: 0,
+                    height: lineHeight,
+                    children: []
+                };
+            }
+            line.children.push(child);
+            line.width += child.getOuterWidth();
+            line.height = Math.max(child.getOuterHeight(), line.height);
+        }
+        if (line.children.length > 0) {
+            lines.push(line);
+        }
+        var x = contentRect.x;
+        var y = contentRect.y;
         for (var _c = 0, lines_1 = lines; _c < lines_1.length; _c++) {
             var l = lines_1[_c];
-            var lineMaxHeight = 0;
-            lineWidth = 0;
-            for (var _d = 0, l_1 = l; _d < l_1.length; _d++) {
-                var child = l_1[_d];
-                child.rect.y =
-                    contentHeight +
-                        contentRect.y +
-                        (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
-                lineMaxHeight = Math.max(lineMaxHeight, child.getOuterHeight());
-                lineWidth += child.getOuterWidth();
-            }
-            contentHeight += Math.max(lineHeight, lineMaxHeight);
-            var x = contentRect.x;
             switch (this.style.textAlign) {
                 case Style_1.TextAlign.RIGHT:
-                    x = contentRect.x + contentWidth - lineWidth;
+                    x = contentRect.x + contentWidth - l.width;
                     break;
                 case Style_1.TextAlign.CENTER:
-                    x = contentRect.x + (contentWidth - lineWidth) / 2;
+                    x = contentRect.x + (contentWidth - l.width) / 2;
                     break;
                 default:
                     x = contentRect.x;
             }
-            for (var _e = 0, l_2 = l; _e < l_2.length; _e++) {
-                var child = l_2[_e];
+            for (var _d = 0, _e = l.children; _d < _e.length; _d++) {
+                var child = _e[_d];
                 child.rect.x =
                     x + (child.style.marginLeft ? child.style.marginLeft.getValue(this.rect.width) : 0);
                 x += child.getOuterWidth();
+                switch (child.style.verticalAlign) {
+                    case Style_1.VerticalAlign.BOTTOM:
+                        child.rect.y =
+                            y +
+                                l.height -
+                                (child.style.marginBottom ? child.style.marginBottom.getValue(this.rect.height) : 0) -
+                                child.getHeight();
+                        break;
+                    case Style_1.VerticalAlign.MIDDLE:
+                        child.rect.y =
+                            y +
+                                (l.height - child.getOuterHeight()) / 2 +
+                                (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
+                        break;
+                    default:
+                        child.rect.y =
+                            y + (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
+                }
             }
+            y += l.height;
+            contentHeight = Math.max(contentHeight, y);
         }
         if (!this.style.width && contentWidth > contentRect.width) {
             this.rect.width += contentWidth - contentRect.width;
@@ -2682,6 +2849,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Animation_1 = __webpack_require__(/*! ../animation/Animation */ "./src/animation/Animation.ts");
 var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
+var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 var Stage_1 = __webpack_require__(/*! ./Stage */ "./src/components/Stage.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var SpriteAnimationStep = (function (_super) {
@@ -2714,12 +2882,31 @@ var Sprite = (function (_super) {
     function Sprite(options) {
         var _this = _super.call(this, options) || this;
         _this.currentFrame = 0;
+        if (options) {
+            if (options.attributes && options.attributes.src) {
+                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceRegistry_1.ResourceType.JSON).then(function (json) {
+                    _this.setSpriteSheet(json);
+                    _this.dispatchEvent(new XObject_1.XObjectEvent('load', false, true, _this));
+                });
+            }
+        }
         return _this;
     }
     Sprite.prototype.setSpriteSheet = function (spriteSheet) {
+        var _this = this;
         this.spriteSheet = spriteSheet;
-        if (this.spriteSheet && this.spriteSheet.url) {
-            ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceRegistry_1.ResourceType.IMAGE);
+        if (this.spriteSheet) {
+            if (this.spriteSheet.url) {
+                ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceRegistry_1.ResourceType.IMAGE);
+            }
+            for (var _i = 0, _a = this.spriteSheet.frames; _i < _a.length; _i++) {
+                var frame = _a[_i];
+                if (frame.url) {
+                    ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(frame.url, ResourceRegistry_1.ResourceType.IMAGE).then(function () {
+                        _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+                    });
+                }
+            }
         }
         this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
         return this;
@@ -2794,35 +2981,7 @@ var Sprite = (function (_super) {
             return;
         }
         var frame = this.spriteSheet.frames[this.currentFrame];
-        var rect = this.getContentRect();
-        var image;
-        if (frame.image) {
-            image = frame.image;
-        }
-        else {
-            image =
-                this.spriteSheet.image ||
-                    (this.spriteSheet.url && ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.spriteSheet.url));
-        }
-        if (!image) {
-            return;
-        }
-        var scaleX = rect.width / this.spriteSheet.width;
-        var scaleY = rect.height / this.spriteSheet.height;
-        var destX = frame.destX !== undefined ? frame.destX : 0;
-        var destY = frame.destY !== undefined ? frame.destY : 0;
-        var destWidth = frame.destWidth !== undefined ? frame.destWidth : this.spriteSheet.width - destX;
-        var destHeight = frame.destHeight !== undefined ? frame.destHeight : this.spriteSheet.height - destY;
-        var srcX = frame.srcX !== undefined ? frame.srcX : 0;
-        var srcY = frame.srcY !== undefined ? frame.srcY : 0;
-        var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
-        var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
-        try {
-            ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX, destY * scaleY, destWidth * scaleX, destHeight * scaleY);
-        }
-        catch (e) {
-            return;
-        }
+        DrawUtils_1.DrawUtils.drawFrame(ctx, this.getContentRect(), frame, this.spriteSheet);
     };
     return Sprite;
 }(XObject_1.XObject));
@@ -3638,9 +3797,7 @@ var XObject = (function (_super) {
         return this.getConcatenatedMatrix().transformPoint(x, y);
     };
     XObject.prototype.globalToLocal = function (x, y) {
-        return this.getConcatenatedMatrix()
-            .invert()
-            .transformPoint(x, y);
+        return this.getConcatenatedMatrix().invert().transformPoint(x, y);
     };
     XObject.prototype.localToLocal = function (x, y, target) {
         var pt = this.localToGlobal(x, y);
@@ -3675,6 +3832,7 @@ var XObject = (function (_super) {
     };
     XObject.prototype.css = function (style) {
         this.style.apply(style);
+        this.dispatchEvent(new XObjectEvent('update', true, true, this));
         return this;
     };
     XObject.prototype.getLineHeight = function () {
@@ -3917,6 +4075,8 @@ var Stage_1 = __webpack_require__(/*! ./components/Stage */ "./src/components/St
 exports.StageLayoutPolicy = Stage_1.StageLayoutPolicy;
 var Stage_2 = __webpack_require__(/*! ./components/Stage */ "./src/components/Stage.ts");
 exports.StageUpdatePolicy = Stage_2.StageUpdatePolicy;
+var BitmapText_1 = __webpack_require__(/*! ./components/BitmapText */ "./src/components/BitmapText.ts");
+exports.BitmapText = BitmapText_1.BitmapText;
 var Scrollable_1 = __webpack_require__(/*! ./components/Scrollable */ "./src/components/Scrollable.ts");
 exports.Scrollable = Scrollable_1.Scrollable;
 var Stage_3 = __webpack_require__(/*! ./components/Stage */ "./src/components/Stage.ts");
@@ -4868,6 +5028,7 @@ var ResourceType;
 (function (ResourceType) {
     ResourceType["IMAGE"] = "image";
     ResourceType["APNG"] = "apng";
+    ResourceType["JSON"] = "json";
 })(ResourceType = exports.ResourceType || (exports.ResourceType = {}));
 var ResourceRegistryEvent = (function (_super) {
     __extends(ResourceRegistryEvent, _super);
@@ -4895,6 +5056,9 @@ var ResourceRegistry = (function (_super) {
             case ResourceType.APNG:
                 this.loadApng(item);
                 break;
+            case ResourceType.JSON:
+                this.loadJson(item);
+                break;
         }
     };
     ResourceRegistry.prototype.loadImage = function (item) {
@@ -4903,6 +5067,25 @@ var ResourceRegistry = (function (_super) {
             url: item.url,
             onLoad: function (image) {
                 item.resource = image;
+                _this.onLoad(item);
+            },
+            onError: function (error) {
+                item.error = error;
+                _this.onError(item);
+            },
+            onProgress: function (event) {
+                item.loadedBytes = event.loadedBytes;
+                item.totalBytes = event.totalBytes;
+                _this.onProgress(item);
+            }
+        });
+    };
+    ResourceRegistry.prototype.loadJson = function (item) {
+        var _this = this;
+        Runtime_1.Runtime.get().loadText({
+            url: item.url,
+            onLoad: function (data) {
+                item.resource = JSON.parse(data);
                 _this.onLoad(item);
             },
             onError: function (error) {
@@ -5158,8 +5341,14 @@ var WebpageRuntime = (function () {
         return new Image();
     };
     WebpageRuntime.prototype.loadArrayBuffer = function (task) {
+        this.loadByType(task, 'arraybuffer');
+    };
+    WebpageRuntime.prototype.loadText = function (task) {
+        this.loadByType(task, 'text');
+    };
+    WebpageRuntime.prototype.loadByType = function (task, type) {
         var xhr = new XMLHttpRequest();
-        xhr.responseType = 'arraybuffer';
+        xhr.responseType = type;
         xhr.open(task.method || 'GET', task.url, true);
         xhr.onload = function () {
             if (xhr.status === 200) {
@@ -5321,6 +5510,33 @@ var WechatMiniGameRuntime = (function () {
     WechatMiniGameRuntime.prototype.newImage = function () {
         return wx.createImage();
     };
+    WechatMiniGameRuntime.prototype.loadText = function (task) {
+        if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
+            wx.request({
+                url: task.url,
+                method: task.method || 'GET',
+                responseType: 'text',
+                success: function (res) {
+                    task.onLoad(res.data);
+                },
+                fail: function (error) {
+                    task.onError(error);
+                }
+            });
+        }
+        else {
+            wx.getFileSystemManager().readFile({
+                filePath: task.url,
+                encoding: 'utf-8',
+                success: function (e) {
+                    task.onLoad(e.data);
+                },
+                fail: function (e) {
+                    task.onError(e);
+                }
+            });
+        }
+    };
     WechatMiniGameRuntime.prototype.loadArrayBuffer = function (task) {
         if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
             wx.request({
@@ -5461,6 +5677,33 @@ var WechatMiniProgramRuntime = (function () {
     };
     WechatMiniProgramRuntime.prototype.newImage = function () {
         return this.wxCanvas.createImage();
+    };
+    WechatMiniProgramRuntime.prototype.loadText = function (task) {
+        if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
+            wx.request({
+                url: task.url,
+                method: task.method || 'GET',
+                responseType: 'text',
+                success: function (res) {
+                    task.onLoad(res.data);
+                },
+                fail: function (error) {
+                    task.onError(error);
+                }
+            });
+        }
+        else {
+            wx.getFileSystemManager().readFile({
+                filePath: task.url,
+                encoding: 'utf-8',
+                success: function (e) {
+                    task.onLoad(e.data);
+                },
+                fail: function (e) {
+                    task.onError(e);
+                }
+            });
+        }
     };
     WechatMiniProgramRuntime.prototype.loadArrayBuffer = function (task) {
         if (URLUtils_1.URLUtils.isAbsolute(task.url)) {
@@ -7065,6 +7308,12 @@ var TextAlign;
     TextAlign["RIGHT"] = "right";
     TextAlign["CENTER"] = "center";
 })(TextAlign = exports.TextAlign || (exports.TextAlign = {}));
+var VerticalAlign;
+(function (VerticalAlign) {
+    VerticalAlign["TOP"] = "top";
+    VerticalAlign["BOTTOM"] = "bottom";
+    VerticalAlign["MIDDLE"] = "middle";
+})(VerticalAlign = exports.VerticalAlign || (exports.VerticalAlign = {}));
 var Position;
 (function (Position) {
     Position["STATIC"] = "static";
@@ -7116,7 +7365,6 @@ var Style = (function () {
         this.visibility = Visibility.VISIBLE;
         this.boxSizing = BoxSizing.CONTENT_BOX;
         this.color = Color_1.Color.BLACK;
-        this.textAlign = TextAlign.LEFT;
         this.overflow = Overflow.VISIBLE;
         this.pointerEvents = PointerEvents.AUTO;
         this.textBorderPosition = TextBorderPosition.OUTER;
@@ -7362,7 +7610,10 @@ var Style = (function () {
                 case 'lineHeight':
                     this.lineHeight = LineHeight_1.LineHeight.of(value);
                 case 'textAlign':
-                    this.textAlign = EnumUtils_1.EnumUtils.fromString(TextAlign, value, TextAlign.LEFT);
+                    this.textAlign = EnumUtils_1.EnumUtils.fromStringOrUndefined(TextAlign, value);
+                    break;
+                case 'verticalAlign':
+                    this.verticalAlign = EnumUtils_1.EnumUtils.fromStringOrUndefined(VerticalAlign, value);
                     break;
                 case 'borderRadius':
                     {
@@ -7505,6 +7756,7 @@ var Style = (function () {
         }
         cloned.lineHeight = this.lineHeight;
         cloned.textAlign = this.textAlign;
+        cloned.verticalAlign = this.verticalAlign;
         if (this.borderTop) {
             cloned.borderTop = this.borderTop.clone();
         }
@@ -8104,6 +8356,7 @@ exports.Delay = Delay;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var RoundRect_1 = __webpack_require__(/*! ../base/RoundRect */ "./src/base/RoundRect.ts");
+var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var DrawUtils = (function () {
     function DrawUtils() {
@@ -8287,6 +8540,78 @@ var DrawUtils = (function () {
         }
         else {
             element.drawContent(ctx);
+        }
+    };
+    DrawUtils.getFrameImage = function (frame, parent) {
+        if (frame.image) {
+            return frame.image;
+        }
+        else if (frame.url) {
+            return ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(frame.url);
+        }
+        else if (parent.image) {
+            return parent.image;
+        }
+        else if (parent.url) {
+            return ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(parent.url);
+        }
+        return undefined;
+    };
+    DrawUtils.getFrameSize = function (frame, parent) {
+        var size = { width: 0, height: 0 };
+        if (parent.width !== undefined) {
+            size.width = parent.width;
+        }
+        else if (frame.destWidth !== undefined) {
+            size.width = frame.destWidth + (frame.destX || 0);
+        }
+        else if (frame.srcWidth !== undefined) {
+            size.width = frame.srcWidth;
+        }
+        else {
+            var image = this.getFrameImage(frame, parent);
+            if (image) {
+                size.width = image.width;
+            }
+        }
+        if (parent.height !== undefined) {
+            size.height = parent.height;
+        }
+        else if (frame.destHeight !== undefined) {
+            size.height = frame.destHeight + (frame.destY || 0);
+        }
+        else if (frame.srcHeight !== undefined) {
+            size.height = frame.srcHeight;
+        }
+        else {
+            var image = this.getFrameImage(frame, parent);
+            if (image) {
+                size.height = image.height;
+            }
+        }
+        return size;
+    };
+    DrawUtils.drawFrame = function (ctx, rect, frame, parent) {
+        var image = this.getFrameImage(frame, parent);
+        if (!image) {
+            return;
+        }
+        var size = this.getFrameSize(frame, parent);
+        var scaleX = rect.width / size.width;
+        var scaleY = rect.height / size.height;
+        var destX = frame.destX !== undefined ? frame.destX : 0;
+        var destY = frame.destY !== undefined ? frame.destY : 0;
+        var destWidth = frame.destWidth !== undefined ? frame.destWidth : size.width - destX;
+        var destHeight = frame.destHeight !== undefined ? frame.destHeight : size.height - destY;
+        var srcX = frame.srcX !== undefined ? frame.srcX : 0;
+        var srcY = frame.srcY !== undefined ? frame.srcY : 0;
+        var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
+        var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
+        try {
+            ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX + rect.x, destY * scaleY + rect.y, destWidth * scaleX, destHeight * scaleY);
+        }
+        catch (e) {
+            return;
         }
     };
     return DrawUtils;

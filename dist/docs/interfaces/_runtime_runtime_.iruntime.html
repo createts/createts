@@ -102,6 +102,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#enableevents" class="tsd-kind-icon">enable<wbr>Events</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#loadarraybuffer" class="tsd-kind-icon">load<wbr>Array<wbr>Buffer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#loadtext" class="tsd-kind-icon">load<wbr>Text</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#newcanvas" class="tsd-kind-icon">new<wbr>Canvas</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#newimage" class="tsd-kind-icon">new<wbr>Image</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_runtime_runtime_.iruntime.html#releasecanvas" class="tsd-kind-icon">release<wbr>Canvas</a></li>
@@ -123,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L104">runtime/Runtime.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L78">runtime/Runtime.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -148,13 +149,13 @@
 					<a name="loadarraybuffer" class="tsd-anchor"></a>
 					<h3>load<wbr>Array<wbr>Buffer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Array<wbr>Buffer<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadarraybuffertask" class="tsd-signature-type">LoadArrayBufferTask</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Array<wbr>Buffer<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L114">runtime/Runtime.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L88">runtime/Runtime.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -165,7 +166,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>task: <a href="../modules/_runtime_runtime_.html#loadarraybuffertask" class="tsd-signature-type">LoadArrayBufferTask</a></h5>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The load raw content task to be executed.</p>
 									</div>
@@ -179,13 +180,13 @@
 					<a name="loadimage" class="tsd-anchor"></a>
 					<h3>load<wbr>Image</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadimagetask" class="tsd-signature-type">LoadImageTask</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L109">runtime/Runtime.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L83">runtime/Runtime.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,9 +197,40 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>task: <a href="../modules/_runtime_runtime_.html#loadimagetask" class="tsd-signature-type">LoadImageTask</a></h5>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLImageElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The load image task to be executed.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="loadtext" class="tsd-anchor"></a>
+					<h3>load<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Text<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L93">runtime/Runtime.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Execute a load raw content task.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-signature-type">LoadTask</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The load raw content task to be executed.</p>
 									</div>
 								</li>
 							</ul>
@@ -216,7 +248,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L82">runtime/Runtime.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L56">runtime/Runtime.ts:56</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,7 +270,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L86">runtime/Runtime.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L60">runtime/Runtime.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +292,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L92">runtime/Runtime.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L66">runtime/Runtime.ts:66</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -292,7 +324,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/5aeb511/src/runtime/Runtime.ts#L99">runtime/Runtime.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/runtime/Runtime.ts#L73">runtime/Runtime.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -369,6 +401,9 @@
 								<a href="_runtime_runtime_.iruntime.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="_runtime_runtime_.iruntime.html#loadtext" class="tsd-kind-icon">load<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_runtime_runtime_.iruntime.html#newcanvas" class="tsd-kind-icon">new<wbr>Canvas</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -384,11 +419,8 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_runtime_runtime_.html#loadarraybuffertask" class="tsd-kind-icon">Load<wbr>Array<wbr>Buffer<wbr>Task</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_runtime_runtime_.html#loadimagetask" class="tsd-kind-icon">Load<wbr>Image<wbr>Task</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="../modules/_runtime_runtime_.html#loadtask" class="tsd-kind-icon">Load<wbr>Task</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_runtime_runtime_.html#progress" class="tsd-kind-icon">Progress</a>

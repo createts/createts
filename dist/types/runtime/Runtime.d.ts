@@ -8,17 +8,10 @@ declare type Progress = {
     loadedBytes: number;
     totalBytes: number;
 };
-export declare type LoadImageTask = {
+export declare type LoadTask<T> = {
     url: string;
     method?: string;
-    onLoad: (image: HTMLImageElement) => void;
-    onError: (error: any) => void;
-    onProgress: (progress: Progress) => void;
-};
-export declare type LoadArrayBufferTask = {
-    url: string;
-    method?: string;
-    onLoad: (data: ArrayBuffer) => void;
+    onLoad: (data: T) => void;
     onError: (error: any) => void;
     onProgress: (progress: Progress) => void;
 };
@@ -28,8 +21,9 @@ export interface IRuntime {
     releaseCanvas(canvas: HTMLCanvasElement): void;
     requestAnimationFrame(listener: (time: number) => void): any;
     enableEvents(stage: Stage): void;
-    loadImage(task: LoadImageTask): void;
-    loadArrayBuffer(task: LoadArrayBufferTask): void;
+    loadImage(task: LoadTask<HTMLImageElement>): void;
+    loadArrayBuffer(task: LoadTask<ArrayBuffer>): void;
+    loadText(task: LoadTask<string>): void;
 }
 export declare class Runtime {
     static runtimeType: RuntimeType;

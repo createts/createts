@@ -36,6 +36,14 @@ export var TextAlign;
   TextAlign["CENTER"] = "center";
 })(TextAlign || (TextAlign = {}));
 
+export var VerticalAlign;
+
+(function (VerticalAlign) {
+  VerticalAlign["TOP"] = "top";
+  VerticalAlign["BOTTOM"] = "bottom";
+  VerticalAlign["MIDDLE"] = "middle";
+})(VerticalAlign || (VerticalAlign = {}));
+
 export var Position;
 
 (function (Position) {
@@ -119,7 +127,8 @@ export var Style = /*#__PURE__*/function () {
     this.color = Color.BLACK;
     this.font = void 0;
     this.lineHeight = void 0;
-    this.textAlign = TextAlign.LEFT;
+    this.textAlign = void 0;
+    this.verticalAlign = void 0;
     this.borderTopLeftRadius = void 0;
     this.borderTopRightRadius = void 0;
     this.borderBottomLeftRadius = void 0;
@@ -429,7 +438,11 @@ export var Style = /*#__PURE__*/function () {
             this.lineHeight = LineHeight.of(value);
 
           case 'textAlign':
-            this.textAlign = EnumUtils.fromString(TextAlign, value, TextAlign.LEFT);
+            this.textAlign = EnumUtils.fromStringOrUndefined(TextAlign, value);
+            break;
+
+          case 'verticalAlign':
+            this.verticalAlign = EnumUtils.fromStringOrUndefined(VerticalAlign, value);
             break;
 
           case 'borderRadius':
@@ -612,6 +625,7 @@ export var Style = /*#__PURE__*/function () {
 
       cloned.lineHeight = this.lineHeight;
       cloned.textAlign = this.textAlign;
+      cloned.verticalAlign = this.verticalAlign;
 
       if (this.borderTop) {
         cloned.borderTop = this.borderTop.clone();

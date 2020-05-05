@@ -5,6 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 import { RoundRect } from '../base/RoundRect';
+import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Overflow } from '../style/Style';
 /**
  * A class contains static draw util methods.
@@ -242,6 +243,106 @@ export var DrawUtils = /*#__PURE__*/function () {
         ctx.restore();
       } else {
         element.drawContent(ctx);
+      }
+    }
+    /**
+     * Returns the image instance while drawing the frame.
+     * @param frame The current frame.
+     * @param parent The top level configuration.
+     * @returns The image instance for this frame.
+     */
+
+  }, {
+    key: "getFrameImage",
+    value: function getFrameImage(frame, parent) {
+      if (frame.image) {
+        return frame.image;
+      } else if (frame.url) {
+        return ResourceRegistry.DefaultInstance.get(frame.url);
+      } else if (parent.image) {
+        return parent.image;
+      } else if (parent.url) {
+        return ResourceRegistry.DefaultInstance.get(parent.url);
+      }
+
+      return undefined;
+    }
+    /**
+     * Calculate the size of each frame.
+     * @param frame The current frame.
+     * @param parent The top level configuration.
+     * @returns The size of current frame.
+     */
+
+  }, {
+    key: "getFrameSize",
+    value: function getFrameSize(frame, parent) {
+      var size = {
+        width: 0,
+        height: 0
+      };
+
+      if (parent.width !== undefined) {
+        size.width = parent.width;
+      } else if (frame.destWidth !== undefined) {
+        size.width = frame.destWidth + (frame.destX || 0);
+      } else if (frame.srcWidth !== undefined) {
+        size.width = frame.srcWidth;
+      } else {
+        var image = this.getFrameImage(frame, parent);
+
+        if (image) {
+          size.width = image.width;
+        }
+      }
+
+      if (parent.height !== undefined) {
+        size.height = parent.height;
+      } else if (frame.destHeight !== undefined) {
+        size.height = frame.destHeight + (frame.destY || 0);
+      } else if (frame.srcHeight !== undefined) {
+        size.height = frame.srcHeight;
+      } else {
+        var _image = this.getFrameImage(frame, parent);
+
+        if (_image) {
+          size.height = _image.height;
+        }
+      }
+
+      return size;
+    }
+    /**
+     * Draws content of this element to targeted canvas.
+     * @param ctx The canvas rendering context of targeted canvas.
+     */
+
+  }, {
+    key: "drawFrame",
+    value: function drawFrame(ctx, rect, frame, parent) {
+      // Get image
+      var image = this.getFrameImage(frame, parent);
+
+      if (!image) {
+        return;
+      }
+
+      var size = this.getFrameSize(frame, parent);
+      var scaleX = rect.width / size.width;
+      var scaleY = rect.height / size.height;
+      var destX = frame.destX !== undefined ? frame.destX : 0;
+      var destY = frame.destY !== undefined ? frame.destY : 0;
+      var destWidth = frame.destWidth !== undefined ? frame.destWidth : size.width - destX;
+      var destHeight = frame.destHeight !== undefined ? frame.destHeight : size.height - destY;
+      var srcX = frame.srcX !== undefined ? frame.srcX : 0;
+      var srcY = frame.srcY !== undefined ? frame.srcY : 0;
+      var srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
+      var srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
+
+      try {
+        ctx.drawImage(image, srcX, srcY, srcWidth, srcHeight, destX * scaleX + rect.x, destY * scaleY + rect.y, destWidth * scaleX, destHeight * scaleY);
+      } catch (e) {
+        return;
       }
     }
   }]);

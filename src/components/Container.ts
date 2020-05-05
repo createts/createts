@@ -1,5 +1,5 @@
 import { HtmlParser } from '../parser/HtmlParser';
-import { Display, Overflow, Position, TextAlign } from '../style/Style';
+import { Display, Position, TextAlign, VerticalAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { XObject, XObjectEvent } from './XObject';
 
@@ -124,7 +124,7 @@ export class Container extends XObject {
         this.children.splice(current, 1);
       }
       child.dispatchEvent(new XObjectEvent('moved', false, true, child));
-      this.dispatchEvent(new XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
       return this;
     } else {
       if (parent) {
@@ -133,7 +133,7 @@ export class Container extends XObject {
       child.parent = this;
       this.children.splice(index, 0, child);
       child.dispatchEvent(new XObjectEvent('added', false, true, child));
-      this.dispatchEvent(new XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
       return this;
     }
   }
@@ -152,7 +152,7 @@ export class Container extends XObject {
       this.children.splice(idx, 1);
       child.parent = undefined;
       child.dispatchEvent(new XObjectEvent('removed', false, true, child));
-      this.dispatchEvent(new XObjectEvent('update', false, true, this));
+      this.dispatchEvent(new XObjectEvent('update', true, true, this));
       return child;
     }
   }
@@ -169,7 +169,7 @@ export class Container extends XObject {
     const child = this.children[index];
     this.children.splice(index, 1);
     child.dispatchEvent(new XObjectEvent('removed', false, true, child));
-    this.dispatchEvent(new XObjectEvent('update', false, true, this));
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return child;
   }
 
@@ -178,9 +178,14 @@ export class Container extends XObject {
    * @returns The current instance. Useful for chaining method calls.
    */
   public removeAllChildren(): Container {
-    while (this.children.length > 0) {
-      this.removeChildAt(0);
+    if (this.children.length === 0) {
+      return this;
     }
+    for (const child of this.children) {
+      child.dispatchEvent(new XObjectEvent('removed', false, true, child));
+    }
+    this.children.length = 0;
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
   }
 
@@ -199,7 +204,7 @@ export class Container extends XObject {
    */
   public sortChildren(sortFunction: (a: XObject, b: XObject) => number): Container {
     this.children.sort(sortFunction);
-    this.dispatchEvent(new XObjectEvent('update', false, true, this));
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
   }
 
@@ -234,7 +239,7 @@ export class Container extends XObject {
     this.children[index2] = o1;
     o1.dispatchEvent(new XObjectEvent('moved', false, true, o1));
     o2.dispatchEvent(new XObjectEvent('moved', false, true, o2));
-    this.dispatchEvent(new XObjectEvent('update', false, true, this));
+    this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
   }
 
@@ -266,6 +271,7 @@ export class Container extends XObject {
 
     const contentRect = this.getContentRect();
     let contentWidth = contentRect.width;
+    let contentHeight = contentRect.height;
 
     for (const child of this.children) {
       if (!child.isVisible()) {
@@ -277,64 +283,81 @@ export class Container extends XObject {
       } else {
         relatives.push(child);
         contentWidth = Math.max(contentWidth, child.getOuterWidth());
+        contentHeight = Math.max(contentHeight, child.getOuterHeight());
       }
     }
 
-    // Step2, break children into lines
-    const lines: XObject[][] = [];
-    let line: XObject[] = [];
-    let lineWidth = 0;
-
+    // Step2, break children into lines.
+    const lineHeight = this.getLineHeight();
+    const lines: { width: number; height: number; children: XObject[] }[] = [];
+    let line: { width: number; height: number; children: XObject[] } = {
+      width: 0,
+      height: lineHeight,
+      children: []
+    };
     for (const child of relatives) {
       if (
-        (line.length > 0 && child.style.display === Display.BLOCK) ||
-        lineWidth + child.getOuterWidth() > contentWidth
+        (line.children.length > 0 && child.style.display === Display.BLOCK) ||
+        line.width + child.getOuterWidth() > contentWidth
       ) {
         // Break the current line
         lines.push(line);
-        line = [];
-        lineWidth = 0;
+        line = {
+          width: 0,
+          height: lineHeight,
+          children: []
+        };
       }
-      line.push(child);
-      lineWidth += child.getOuterWidth();
+      line.children.push(child);
+      line.width += child.getOuterWidth();
+      line.height = Math.max(child.getOuterHeight(), line.height);
     }
-    if (line.length > 0) {
+    if (line.children.length > 0) {
       lines.push(line);
     }
 
     // Step 3, arrange children
-    const lineHeight = this.getLineHeight();
-    let contentHeight = 0;
-    for (const l of lines) {
-      let lineMaxHeight = 0;
-      lineWidth = 0;
-      for (const child of l) {
-        // Align to top
-        child.rect.y =
-          contentHeight +
-          contentRect.y +
-          (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
-        lineMaxHeight = Math.max(lineMaxHeight, child.getOuterHeight());
-        lineWidth += child.getOuterWidth();
-      }
-      contentHeight += Math.max(lineHeight, lineMaxHeight);
+    let x = contentRect.x;
+    let y = contentRect.y;
 
-      let x = contentRect.x;
+    for (const l of lines) {
       switch (this.style.textAlign) {
         case TextAlign.RIGHT:
-          x = contentRect.x + contentWidth - lineWidth;
+          x = contentRect.x + contentWidth - l.width;
           break;
         case TextAlign.CENTER:
-          x = contentRect.x + (contentWidth - lineWidth) / 2;
+          x = contentRect.x + (contentWidth - l.width) / 2;
           break;
         default:
           x = contentRect.x;
       }
-      for (const child of l) {
+      for (const child of l.children) {
+        // Calculates x position.
         child.rect.x =
           x + (child.style.marginLeft ? child.style.marginLeft.getValue(this.rect.width) : 0);
         x += child.getOuterWidth();
+        // Calculates y position.
+        switch (child.style.verticalAlign) {
+          case VerticalAlign.BOTTOM:
+            child.rect.y =
+              y +
+              l.height -
+              (child.style.marginBottom ? child.style.marginBottom.getValue(this.rect.height) : 0) -
+              child.getHeight();
+            break;
+          case VerticalAlign.MIDDLE:
+            child.rect.y =
+              y +
+              (l.height - child.getOuterHeight()) / 2 +
+              (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
+            break;
+          default:
+            child.rect.y =
+              y + (child.style.marginTop ? child.style.marginTop.getValue(this.rect.height) : 0);
+        }
       }
+      y += l.height;
+      contentHeight = Math.max(contentHeight, y);
     }
 
     // Update width/height

@@ -1,6 +1,7 @@
 import { Animation, AnimationStep, AnimationTarget, AnimationValues } from '../animation/Animation';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
+import { DrawUtils } from '../utils/DrawUtils';
 import { Stage } from './Stage';
 import { IXObjectOptions, XObject, XObjectEvent } from './XObject';
 
@@ -86,6 +87,11 @@ export type SpriteFrame = {
    * If not specified, the image is not scaled in height when drawn.
    */
   destHeight?: number;
+  /**
+   * The source of image of this frame.
+   * If not specified, use the image in SpriteOption.
+   */
+  url?: string;
   /**
    * An element to draw into the context.
    * If not specified, use the image in SpriteOption.
@@ -177,6 +183,16 @@ export class Sprite extends XObject {
    */
   constructor(options?: IXObjectOptions) {
     super(options);
+    if (options) {
+      if (options.attributes && options.attributes.src) {
+        ResourceRegistry.DefaultInstance.add(options.attributes.src, ResourceType.JSON).then(
+          json => {
+            this.setSpriteSheet(json);
+            this.dispatchEvent(new XObjectEvent('load', false, true, this));
+          }
+        );
+      }
+    }
   }
 
   /**
@@ -186,8 +202,17 @@ export class Sprite extends XObject {
    */
   public setSpriteSheet(spriteSheet: SpriteSheet): Sprite {
     this.spriteSheet = spriteSheet;
-    if (this.spriteSheet && this.spriteSheet.url) {
-      ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceType.IMAGE);
+    if (this.spriteSheet) {
+      if (this.spriteSheet.url) {
+        ResourceRegistry.DefaultInstance.add(this.spriteSheet.url, ResourceType.IMAGE);
+      }
+      for (const frame of this.spriteSheet.frames) {
+        if (frame.url) {
+          ResourceRegistry.DefaultInstance.add(frame.url, ResourceType.IMAGE).then(() => {
+            this.dispatchEvent(new XObjectEvent('update', true, true, this));
+          });
+        }
+      }
     }
     this.dispatchEvent(new XObjectEvent('update', true, true, this));
     return this;
@@ -317,50 +342,7 @@ export class Sprite extends XObject {
       return;
     }
     const frame = this.spriteSheet.frames[this.currentFrame];
-    // Get image
-    const rect = this.getContentRect();
-    let image: any;
-    if (frame.image) {
-      image = frame.image;
-    } else {
-      image =
-        this.spriteSheet.image ||
-        (this.spriteSheet.url && ResourceRegistry.DefaultInstance.get(this.spriteSheet.url));
-    }
-    if (!image) {
-      return;
-    }
-
-    const scaleX = rect.width / this.spriteSheet.width;
-    const scaleY = rect.height / this.spriteSheet.height;
-
-    const destX = frame.destX !== undefined ? frame.destX : 0;
-    const destY = frame.destY !== undefined ? frame.destY : 0;
-    const destWidth =
-      frame.destWidth !== undefined ? frame.destWidth : this.spriteSheet.width - destX;
-    const destHeight =
-      frame.destHeight !== undefined ? frame.destHeight : this.spriteSheet.height - destY;
-
-    const srcX = frame.srcX !== undefined ? frame.srcX : 0;
-    const srcY = frame.srcY !== undefined ? frame.srcY : 0;
-    const srcWidth = frame.srcWidth !== undefined ? frame.srcWidth : destWidth;
-    const srcHeight = frame.srcHeight !== undefined ? frame.srcHeight : destHeight;
-
-    try {
-      ctx.drawImage(
-        image,
-        srcX,
-        srcY,
-        srcWidth,
-        srcHeight,
-        destX * scaleX,
-        destY * scaleY,
-        destWidth * scaleX,
-        destHeight * scaleY
-      );
-    } catch (e) {
-      return;
-    }
+    DrawUtils.drawFrame(ctx, this.getContentRect(), frame, this.spriteSheet);
   }
 }
 

@@ -49,6 +49,7 @@ export var ResourceType;
 (function (ResourceType) {
   ResourceType["IMAGE"] = "image";
   ResourceType["APNG"] = "apng";
+  ResourceType["JSON"] = "json";
 })(ResourceType || (ResourceType = {}));
 
 /**
@@ -134,6 +135,10 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
         case ResourceType.APNG:
           this.loadApng(item);
           break;
+
+        case ResourceType.JSON:
+          this.loadJson(item);
+          break;
       }
     }
     /**
@@ -167,6 +172,36 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       });
     }
     /**
+     * Calls current runtime to load the json resource.
+     * @param item The json resource item to be loaded.
+     */
+
+  }, {
+    key: "loadJson",
+    value: function loadJson(item) {
+      var _this4 = this;
+
+      Runtime.get().loadText({
+        url: item.url,
+        onLoad: function onLoad(data) {
+          item.resource = JSON.parse(data);
+
+          _this4.onLoad(item);
+        },
+        onError: function onError(error) {
+          item.error = error;
+
+          _this4.onError(item);
+        },
+        onProgress: function onProgress(event) {
+          item.loadedBytes = event.loadedBytes;
+          item.totalBytes = event.totalBytes;
+
+          _this4.onProgress(item);
+        }
+      });
+    }
+    /**
      * Calls current runtime to load the apng resource.
      * @param item The apng resource item to be loaded.
      */
@@ -174,7 +209,7 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
   }, {
     key: "loadApng",
     value: function loadApng(item) {
-      var _this4 = this;
+      var _this5 = this;
 
       Runtime.get().loadArrayBuffer({
         url: item.url,
@@ -211,19 +246,19 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
           item.resource = opt;
 
-          _this4.onLoad(item);
+          _this5.onLoad(item);
         },
         onError: function onError(error) {
           console.warn('error while loading apng', error);
           item.error = error;
 
-          _this4.onError(item);
+          _this5.onError(item);
         },
         onProgress: function onProgress(event) {
           item.loadedBytes = event.loadedBytes;
           item.totalBytes = event.totalBytes;
 
-          _this4.onProgress(item);
+          _this5.onProgress(item);
         }
       });
     }
@@ -360,11 +395,11 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
   }, {
     key: "add",
     value: function add(url) {
-      var _this5 = this;
+      var _this6 = this;
 
       var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ResourceType.IMAGE;
       return new Promise(function (resolve, reject) {
-        var _iterator6 = _createForOfIteratorHelper(_this5.items),
+        var _iterator6 = _createForOfIteratorHelper(_this6.items),
             _step6;
 
         try {
@@ -406,9 +441,9 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
           }]
         };
 
-        _this5.items.push(newItem);
+        _this6.items.push(newItem);
 
-        _this5.load(newItem);
+        _this6.load(newItem);
       });
     }
     /**

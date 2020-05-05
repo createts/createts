@@ -21,35 +21,9 @@ type Progress = {
 };
 
 /**
- * Defines a type of image download task.
- */
-export type LoadImageTask = {
-  /**
-   * The url of this image, it can be absolute url or relative url.
-   */
-  url: string;
-  /**
-   * Http method to retrieve this image.
-   */
-  method?: string;
-  /**
-   * A callback function while the image was loaded.
-   */
-  onLoad: (image: HTMLImageElement) => void;
-  /**
-   * A callback function while failed to load this image.
-   */
-  onError: (error: any) => void;
-  /**
-   * An event handler for progress changing.
-   */
-  onProgress: (progress: Progress) => void;
-};
-
-/**
  * Defines a type of raw content download task.
  */
-export type LoadArrayBufferTask = {
+export type LoadTask<T> = {
   /**
    * The url of this resource, it can be absolute url or relative url.
    */
@@ -61,7 +35,7 @@ export type LoadArrayBufferTask = {
   /**
    * A callback function while the content was downloaded.
    */
-  onLoad: (data: ArrayBuffer) => void;
+  onLoad: (data: T) => void;
   /**
    * A callback function while failed to download.
    */
@@ -106,12 +80,17 @@ export interface IRuntime {
    * Execute a load image task.
    * @param task The load image task to be executed.
    */
-  loadImage(task: LoadImageTask): void;
+  loadImage(task: LoadTask<HTMLImageElement>): void;
   /**
    * Execute a load raw content task.
    * @param task The load raw content task to be executed.
    */
-  loadArrayBuffer(task: LoadArrayBufferTask): void;
+  loadArrayBuffer(task: LoadTask<ArrayBuffer>): void;
+  /**
+   * Execute a load raw content task.
+   * @param task The load raw content task to be executed.
+   */
+  loadText(task: LoadTask<string>): void;
 }
 
 /**

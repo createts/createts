@@ -1,6 +1,6 @@
 import { Stage } from '../components/Stage';
 import { TouchItem } from '../components/TouchItem';
-import { IRuntime, LoadArrayBufferTask, LoadImageTask } from './Runtime';
+import { IRuntime, LoadTask } from './Runtime';
 
 /**
  * A IRuntime implementation for web page runs inside browser.
@@ -42,9 +42,25 @@ export class WebpageRuntime implements IRuntime {
    * Execute a load raw content task.
    * @param task The load raw content task to be executed.
    */
-  public loadArrayBuffer(task: LoadArrayBufferTask) {
+  public loadArrayBuffer(task: LoadTask<ArrayBuffer>) {
+    this.loadByType(task, 'arraybuffer');
+  }
+
+  /**
+   * Execute a load text content task.
+   * @param task The load text content task to be executed.
+   */
+  public loadText(task: LoadTask<string>) {
+    this.loadByType(task, 'text');
+  }
+
+  /**
+   * Execute a load content task with specified response type.
+   * @param task The load task to be executed.
+   */
+  private loadByType(task: LoadTask<any>, type: XMLHttpRequestResponseType) {
     const xhr = new XMLHttpRequest();
-    xhr.responseType = 'arraybuffer';
+    xhr.responseType = type;
     xhr.open(task.method || 'GET', task.url, true);
     xhr.onload = () => {
       if (xhr.status === 200) {
@@ -72,7 +88,7 @@ export class WebpageRuntime implements IRuntime {
    * TODO: check if it is not same domain, use Image.src to load to avoid cross domain problem.
    * @param task The load image task to be executed.
    */
-  public loadImage(task: LoadImageTask) {
+  public loadImage(task: LoadTask<HTMLImageElement>) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.open(task.method || 'GET', task.url, true);
