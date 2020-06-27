@@ -247,10 +247,10 @@ export var RoundRect = /*#__PURE__*/function () {
           ctx.lineTo(x1, y1 + this.leftTopRadiusY);
         }
 
-        this.arcTo(x1, y1 + this.leftTopRadiusY, x1, y1, x1 + this.leftTopRadiusX, y1, ctx);
-        this.arcTo(x2 - this.rightTopRadiusX, y1, x2, y1, x2, y1 + this.rightTopRadiusY, ctx);
-        this.arcTo(x2, y2 - this.rightBottomRadiusY, x2, y2, x2 - this.rightBottomRadiusX, y2, ctx);
-        this.arcTo(x1 + this.leftBottomRadiusX, y2, x1, y2, x1, y2 - this.leftBottomRadiusY, ctx);
+        this.arcTo(x1, y1 + this.leftTopRadiusY, x1 + this.leftTopRadiusX, y1, clockwise, ctx);
+        this.arcTo(x2 - this.rightTopRadiusX, y1, x2, y1 + this.rightTopRadiusY, clockwise, ctx);
+        this.arcTo(x2, y2 - this.rightBottomRadiusY, x2 - this.rightBottomRadiusX, y2, clockwise, ctx);
+        this.arcTo(x1 + this.leftBottomRadiusX, y2, x1, y2 - this.leftBottomRadiusY, clockwise, ctx);
 
         if (this.leftTopRadiusX !== 0 && this.leftTopRadiusY !== 0) {
           ctx.lineTo(x1, y1 + this.leftTopRadiusY);
@@ -264,10 +264,10 @@ export var RoundRect = /*#__PURE__*/function () {
           ctx.lineTo(x1, y1 + this.leftTopRadiusY);
         }
 
-        this.arcTo(x1, y2 - this.leftBottomRadiusY, x1, y2, x1 + this.leftBottomRadiusX, y2, ctx);
-        this.arcTo(x2 - this.rightBottomRadiusX, y2, x2, y2, x2, y2 - this.rightBottomRadiusY, ctx);
-        this.arcTo(x2, y1 + this.rightTopRadiusY, x2, y1, x2 - this.rightTopRadiusX, y1, ctx);
-        this.arcTo(x1 + this.leftTopRadiusX, y1, x1, y1, x1, y1 + this.leftTopRadiusY, ctx);
+        this.arcTo(x1, y2 - this.leftBottomRadiusY, x1 + this.leftBottomRadiusX, y2, clockwise, ctx);
+        this.arcTo(x2 - this.rightBottomRadiusX, y2, x2, y2 - this.rightBottomRadiusY, clockwise, ctx);
+        this.arcTo(x2, y1 + this.rightTopRadiusY, x2 - this.rightTopRadiusX, y1, clockwise, ctx);
+        this.arcTo(x1 + this.leftTopRadiusX, y1, x1, y1 + this.leftTopRadiusY, clockwise, ctx);
       }
     }
     /**
@@ -289,8 +289,6 @@ export var RoundRect = /*#__PURE__*/function () {
      * Adds a circular arc to the current sub-path, using the given control points and radius.
      * @param x1 The X coordinate of the source point.
      * @param y1 The Y coordinate of the source point.
-     * @param x0 The X coordinate of the corner point.
-     * @param y0 The Y coordinate of the corner point.
      * @param x2 The X coordinate of the destination point.
      * @param y2 The Y coordinate of the destination point.
      * @param ctx The rendering context of target canvas.
@@ -299,7 +297,7 @@ export var RoundRect = /*#__PURE__*/function () {
 
   }, {
     key: "arcTo",
-    value: function arcTo(x1, y1, x0, y0, x2, y2, ctx) {
+    value: function arcTo(x1, y1, x2, y2, clockwise, ctx) {
       ctx.lineTo(x1, y1);
       var dx = Math.abs(x1 - x2);
       var dy = Math.abs(y1 - y2);
@@ -310,11 +308,49 @@ export var RoundRect = /*#__PURE__*/function () {
       } else if (dx < min || dy < min) {
         ctx.lineTo(x2, y2);
       } else {
-        if (Math.abs(dx - dy) < min) {
-          ctx.arcTo(x0, y0, x2, y2, dx);
+        var startAngle;
+        var cx;
+        var cy;
+
+        if (clockwise) {
+          if (x1 < x2 && y1 < y2) {
+            startAngle = -Math.PI / 2;
+            cx = x1;
+            cy = y2;
+          } else if (x1 > x2 && y1 < y2) {
+            startAngle = 0;
+            cx = x2;
+            cy = y1;
+          } else if (x1 > x2 && y1 > y2) {
+            startAngle = Math.PI / 2;
+            cx = x1;
+            cy = y2;
+          } else {
+            startAngle = Math.PI;
+            cx = x2;
+            cy = y1;
+          }
         } else {
-          ctx.quadraticCurveTo(x0, y0, x2, y2);
+          if (x1 < x2 && y1 < y2) {
+            startAngle = Math.PI;
+            cx = x2;
+            cy = y1;
+          } else if (x1 > x2 && y1 < y2) {
+            startAngle = -Math.PI / 2;
+            cx = x1;
+            cy = y2;
+          } else if (x1 > x2 && y1 > y2) {
+            startAngle = 0;
+            cx = x2;
+            cy = y1;
+          } else {
+            startAngle = Math.PI / 2;
+            cx = x1;
+            cy = y2;
+          }
         }
+
+        ctx.ellipse(cx, cy, dx, dy, 0, startAngle, startAngle + (clockwise ? Math.PI / 2 : -Math.PI / 2), !clockwise);
       }
     }
   }]);

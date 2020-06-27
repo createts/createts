@@ -13,6 +13,8 @@ var _Runtime = require("../runtime/Runtime");
 
 var _Ticker = require("../Ticker");
 
+var _LatestList = require("../utils/LatestList");
+
 var _LayoutUtils = require("../utils/LayoutUtils");
 
 var _Container2 = require("./Container");
@@ -270,6 +272,12 @@ var Stage = /*#__PURE__*/function (_Container) {
    */
 
   /**
+   *
+   * @param canvas
+   * @param option
+   */
+
+  /**
    * Construct a stage object by canvas and option.
    *
    * Example
@@ -327,6 +335,7 @@ var Stage = /*#__PURE__*/function (_Container) {
     _this.needUpdate = false;
     _this.eventHandlerInstalled = false;
     _this.eventEnabled = true;
+    _this.latestRenderLatencies = void 0;
 
     for (var k in option) {
       _this.option[k] = option[k];
@@ -343,6 +352,10 @@ var Stage = /*#__PURE__*/function (_Container) {
 
     if (option.style) {
       _this.css(option.style);
+    }
+
+    if (option.recordRenderLatencies) {
+      _this.latestRenderLatencies = new _LatestList.LatestList();
     }
 
     if (!option.noEventHandler) {
@@ -533,6 +546,7 @@ var Stage = /*#__PURE__*/function (_Container) {
         return;
       }
 
+      var startTime = Date.now();
       var ctx = this.canvas.getContext('2d');
 
       if (!ctx) {
@@ -551,6 +565,10 @@ var Stage = /*#__PURE__*/function (_Container) {
       this.updateContext(ctx);
       this.draw(ctx, false);
       ctx.restore();
+
+      if (this.latestRenderLatencies) {
+        this.latestRenderLatencies.add(Date.now() - startTime);
+      }
     }
     /**
      * Calculate stage size and position according to its style.

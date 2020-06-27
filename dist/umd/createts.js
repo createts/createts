@@ -1985,10 +1985,10 @@ var RoundRect = (function () {
             else {
                 ctx.lineTo(x1, y1 + this.leftTopRadiusY);
             }
-            this.arcTo(x1, y1 + this.leftTopRadiusY, x1, y1, x1 + this.leftTopRadiusX, y1, ctx);
-            this.arcTo(x2 - this.rightTopRadiusX, y1, x2, y1, x2, y1 + this.rightTopRadiusY, ctx);
-            this.arcTo(x2, y2 - this.rightBottomRadiusY, x2, y2, x2 - this.rightBottomRadiusX, y2, ctx);
-            this.arcTo(x1 + this.leftBottomRadiusX, y2, x1, y2, x1, y2 - this.leftBottomRadiusY, ctx);
+            this.arcTo(x1, y1 + this.leftTopRadiusY, x1 + this.leftTopRadiusX, y1, clockwise, ctx);
+            this.arcTo(x2 - this.rightTopRadiusX, y1, x2, y1 + this.rightTopRadiusY, clockwise, ctx);
+            this.arcTo(x2, y2 - this.rightBottomRadiusY, x2 - this.rightBottomRadiusX, y2, clockwise, ctx);
+            this.arcTo(x1 + this.leftBottomRadiusX, y2, x1, y2 - this.leftBottomRadiusY, clockwise, ctx);
             if (this.leftTopRadiusX !== 0 && this.leftTopRadiusY !== 0) {
                 ctx.lineTo(x1, y1 + this.leftTopRadiusY);
             }
@@ -2003,10 +2003,10 @@ var RoundRect = (function () {
             else {
                 ctx.lineTo(x1, y1 + this.leftTopRadiusY);
             }
-            this.arcTo(x1, y2 - this.leftBottomRadiusY, x1, y2, x1 + this.leftBottomRadiusX, y2, ctx);
-            this.arcTo(x2 - this.rightBottomRadiusX, y2, x2, y2, x2, y2 - this.rightBottomRadiusY, ctx);
-            this.arcTo(x2, y1 + this.rightTopRadiusY, x2, y1, x2 - this.rightTopRadiusX, y1, ctx);
-            this.arcTo(x1 + this.leftTopRadiusX, y1, x1, y1, x1, y1 + this.leftTopRadiusY, ctx);
+            this.arcTo(x1, y2 - this.leftBottomRadiusY, x1 + this.leftBottomRadiusX, y2, clockwise, ctx);
+            this.arcTo(x2 - this.rightBottomRadiusX, y2, x2, y2 - this.rightBottomRadiusY, clockwise, ctx);
+            this.arcTo(x2, y1 + this.rightTopRadiusY, x2 - this.rightTopRadiusX, y1, clockwise, ctx);
+            this.arcTo(x1 + this.leftTopRadiusX, y1, x1, y1 + this.leftTopRadiusY, clockwise, ctx);
         }
     };
     RoundRect.prototype.clip = function (ctx) {
@@ -2016,7 +2016,7 @@ var RoundRect = (function () {
         ctx.clip();
         return this;
     };
-    RoundRect.prototype.arcTo = function (x1, y1, x0, y0, x2, y2, ctx) {
+    RoundRect.prototype.arcTo = function (x1, y1, x2, y2, clockwise, ctx) {
         ctx.lineTo(x1, y1);
         var dx = Math.abs(x1 - x2);
         var dy = Math.abs(y1 - y2);
@@ -2028,12 +2028,54 @@ var RoundRect = (function () {
             ctx.lineTo(x2, y2);
         }
         else {
-            if (Math.abs(dx - dy) < min) {
-                ctx.arcTo(x0, y0, x2, y2, dx);
+            var startAngle = void 0;
+            var cx = void 0;
+            var cy = void 0;
+            if (clockwise) {
+                if (x1 < x2 && y1 < y2) {
+                    startAngle = -Math.PI / 2;
+                    cx = x1;
+                    cy = y2;
+                }
+                else if (x1 > x2 && y1 < y2) {
+                    startAngle = 0;
+                    cx = x2;
+                    cy = y1;
+                }
+                else if (x1 > x2 && y1 > y2) {
+                    startAngle = Math.PI / 2;
+                    cx = x1;
+                    cy = y2;
+                }
+                else {
+                    startAngle = Math.PI;
+                    cx = x2;
+                    cy = y1;
+                }
             }
             else {
-                ctx.quadraticCurveTo(x0, y0, x2, y2);
+                if (x1 < x2 && y1 < y2) {
+                    startAngle = Math.PI;
+                    cx = x2;
+                    cy = y1;
+                }
+                else if (x1 > x2 && y1 < y2) {
+                    startAngle = -Math.PI / 2;
+                    cx = x1;
+                    cy = y2;
+                }
+                else if (x1 > x2 && y1 > y2) {
+                    startAngle = 0;
+                    cx = x2;
+                    cy = y1;
+                }
+                else {
+                    startAngle = Math.PI / 2;
+                    cx = x1;
+                    cy = y2;
+                }
             }
+            ctx.ellipse(cx, cy, dx, dy, 0, startAngle, startAngle + (clockwise ? Math.PI / 2 : -Math.PI / 2), !clockwise);
         }
     };
     return RoundRect;
@@ -3018,6 +3060,7 @@ var AnimationFactory_1 = __webpack_require__(/*! ../animation/AnimationFactory *
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Runtime.ts");
 var Ticker_1 = __webpack_require__(/*! ../Ticker */ "./src/Ticker.ts");
+var LatestList_1 = __webpack_require__(/*! ../utils/LatestList */ "./src/utils/LatestList.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
 var Container_1 = __webpack_require__(/*! ./Container */ "./src/components/Container.ts");
 var TouchItem_1 = __webpack_require__(/*! ./TouchItem */ "./src/components/TouchItem.ts");
@@ -3106,6 +3149,9 @@ var Stage = (function (_super) {
         });
         if (option.style) {
             _this.css(option.style);
+        }
+        if (option.recordRenderLatencies) {
+            _this.latestRenderLatencies = new LatestList_1.LatestList();
         }
         if (!option.noEventHandler) {
             _this.installEventHandlers();
@@ -3205,6 +3251,7 @@ var Stage = (function (_super) {
         if (!this.canvas || !this.isVisible()) {
             return;
         }
+        var startTime = Date.now();
         var ctx = this.canvas.getContext('2d');
         if (!ctx) {
             return;
@@ -3219,6 +3266,9 @@ var Stage = (function (_super) {
         this.updateContext(ctx);
         this.draw(ctx, false);
         ctx.restore();
+        if (this.latestRenderLatencies) {
+            this.latestRenderLatencies.add(Date.now() - startTime);
+        }
     };
     Stage.prototype.calculateSize = function () {
         if (!this.canvas || !this.isVisible()) {
@@ -8653,6 +8703,36 @@ var EnumUtils = (function () {
     return EnumUtils;
 }());
 exports.EnumUtils = EnumUtils;
+
+
+/***/ }),
+
+/***/ "./src/utils/LatestList.ts":
+/*!*********************************!*\
+  !*** ./src/utils/LatestList.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var LatestList = (function () {
+    function LatestList(capacity) {
+        if (capacity === void 0) { capacity = 10; }
+        this.elements = [];
+        this.capacity = capacity;
+    }
+    LatestList.prototype.add = function (element) {
+        while (this.elements.length >= this.capacity) {
+            this.elements.shift();
+        }
+        this.elements.push(element);
+        return this;
+    };
+    return LatestList;
+}());
+exports.LatestList = LatestList;
 
 
 /***/ }),

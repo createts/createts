@@ -48,17 +48,35 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /**
- * A Text object is used to display text with specified styles like font size, font family, color,
- * etc.
+ * A BitmapText object is used to display text with specified image, it is used to render the text
+ * by a pre-rendered picture, and no font needed.
  *
- * Text in this element can not be wrapped automatically, you must add '\n' by yourself in case of
- * wrapping the text; and Text element can not be 'inline' either, which means text siblings are
- * displayed block by block.
+ * Before using BitmapText, you need to create a JSON file contains the information of each
+ * character.
  *
  * Code example:
  *
+ * ```json
+ * {
+ *   "url": "./numbers.png",
+ *   "texts": {
+ *     "0": { "srcX": 0, "srcY": 0, "srcWidth": 28, "srcHeight": 34 },
+ *     "1": { "srcX": 28, "srcY": 0, "srcWidth": 15, "srcHeight": 34 },
+ *     "2": { "srcX": 43, "srcY": 0, "srcWidth": 21, "srcHeight": 34 },
+ *     "3": { "srcX": 64, "srcY": 0, "srcWidth": 18, "srcHeight": 34 },
+ *     "4": { "srcX": 82, "srcY": 0, "srcWidth": 23, "srcHeight": 34 },
+ *     "5": { "srcX": 105, "srcY": 0, "srcWidth": 20, "srcHeight": 34 },
+ *     "6": { "srcX": 125, "srcY": 0, "srcWidth": 26, "srcHeight": 34 },
+ *     "7": { "srcX": 151, "srcY": 0, "srcWidth": 21, "srcHeight": 34 },
+ *     "8": { "srcX": 172, "srcY": 0, "srcWidth": 24, "srcHeight": 34 },
+ *     "9": { "srcX": 196, "srcY": 0, "srcWidth": 24, "srcHeight": 34 },
+ *     ".": { "srcX": 220, "srcY": 0, "srcWidth": 10, "srcHeight": 34 }
+ *   }
+ * }
+ * ```
+ *
  * ```typescript
- * const html = "<text style='color:red'>hello</text><text style='color:green'>world</text>";
+ * const html = "<bitmaptext src='numbers.json'>12.34</bitmaptext>";
  * container.load(html);
  * ```
  */
@@ -72,8 +90,9 @@ var BitmapText = /*#__PURE__*/function (_XObject) {
    */
 
   /**
-   * Create a text element with given options.
-   * @param options 'text' attribute of this option will be the 'text' of this element.
+   * Create a BitmapText element with given options.
+   * @param options 'text' attribute of this option will be the 'text' of this element; if there is
+   * a 'src' attribute in the option, the bitmapTextSheet attribute will be loaded from here.
    */
   function BitmapText(options) {
     var _this;
@@ -97,9 +116,9 @@ var BitmapText = /*#__PURE__*/function (_XObject) {
     return _this;
   }
   /**
-   * Update the text of this element, if the new text is different with current text, update the
-   * text and dispatch an 'update' event.
-   * @param text the new text.
+   * Update the bitmapTextSheet of this element, and any image url in this bitmapTextSheet will be
+   * loaded automatically.
+   * @param bitmapTextSheet the new BitmapTextSheet.
    */
 
 

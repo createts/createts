@@ -3,6 +3,7 @@ import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Runtime } from '../runtime/Runtime';
 import { Ticker } from '../Ticker';
+import { LatestList } from '../utils/LatestList';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
 import { TouchItem } from './TouchItem';
@@ -51,12 +52,12 @@ export type StageOptions = {
    */
   updatePolicy?: StageUpdatePolicy;
   /**
-   * if true, clear the canvas at beginning of each update time, otherwise drawing on top of
+   * If true, clear the canvas at beginning of each update time, otherwise drawing on top of
    * previous drawn canvas.
    */
   autoClear?: boolean;
   /**
-   * if true, ignore installing event handler by default, you can still call installEventHandler
+   * If true, ignore installing event handler by default, you can still call installEventHandler
    * later to install the event handler.
    */
   noEventHandler?: boolean;
@@ -64,6 +65,10 @@ export type StageOptions = {
    * The override styles while constructing a stage object.
    */
   style?: { [key: string]: string | number };
+  /**
+   * If true, record latest 30 render latencies.
+   */
+  recordRenderLatencies?: boolean;
 };
 
 /**
@@ -216,6 +221,13 @@ export class Stage extends Container {
   private eventEnabled: boolean = true;
 
   /**
+   *
+   * @param canvas
+   * @param option
+   */
+  private latestRenderLatencies?: LatestList<number>;
+
+  /**
    * Construct a stage object by canvas and option.
    *
    * Example
@@ -251,6 +263,10 @@ export class Stage extends Container {
       this.css(option.style);
     }
 
+    if (option.recordRenderLatencies) {
+      this.latestRenderLatencies = new LatestList<number>();
+    }
+
     if (!option.noEventHandler) {
       this.installEventHandlers();
     }
@@ -274,7 +290,7 @@ export class Stage extends Container {
       this.started = true;
       this.layout();
       this.needUpdate = true;
-      this.ticker.addEventListener('tick', _ => {
+      this.ticker.addEventListener('tick', (_) => {
         this.animationFactory.onInterval();
         if (
           this.option.updatePolicy !== StageUpdatePolicy.NEVER &&
@@ -284,7 +300,7 @@ export class Stage extends Container {
           this.needUpdate = false;
         }
       });
-      ResourceRegistry.DefaultInstance.addEventListener('load', e => {
+      ResourceRegistry.DefaultInstance.addEventListener('load', (e) => {
         this.updateOnce();
       });
       this.on('update', () => {
@@ -402,6 +418,7 @@ export class Stage extends Container {
     if (!this.canvas || !this.isVisible()) {
       return;
     }
+    const startTime = Date.now();
     const ctx = this.canvas.getContext('2d');
     if (!ctx) {
       return;
@@ -416,6 +433,9 @@ export class Stage extends Container {
     this.updateContext(ctx);
     this.draw(ctx, false);
     ctx.restore();
+    if (this.latestRenderLatencies) {
+      this.latestRenderLatencies.add(Date.now() - startTime);
+    }
   }
 
   /**

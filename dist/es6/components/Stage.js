@@ -30,6 +30,7 @@ import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Runtime } from '../runtime/Runtime';
 import { Ticker } from '../Ticker';
+import { LatestList } from '../utils/LatestList';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
 import { TouchItem } from './TouchItem';
@@ -252,6 +253,12 @@ export var Stage = /*#__PURE__*/function (_Container) {
    */
 
   /**
+   *
+   * @param canvas
+   * @param option
+   */
+
+  /**
    * Construct a stage object by canvas and option.
    *
    * Example
@@ -309,6 +316,7 @@ export var Stage = /*#__PURE__*/function (_Container) {
     _this.needUpdate = false;
     _this.eventHandlerInstalled = false;
     _this.eventEnabled = true;
+    _this.latestRenderLatencies = void 0;
 
     for (var k in option) {
       _this.option[k] = option[k];
@@ -325,6 +333,10 @@ export var Stage = /*#__PURE__*/function (_Container) {
 
     if (option.style) {
       _this.css(option.style);
+    }
+
+    if (option.recordRenderLatencies) {
+      _this.latestRenderLatencies = new LatestList();
     }
 
     if (!option.noEventHandler) {
@@ -512,6 +524,7 @@ export var Stage = /*#__PURE__*/function (_Container) {
         return;
       }
 
+      var startTime = Date.now();
       var ctx = this.canvas.getContext('2d');
 
       if (!ctx) {
@@ -530,6 +543,10 @@ export var Stage = /*#__PURE__*/function (_Container) {
       this.updateContext(ctx);
       this.draw(ctx, false);
       ctx.restore();
+
+      if (this.latestRenderLatencies) {
+        this.latestRenderLatencies.add(Date.now() - startTime);
+      }
     }
     /**
      * Calculate stage size and position according to its style.

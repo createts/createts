@@ -23,6 +23,7 @@ export declare type StageOptions = {
     style?: {
         [key: string]: string | number;
     };
+    recordRenderLatencies?: boolean;
 };
 export declare class Stage extends Container {
     canvas: HTMLCanvasElement;
@@ -35,6 +36,7 @@ export declare class Stage extends Container {
     private needUpdate;
     private eventHandlerInstalled;
     private eventEnabled;
+    private latestRenderLatencies?;
     constructor(canvas: HTMLCanvasElement, option?: StageOptions);
     updateOnce(): void;
     start(): void;

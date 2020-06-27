@@ -15,7 +15,7 @@ export declare class BitmapText extends XObject {
     private text;
     private bitmapTextSheet?;
     constructor(options?: IXObjectOptions);
-    setBitmapTextSheet(bitmapTextSheet: BitmapTextSheet): void;
+    setBitmapTextSheet(bitmapTextSheet?: BitmapTextSheet): void;
     setText(text: string): void;
     getText(): string;
     drawContent(ctx: CanvasRenderingContext2D): boolean;
