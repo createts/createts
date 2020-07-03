@@ -9,6 +9,14 @@
     "esModuleInterop": true,
     "sourceMap": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "./src/**/*.spec.ts"]
+  "typeRoots": [
+    "./src/**/*.d.ts"
+  ],
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/**/*.spec.ts"
+  ]
 }

@@ -1,5 +1,4 @@
 import { Stage } from '../components/Stage';
-import { Font } from '../style/Font';
 import { WebpageRuntime } from './WebpageRuntime';
 import { WechatMiniGameRuntime } from './WechatMiniGameRuntime';
 import { WechatMiniProgramRuntime } from './WechatMiniProgramRuntime';

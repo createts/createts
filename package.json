@@ -33,13 +33,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pengcheng/createts.git"
+    "url": "https://github.com/createts/createts.git"
   },
   "author": "CreateTs group",
   "bugs": {
-    "url": "https://github.com/pengcheng/createts/issues"
+    "url": "https://github.com/createts/createts/issues"
   },
-  "homepage": "https://github.com/pengcheng/createts",
+  "homepage": "https://github.com/createts/createts",
   "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.6.4",
