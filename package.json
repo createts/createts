@@ -2,6 +2,7 @@
   "name": "createts",
   "version": "1.0.0-alpha.1",
   "description": "A typescript 2D game framework",
+  "types": "dist/types/index.d.ts",
   "main": "dist/lib/index",
   "module": "dist/es6/index",
   "jsnext:main": "dist/es6/index",
