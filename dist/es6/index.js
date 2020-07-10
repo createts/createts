@@ -42,6 +42,7 @@ export { EventDispatcher } from './base/Event';
 export { XObjectEvent as TouchEvent } from './components/XObject';
 export { IXObjectOptions } from './components/XObject';
 export { XObject } from './components/XObject';
+export { XObjectEvent } from './components/XObject';
 export { StageLayoutPolicy } from './components/Stage';
 export { StageUpdatePolicy } from './components/Stage';
 export { BitmapText } from './components/BitmapText';

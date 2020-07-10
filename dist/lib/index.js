@@ -267,6 +267,12 @@ Object.defineProperty(exports, "XObject", {
     return _XObject.XObject;
   }
 });
+Object.defineProperty(exports, "XObjectEvent", {
+  enumerable: true,
+  get: function get() {
+    return _XObject.XObjectEvent;
+  }
+});
 Object.defineProperty(exports, "StageLayoutPolicy", {
   enumerable: true,
   get: function get() {
