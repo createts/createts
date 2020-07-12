@@ -85,10 +85,13 @@ export class WebpageRuntime implements IRuntime {
 
   /**
    * Execute a load image task.
-   * TODO: check if it is not same domain, use Image.src to load to avoid cross domain problem.
    * @param task The load image task to be executed.
    */
   public loadImage(task: LoadTask<HTMLImageElement>) {
+    if (!task.allowOrigin) {
+      this.loadImageByImageObject(task);
+      return;
+    }
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.open(task.method || 'GET', task.url, true);
@@ -121,6 +124,21 @@ export class WebpageRuntime implements IRuntime {
       }
     };
     xhr.send();
+  }
+
+  /**
+   * Execute a load image task by creating image object.
+   * @param task The load image task to be executed.
+   */
+  private loadImageByImageObject(task: LoadTask<HTMLImageElement>) {
+    const img = new Image();
+    img.onload = () => {
+      task.onLoad(img);
+    }
+    img.onerror = e => {
+      task.onError(e);
+    }
+    img.src = task.url;
   }
 
   /**

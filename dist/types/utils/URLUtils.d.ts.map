@@ -1,1 +1,1 @@
-{"version":3,"file":"URLUtils.d.ts","sourceRoot":"","sources":["../../../src/utils/URLUtils.ts"],"names":[],"mappings":"AAGA,qBAAa,QAAQ;IAInB,OAAO;WAMO,UAAU,CAAC,GAAG,EAAE,MAAM,GAAG,OAAO;CAG/C"}
+{"version":3,"file":"URLUtils.d.ts","sourceRoot":"","sources":["../../../src/utils/URLUtils.ts"],"names":[],"mappings":"AAGA,qBAAa,QAAQ;IAInB,OAAO;WAMO,UAAU,CAAC,GAAG,EAAE,MAAM,GAAG,OAAO;WAQhC,SAAS,CAAC,GAAG,EAAE,MAAM,GAAG,MAAM,GAAG,SAAS;WAwB1C,SAAS,CAAC,GAAG,EAAE,MAAM,GAAG,MAAM,GAAG,SAAS;CAgBzD"}

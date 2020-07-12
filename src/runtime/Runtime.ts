@@ -28,6 +28,10 @@ export type LoadTask<T> = {
    */
   url: string;
   /**
+   * If true, this url of task is allow origin.
+   */
+  allowOrigin?: boolean;
+  /**
    * Http method to retrieve the raw content.
    */
   method?: string;

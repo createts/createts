@@ -9,6 +9,7 @@ export declare class WebpageRuntime implements IRuntime {
     loadText(task: LoadTask<string>): void;
     private loadByType;
     loadImage(task: LoadTask<HTMLImageElement>): void;
+    private loadImageByImageObject;
     enableEvents(stage: Stage): void;
     requestAnimationFrame(listener: (time: number) => void): void;
     private handleMouseEvent;

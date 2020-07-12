@@ -10,6 +10,7 @@ declare type Progress = {
 };
 export declare type LoadTask<T> = {
     url: string;
+    allowOrigin?: boolean;
     method?: string;
     onLoad: (data: T) => void;
     onError: (error: any) => void;

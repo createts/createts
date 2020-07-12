@@ -11,6 +11,8 @@ var _ApngParser = require("../parser/ApngParser");
 
 var _Runtime = require("../runtime/Runtime");
 
+var _URLUtils = require("../utils/URLUtils");
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -128,6 +130,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
     }
 
     _this2 = _super2.call.apply(_super2, [this].concat(args));
+    _this2.allowOriginPattern = void 0;
     _this2.items = [];
     return _this2;
   }
@@ -155,6 +158,25 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       }
     }
     /**
+     * Set the allow origin pattern.
+     * @param pattern The RegExp for same origin.
+     */
+
+  }, {
+    key: "setAllowOriginPattern",
+    value: function setAllowOriginPattern(pattern) {
+      this.allowOriginPattern = pattern;
+    }
+  }, {
+    key: "isAllowOrigin",
+    value: function isAllowOrigin(url) {
+      if (!this.allowOriginPattern) return true;
+
+      var origin = _URLUtils.URLUtils.getOrigin(url);
+
+      return origin === undefined || this.allowOriginPattern.test(url);
+    }
+    /**
      * Calls current runtime to load the image resource.
      * @param item The image resource item to be loaded.
      */
@@ -166,6 +188,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       _Runtime.Runtime.get().loadImage({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(image) {
           item.resource = image;
 
@@ -196,6 +219,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       _Runtime.Runtime.get().loadText({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(data) {
           item.resource = JSON.parse(data);
 
@@ -226,6 +250,7 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       _Runtime.Runtime.get().loadArrayBuffer({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(data) {
           var apng = _ApngParser.ApngParser.parse(data);
 

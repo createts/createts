@@ -2,6 +2,7 @@ import { Event, EventDispatcher } from '../base/Event';
 import { SpriteSheet } from '../components/Sprite';
 import { ApngParser } from '../parser/ApngParser';
 import { Runtime } from '../runtime/Runtime';
+import { URLUtils } from '../utils/URLUtils';
 
 /**
  * Resource load state.
@@ -76,6 +77,8 @@ export class ResourceRegistryEvent extends Event {
  * ```
  */
 export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
+  private allowOriginPattern?: RegExp;
+
   /**
    * Load the resource.
    * @param item The resource item to be loaded.
@@ -95,12 +98,27 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   }
 
   /**
+   * Set the allow origin pattern.
+   * @param pattern The RegExp for same origin.
+   */
+  public setAllowOriginPattern(pattern?: RegExp) {
+    this.allowOriginPattern = pattern;
+  }
+
+  public isAllowOrigin(url: string): boolean {
+    if (!this.allowOriginPattern) return true;
+    const origin = URLUtils.getOrigin(url);
+    return origin === undefined || this.allowOriginPattern.test(url);
+  }
+
+  /**
    * Calls current runtime to load the image resource.
    * @param item The image resource item to be loaded.
    */
   private loadImage(item: ResourceItem) {
     Runtime.get().loadImage({
       url: item.url,
+      allowOrigin: this.isAllowOrigin(item.url),
       onLoad: image => {
         item.resource = image;
         this.onLoad(item);
@@ -124,6 +142,7 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   private loadJson(item: ResourceItem) {
     Runtime.get().loadText({
       url: item.url,
+      allowOrigin: this.isAllowOrigin(item.url),
       onLoad: data => {
         item.resource = JSON.parse(data);
         this.onLoad(item);
@@ -147,6 +166,7 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
   private loadApng(item: ResourceItem) {
     Runtime.get().loadArrayBuffer({
       url: item.url,
+      allowOrigin: this.isAllowOrigin(item.url),
       onLoad: data => {
         const apng = ApngParser.parse(data);
         const opt: SpriteSheet = {

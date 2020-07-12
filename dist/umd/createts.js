@@ -5070,6 +5070,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Event_1 = __webpack_require__(/*! ../base/Event */ "./src/base/Event.ts");
 var ApngParser_1 = __webpack_require__(/*! ../parser/ApngParser */ "./src/parser/ApngParser.ts");
 var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Runtime.ts");
+var URLUtils_1 = __webpack_require__(/*! ../utils/URLUtils */ "./src/utils/URLUtils.ts");
 var LoadState;
 (function (LoadState) {
     LoadState[LoadState["LOADING"] = 1] = "LOADING";
@@ -5113,10 +5114,20 @@ var ResourceRegistry = (function (_super) {
                 break;
         }
     };
+    ResourceRegistry.prototype.setAllowOriginPattern = function (pattern) {
+        this.allowOriginPattern = pattern;
+    };
+    ResourceRegistry.prototype.isAllowOrigin = function (url) {
+        if (!this.allowOriginPattern)
+            return true;
+        var origin = URLUtils_1.URLUtils.getOrigin(url);
+        return origin === undefined || this.allowOriginPattern.test(url);
+    };
     ResourceRegistry.prototype.loadImage = function (item) {
         var _this = this;
         Runtime_1.Runtime.get().loadImage({
             url: item.url,
+            allowOrigin: this.isAllowOrigin(item.url),
             onLoad: function (image) {
                 item.resource = image;
                 _this.onLoad(item);
@@ -5136,6 +5147,7 @@ var ResourceRegistry = (function (_super) {
         var _this = this;
         Runtime_1.Runtime.get().loadText({
             url: item.url,
+            allowOrigin: this.isAllowOrigin(item.url),
             onLoad: function (data) {
                 item.resource = JSON.parse(data);
                 _this.onLoad(item);
@@ -5155,6 +5167,7 @@ var ResourceRegistry = (function (_super) {
         var _this = this;
         Runtime_1.Runtime.get().loadArrayBuffer({
             url: item.url,
+            allowOrigin: this.isAllowOrigin(item.url),
             onLoad: function (data) {
                 var apng = ApngParser_1.ApngParser.parse(data);
                 var opt = {
@@ -5421,6 +5434,10 @@ var WebpageRuntime = (function () {
         xhr.send();
     };
     WebpageRuntime.prototype.loadImage = function (task) {
+        if (!task.allowOrigin) {
+            this.loadImageByImageObject(task);
+            return;
+        }
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         xhr.open(task.method || 'GET', task.url, true);
@@ -5451,6 +5468,16 @@ var WebpageRuntime = (function () {
             }
         };
         xhr.send();
+    };
+    WebpageRuntime.prototype.loadImageByImageObject = function (task) {
+        var img = new Image();
+        img.onload = function () {
+            task.onLoad(img);
+        };
+        img.onerror = function (e) {
+            task.onError(e);
+        };
+        img.src = task.url;
     };
     WebpageRuntime.prototype.enableEvents = function (stage) {
         var _this = this;
@@ -8893,6 +8920,47 @@ var URLUtils = (function () {
     }
     URLUtils.isAbsolute = function (url) {
         return url.indexOf('://') > 0 || url.startsWith('//');
+    };
+    URLUtils.getDomain = function (url) {
+        var s;
+        if (url.startsWith('//')) {
+            s = 2;
+        }
+        else {
+            s = url.indexOf('://');
+            if (s <= 0)
+                return undefined;
+            s += 3;
+        }
+        var e = url.indexOf(':', s);
+        if (e < 0) {
+            e = url.indexOf('/', s);
+        }
+        if (e < 0) {
+            return url.substring(s);
+        }
+        else {
+            return url.substring(s, e);
+        }
+    };
+    URLUtils.getOrigin = function (url) {
+        var s;
+        if (url.startsWith('//')) {
+            s = 2;
+        }
+        else {
+            s = url.indexOf('://');
+            if (s <= 0)
+                return undefined;
+            s += 3;
+        }
+        var e = url.indexOf('/', s);
+        if (e < 0) {
+            return url;
+        }
+        else {
+            return url.substring(0, e);
+        }
     };
     return URLUtils;
 }());

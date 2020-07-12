@@ -110,13 +110,17 @@ export var WebpageRuntime = /*#__PURE__*/function () {
     }
     /**
      * Execute a load image task.
-     * TODO: check if it is not same domain, use Image.src to load to avoid cross domain problem.
      * @param task The load image task to be executed.
      */
 
   }, {
     key: "loadImage",
     value: function loadImage(task) {
+      if (!task.allowOrigin) {
+        this.loadImageByImageObject(task);
+        return;
+      }
+
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'blob';
       xhr.open(task.method || 'GET', task.url, true);
@@ -153,6 +157,26 @@ export var WebpageRuntime = /*#__PURE__*/function () {
       };
 
       xhr.send();
+    }
+    /**
+     * Execute a load image task by creating image object.
+     * @param task The load image task to be executed.
+     */
+
+  }, {
+    key: "loadImageByImageObject",
+    value: function loadImageByImageObject(task) {
+      var img = new Image();
+
+      img.onload = function () {
+        task.onLoad(img);
+      };
+
+      img.onerror = function (e) {
+        task.onError(e);
+      };
+
+      img.src = task.url;
     }
     /**
      * Add mouse and touch events for the Stage instance.

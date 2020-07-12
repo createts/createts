@@ -32,6 +32,62 @@ var URLUtils = /*#__PURE__*/function () {
     value: function isAbsolute(url) {
       return url.indexOf('://') > 0 || url.startsWith('//');
     }
+    /**
+     * Returns the domain of a given url, undefined for absolute url.
+     * @param url an url to be checked.
+     */
+
+  }, {
+    key: "getDomain",
+    value: function getDomain(url) {
+      var s;
+
+      if (url.startsWith('//')) {
+        s = 2;
+      } else {
+        s = url.indexOf('://');
+        if (s <= 0) return undefined;
+        s += 3;
+      }
+
+      var e = url.indexOf(':', s);
+
+      if (e < 0) {
+        e = url.indexOf('/', s);
+      }
+
+      if (e < 0) {
+        return url.substring(s);
+      } else {
+        return url.substring(s, e);
+      }
+    }
+    /**
+     * Returns the origin of a given url, undefined for absolute url.
+     * @param url an url to be checked.
+     */
+
+  }, {
+    key: "getOrigin",
+    value: function getOrigin(url) {
+      var s;
+
+      if (url.startsWith('//')) {
+        s = 2;
+      } else {
+        s = url.indexOf('://');
+        if (s <= 0) return undefined;
+        s += 3;
+      }
+
+      var e = url.indexOf('/', s);
+
+      if (e < 0) {
+        return url;
+      } else {
+        return url.substring(0, e);
+      }
+    }
   }]);
 
   return URLUtils;

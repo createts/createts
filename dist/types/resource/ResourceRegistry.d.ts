@@ -31,7 +31,10 @@ export declare class ResourceRegistryEvent extends Event {
     constructor(type: string, progress?: number, currentTarget?: ResourceItem);
 }
 export declare class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
+    private allowOriginPattern?;
     private load;
+    setAllowOriginPattern(pattern?: RegExp): void;
+    isAllowOrigin(url: string): boolean;
     private loadImage;
     private loadJson;
     private loadApng;

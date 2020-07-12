@@ -29,6 +29,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import { Event, EventDispatcher } from '../base/Event';
 import { ApngParser } from '../parser/ApngParser';
 import { Runtime } from '../runtime/Runtime';
+import { URLUtils } from '../utils/URLUtils';
 /**
  * Resource load state.
  */
@@ -115,6 +116,7 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
     }
 
     _this2 = _super2.call.apply(_super2, [this].concat(args));
+    _this2.allowOriginPattern = void 0;
     _this2.items = [];
     return _this2;
   }
@@ -142,6 +144,23 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
       }
     }
     /**
+     * Set the allow origin pattern.
+     * @param pattern The RegExp for same origin.
+     */
+
+  }, {
+    key: "setAllowOriginPattern",
+    value: function setAllowOriginPattern(pattern) {
+      this.allowOriginPattern = pattern;
+    }
+  }, {
+    key: "isAllowOrigin",
+    value: function isAllowOrigin(url) {
+      if (!this.allowOriginPattern) return true;
+      var origin = URLUtils.getOrigin(url);
+      return origin === undefined || this.allowOriginPattern.test(url);
+    }
+    /**
      * Calls current runtime to load the image resource.
      * @param item The image resource item to be loaded.
      */
@@ -153,6 +172,7 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       Runtime.get().loadImage({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(image) {
           item.resource = image;
 
@@ -183,6 +203,7 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       Runtime.get().loadText({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(data) {
           item.resource = JSON.parse(data);
 
@@ -213,6 +234,7 @@ export var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
 
       Runtime.get().loadArrayBuffer({
         url: item.url,
+        allowOrigin: this.isAllowOrigin(item.url),
         onLoad: function onLoad(data) {
           var apng = ApngParser.parse(data);
           var opt = {
