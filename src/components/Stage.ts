@@ -190,7 +190,7 @@ export class Stage extends Container {
      */
     layoutPolicy: StageLayoutPolicy.ALWAYS,
     /**
-     * Update policy of this stage instance, default is 'in-animation'.
+     * Update policy of this stage instance, default is 'auto'.
      */
     updatePolicy: StageUpdatePolicy.AUTO,
     /**
@@ -459,7 +459,7 @@ export class Stage extends Container {
    * const stage = ...;
    * const element = ...;
    *
-   * stage.animate(element, true).to({color: 'red'}, 'linear', 1000);
+   * stage.animate(element, true).css({color: 'red'}, 1000, 'linear');
    * ```
    *
    * @param element The target element to create the animation for.

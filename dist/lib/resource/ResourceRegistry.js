@@ -167,6 +167,11 @@ var ResourceRegistry = /*#__PURE__*/function (_EventDispatcher) {
     value: function setAllowOriginPattern(pattern) {
       this.allowOriginPattern = pattern;
     }
+    /**
+     * Checks the give url is from allow origin.
+     * @param url The url to be checked.
+     */
+
   }, {
     key: "isAllowOrigin",
     value: function isAllowOrigin(url) {

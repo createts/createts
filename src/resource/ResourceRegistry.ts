@@ -105,6 +105,10 @@ export class ResourceRegistry extends EventDispatcher<ResourceRegistryEvent> {
     this.allowOriginPattern = pattern;
   }
 
+  /**
+   * Checks the give url is from allow origin.
+   * @param url The url to be checked.
+   */
   public isAllowOrigin(url: string): boolean {
     if (!this.allowOriginPattern) return true;
     const origin = URLUtils.getOrigin(url);
