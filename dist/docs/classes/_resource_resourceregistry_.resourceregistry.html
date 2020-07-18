@@ -108,6 +108,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#alloworiginpattern" class="tsd-kind-icon">allow<wbr>Origin<wbr>Pattern</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#items" class="tsd-kind-icon">items</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_resource_resourceregistry_.resourceregistry.html#defaultinstance" class="tsd-kind-icon">Default<wbr>Instance</a></li>
 							</ul>
@@ -121,6 +122,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_resource_resourceregistry_.resourceregistry.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#gettotalprogress" class="tsd-kind-icon">get<wbr>Total<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_resource_resourceregistry_.resourceregistry.html#haseventlistener" class="tsd-kind-icon">has<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_resource_resourceregistry_.resourceregistry.html#isalloworigin" class="tsd-kind-icon">is<wbr>Allow<wbr>Origin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#load" class="tsd-kind-icon">load</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#loadapng" class="tsd-kind-icon">load<wbr>Apng</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_resource_resourceregistry_.resourceregistry.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a></li>
@@ -133,6 +135,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_resource_resourceregistry_.resourceregistry.html#release" class="tsd-kind-icon">release</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_resource_resourceregistry_.resourceregistry.html#removealleventlisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Event<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_resource_resourceregistry_.resourceregistry.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_resource_resourceregistry_.resourceregistry.html#setalloworiginpattern" class="tsd-kind-icon">set<wbr>Allow<wbr>Origin<wbr>Pattern</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_resource_resourceregistry_.resourceregistry.html#willtrigger" class="tsd-kind-icon">will<wbr>Trigger</a></li>
 							</ul>
 						</section>
@@ -142,12 +145,22 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="alloworiginpattern" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> allow<wbr>Origin<wbr>Pattern</h3>
+					<div class="tsd-signature tsd-kind-icon">allow<wbr>Origin<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L80">resource/ResourceRegistry.ts:80</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="items" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> items</h3>
 					<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <a href="../modules/_resource_resourceregistry_.html#resourceitem" class="tsd-signature-type">ResourceItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L332">resource/ResourceRegistry.ts:332</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L356">resource/ResourceRegistry.ts:356</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,7 +175,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Instance<span class="tsd-signature-symbol">:</span> <a href="_resource_resourceregistry_.resourceregistry.html" class="tsd-signature-type">ResourceRegistry</a><span class="tsd-signature-symbol"> = new ResourceRegistry()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L337">resource/ResourceRegistry.ts:337</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L361">resource/ResourceRegistry.ts:361</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -184,7 +197,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L261">resource/ResourceRegistry.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L285">resource/ResourceRegistry.ts:285</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -220,7 +233,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +273,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L220">base/Event.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L220">base/Event.ts:220</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -292,7 +305,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L299">resource/ResourceRegistry.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L323">resource/ResourceRegistry.ts:323</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,7 +337,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L189">resource/ResourceRegistry.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L213">resource/ResourceRegistry.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +361,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L204">base/Event.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L204">base/Event.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,6 +383,37 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isalloworigin" class="tsd-anchor"></a>
+					<h3>is<wbr>Allow<wbr>Origin</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Allow<wbr>Origin<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L112">resource/ResourceRegistry.ts:112</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks the give url is from allow origin.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The url to be checked.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="load" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> load</h3>
@@ -380,7 +424,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L83">resource/ResourceRegistry.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L86">resource/ResourceRegistry.ts:86</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,7 +455,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L147">resource/ResourceRegistry.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L170">resource/ResourceRegistry.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,7 +486,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L101">resource/ResourceRegistry.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L122">resource/ResourceRegistry.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -473,7 +517,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L124">resource/ResourceRegistry.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L146">resource/ResourceRegistry.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,7 +549,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L182">base/Event.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L182">base/Event.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,7 +581,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L145">base/Event.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L145">base/Event.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -568,7 +612,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L247">resource/ResourceRegistry.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L271">resource/ResourceRegistry.ts:271</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,7 +643,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L219">resource/ResourceRegistry.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L243">resource/ResourceRegistry.ts:243</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,7 +674,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L201">resource/ResourceRegistry.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L225">resource/ResourceRegistry.ts:225</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -661,7 +705,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/resource/ResourceRegistry.ts#L317">resource/ResourceRegistry.ts:317</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L341">resource/ResourceRegistry.ts:341</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,7 +738,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L191">base/Event.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L191">base/Event.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -727,7 +771,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L155">base/Event.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L155">base/Event.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -755,6 +799,37 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setalloworiginpattern" class="tsd-anchor"></a>
+					<h3>set<wbr>Allow<wbr>Origin<wbr>Pattern</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Allow<wbr>Origin<wbr>Pattern<span class="tsd-signature-symbol">(</span>pattern<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/resource/ResourceRegistry.ts#L104">resource/ResourceRegistry.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the allow origin pattern.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pattern: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The RegExp for same origin.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="willtrigger" class="tsd-anchor"></a>
 					<h3>will<wbr>Trigger</h3>
@@ -766,7 +841,7 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L211">base/Event.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L211">base/Event.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -811,6 +886,9 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 						<a href="_resource_resourceregistry_.resourceregistry.html" class="tsd-kind-icon">Resource<wbr>Registry</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_resource_resourceregistry_.resourceregistry.html#alloworiginpattern" class="tsd-kind-icon">allow<wbr>Origin<wbr>Pattern</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_resource_resourceregistry_.resourceregistry.html#items" class="tsd-kind-icon">items</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
@@ -833,6 +911,9 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_resource_resourceregistry_.resourceregistry.html#haseventlistener" class="tsd-kind-icon">has<wbr>Event<wbr>Listener</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_resource_resourceregistry_.resourceregistry.html#isalloworigin" class="tsd-kind-icon">is<wbr>Allow<wbr>Origin</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_resource_resourceregistry_.resourceregistry.html#load" class="tsd-kind-icon">load</a>
@@ -869,6 +950,9 @@ img.setSrc(<span class="hljs-string">'/image.jpg'</span>);</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_resource_resourceregistry_.resourceregistry.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_resource_resourceregistry_.resourceregistry.html#setalloworiginpattern" class="tsd-kind-icon">set<wbr>Allow<wbr>Origin<wbr>Pattern</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_resource_resourceregistry_.resourceregistry.html#willtrigger" class="tsd-kind-icon">will<wbr>Trigger</a>

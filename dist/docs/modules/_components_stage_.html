@@ -98,10 +98,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="stageoptions" class="tsd-anchor"></a>
 					<h3>Stage<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>noEventHandler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>updatePolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">Stage<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>autoClear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>fps<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>layoutPolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stagelayoutpolicy.html" class="tsd-signature-type">StageLayoutPolicy</a><span class="tsd-signature-symbol">; </span>noEventHandler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>recordRenderLatencies<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>style<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>updatePolicy<span class="tsd-signature-symbol">?: </span><a href="../enums/_components_stage_.stageupdatepolicy.html" class="tsd-signature-type">StageUpdatePolicy</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/Stage.ts#L40">components/Stage.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/Stage.ts#L41">components/Stage.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -116,7 +116,7 @@
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> auto<wbr>Clear<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>if true, clear the canvas at beginning of each update time, otherwise drawing on top of
+										<p>If true, clear the canvas at beginning of each update time, otherwise drawing on top of
 										previous drawn canvas.</p>
 									</div>
 								</div>
@@ -141,8 +141,16 @@
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> no<wbr>Event<wbr>Handler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>if true, ignore installing event handler by default, you can still call installEventHandler
+										<p>If true, ignore installing event handler by default, you can still call installEventHandler
 										later to install the event handler.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> record<wbr>Render<wbr>Latencies<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>If true, record latest 30 render latencies.</p>
 									</div>
 								</div>
 							</li>

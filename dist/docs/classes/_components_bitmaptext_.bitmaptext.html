@@ -72,14 +72,29 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A Text object is used to display text with specified styles like font size, font family, color,
-						etc.</p>
+						<p>A BitmapText object is used to display text with specified image, it is used to render the text
+						by a pre-rendered picture, and no font needed.</p>
 					</div>
-					<p>Text in this element can not be wrapped automatically, you must add &#39;\n&#39; by yourself in case of
-						wrapping the text; and Text element can not be &#39;inline&#39; either, which means text siblings are
-					displayed block by block.</p>
+					<p>Before using BitmapText, you need to create a JSON file contains the information of each
+					character.</p>
 					<p>Code example:</p>
-					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> html = <span class="hljs-string">"&lt;text style='color:red'&gt;hello&lt;/text&gt;&lt;text style='color:green'&gt;world&lt;/text&gt;"</span>;
+					<pre><code class="language-json">{
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"./numbers.png"</span>,
+  <span class="hljs-attr">"texts"</span>: {
+    <span class="hljs-attr">"0"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">28</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"1"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">28</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"2"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">43</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">21</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"3"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">64</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">18</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"4"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">82</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">23</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"5"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">105</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">20</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"6"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">125</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">26</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"7"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">151</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">21</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"8"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">172</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">24</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"9"</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">196</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">24</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> },
+    <span class="hljs-attr">"."</span>: { <span class="hljs-attr">"srcX"</span>: <span class="hljs-number">220</span>, <span class="hljs-attr">"srcY"</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">"srcWidth"</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">"srcHeight"</span>: <span class="hljs-number">34</span> }
+  }
+}</code></pre>
+					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> html = <span class="hljs-string">"&lt;bitmaptext src='numbers.json'&gt;12.34&lt;/bitmaptext&gt;"</span>;
 container.load(html);</code></pre>
 				</div>
 			</section>
@@ -150,7 +165,6 @@ container.load(html);</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#invalidatecache" class="tsd-kind-icon">invalidate<wbr>Cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#iscached" class="tsd-kind-icon">is<wbr>Cached</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#ischildof" class="tsd-kind-icon">is<wbr>Child<wbr>Of</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#ispointereventsenabled" class="tsd-kind-icon">is<wbr>Pointer<wbr>Events<wbr>Enabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_components_bitmaptext_.bitmaptext.html#layout" class="tsd-kind-icon">layout</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_components_bitmaptext_.bitmaptext.html#localtoglobal" class="tsd-kind-icon">local<wbr>ToGlobal</a></li>
@@ -184,12 +198,12 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_container_.container.html">Container</a>.<a href="_components_container_.container.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in components/BitmapText.ts:65</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L84">components/BitmapText.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a text element with given options.</p>
+									<p>Create a BitmapText element with given options.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -198,7 +212,8 @@ container.load(html);</code></pre>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_components_xobject_.ixobjectoptions.html" class="tsd-signature-type">IXObjectOptions</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>&#39;text&#39; attribute of this option will be the &#39;text&#39; of this element.</p>
+											<p>&#39;text&#39; attribute of this option will be the &#39;text&#39; of this element; if there is
+											a &#39;src&#39; attribute in the option, the bitmapTextSheet attribute will be loaded from here.</p>
 										</div>
 									</div>
 								</li>
@@ -216,7 +231,7 @@ container.load(html);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">bitmap<wbr>Text<wbr>Sheet<span class="tsd-signature-symbol">:</span> <a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in components/BitmapText.ts:65</li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L84">components/BitmapText.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -227,7 +242,7 @@ container.load(html);</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L135">components/XObject.ts:135</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L135">components/XObject.ts:135</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -243,7 +258,7 @@ container.load(html);</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L149">components/XObject.ts:149</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L149">components/XObject.ts:149</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -259,7 +274,7 @@ container.load(html);</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#rect">rect</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L145">components/XObject.ts:145</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L145">components/XObject.ts:145</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -277,7 +292,7 @@ container.load(html);</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#style">style</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L139">components/XObject.ts:139</a></li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L139">components/XObject.ts:139</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -292,7 +307,7 @@ container.load(html);</code></pre>
 					<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in components/BitmapText.ts:63</li>
+							<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L82">components/BitmapText.ts:82</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -315,7 +330,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L122">base/Event.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L122">base/Event.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +370,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#cache">cache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L270">components/XObject.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L262">components/XObject.ts:262</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,7 +393,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#calculatesize">calculateSize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L449">components/XObject.ts:449</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L441">components/XObject.ts:441</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +416,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#css">css</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L461">components/XObject.ts:461</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L453">components/XObject.ts:453</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -440,7 +455,7 @@ container.load(html);</code></pre>
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#dispatchevent">dispatchEvent</a></p>
 								<p>Overrides <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L203">components/XObject.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L203">components/XObject.ts:203</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -473,7 +488,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L300">components/XObject.ts:300</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L292">components/XObject.ts:292</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,7 +526,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#drawbackground">drawBackground</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L327">components/XObject.ts:327</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L319">components/XObject.ts:319</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -555,7 +570,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_xobject_.xobject.html">XObject</a>.<a href="_components_xobject_.xobject.html#drawcontent">drawContent</a></p>
 								<ul>
-									<li>Defined in components/BitmapText.ts:135</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L155">components/BitmapText.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -587,7 +602,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getcachecanvas">getCacheCanvas</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L254">components/XObject.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L246">components/XObject.ts:246</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -611,7 +626,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getconcatenatedmatrix">getConcatenatedMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L419">components/XObject.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L411">components/XObject.ts:411</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -651,7 +666,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getcontentheight">getContentHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L571">components/XObject.ts:571</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L563">components/XObject.ts:563</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -675,7 +690,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getcontentrect">getContentRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L585">components/XObject.ts:585</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L577">components/XObject.ts:577</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -699,7 +714,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getcontentwidth">getContentWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L557">components/XObject.ts:557</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L549">components/XObject.ts:549</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -723,7 +738,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getdefaultstyle">getDefaultStyle</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L185">components/XObject.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
@@ -741,7 +756,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getheight">getHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L501">components/XObject.ts:501</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L493">components/XObject.ts:493</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -765,7 +780,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getlineheight">getLineHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L471">components/XObject.ts:471</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L463">components/XObject.ts:463</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -789,7 +804,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getmatrix">getMatrix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L394">components/XObject.ts:394</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L386">components/XObject.ts:386</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -823,7 +838,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getouterheight">getOuterHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L639">components/XObject.ts:639</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L631">components/XObject.ts:631</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -847,7 +862,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getouterwidth">getOuterWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L626">components/XObject.ts:626</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L618">components/XObject.ts:618</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -871,7 +886,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getpaddingheight">getPaddingHeight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L521">components/XObject.ts:521</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L513">components/XObject.ts:513</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -895,7 +910,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getpaddingrect">getPaddingRect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L533">components/XObject.ts:533</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L525">components/XObject.ts:525</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -919,7 +934,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getpaddingwidth">getPaddingWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L509">components/XObject.ts:509</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L501">components/XObject.ts:501</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -942,7 +957,7 @@ container.load(html);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in components/BitmapText.ts:127</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L147">components/BitmapText.ts:147</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -966,7 +981,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#getwidth">getWidth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L493">components/XObject.ts:493</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L485">components/XObject.ts:485</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -990,7 +1005,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#globaltolocal">globalToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L370">components/XObject.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L362">components/XObject.ts:362</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1030,7 +1045,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#haseventlistener">hasEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L204">base/Event.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L204">base/Event.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1063,7 +1078,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#hittest">hitTest</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L435">components/XObject.ts:435</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L427">components/XObject.ts:427</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1102,7 +1117,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#invalidatecache">invalidateCache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L287">components/XObject.ts:287</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L279">components/XObject.ts:279</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1125,7 +1140,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#iscached">isCached</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L263">components/XObject.ts:263</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L255">components/XObject.ts:255</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1150,7 +1165,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#ischildof">isChildOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L653">components/XObject.ts:653</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L645">components/XObject.ts:645</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1173,30 +1188,6 @@ container.load(html);</code></pre>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="ispointereventsenabled" class="tsd-anchor"></a>
-					<h3>is<wbr>Pointer<wbr>Events<wbr>Enabled</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Pointer<wbr>Events<wbr>Enabled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#ispointereventsenabled">isPointerEventsEnabled</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L246">components/XObject.ts:246</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Checks whether this element enables pointer events.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>True if it enables pointer events, false otherwise.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="isvisible" class="tsd-anchor"></a>
 					<h3>is<wbr>Visible</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1207,7 +1198,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#isvisible">isVisible</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L232">components/XObject.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L232">components/XObject.ts:232</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1231,7 +1222,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_components_sprite_.sprite.html">Sprite</a>.<a href="_components_sprite_.sprite.html#layout">layout</a></p>
 								<ul>
-									<li>Defined in components/BitmapText.ts:173</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L193">components/BitmapText.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1255,7 +1246,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#localtoglobal">localToGlobal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L359">components/XObject.ts:359</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L351">components/XObject.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1295,7 +1286,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#localtolocal">localToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L383">components/XObject.ts:383</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L375">components/XObject.ts:375</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1342,7 +1333,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L182">base/Event.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L182">base/Event.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1374,7 +1365,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L145">base/Event.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L145">base/Event.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1406,7 +1397,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#remove">remove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L192">components/XObject.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L192">components/XObject.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1429,7 +1420,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removealleventlisteners">removeAllEventListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L191">base/Event.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L191">base/Event.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1462,7 +1453,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L155">base/Event.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L155">base/Event.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1494,25 +1485,28 @@ container.load(html);</code></pre>
 					<a name="setbitmaptextsheet" class="tsd-anchor"></a>
 					<h3>set<wbr>Bitmap<wbr>Text<wbr>Sheet</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Bitmap<wbr>Text<wbr>Sheet<span class="tsd-signature-symbol">(</span>bitmapTextSheet<span class="tsd-signature-symbol">: </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Bitmap<wbr>Text<wbr>Sheet<span class="tsd-signature-symbol">(</span>bitmapTextSheet<span class="tsd-signature-symbol">?: </span><a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in components/BitmapText.ts:90</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L110">components/BitmapText.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Update the text of this element, if the new text is different with current text, update the
-									text and dispatch an &#39;update&#39; event.</p>
+									<p>Update the bitmapTextSheet of this element, and any image url in this bitmapTextSheet will be
+									loaded automatically.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>bitmapTextSheet: <a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> bitmapTextSheet: <a href="../modules/_components_bitmaptext_.html#bitmaptextsheet" class="tsd-signature-type">BitmapTextSheet</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the new BitmapTextSheet.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1529,7 +1523,7 @@ container.load(html);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in components/BitmapText.ts:116</li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/BitmapText.ts#L136">components/BitmapText.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1562,7 +1556,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L668">components/XObject.ts:668</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L660">components/XObject.ts:660</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1586,7 +1580,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#uncache">uncache</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L279">components/XObject.ts:279</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L271">components/XObject.ts:271</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1609,7 +1603,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_components_bitmaptext_.bitmaptext.html">BitmapText</a>.<a href="_components_bitmaptext_.bitmaptext.html#updatecontext">updateContext</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/components/XObject.ts#L346">components/XObject.ts:346</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/components/XObject.ts#L338">components/XObject.ts:338</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1642,7 +1636,7 @@ container.load(html);</code></pre>
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_base_event_.eventdispatcher.html">EventDispatcher</a>.<a href="_base_event_.eventdispatcher.html#willtrigger">willTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/createts/createts/blob/edd015a/src/base/Event.ts#L211">base/Event.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/createts/createts/blob/d462658/src/base/Event.ts#L211">base/Event.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1790,9 +1784,6 @@ container.load(html);</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_bitmaptext_.bitmaptext.html#ischildof" class="tsd-kind-icon">is<wbr>Child<wbr>Of</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_components_bitmaptext_.bitmaptext.html#ispointereventsenabled" class="tsd-kind-icon">is<wbr>Pointer<wbr>Events<wbr>Enabled</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_components_bitmaptext_.bitmaptext.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a>

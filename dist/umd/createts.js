@@ -2591,32 +2591,55 @@ var Container = (function (_super) {
                 case Style_1.PointerEvents.BLOCK:
                     return this.hitTest(x, y) ? this : undefined;
             }
-        }
-        var children = this.children;
-        for (var i = children.length - 1; i >= 0; i--) {
-            var child = children[i];
-            if (!child.isVisible()) {
-                continue;
-            }
-            var pt = this.localToLocal(x, y, child);
-            if (child instanceof Container) {
-                var result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
-                if (result) {
-                    return result;
+            var children = this.children;
+            for (var i = children.length - 1; i >= 0; i--) {
+                var child = children[i];
+                if (!child.isVisible()) {
+                    continue;
+                }
+                var pt = this.localToLocal(x, y, child);
+                if (child instanceof Container) {
+                    var result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+                    if (result) {
+                        return result;
+                    }
+                }
+                else {
+                    if (child.style.pointerEvents !== Style_1.PointerEvents.NONE &&
+                        child.style.pointerEvents !== Style_1.PointerEvents.CROSS &&
+                        child.hitTest(pt.x, pt.y)) {
+                        return child;
+                    }
                 }
             }
-            else {
-                if (child.style.pointerEvents !== Style_1.PointerEvents.NONE &&
-                    child.style.pointerEvents !== Style_1.PointerEvents.CROSS &&
-                    child.hitTest(pt.x, pt.y)) {
+            if (this.style.pointerEvents !== Style_1.PointerEvents.CROSS && this.hitTest(x, y)) {
+                return this;
+            }
+            return undefined;
+        }
+        else {
+            var children = this.children;
+            for (var i = children.length - 1; i >= 0; i--) {
+                var child = children[i];
+                if (!child.isVisible()) {
+                    continue;
+                }
+                var pt = this.localToLocal(x, y, child);
+                if (child instanceof Container) {
+                    var result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+                    if (result) {
+                        return result;
+                    }
+                }
+                else if (child.hitTest(pt.x, pt.y)) {
                     return child;
                 }
+                if (this.hitTest(x, y)) {
+                    return this;
+                }
+                return undefined;
             }
         }
-        if (this.style.pointerEvents === Style_1.PointerEvents.CROSS && this.hitTest(x, y)) {
-            return this;
-        }
-        return undefined;
     };
     Container.prototype.load = function (html, clear) {
         if (clear === void 0) { clear = true; }

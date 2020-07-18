@@ -393,35 +393,58 @@ export class Container extends XObject {
         case PointerEvents.BLOCK:
           return this.hitTest(x, y) ? this : undefined;
       }
-    }
-
-    const children = this.children;
-    for (let i = children.length - 1; i >= 0; i--) {
-      const child = children[i];
-      if (!child.isVisible()) {
-        continue;
-      }
-      const pt = this.localToLocal(x, y, child);
-      if (child instanceof Container) {
-        const result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
-        if (result) {
-          return result;
+      const children = this.children;
+      for (let i = children.length - 1; i >= 0; i--) {
+        const child = children[i];
+        if (!child.isVisible()) {
+          continue;
         }
-      } else {
-        if (child.style.pointerEvents !== PointerEvents.NONE &&
-          child.style.pointerEvents !== PointerEvents.CROSS &&
-          child.hitTest(pt.x, pt.y)) {
+        const pt = this.localToLocal(x, y, child);
+        if (child instanceof Container) {
+          const result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+          if (result) {
+            return result;
+          }
+        } else {
+          if (child.style.pointerEvents !== PointerEvents.NONE &&
+            child.style.pointerEvents !== PointerEvents.CROSS &&
+            child.hitTest(pt.x, pt.y)) {
+            return child;
+          }
+        }
+      }
+
+      // No child match, try self
+      if (this.style.pointerEvents !== PointerEvents.CROSS && this.hitTest(x, y)) {
+        return this;
+      }
+      return undefined;
+    } else {
+      const children = this.children;
+      for (let i = children.length - 1; i >= 0; i--) {
+        const child = children[i];
+        if (!child.isVisible()) {
+          continue;
+        }
+        const pt = this.localToLocal(x, y, child);
+        if (child instanceof Container) {
+          const result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+          if (result) {
+            return result;
+          }
+        } else if (child.hitTest(pt.x, pt.y)) {
           return child;
         }
+
+        // No child match, try self
+        if (this.hitTest(x, y)) {
+          return this;
+        }
+        return undefined;
       }
     }
-
-    // No child match, try self
-    if (this.style.pointerEvents === PointerEvents.CROSS && this.hitTest(x, y)) {
-      return this;
-    }
-    return undefined;
   }
+
 
   /**
    * Parse the input html and load as children.

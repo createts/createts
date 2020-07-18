@@ -561,38 +561,67 @@ export var Container = /*#__PURE__*/function (_XObject) {
           case PointerEvents.BLOCK:
             return this.hitTest(x, y) ? this : undefined;
         }
-      }
 
-      var children = this.children;
+        var children = this.children;
 
-      for (var i = children.length - 1; i >= 0; i--) {
-        var child = children[i];
+        for (var i = children.length - 1; i >= 0; i--) {
+          var child = children[i];
 
-        if (!child.isVisible()) {
-          continue;
+          if (!child.isVisible()) {
+            continue;
+          }
+
+          var pt = this.localToLocal(x, y, child);
+
+          if (child instanceof Container) {
+            var result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+
+            if (result) {
+              return result;
+            }
+          } else {
+            if (child.style.pointerEvents !== PointerEvents.NONE && child.style.pointerEvents !== PointerEvents.CROSS && child.hitTest(pt.x, pt.y)) {
+              return child;
+            }
+          }
+        } // No child match, try self
+
+
+        if (this.style.pointerEvents !== PointerEvents.CROSS && this.hitTest(x, y)) {
+          return this;
         }
 
-        var pt = this.localToLocal(x, y, child);
+        return undefined;
+      } else {
+        var _children2 = this.children;
 
-        if (child instanceof Container) {
-          var result = child.getObjectUnderPoint(pt.x, pt.y, eventEnabled);
+        for (var _i5 = _children2.length - 1; _i5 >= 0; _i5--) {
+          var _child4 = _children2[_i5];
 
-          if (result) {
-            return result;
+          if (!_child4.isVisible()) {
+            continue;
           }
-        } else {
-          if (child.style.pointerEvents !== PointerEvents.NONE && child.style.pointerEvents !== PointerEvents.CROSS && child.hitTest(pt.x, pt.y)) {
-            return child;
+
+          var _pt = this.localToLocal(x, y, _child4);
+
+          if (_child4 instanceof Container) {
+            var _result = _child4.getObjectUnderPoint(_pt.x, _pt.y, eventEnabled);
+
+            if (_result) {
+              return _result;
+            }
+          } else if (_child4.hitTest(_pt.x, _pt.y)) {
+            return _child4;
+          } // No child match, try self
+
+
+          if (this.hitTest(x, y)) {
+            return this;
           }
+
+          return undefined;
         }
-      } // No child match, try self
-
-
-      if (this.style.pointerEvents === PointerEvents.CROSS && this.hitTest(x, y)) {
-        return this;
       }
-
-      return undefined;
     }
     /**
      * Parse the input html and load as children.
