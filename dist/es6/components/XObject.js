@@ -531,7 +531,7 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
         return;
       }
 
-      LayoutUtils.updateSize(this, this.parent.getWidth(), this.parent.getHeight());
+      LayoutUtils.updateSize(this, this.parent.getContentWidth(), this.parent.getContentHeight());
     }
     /**
      * Applies the style map to current object.

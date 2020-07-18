@@ -410,6 +410,17 @@ export class Stage extends Container {
   }
 
   /**
+   * Returns the top stage object of the given element.
+   * @returns The top stage object, or undefined if it is not been added.
+   */
+  public static of(element: XObject): Stage | undefined {
+    while (element.parent) {
+      element = element.parent;
+    }
+    return element instanceof Stage ? element : undefined;
+  }
+
+  /**
    * Render the stage to target canvas.
    * For performance respective, do not call this method directly, calls updateOnce to let stage
    * render at next ticker.

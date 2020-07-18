@@ -3283,6 +3283,12 @@ var Stage = (function (_super) {
             this.dispatchTouchEvent(element, 'mousewheel', touch, true, true, e);
         }
     };
+    Stage.of = function (element) {
+        while (element.parent) {
+            element = element.parent;
+        }
+        return element instanceof Stage ? element : undefined;
+    };
     Stage.prototype.update = function () {
         if (!this.canvas || !this.isVisible()) {
             return;
@@ -3911,7 +3917,7 @@ var XObject = (function (_super) {
         if (!this.parent) {
             return;
         }
-        LayoutUtils_1.LayoutUtils.updateSize(this, this.parent.getWidth(), this.parent.getHeight());
+        LayoutUtils_1.LayoutUtils.updateSize(this, this.parent.getContentWidth(), this.parent.getContentHeight());
     };
     XObject.prototype.css = function (style) {
         this.style.apply(style);

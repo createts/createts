@@ -534,13 +534,18 @@ var Stage = /*#__PURE__*/function (_Container) {
       }
     }
     /**
-     * Render the stage to target canvas.
-     * For performance respective, do not call this method directly, calls updateOnce to let stage
-     * render at next ticker.
+     * Returns the top stage object of the given element.
+     * @returns The top stage object, or undefined if it is not been added.
      */
 
   }, {
     key: "update",
+
+    /**
+     * Render the stage to target canvas.
+     * For performance respective, do not call this method directly, calls updateOnce to let stage
+     * render at next ticker.
+     */
     value: function update() {
       if (!this.canvas || !this.isVisible()) {
         return;
@@ -897,6 +902,15 @@ var Stage = /*#__PURE__*/function (_Container) {
       } finally {
         _iterator10.f();
       }
+    }
+  }], [{
+    key: "of",
+    value: function of(element) {
+      while (element.parent) {
+        element = element.parent;
+      }
+
+      return element instanceof Stage ? element : undefined;
     }
   }]);
 

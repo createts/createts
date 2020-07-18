@@ -4,7 +4,7 @@ import { Point } from '../base/Point';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
 import { Runtime } from '../runtime/Runtime';
-import { Display, PointerEvents, Style, Visibility } from '../style/Style';
+import { Display, Style, Visibility } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
@@ -442,7 +442,7 @@ export class XObject extends EventDispatcher<XObjectEvent> {
     if (!this.parent) {
       return;
     }
-    LayoutUtils.updateSize(this, this.parent.getWidth(), this.parent.getHeight());
+    LayoutUtils.updateSize(this, this.parent.getContentWidth(), this.parent.getContentHeight());
   }
 
   /**

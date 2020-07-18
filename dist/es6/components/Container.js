@@ -48,7 +48,7 @@ import { XObject, XObjectEvent } from './XObject';
  * ```typescript
  * const container  = new Container();
  * container.css({width:100, height:200, display:'absolute', left:50});
- * const obj  = new XObject();
+ * const obj = new XObject();
  * container.addChild(obj);
  * ```
  */
