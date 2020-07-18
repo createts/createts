@@ -240,14 +240,6 @@ export class XObject extends EventDispatcher<XObjectEvent> {
   }
 
   /**
-   * Checks whether this element enables pointer events.
-   * @returns True if it enables pointer events, false otherwise.
-   */
-  public isPointerEventsEnabled(): boolean {
-    return this.style.pointerEvents !== PointerEvents.NONE;
-  }
-
-  /**
    * Returns the offscreen cache canvas.
    * @returns The offscreen cache canvas.
    */

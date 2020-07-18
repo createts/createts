@@ -43,7 +43,9 @@ export declare enum TextBorderPosition {
 }
 export declare enum PointerEvents {
     AUTO = "auto",
-    NONE = "none"
+    NONE = "none",
+    CROSS = "cross",
+    BLOCK = "block"
 }
 export declare enum Visibility {
     VISIBLE = "visible",

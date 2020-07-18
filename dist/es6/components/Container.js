@@ -35,7 +35,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 import { HtmlParser } from '../parser/HtmlParser';
-import { Display, Position, TextAlign, VerticalAlign } from '../style/Style';
+import { Display, PointerEvents, Position, TextAlign, VerticalAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { XObject, XObjectEvent } from './XObject';
 /**
@@ -549,12 +549,26 @@ export var Container = /*#__PURE__*/function (_XObject) {
   }, {
     key: "getObjectUnderPoint",
     value: function getObjectUnderPoint(x, y, eventEnabled) {
+      if (!this.isVisible()) {
+        return undefined;
+      }
+
+      if (eventEnabled) {
+        switch (this.style.pointerEvents) {
+          case PointerEvents.NONE:
+            return undefined;
+
+          case PointerEvents.BLOCK:
+            return this.hitTest(x, y) ? this : undefined;
+        }
+      }
+
       var children = this.children;
 
       for (var i = children.length - 1; i >= 0; i--) {
         var child = children[i];
 
-        if (!child.isVisible() || eventEnabled && !child.isPointerEventsEnabled()) {
+        if (!child.isVisible()) {
           continue;
         }
 
@@ -567,14 +581,14 @@ export var Container = /*#__PURE__*/function (_XObject) {
             return result;
           }
         } else {
-          if (child.hitTest(pt.x, pt.y)) {
+          if (child.style.pointerEvents !== PointerEvents.NONE && child.style.pointerEvents !== PointerEvents.CROSS && child.hitTest(pt.x, pt.y)) {
             return child;
           }
         }
       } // No child match, try self
 
 
-      if (this.hitTest(x, y)) {
+      if (this.style.pointerEvents === PointerEvents.CROSS && this.hitTest(x, y)) {
         return this;
       }
 

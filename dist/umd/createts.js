@@ -2581,10 +2581,21 @@ var Container = (function (_super) {
         }
     };
     Container.prototype.getObjectUnderPoint = function (x, y, eventEnabled) {
+        if (!this.isVisible()) {
+            return undefined;
+        }
+        if (eventEnabled) {
+            switch (this.style.pointerEvents) {
+                case Style_1.PointerEvents.NONE:
+                    return undefined;
+                case Style_1.PointerEvents.BLOCK:
+                    return this.hitTest(x, y) ? this : undefined;
+            }
+        }
         var children = this.children;
         for (var i = children.length - 1; i >= 0; i--) {
             var child = children[i];
-            if (!child.isVisible() || (eventEnabled && !child.isPointerEventsEnabled())) {
+            if (!child.isVisible()) {
                 continue;
             }
             var pt = this.localToLocal(x, y, child);
@@ -2595,12 +2606,14 @@ var Container = (function (_super) {
                 }
             }
             else {
-                if (child.hitTest(pt.x, pt.y)) {
+                if (child.style.pointerEvents !== Style_1.PointerEvents.NONE &&
+                    child.style.pointerEvents !== Style_1.PointerEvents.CROSS &&
+                    child.hitTest(pt.x, pt.y)) {
                     return child;
                 }
             }
         }
-        if (this.hitTest(x, y)) {
+        if (this.style.pointerEvents === Style_1.PointerEvents.CROSS && this.hitTest(x, y)) {
             return this;
         }
         return undefined;
@@ -3782,9 +3795,6 @@ var XObject = (function (_super) {
             this.style.alpha > 0 &&
             this.style.scaleX > 0 &&
             this.style.scaleY > 0);
-    };
-    XObject.prototype.isPointerEventsEnabled = function () {
-        return this.style.pointerEvents !== Style_1.PointerEvents.NONE;
     };
     XObject.prototype.getCacheCanvas = function () {
         return this.cacheCanvas;
@@ -7420,6 +7430,8 @@ var PointerEvents;
 (function (PointerEvents) {
     PointerEvents["AUTO"] = "auto";
     PointerEvents["NONE"] = "none";
+    PointerEvents["CROSS"] = "cross";
+    PointerEvents["BLOCK"] = "block";
 })(PointerEvents = exports.PointerEvents || (exports.PointerEvents = {}));
 var Visibility;
 (function (Visibility) {

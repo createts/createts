@@ -55,7 +55,21 @@ export enum TextBorderPosition {
 
 export enum PointerEvents {
   AUTO = 'auto',
-  NONE = 'none'
+  /**
+   * Ignore pointer/touch/mouse events of current element and its children.
+   */
+  NONE = 'none',
+  /**
+   * Ignore pointer/touch/mouse events of current element but its children can still receive the
+   * events, also the event bubbled from children can be still received.
+   * Tips: it is not CSS standard.
+   */
+  CROSS = 'cross',
+  /**
+   * Stop pointer/touch/mouse events of current element passing down to its children.
+   * Tips: it is not CSS standard.
+   */
+  BLOCK = 'block'
 }
 
 export enum Visibility {

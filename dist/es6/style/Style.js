@@ -80,6 +80,8 @@ export var PointerEvents;
 (function (PointerEvents) {
   PointerEvents["AUTO"] = "auto";
   PointerEvents["NONE"] = "none";
+  PointerEvents["CROSS"] = "cross";
+  PointerEvents["BLOCK"] = "block";
 })(PointerEvents || (PointerEvents = {}));
 
 export var Visibility;

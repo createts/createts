@@ -1,5 +1,5 @@
 import { HtmlParser } from '../parser/HtmlParser';
-import { Display, Position, TextAlign, VerticalAlign } from '../style/Style';
+import { Display, PointerEvents, Position, TextAlign, VerticalAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { XObject, XObjectEvent } from './XObject';
 
@@ -382,10 +382,23 @@ export class Container extends XObject {
    * @returns The child object in the specified position, undefined if there is no any child at that position.
    */
   public getObjectUnderPoint(x: number, y: number, eventEnabled: boolean): XObject | undefined {
+    if (!this.isVisible()) {
+      return undefined;
+    }
+
+    if (eventEnabled) {
+      switch (this.style.pointerEvents) {
+        case PointerEvents.NONE:
+          return undefined;
+        case PointerEvents.BLOCK:
+          return this.hitTest(x, y) ? this : undefined;
+      }
+    }
+
     const children = this.children;
     for (let i = children.length - 1; i >= 0; i--) {
       const child = children[i];
-      if (!child.isVisible() || (eventEnabled && !child.isPointerEventsEnabled())) {
+      if (!child.isVisible()) {
         continue;
       }
       const pt = this.localToLocal(x, y, child);
@@ -395,14 +408,16 @@ export class Container extends XObject {
           return result;
         }
       } else {
-        if (child.hitTest(pt.x, pt.y)) {
+        if (child.style.pointerEvents !== PointerEvents.NONE &&
+          child.style.pointerEvents !== PointerEvents.CROSS &&
+          child.hitTest(pt.x, pt.y)) {
           return child;
         }
       }
     }
 
     // No child match, try self
-    if (this.hitTest(x, y)) {
+    if (this.style.pointerEvents === PointerEvents.CROSS && this.hitTest(x, y)) {
       return this;
     }
     return undefined;

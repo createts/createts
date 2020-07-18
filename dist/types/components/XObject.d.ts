@@ -41,7 +41,6 @@ export declare class XObject extends EventDispatcher<XObjectEvent> {
     remove(): void;
     dispatchEvent(event: XObjectEvent): boolean;
     isVisible(): boolean;
-    isPointerEventsEnabled(): boolean;
     getCacheCanvas(): HTMLCanvasElement | undefined;
     isCached(): boolean;
     cache(): void;

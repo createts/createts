@@ -560,12 +560,26 @@ var Container = /*#__PURE__*/function (_XObject) {
   }, {
     key: "getObjectUnderPoint",
     value: function getObjectUnderPoint(x, y, eventEnabled) {
+      if (!this.isVisible()) {
+        return undefined;
+      }
+
+      if (eventEnabled) {
+        switch (this.style.pointerEvents) {
+          case _Style.PointerEvents.NONE:
+            return undefined;
+
+          case _Style.PointerEvents.BLOCK:
+            return this.hitTest(x, y) ? this : undefined;
+        }
+      }
+
       var children = this.children;
 
       for (var i = children.length - 1; i >= 0; i--) {
         var child = children[i];
 
-        if (!child.isVisible() || eventEnabled && !child.isPointerEventsEnabled()) {
+        if (!child.isVisible()) {
           continue;
         }
 
@@ -578,14 +592,14 @@ var Container = /*#__PURE__*/function (_XObject) {
             return result;
           }
         } else {
-          if (child.hitTest(pt.x, pt.y)) {
+          if (child.style.pointerEvents !== _Style.PointerEvents.NONE && child.style.pointerEvents !== _Style.PointerEvents.CROSS && child.hitTest(pt.x, pt.y)) {
             return child;
           }
         }
       } // No child match, try self
 
 
-      if (this.hitTest(x, y)) {
+      if (this.style.pointerEvents === _Style.PointerEvents.CROSS && this.hitTest(x, y)) {
         return this;
       }
 

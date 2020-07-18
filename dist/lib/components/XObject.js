@@ -309,16 +309,6 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
       return !!(this.style.visibility !== _Style.Visibility.HIDDEN && this.style.display !== _Style.Display.NONE && this.style.alpha > 0 && this.style.scaleX > 0 && this.style.scaleY > 0);
     }
     /**
-     * Checks whether this element enables pointer events.
-     * @returns True if it enables pointer events, false otherwise.
-     */
-
-  }, {
-    key: "isPointerEventsEnabled",
-    value: function isPointerEventsEnabled() {
-      return this.style.pointerEvents !== _Style.PointerEvents.NONE;
-    }
-    /**
      * Returns the offscreen cache canvas.
      * @returns The offscreen cache canvas.
      */

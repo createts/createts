@@ -106,6 +106,8 @@ exports.PointerEvents = PointerEvents;
 (function (PointerEvents) {
   PointerEvents["AUTO"] = "auto";
   PointerEvents["NONE"] = "none";
+  PointerEvents["CROSS"] = "cross";
+  PointerEvents["BLOCK"] = "block";
 })(PointerEvents || (exports.PointerEvents = PointerEvents = {}));
 
 var Visibility;
