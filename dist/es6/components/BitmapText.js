@@ -33,6 +33,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import { Rect } from '../base/Rect';
 import { HtmlParser } from '../parser/HtmlParser';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
+import { TextAlign } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { XObject, XObjectEvent } from './XObject';
 /**
@@ -186,9 +187,8 @@ export var BitmapText = /*#__PURE__*/function (_XObject) {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var line = _step.value;
-          var x = contentRect.x;
-          var y = contentRect.y;
           var height = this.bitmapTextSheet.height || 0;
+          var w = 0;
 
           var _iterator2 = _createForOfIteratorHelper(line),
               _step2;
@@ -200,16 +200,49 @@ export var BitmapText = /*#__PURE__*/function (_XObject) {
 
               if (text) {
                 var size = DrawUtils.getFrameSize(text, this.bitmapTextSheet);
-                var rect = new Rect(x, y, size.width, size.height);
-                DrawUtils.drawFrame(ctx, rect, text, this.bitmapTextSheet);
-                x += rect.width + (this.bitmapTextSheet.gapX || 0);
-                height = Math.max(height, size.height);
+                w += size.width + (this.bitmapTextSheet.gapX || 0);
               }
             }
           } catch (err) {
             _iterator2.e(err);
           } finally {
             _iterator2.f();
+          }
+
+          var x = contentRect.x;
+
+          switch (this.style.textAlign) {
+            case TextAlign.CENTER:
+              x += Math.max(0, (contentRect.width - w) / 2);
+              break;
+
+            case TextAlign.RIGHT:
+              x += contentRect.width - w;
+          }
+
+          var y = contentRect.y;
+
+          var _iterator3 = _createForOfIteratorHelper(line),
+              _step3;
+
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var _ch = _step3.value;
+              var _text = this.bitmapTextSheet.texts[_ch];
+
+              if (_text) {
+                var _size = DrawUtils.getFrameSize(_text, this.bitmapTextSheet);
+
+                var rect = new Rect(x, y, _size.width, _size.height);
+                DrawUtils.drawFrame(ctx, rect, _text, this.bitmapTextSheet);
+                x += rect.width + (this.bitmapTextSheet.gapX || 0);
+                height = Math.max(height, _size.height);
+              }
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
           }
 
           y += height + (this.bitmapTextSheet.gapY || 0);
@@ -239,21 +272,21 @@ export var BitmapText = /*#__PURE__*/function (_XObject) {
         var maxWidth = 0;
         var maxHeight = 0;
 
-        var _iterator3 = _createForOfIteratorHelper(lines),
-            _step3;
+        var _iterator4 = _createForOfIteratorHelper(lines),
+            _step4;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var line = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var line = _step4.value;
             var width = 0;
             var height = this.bitmapTextSheet.height || 0;
 
-            var _iterator4 = _createForOfIteratorHelper(line),
-                _step4;
+            var _iterator5 = _createForOfIteratorHelper(line),
+                _step5;
 
             try {
-              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                var ch = _step4.value;
+              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                var ch = _step5.value;
                 var text = this.bitmapTextSheet.texts[ch];
                 var size = DrawUtils.getFrameSize(text, this.bitmapTextSheet);
                 if (width > 0 && !isNaN(this.bitmapTextSheet.gapX)) width += this.bitmapTextSheet.gapX;
@@ -261,9 +294,9 @@ export var BitmapText = /*#__PURE__*/function (_XObject) {
                 height = Math.max(height, size.height);
               }
             } catch (err) {
-              _iterator4.e(err);
+              _iterator5.e(err);
             } finally {
-              _iterator4.f();
+              _iterator5.f();
             }
 
             if (maxHeight > 0 && !isNaN(this.bitmapTextSheet.gapY)) {
@@ -274,9 +307,9 @@ export var BitmapText = /*#__PURE__*/function (_XObject) {
             maxWidth = Math.max(maxWidth, width);
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
 
         if (maxWidth > contentRect.width) {

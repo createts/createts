@@ -167,9 +167,24 @@ export class BitmapText extends XObject {
 
     ctx.save();
     for (const line of lines) {
-      let x = contentRect.x;
-      let y = contentRect.y;
       let height = this.bitmapTextSheet.height || 0;
+      let w = 0;
+      for (const ch of line) {
+        const text = this.bitmapTextSheet.texts[ch];
+        if (text) {
+          const size = DrawUtils.getFrameSize(text, this.bitmapTextSheet);
+          w += size.width + (this.bitmapTextSheet.gapX || 0);
+        }
+      }
+      let x = contentRect.x;
+      switch (this.style.textAlign) {
+        case TextAlign.CENTER:
+          x += Math.max(0, (contentRect.width - w) / 2);
+          break;
+        case TextAlign.RIGHT:
+          x += contentRect.width - w;
+      }
+      let y = contentRect.y;
       for (const ch of line) {
         const text = this.bitmapTextSheet.texts[ch];
         if (text) {

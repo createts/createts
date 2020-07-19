@@ -2162,6 +2162,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
 var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
+var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var BitmapText = (function (_super) {
@@ -2219,11 +2220,27 @@ var BitmapText = (function (_super) {
         ctx.save();
         for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
             var line = lines_1[_i];
-            var x = contentRect.x;
-            var y = contentRect.y;
             var height = this.bitmapTextSheet.height || 0;
+            var w = 0;
             for (var _a = 0, line_1 = line; _a < line_1.length; _a++) {
                 var ch = line_1[_a];
+                var text = this.bitmapTextSheet.texts[ch];
+                if (text) {
+                    var size = DrawUtils_1.DrawUtils.getFrameSize(text, this.bitmapTextSheet);
+                    w += size.width + (this.bitmapTextSheet.gapX || 0);
+                }
+            }
+            var x = contentRect.x;
+            switch (this.style.textAlign) {
+                case Style_1.TextAlign.CENTER:
+                    x += Math.max(0, (contentRect.width - w) / 2);
+                    break;
+                case Style_1.TextAlign.RIGHT:
+                    x += contentRect.width - w;
+            }
+            var y = contentRect.y;
+            for (var _b = 0, line_2 = line; _b < line_2.length; _b++) {
+                var ch = line_2[_b];
                 var text = this.bitmapTextSheet.texts[ch];
                 if (text) {
                     var size = DrawUtils_1.DrawUtils.getFrameSize(text, this.bitmapTextSheet);
@@ -2249,8 +2266,8 @@ var BitmapText = (function (_super) {
                 var line = lines_2[_i];
                 var width = 0;
                 var height = this.bitmapTextSheet.height || 0;
-                for (var _a = 0, line_2 = line; _a < line_2.length; _a++) {
-                    var ch = line_2[_a];
+                for (var _a = 0, line_3 = line; _a < line_3.length; _a++) {
+                    var ch = line_3[_a];
                     var text = this.bitmapTextSheet.texts[ch];
                     var size = DrawUtils_1.DrawUtils.getFrameSize(text, this.bitmapTextSheet);
                     if (width > 0 && !isNaN(this.bitmapTextSheet.gapX))
