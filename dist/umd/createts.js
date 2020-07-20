@@ -2584,8 +2584,8 @@ var Container = (function (_super) {
                 }
             }
             y += l.height;
-            contentHeight = Math.max(contentHeight, y);
         }
+        contentHeight = Math.max(contentHeight, y - contentRect.y);
         if (!this.style.width && contentWidth > contentRect.width) {
             this.rect.width += contentWidth - contentRect.width;
         }

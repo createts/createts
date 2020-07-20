@@ -357,8 +357,8 @@ export class Container extends XObject {
         }
       }
       y += l.height;
-      contentHeight = Math.max(contentHeight, y);
     }
+    contentHeight = Math.max(contentHeight, y - contentRect.y);
 
     // Update width/height
     // TODO: add css (min/max width) support.

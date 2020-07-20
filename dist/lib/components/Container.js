@@ -529,10 +529,10 @@ var Container = /*#__PURE__*/function (_XObject) {
         }
 
         y += l.height;
-        contentHeight = Math.max(contentHeight, y);
-      } // Update width/height
-      // TODO: add css (min/max width) support.
+      }
 
+      contentHeight = Math.max(contentHeight, y - contentRect.y); // Update width/height
+      // TODO: add css (min/max width) support.
 
       if (!this.style.width && contentWidth > contentRect.width) {
         this.rect.width += contentWidth - contentRect.width;
