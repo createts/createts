@@ -540,6 +540,65 @@ var Container = /*#__PURE__*/function (_XObject) {
 
       if (!this.style.height && contentHeight > contentRect.height) {
         this.rect.height += contentHeight - contentRect.height;
+      }
+
+      if (this.parent) {
+        var parentWidth = this.parent.getContentWidth();
+        var parentHeight = this.parent.getContentWidth();
+
+        if (this.style.minWidth) {
+          var minWidth = this.style.minWidth.getValue(parentWidth);
+          var cw = this.getContentWidth();
+
+          if (this.style.boxSizing === _Style.BoxSizing.BORDER_BOX) {
+            minWidth -= this.rect.width - cw;
+          }
+
+          if (cw < minWidth) {
+            this.rect.width += minWidth - cw;
+          }
+        }
+
+        if (this.style.maxWidth) {
+          var maxWidth = this.style.maxWidth.getValue(parentWidth);
+
+          var _cw = this.getContentWidth();
+
+          if (this.style.boxSizing === _Style.BoxSizing.BORDER_BOX) {
+            maxWidth -= this.rect.width - _cw;
+          }
+
+          if (_cw > maxWidth) {
+            this.rect.width -= _cw - maxWidth;
+          }
+        }
+
+        if (this.style.minHeight) {
+          var minHeight = this.style.minHeight.getValue(parentHeight);
+          var ch = this.getContentHeight();
+
+          if (this.style.boxSizing === _Style.BoxSizing.BORDER_BOX) {
+            minHeight -= this.rect.height - ch;
+          }
+
+          if (ch < minHeight) {
+            this.rect.width += minHeight - ch;
+          }
+        }
+
+        if (this.style.maxHeight) {
+          var maxHeight = this.style.maxHeight.getValue(parentHeight);
+
+          var _ch = this.getContentHeight();
+
+          if (this.style.boxSizing === _Style.BoxSizing.BORDER_BOX) {
+            maxHeight -= this.rect.height - _ch;
+          }
+
+          if (_ch > maxHeight) {
+            this.rect.width -= maxHeight - _ch;
+          }
+        }
       } // Step 4, arrange absolutes
 
 

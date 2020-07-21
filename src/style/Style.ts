@@ -95,7 +95,11 @@ export class Style {
   }
 
   public width?: BaseValue;
+  public minWidth?: BaseValue;
+  public maxWidth?: BaseValue;
   public height?: BaseValue;
+  public minHeight?: BaseValue;
+  public maxHeight?: BaseValue;
   public position: Position = Position.STATIC;
   public display: Display = Display.INLINE;
   public left?: BaseValue;
@@ -157,7 +161,11 @@ export class Style {
       const value = attrs[k] + '';
       switch (key) {
         case 'width':
+        case 'minWidth':
+        case 'maxWidth':
         case 'height':
+        case 'minHeight':
+        case 'maxHeight':
           this[key] = BaseValue.of(value);
           break;
         case 'position':
@@ -469,7 +477,11 @@ export class Style {
   clone(): Style {
     const cloned = new Style();
     cloned.width = this.width;
+    cloned.minWidth = this.minWidth;
+    cloned.maxWidth = this.maxWidth;
     cloned.height = this.height;
+    cloned.minHeight = this.minHeight;
+    cloned.maxHeight = this.maxHeight;
     cloned.position = this.position;
     cloned.display = this.display;
     cloned.left = this.left;
@@ -607,6 +619,8 @@ export class Style {
       case 'marginLeft':
       case 'transformX':
       case 'width':
+      case 'minWidth':
+      case 'maxWidth':
       case 'left':
       case 'right':
       case 'perspectiveOriginX': {
@@ -623,6 +637,8 @@ export class Style {
       case 'marginBottom':
       case 'transformY':
       case 'height':
+      case 'minHeight':
+      case 'maxHeight':
       case 'top':
       case 'bottom':
       case 'perspectiveOriginY': {

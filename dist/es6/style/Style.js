@@ -97,7 +97,11 @@ export var Style = /*#__PURE__*/function () {
     _classCallCheck(this, Style);
 
     this.width = void 0;
+    this.minWidth = void 0;
+    this.maxWidth = void 0;
     this.height = void 0;
+    this.minHeight = void 0;
+    this.maxHeight = void 0;
     this.position = Position.STATIC;
     this.display = Display.INLINE;
     this.left = void 0;
@@ -160,7 +164,11 @@ export var Style = /*#__PURE__*/function () {
 
         switch (_key) {
           case 'width':
+          case 'minWidth':
+          case 'maxWidth':
           case 'height':
+          case 'minHeight':
+          case 'maxHeight':
             this[_key] = BaseValue.of(value);
             break;
 
@@ -548,7 +556,11 @@ export var Style = /*#__PURE__*/function () {
     value: function clone() {
       var cloned = new Style();
       cloned.width = this.width;
+      cloned.minWidth = this.minWidth;
+      cloned.maxWidth = this.maxWidth;
       cloned.height = this.height;
+      cloned.minHeight = this.minHeight;
+      cloned.maxHeight = this.maxHeight;
       cloned.position = this.position;
       cloned.display = this.display;
       cloned.left = this.left;
@@ -711,6 +723,8 @@ export var Style = /*#__PURE__*/function () {
         case 'marginLeft':
         case 'transformX':
         case 'width':
+        case 'minWidth':
+        case 'maxWidth':
         case 'left':
         case 'right':
         case 'perspectiveOriginX':
@@ -731,6 +745,8 @@ export var Style = /*#__PURE__*/function () {
         case 'marginBottom':
         case 'transformY':
         case 'height':
+        case 'minHeight':
+        case 'maxHeight':
         case 'top':
         case 'bottom':
         case 'perspectiveOriginY':

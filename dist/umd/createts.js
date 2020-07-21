@@ -2592,6 +2592,50 @@ var Container = (function (_super) {
         if (!this.style.height && contentHeight > contentRect.height) {
             this.rect.height += contentHeight - contentRect.height;
         }
+        if (this.parent) {
+            var parentWidth = this.parent.getContentWidth();
+            var parentHeight = this.parent.getContentWidth();
+            if (this.style.minWidth) {
+                var minWidth = this.style.minWidth.getValue(parentWidth);
+                var cw = this.getContentWidth();
+                if (this.style.boxSizing === Style_1.BoxSizing.BORDER_BOX) {
+                    minWidth -= this.rect.width - cw;
+                }
+                if (cw < minWidth) {
+                    this.rect.width += minWidth - cw;
+                }
+            }
+            if (this.style.maxWidth) {
+                var maxWidth = this.style.maxWidth.getValue(parentWidth);
+                var cw = this.getContentWidth();
+                if (this.style.boxSizing === Style_1.BoxSizing.BORDER_BOX) {
+                    maxWidth -= this.rect.width - cw;
+                }
+                if (cw > maxWidth) {
+                    this.rect.width -= cw - maxWidth;
+                }
+            }
+            if (this.style.minHeight) {
+                var minHeight = this.style.minHeight.getValue(parentHeight);
+                var ch = this.getContentHeight();
+                if (this.style.boxSizing === Style_1.BoxSizing.BORDER_BOX) {
+                    minHeight -= this.rect.height - ch;
+                }
+                if (ch < minHeight) {
+                    this.rect.width += minHeight - ch;
+                }
+            }
+            if (this.style.maxHeight) {
+                var maxHeight = this.style.maxHeight.getValue(parentHeight);
+                var ch = this.getContentHeight();
+                if (this.style.boxSizing === Style_1.BoxSizing.BORDER_BOX) {
+                    maxHeight -= this.rect.height - ch;
+                }
+                if (ch > maxHeight) {
+                    this.rect.width -= maxHeight - ch;
+                }
+            }
+        }
         for (var _f = 0, absolutes_1 = absolutes; _f < absolutes_1.length; _f++) {
             var child = absolutes_1[_f];
             LayoutUtils_1.LayoutUtils.updatePositionForAbsoluteElement(child, this.rect.width, this.rect.height);
@@ -7525,7 +7569,11 @@ var Style = (function () {
             var value = attrs[k] + '';
             switch (key) {
                 case 'width':
+                case 'minWidth':
+                case 'maxWidth':
                 case 'height':
+                case 'minHeight':
+                case 'maxHeight':
                     this[key] = BaseValue_1.BaseValue.of(value);
                     break;
                 case 'position':
@@ -7832,7 +7880,11 @@ var Style = (function () {
     Style.prototype.clone = function () {
         var cloned = new Style();
         cloned.width = this.width;
+        cloned.minWidth = this.minWidth;
+        cloned.maxWidth = this.maxWidth;
         cloned.height = this.height;
+        cloned.minHeight = this.minHeight;
+        cloned.maxHeight = this.maxHeight;
         cloned.position = this.position;
         cloned.display = this.display;
         cloned.left = this.left;
@@ -7962,6 +8014,8 @@ var Style = (function () {
             case 'marginLeft':
             case 'transformX':
             case 'width':
+            case 'minWidth':
+            case 'maxWidth':
             case 'left':
             case 'right':
             case 'perspectiveOriginX': {
@@ -7978,6 +8032,8 @@ var Style = (function () {
             case 'marginBottom':
             case 'transformY':
             case 'height':
+            case 'minHeight':
+            case 'maxHeight':
             case 'top':
             case 'bottom':
             case 'perspectiveOriginY': {

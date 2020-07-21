@@ -1,5 +1,7 @@
 import { HtmlParser } from '../parser/HtmlParser';
-import { Display, PointerEvents, Position, TextAlign, VerticalAlign } from '../style/Style';
+import {
+    BoxSizing, Display, PointerEvents, Position, TextAlign, VerticalAlign
+} from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
 import { XObject, XObjectEvent } from './XObject';
 
@@ -368,6 +370,53 @@ export class Container extends XObject {
     if (!this.style.height && contentHeight > contentRect.height) {
       this.rect.height += contentHeight - contentRect.height;
     }
+
+    if (this.parent) {
+      const parentWidth = this.parent.getContentWidth();
+      const parentHeight = this.parent.getContentWidth();
+
+      if (this.style.minWidth) {
+        let minWidth = this.style.minWidth.getValue(parentWidth);
+        const cw = this.getContentWidth();
+        if (this.style.boxSizing === BoxSizing.BORDER_BOX) {
+          minWidth -= this.rect.width - cw;
+        }
+        if (cw < minWidth) {
+          this.rect.width += minWidth - cw;
+        }
+      }
+      if (this.style.maxWidth) {
+        let maxWidth = this.style.maxWidth.getValue(parentWidth);
+        const cw = this.getContentWidth();
+        if (this.style.boxSizing === BoxSizing.BORDER_BOX) {
+          maxWidth -= this.rect.width - cw;
+        }
+        if (cw > maxWidth) {
+          this.rect.width -= cw - maxWidth;
+        }
+      }
+      if (this.style.minHeight) {
+        let minHeight = this.style.minHeight.getValue(parentHeight);
+        const ch = this.getContentHeight();
+        if (this.style.boxSizing === BoxSizing.BORDER_BOX) {
+          minHeight -= this.rect.height - ch;
+        }
+        if (ch < minHeight) {
+          this.rect.width += minHeight - ch;
+        }
+      }
+      if (this.style.maxHeight) {
+        let maxHeight = this.style.maxHeight.getValue(parentHeight);
+        const ch = this.getContentHeight();
+        if (this.style.boxSizing === BoxSizing.BORDER_BOX) {
+          maxHeight -= this.rect.height - ch;
+        }
+        if (ch > maxHeight) {
+          this.rect.width -= maxHeight - ch;
+        }
+      }
+    }
+
     // Step 4, arrange absolutes
     for (const child of absolutes) {
       LayoutUtils.updatePositionForAbsoluteElement(child, this.rect.width, this.rect.height);

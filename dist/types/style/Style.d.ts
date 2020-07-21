@@ -57,7 +57,11 @@ export declare class Style {
         [key: string]: string;
     };
     width?: BaseValue;
+    minWidth?: BaseValue;
+    maxWidth?: BaseValue;
     height?: BaseValue;
+    minHeight?: BaseValue;
+    maxHeight?: BaseValue;
     position: Position;
     display: Display;
     left?: BaseValue;
