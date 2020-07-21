@@ -8897,26 +8897,33 @@ var LayoutUtils = (function () {
     function LayoutUtils() {
     }
     LayoutUtils.updateSize = function (element, parentWidth, parentHeight) {
-        if (element.style.width && element.style.height) {
+        element.rect.height = element.rect.width = 0;
+        if (element.style.width) {
             element.rect.width = element.style.width.getValue(parentWidth);
+        }
+        if (element.style.minWidth) {
+            element.rect.width = Math.max(element.style.minWidth.getValue(parentWidth), element.rect.width);
+        }
+        if (element.style.maxWidth) {
+            element.rect.width = Math.min(element.style.maxWidth.getValue(parentWidth), element.rect.width);
+        }
+        if (element.style.height) {
             element.rect.height = element.style.height.getValue(parentHeight);
         }
-        else if (element.style.width) {
-            element.rect.width = element.style.width.getValue(parentWidth);
-            element.rect.height =
-                element.style.aspectRatio === undefined
-                    ? 0
-                    : element.rect.width / element.style.aspectRatio;
+        if (element.style.minHeight) {
+            element.rect.height = Math.max(element.style.minHeight.getValue(parentHeight), element.rect.height);
         }
-        else if (element.style.height) {
-            element.rect.height = element.style.height.getValue(parentHeight);
-            element.rect.width =
-                element.style.aspectRatio === undefined
-                    ? 0
-                    : element.rect.height * element.style.aspectRatio;
+        if (element.style.maxHeight) {
+            element.rect.height = Math.min(element.style.maxHeight.getValue(parentHeight), element.rect.height);
         }
-        else {
-            element.rect.height = element.rect.width = 0;
+        if (element.style.aspectRatio !== undefined) {
+            var width = element.rect.height * element.style.aspectRatio;
+            if (width >= element.rect.width) {
+                element.rect.width = width;
+            }
+            else {
+                element.rect.height = element.rect.width / element.style.aspectRatio;
+            }
         }
         if (element.style.boxSizing === Style_1.BoxSizing.CONTENT_BOX) {
             element.rect.width +=

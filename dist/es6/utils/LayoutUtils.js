@@ -29,18 +29,43 @@ export var LayoutUtils = /*#__PURE__*/function () {
   _createClass(LayoutUtils, null, [{
     key: "updateSize",
     value: function updateSize(element, parentWidth, parentHeight) {
-      if (element.style.width && element.style.height) {
+      element.rect.height = element.rect.width = 0;
+
+      if (element.style.width) {
         element.rect.width = element.style.width.getValue(parentWidth);
-        element.rect.height = element.style.height.getValue(parentHeight);
-      } else if (element.style.width) {
-        element.rect.width = element.style.width.getValue(parentWidth);
-        element.rect.height = element.style.aspectRatio === undefined ? 0 : element.rect.width / element.style.aspectRatio;
-      } else if (element.style.height) {
-        element.rect.height = element.style.height.getValue(parentHeight);
-        element.rect.width = element.style.aspectRatio === undefined ? 0 : element.rect.height * element.style.aspectRatio;
-      } else {
-        element.rect.height = element.rect.width = 0;
       }
+
+      if (element.style.minWidth) {
+        element.rect.width = Math.max(element.style.minWidth.getValue(parentWidth), element.rect.width);
+      }
+
+      if (element.style.maxWidth) {
+        element.rect.width = Math.min(element.style.maxWidth.getValue(parentWidth), element.rect.width);
+      }
+
+      if (element.style.height) {
+        element.rect.height = element.style.height.getValue(parentHeight);
+      }
+
+      if (element.style.minHeight) {
+        element.rect.height = Math.max(element.style.minHeight.getValue(parentHeight), element.rect.height);
+      }
+
+      if (element.style.maxHeight) {
+        element.rect.height = Math.min(element.style.maxHeight.getValue(parentHeight), element.rect.height);
+      } // Adjusts aspect ratio if any.
+
+
+      if (element.style.aspectRatio !== undefined) {
+        var width = element.rect.height * element.style.aspectRatio;
+
+        if (width >= element.rect.width) {
+          element.rect.width = width;
+        } else {
+          element.rect.height = element.rect.width / element.style.aspectRatio;
+        }
+      } // Adds border & padding size for content box.
+
 
       if (element.style.boxSizing === BoxSizing.CONTENT_BOX) {
         element.rect.width += (element.style.paddingLeft ? element.style.paddingLeft.getValue(element.rect.width) : 0) + (element.style.paddingRight ? element.style.paddingRight.getValue(element.rect.width) : 0) + (element.style.borderLeft ? element.style.borderLeft.width : 0) + (element.style.borderRight ? element.style.borderRight.width : 0);
