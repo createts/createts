@@ -438,6 +438,7 @@ export var Style = /*#__PURE__*/function () {
 
           case 'lineHeight':
             this.lineHeight = LineHeight.of(value);
+            break;
 
           case 'textAlign':
             this.textAlign = EnumUtils.fromStringOrUndefined(TextAlign, value);

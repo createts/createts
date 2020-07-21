@@ -7746,6 +7746,7 @@ var Style = (function () {
                 }
                 case 'lineHeight':
                     this.lineHeight = LineHeight_1.LineHeight.of(value);
+                    break;
                 case 'textAlign':
                     this.textAlign = EnumUtils_1.EnumUtils.fromStringOrUndefined(TextAlign, value);
                     break;

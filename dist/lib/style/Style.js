@@ -466,6 +466,7 @@ var Style = /*#__PURE__*/function () {
 
           case 'lineHeight':
             this.lineHeight = _LineHeight.LineHeight.of(value);
+            break;
 
           case 'textAlign':
             this.textAlign = _EnumUtils.EnumUtils.fromStringOrUndefined(TextAlign, value);

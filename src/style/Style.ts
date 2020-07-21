@@ -375,6 +375,7 @@ export class Style {
         }
         case 'lineHeight':
           this.lineHeight = LineHeight.of(value);
+          break;
         case 'textAlign':
           this.textAlign = EnumUtils.fromStringOrUndefined<TextAlign>(TextAlign, value);
           break;
