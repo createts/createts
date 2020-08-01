@@ -239,7 +239,7 @@ export class Color implements IAnimatable<Color> {
    * @param includeAlpha Indecate whether include alpha as well.
    * @returns a random color instance.
    */
-  public static random(includeAlpha: boolean): Color {
+  public static random(includeAlpha?: boolean): Color {
     return new Color(
       Math.random() * 255,
       Math.random() * 255,

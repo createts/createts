@@ -1,4 +1,5 @@
-export { Runtime } from './runtime/Runtime';
+export { Runtime , RuntimeType} from './runtime/Runtime';
+export { WechatMiniGameRuntime } from './runtime/WechatMiniGameRuntime';
 export { Ticker } from './Ticker';
 export { AnimationFactory } from './animation/AnimationFactory';
 export { AnimationValueType } from './animation/Animation';

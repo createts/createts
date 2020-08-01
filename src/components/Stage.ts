@@ -309,6 +309,11 @@ export class Stage extends Container {
     }
   }
 
+  public load(html: string, clear: boolean = true): Stage {
+    super.load(html, clear);
+    return this;
+  }
+
   /**
    * Enables the event listeners that stage adds to canvas.
    */
