@@ -8,6 +8,7 @@ import { LayoutUtils } from '../utils/LayoutUtils';
 import { Container } from './Container';
 import { TouchItem } from './TouchItem';
 import { XObject, XObjectEvent } from './XObject';
+import { initBaseValuesCanvas } from '../base/BaseValue';
 
 /**
  * An enum to identify how the stage instance do layout during the update process:
@@ -253,6 +254,7 @@ export class Stage extends Container {
       (this.option as { [key: string]: any })[k] = (option as { [key: string]: any })[k];
     }
     this.canvas = canvas;
+    initBaseValuesCanvas(canvas);
     this.css({
       width: '100%',
       height: '100%',

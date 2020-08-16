@@ -2,15 +2,21 @@ import { IAnimatable } from '../animation/Animation';
 
 export enum BaseValueUnit {
   PX = 1,
-  PERCENTAGE = 2
+  PERCENTAGE = 2,
+  VW = 3,
+}
+let canvas: HTMLCanvasElement;
+export function initBaseValuesCanvas(passinCanvas: HTMLCanvasElement): void {
+  canvas = passinCanvas;
 }
 
 /**
  * This class represents an immutable value object contains a number value and unit.
  *
- * There are 2 types of units:
+ * There are 3 types of units:
  * 1. PX: absolute value.
- * 1. PERCENTAGE: the percentage of parent value.
+ * 2. PERCENTAGE: the percentage of parent value.
+ * 3. vw: 1% length of the width
  */
 export class BaseValue implements IAnimatable<BaseValue> {
   public static ZERO = BaseValue.of('0');
@@ -30,6 +36,9 @@ export class BaseValue implements IAnimatable<BaseValue> {
       }
       if (value.endsWith('%')) {
         return new BaseValue(num, BaseValueUnit.PERCENTAGE);
+      } else if (value.endsWith('vw')) {
+        const oneVWLength = canvas.width / 100;
+        return new BaseValue(num * oneVWLength, BaseValueUnit.PX);
       } else {
         return new BaseValue(num, BaseValueUnit.PX);
       }
