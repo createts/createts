@@ -226,18 +226,6 @@ export class XObject extends EventDispatcher<XObjectEvent> {
   }
 
   /**
-   * Get root element of current element.
-   * @returns Root element.
-   */
-  public getStage(): Stage | null {
-    let element: XObject = this;
-    while (element.parent) {
-      element = element.parent;
-    }
-    return element instanceof Stage ? (element as Stage) : null;
-  }
-
-  /**
    * Checks whether this element is visible.
    * @returns True if it is visible, false otherwise.
    */
