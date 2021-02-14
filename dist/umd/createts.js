@@ -3426,13 +3426,6 @@ var Stage = (function (_super) {
         LayoutUtils_1.LayoutUtils.updateSize(this, canvasWidth, canvasHeight);
         LayoutUtils_1.LayoutUtils.updatePositionForAbsoluteElement(this, canvasWidth, canvasHeight);
     };
-    Stage.prototype.animate = function (element, override) {
-        if (override === void 0) { override = true; }
-        return this.animationFactory.create(element, override);
-    };
-    Stage.prototype.stopAnimation = function (element) {
-        this.animationFactory.removeByTarget(element);
-    };
     Stage.prototype.toString = function () {
         return "[Stage (id=" + this.id + ")]";
     };

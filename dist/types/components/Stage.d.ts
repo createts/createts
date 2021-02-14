@@ -1,4 +1,3 @@
-import { Animation, AnimationTarget } from '../animation/Animation';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Ticker } from '../Ticker';
 import { Container } from './Container';
@@ -47,8 +46,6 @@ export declare class Stage extends Container {
     static of(element: XObject): Stage | undefined;
     update(): void;
     calculateSize(): void;
-    animate(element: AnimationTarget, override?: boolean): Animation;
-    stopAnimation(element: AnimationTarget): void;
     toString(): string;
     private dispatchTouchEvent;
     private onTouchMove;

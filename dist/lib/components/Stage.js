@@ -589,45 +589,6 @@ var Stage = /*#__PURE__*/function (_Container) {
       _LayoutUtils.LayoutUtils.updatePositionForAbsoluteElement(this, canvasWidth, canvasHeight);
     }
     /**
-     * A wrapper function to use this stage's animationFactory to create animation for the given object.
-     *
-     * ```typescript
-     *
-     * const stage = ...;
-     * const element = ...;
-     *
-     * stage.animate(element, true).css({color: 'red'}, 1000, 'linear');
-     * ```
-     *
-     * @param element The target element to create the animation for.
-     * @param override Whether to remove the existing animation of this element.
-     */
-
-  }, {
-    key: "animate",
-    value: function animate(element) {
-      var override = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      return this.animationFactory.create(element, override);
-    }
-    /**
-     * A wrapper function to use this stage's animationFactory to stop animation for the given object.
-     *
-     * ```typescript
-     *
-     * const stage = ...;
-     * const element = ...;
-     *
-     * stage.stopAnimation(element);
-     * ```
-     * @param element The target element to create the animation for.
-     */
-
-  }, {
-    key: "stopAnimation",
-    value: function stopAnimation(element) {
-      this.animationFactory.removeByTarget(element);
-    }
-    /**
      * Returns a string representation of this stage object.
      * @returns a string representation of this stage object.
      */
