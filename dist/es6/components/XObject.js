@@ -31,6 +31,7 @@ import { Runtime } from '../runtime/Runtime';
 import { Display, Style, Visibility } from '../style/Style';
 import { DrawUtils } from '../utils/DrawUtils';
 import { LayoutUtils } from '../utils/LayoutUtils';
+import { Stage } from './Stage';
 
 /**
  * This class represents an event object for both touch event (in mobile devices) and mouse event
@@ -282,6 +283,22 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       return !event.defaultPrevented;
+    }
+    /**
+     * Get root element of current element.
+     * @returns Root element.
+     */
+
+  }, {
+    key: "getStage",
+    value: function getStage() {
+      var element = this;
+
+      while (element.parent) {
+        element = element.parent;
+      }
+
+      return element instanceof Stage ? element : null;
     }
     /**
      * Checks whether this element is visible.

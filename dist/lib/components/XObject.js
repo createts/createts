@@ -19,6 +19,8 @@ var _DrawUtils = require("../utils/DrawUtils");
 
 var _LayoutUtils = require("../utils/LayoutUtils");
 
+var _Stage = require("./Stage");
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
@@ -297,6 +299,22 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
       }
 
       return !event.defaultPrevented;
+    }
+    /**
+     * Get root element of current element.
+     * @returns Root element.
+     */
+
+  }, {
+    key: "getStage",
+    value: function getStage() {
+      var element = this;
+
+      while (element.parent) {
+        element = element.parent;
+      }
+
+      return element instanceof _Stage.Stage ? element : null;
     }
     /**
      * Checks whether this element is visible.

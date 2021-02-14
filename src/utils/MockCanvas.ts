@@ -27,7 +27,7 @@ export function any(): (_?: any) => boolean {
 }
 
 export function eq(value: any): (_?: any) => boolean {
-  return input => {
+  return (input) => {
     if (input.equals) {
       return input.equals(value);
     }
@@ -87,7 +87,7 @@ class Mocked {
 
   on(method: string, ...args: any): { returns: (_: any) => void } {
     return {
-      returns: value => {
+      returns: (value) => {
         this.expectations.push(new Expectation(method, args, value));
       }
     };
