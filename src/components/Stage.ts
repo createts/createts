@@ -458,40 +458,6 @@ export class Stage extends Container {
   }
 
   /**
-   * A wrapper function to use this stage's animationFactory to create animation for the given object.
-   *
-   * ```typescript
-   *
-   * const stage = ...;
-   * const element = ...;
-   *
-   * stage.animate(element, true).css({color: 'red'}, 1000, 'linear');
-   * ```
-   *
-   * @param element The target element to create the animation for.
-   * @param override Whether to remove the existing animation of this element.
-   */
-  public animate(element: AnimationTarget, override: boolean = true): Animation {
-    return this.animationFactory.create(element, override);
-  }
-
-  /**
-   * A wrapper function to use this stage's animationFactory to stop animation for the given object.
-   *
-   * ```typescript
-   *
-   * const stage = ...;
-   * const element = ...;
-   *
-   * stage.stopAnimation(element);
-   * ```
-   * @param element The target element to create the animation for.
-   */
-  public stopAnimation(element: AnimationTarget) {
-    this.animationFactory.removeByTarget(element);
-  }
-
-  /**
    * Returns a string representation of this stage object.
    * @returns a string representation of this stage object.
    */
