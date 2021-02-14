@@ -11,7 +11,7 @@ var _Style = require("../style/Style");
 
 var _LayoutUtils = require("../utils/LayoutUtils");
 
-var _XObject2 = require("./XObject");
+var _XObject = require("./XObject");
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -63,8 +63,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
  * container.addChild(obj);
  * ```
  */
-var Container = /*#__PURE__*/function (_XObject) {
-  _inherits(Container, _XObject);
+var Container = /*#__PURE__*/function (_IContainer) {
+  _inherits(Container, _IContainer);
 
   var _super = _createSuper(Container);
 
@@ -172,8 +172,8 @@ var Container = /*#__PURE__*/function (_XObject) {
         var idx = this.children.indexOf(child);
         this.children.splice(idx, 1);
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+        child.dispatchEvent(new _XObject.XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new _XObject.XObjectEvent('update', false, true, this));
         return this;
       } else {
         if (parent) {
@@ -182,8 +182,8 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.push(child);
-        child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', false, true, this));
+        child.dispatchEvent(new _XObject.XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new _XObject.XObjectEvent('update', false, true, this));
         return this;
       }
     }
@@ -234,8 +234,8 @@ var Container = /*#__PURE__*/function (_XObject) {
           this.children.splice(current, 1);
         }
 
-        child.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+        child.dispatchEvent(new _XObject.XObjectEvent('moved', false, true, child));
+        this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
         return this;
       } else {
         if (parent) {
@@ -244,8 +244,8 @@ var Container = /*#__PURE__*/function (_XObject) {
 
         child.parent = this;
         this.children.splice(index, 0, child);
-        child.dispatchEvent(new _XObject2.XObjectEvent('added', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+        child.dispatchEvent(new _XObject.XObjectEvent('added', false, true, child));
+        this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
         return this;
       }
     }
@@ -266,8 +266,8 @@ var Container = /*#__PURE__*/function (_XObject) {
       } else {
         this.children.splice(idx, 1);
         child.parent = undefined;
-        child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+        child.dispatchEvent(new _XObject.XObjectEvent('removed', false, true, child));
+        this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
         return child;
       }
     }
@@ -286,8 +286,8 @@ var Container = /*#__PURE__*/function (_XObject) {
 
       var child = this.children[index];
       this.children.splice(index, 1);
-      child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+      child.dispatchEvent(new _XObject.XObjectEvent('removed', false, true, child));
+      this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
       return child;
     }
     /**
@@ -308,7 +308,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var child = _step3.value;
-          child.dispatchEvent(new _XObject2.XObjectEvent('removed', false, true, child));
+          child.dispatchEvent(new _XObject.XObjectEvent('removed', false, true, child));
         }
       } catch (err) {
         _iterator3.e(err);
@@ -317,7 +317,7 @@ var Container = /*#__PURE__*/function (_XObject) {
       }
 
       this.children.length = 0;
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+      this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -340,7 +340,7 @@ var Container = /*#__PURE__*/function (_XObject) {
     key: "sortChildren",
     value: function sortChildren(sortFunction) {
       this.children.sort(sortFunction);
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+      this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -380,9 +380,9 @@ var Container = /*#__PURE__*/function (_XObject) {
       var o2 = this.children[index2];
       this.children[index1] = o2;
       this.children[index2] = o1;
-      o1.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o1));
-      o2.dispatchEvent(new _XObject2.XObjectEvent('moved', false, true, o2));
-      this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
+      o1.dispatchEvent(new _XObject.XObjectEvent('moved', false, true, o1));
+      o2.dispatchEvent(new _XObject.XObjectEvent('moved', false, true, o2));
+      this.dispatchEvent(new _XObject.XObjectEvent('update', true, true, this));
       return this;
     }
     /**
@@ -725,7 +725,7 @@ var Container = /*#__PURE__*/function (_XObject) {
   }]);
 
   return Container;
-}(_XObject2.XObject);
+}(_XObject.IContainer);
 
 exports.Container = Container;
 

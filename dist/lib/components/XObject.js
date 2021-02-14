@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.XObject = exports.XObjectEvent = void 0;
+exports.IContainer = exports.XObject = exports.XObjectEvent = void 0;
 
 var _Event2 = require("../base/Event");
 
@@ -883,3 +883,19 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
 }(_Event2.EventDispatcher);
 
 exports.XObject = XObject;
+
+var IContainer = /*#__PURE__*/function (_XObject) {
+  _inherits(IContainer, _XObject);
+
+  var _super3 = _createSuper(IContainer);
+
+  function IContainer() {
+    _classCallCheck(this, IContainer);
+
+    return _super3.apply(this, arguments);
+  }
+
+  return IContainer;
+}(XObject);
+
+exports.IContainer = IContainer;

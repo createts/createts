@@ -866,3 +866,16 @@ export var XObject = /*#__PURE__*/function (_EventDispatcher) {
 
   return XObject;
 }(EventDispatcher);
+export var IContainer = /*#__PURE__*/function (_XObject) {
+  _inherits(IContainer, _XObject);
+
+  var _super3 = _createSuper(IContainer);
+
+  function IContainer() {
+    _classCallCheck(this, IContainer);
+
+    return _super3.apply(this, arguments);
+  }
+
+  return IContainer;
+}(XObject);

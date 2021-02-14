@@ -10,7 +10,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-import { Container } from '../components/Container';
+import { IContainer } from '../components/XObject';
 var ParseState;
 
 (function (ParseState) {
@@ -384,7 +384,7 @@ export var HtmlParser = /*#__PURE__*/function () {
       var component = new type(options);
 
       if (node.children.length > 0) {
-        if (component instanceof Container) {
+        if (component instanceof IContainer) {
           var _iterator4 = _createForOfIteratorHelper(node.children),
               _step4;
 

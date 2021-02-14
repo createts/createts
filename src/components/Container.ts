@@ -1,9 +1,14 @@
 import { HtmlParser } from '../parser/HtmlParser';
 import {
-    BoxSizing, Display, PointerEvents, Position, TextAlign, VerticalAlign
+  BoxSizing,
+  Display,
+  PointerEvents,
+  Position,
+  TextAlign,
+  VerticalAlign
 } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
-import { XObject, XObjectEvent } from './XObject';
+import { IContainer, XObject, XObjectEvent } from './XObject';
 
 /**
  * A Container is a nestable display list that allows you to work with compound objects, it can be
@@ -19,7 +24,7 @@ import { XObject, XObjectEvent } from './XObject';
  * container.addChild(obj);
  * ```
  */
-export class Container extends XObject {
+export class Container extends IContainer {
   /**
    * A list of children elements.
    */
@@ -455,9 +460,11 @@ export class Container extends XObject {
             return result;
           }
         } else {
-          if (child.style.pointerEvents !== PointerEvents.NONE &&
+          if (
+            child.style.pointerEvents !== PointerEvents.NONE &&
             child.style.pointerEvents !== PointerEvents.CROSS &&
-            child.hitTest(pt.x, pt.y)) {
+            child.hitTest(pt.x, pt.y)
+          ) {
             return child;
           }
         }
@@ -493,7 +500,6 @@ export class Container extends XObject {
       }
     }
   }
-
 
   /**
    * Parse the input html and load as children.

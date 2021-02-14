@@ -37,7 +37,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import { HtmlParser } from '../parser/HtmlParser';
 import { BoxSizing, Display, PointerEvents, Position, TextAlign, VerticalAlign } from '../style/Style';
 import { LayoutUtils } from '../utils/LayoutUtils';
-import { XObject, XObjectEvent } from './XObject';
+import { IContainer, XObjectEvent } from './XObject';
 /**
  * A Container is a nestable display list that allows you to work with compound objects, it can be
  * use to build the tree structure of all the objects like DOM tree, and itself is also a XObject
@@ -53,8 +53,8 @@ import { XObject, XObjectEvent } from './XObject';
  * ```
  */
 
-export var Container = /*#__PURE__*/function (_XObject) {
-  _inherits(Container, _XObject);
+export var Container = /*#__PURE__*/function (_IContainer) {
+  _inherits(Container, _IContainer);
 
   var _super = _createSuper(Container);
 
@@ -714,6 +714,6 @@ export var Container = /*#__PURE__*/function (_XObject) {
   }]);
 
   return Container;
-}(XObject);
+}(IContainer);
 HtmlParser.registerTag('container', Container);
 HtmlParser.registerTag('div', Container);

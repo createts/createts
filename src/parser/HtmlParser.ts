@@ -1,5 +1,4 @@
-import { Container } from '../components/Container';
-import { XObject } from '../components/XObject';
+import { IContainer, XObject } from '../components/XObject';
 
 type Node = {
   tag: string;
@@ -298,11 +297,11 @@ export class HtmlParser {
     };
     const component = new type(options);
     if (node.children.length > 0) {
-      if (component instanceof Container) {
+      if (component instanceof IContainer) {
         for (const child of node.children) {
           const childComponent = this.node2Component(child);
           if (childComponent) {
-            (component as Container).addChild(childComponent);
+            (component as IContainer).addChild(childComponent);
           }
         }
       } else {

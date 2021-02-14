@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HtmlParser = void 0;
 
-var _Container = require("../components/Container");
+var _XObject = require("../components/XObject");
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -392,7 +392,7 @@ var HtmlParser = /*#__PURE__*/function () {
       var component = new type(options);
 
       if (node.children.length > 0) {
-        if (component instanceof _Container.Container) {
+        if (component instanceof _XObject.IContainer) {
           var _iterator4 = _createForOfIteratorHelper(node.children),
               _step4;
 

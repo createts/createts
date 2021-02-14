@@ -2758,7 +2758,7 @@ var Container = (function (_super) {
         return "[Container (id=" + this.id + ")]";
     };
     return Container;
-}(XObject_1.XObject));
+}(XObject_1.IContainer));
 exports.Container = Container;
 HtmlParser_1.HtmlParser.registerTag('container', Container);
 HtmlParser_1.HtmlParser.registerTag('div', Container);
@@ -4188,6 +4188,14 @@ var XObject = (function (_super) {
     return XObject;
 }(Event_1.EventDispatcher));
 exports.XObject = XObject;
+var IContainer = (function (_super) {
+    __extends(IContainer, _super);
+    function IContainer() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return IContainer;
+}(XObject));
+exports.IContainer = IContainer;
 
 
 /***/ }),
@@ -4735,7 +4743,7 @@ exports.FunctionParser = FunctionParser;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Container_1 = __webpack_require__(/*! ../components/Container */ "./src/components/Container.ts");
+var XObject_1 = __webpack_require__(/*! ../components/XObject */ "./src/components/XObject.ts");
 var ParseState;
 (function (ParseState) {
     ParseState[ParseState["START"] = 1] = "START";
@@ -5033,7 +5041,7 @@ var HtmlParser = (function () {
         };
         var component = new type(options);
         if (node.children.length > 0) {
-            if (component instanceof Container_1.Container) {
+            if (component instanceof XObject_1.IContainer) {
                 for (var _i = 0, _a = node.children; _i < _a.length; _i++) {
                     var child = _a[_i];
                     var childComponent = this.node2Component(child);

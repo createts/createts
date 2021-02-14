@@ -1,5 +1,5 @@
-import { XObject } from './XObject';
-export declare class Container extends XObject {
+import { IContainer, XObject } from './XObject';
+export declare class Container extends IContainer {
     readonly children: XObject[];
     findById(id: string): XObject | undefined;
     drawContent(ctx: CanvasRenderingContext2D): void;

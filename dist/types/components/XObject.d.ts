@@ -82,4 +82,7 @@ export declare class XObject extends EventDispatcher<XObjectEvent> {
     toString(): string;
     private doDispatchEvent;
 }
+export declare abstract class IContainer extends XObject {
+    abstract addChild(child: XObject): IContainer;
+}
 //# sourceMappingURL=XObject.d.ts.map

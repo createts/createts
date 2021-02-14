@@ -746,3 +746,7 @@ export class XObject extends EventDispatcher<XObjectEvent> {
     super.dispatchEvent(event);
   }
 }
+
+export abstract class IContainer extends XObject {
+  abstract addChild(child: XObject): IContainer;
+}
