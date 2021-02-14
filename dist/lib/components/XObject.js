@@ -19,8 +19,6 @@ var _DrawUtils = require("../utils/DrawUtils");
 
 var _LayoutUtils = require("../utils/LayoutUtils");
 
-var _Stage = require("./Stage");
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
@@ -212,6 +210,11 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
    */
 
   /**
+   * The animationFactory object manages the animations of children elements, this is optional, if
+   * not set, use its parent's animationFactory.
+   */
+
+  /**
    * Creates a XObject instance.
    * @param opt The options to create this object.
    */
@@ -227,6 +230,7 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
     _this2.parent = void 0;
     _this2.cacheCanvas = void 0;
     _this2.cacheState = CacheState.DISABLED;
+    _this2.animationFactory = void 0;
     _this2.style = new _Style.Style();
 
     var defaultStyle = _this2.getDefaultStyle();
@@ -301,22 +305,6 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
       return !event.defaultPrevented;
     }
     /**
-     * Get root element of current element.
-     * @returns Root element.
-     */
-
-  }, {
-    key: "getStage",
-    value: function getStage() {
-      var element = this;
-
-      while (element.parent) {
-        element = element.parent;
-      }
-
-      return element instanceof _Stage.Stage ? element : null;
-    }
-    /**
      * Checks whether this element is visible.
      * @returns True if it is visible, false otherwise.
      */
@@ -367,6 +355,79 @@ var XObject = /*#__PURE__*/function (_EventDispatcher) {
     value: function uncache() {
       this.cacheState = CacheState.DISABLED;
       delete this.cacheCanvas;
+    }
+    /**
+     * Returns available animation factory.
+     */
+
+  }, {
+    key: "getAnimationFactory",
+    value: function getAnimationFactory() {
+      var element = this;
+
+      while (element) {
+        if (element.animationFactory) {
+          return element.animationFactory;
+        }
+
+        element = element.parent;
+      }
+
+      return undefined;
+    }
+    /**
+     * A wrapper function to use its animationFactory to create animation for the given object.
+     *
+     * ```typescript
+     *
+     * const element = ...;
+     *
+     * element.animate(true).css({color: 'red'}, 1000, 'linear');
+     * ```
+     *
+     * It can be used to create animation for other object, i.e.
+     *
+     * ```typescript
+     *
+     * const element1 = ...;
+     * const element2 = ...;
+     *
+     * element1.animate(element2, true).css({color: 'red'}, 1000, 'linear');
+     * ```
+     *
+     * @param element The target element to create the animation for, or `override` it type is boolean.
+     * @param override Whether to remove the existing animation of this element.
+     */
+
+  }, {
+    key: "animate",
+    value: function animate(child) {
+      var override = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (typeof child === 'boolean') {
+        return this.getAnimationFactory().create(this, child);
+      } else {
+        var target = child === undefined ? this : child;
+        return this.getAnimationFactory().create(target, override);
+      }
+    }
+    /**
+     * A wrapper function to use this its animationFactory to stop animation for the given object.
+     *
+     * ```typescript
+     *
+     * const element = ...;
+     *
+     * element.stopAnimation();
+     * ```
+     * @param element The target element to create the animation for, default is `this`.
+     */
+
+  }, {
+    key: "stopAnimation",
+    value: function stopAnimation() {
+      var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
+      this.getAnimationFactory().removeByTarget(element);
     }
     /**
      * Marks the cache is invalidate and update in next render cycle.

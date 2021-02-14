@@ -1,10 +1,10 @@
-//-----------------------------------------------------------------------------
+// -------------------------------------------------------------
 // This is a sub set of wechat mini game api definition, visit
 // https://developers.weixin.qq.com/minigame/dev/guide/
 // for full apis.
-//-----------------------------------------------------------------------------
+// -------------------------------------------------------------
 
-declare function requestAnimationFrame(callback: Function): number;
+declare function requestAnimationFrame(callback: () => void): number;
 
 declare interface WXSystemInfo {
   windowWidth: number;
@@ -17,14 +17,14 @@ declare interface RequestTask {
 
 declare interface WX {
   createCanvas(): HTMLCanvasElement;
-  onTouchStart(handler: Function): void;
-  onTouchMove(handler: Function): void;
-  onTouchEnd(handler: Function): void;
-  onTouchCancel(handler: Function): void;
+  onTouchStart(handler: (e?: any) => void): void;
+  onTouchMove(handler: (e?: any) => void): void;
+  onTouchEnd(handler: (e?: any) => void): void;
+  onTouchCancel(handler: (e?: any) => void): void;
   getSystemInfoSync(): WXSystemInfo;
-  request(object: Object): RequestTask;
+  request(object: any): RequestTask;
   createImage(): any;
-  downloadFile(object: Object): any;
+  downloadFile(object: any): any;
   getFileSystemManager(): FileSystemManager;
   createOffscreenCanvas(): HTMLCanvasElement;
 }
@@ -35,17 +35,17 @@ declare interface FileSystemManager {
   readFile(obj: {
     filePath?: string;
     encoding?: string;
-    success?: Function;
-    fail?: Function;
-    complete?: Function;
+    success?: (e?: any) => void;
+    fail?: (e?: any) => void;
+    complete?: (e?: any) => void;
   }): void;
   writeFile(obj: {
     filePath?: string;
     data?: string | ArrayBuffer;
     encoding?: string;
-    success?: Function;
-    fail?: Function;
-    complete?: Function;
+    success?: (e?: any) => void;
+    fail?: (e?: any) => void;
+    complete?: (e?: any) => void;
   }): void;
 }
 

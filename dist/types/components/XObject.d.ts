@@ -1,3 +1,5 @@
+import { Animation, AnimationTarget } from '../animation/Animation';
+import { AnimationFactory } from '../animation/AnimationFactory';
 import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
@@ -34,18 +36,21 @@ export declare class XObject extends EventDispatcher<XObjectEvent> {
     parent?: Container;
     private cacheCanvas?;
     private cacheState;
+    animationFactory?: AnimationFactory;
     constructor(opt?: IXObjectOptions);
     getDefaultStyle(): {
         [key: string]: string | number;
     } | undefined;
     remove(): void;
     dispatchEvent(event: XObjectEvent): boolean;
-    getStage(): Stage | null;
     isVisible(): boolean;
     getCacheCanvas(): HTMLCanvasElement | undefined;
     isCached(): boolean;
     cache(): void;
     uncache(): void;
+    getAnimationFactory(): AnimationFactory | undefined;
+    animate(child?: AnimationTarget | boolean, override?: boolean): Animation;
+    stopAnimation(element?: AnimationTarget): void;
     invalidateCache(): void;
     draw(ctx: CanvasRenderingContext2D, ignoreCache?: boolean): void;
     drawBackground(ctx: CanvasRenderingContext2D, outerRect: RoundRect, innerRect: RoundRect): void;

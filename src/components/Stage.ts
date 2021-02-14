@@ -167,11 +167,6 @@ export class Stage extends Container {
   public readonly ticker: Ticker;
 
   /**
-   * The animationFactory object manages the animations of children elements of this stage.
-   */
-  public readonly animationFactory: AnimationFactory;
-
-  /**
    * The resourceRegistry object manages the resources (like images) used in this stage.
    * This is still under developing.
    */

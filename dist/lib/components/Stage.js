@@ -239,10 +239,6 @@ var Stage = /*#__PURE__*/function (_Container) {
    */
 
   /**
-   * The animationFactory object manages the animations of children elements of this stage.
-   */
-
-  /**
    * The resourceRegistry object manages the resources (like images) used in this stage.
    * This is still under developing.
    */
@@ -307,7 +303,6 @@ var Stage = /*#__PURE__*/function (_Container) {
     _this = _super.call(this);
     _this.canvas = void 0;
     _this.ticker = void 0;
-    _this.animationFactory = void 0;
     _this.resourceRegistry = void 0;
     _this.option = {
       /**

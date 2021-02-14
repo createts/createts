@@ -3842,7 +3842,6 @@ var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Run
 var Style_1 = __webpack_require__(/*! ../style/Style */ "./src/style/Style.ts");
 var DrawUtils_1 = __webpack_require__(/*! ../utils/DrawUtils */ "./src/utils/DrawUtils.ts");
 var LayoutUtils_1 = __webpack_require__(/*! ../utils/LayoutUtils */ "./src/utils/LayoutUtils.ts");
-var Stage_1 = __webpack_require__(/*! ./Stage */ "./src/components/Stage.ts");
 var XObjectEvent = (function (_super) {
     __extends(XObjectEvent, _super);
     function XObjectEvent(type, bubbles, cancelable, srcElement, touchItem, currentTarget) {
@@ -3924,13 +3923,6 @@ var XObject = (function (_super) {
         }
         return !event.defaultPrevented;
     };
-    XObject.prototype.getStage = function () {
-        var element = this;
-        while (element.parent) {
-            element = element.parent;
-        }
-        return element instanceof Stage_1.Stage ? element : null;
-    };
     XObject.prototype.isVisible = function () {
         return !!(this.style.visibility !== Style_1.Visibility.HIDDEN &&
             this.style.display !== Style_1.Display.NONE &&
@@ -3952,6 +3944,30 @@ var XObject = (function (_super) {
     XObject.prototype.uncache = function () {
         this.cacheState = CacheState.DISABLED;
         delete this.cacheCanvas;
+    };
+    XObject.prototype.getAnimationFactory = function () {
+        var element = this;
+        while (element) {
+            if (element.animationFactory) {
+                return element.animationFactory;
+            }
+            element = element.parent;
+        }
+        return undefined;
+    };
+    XObject.prototype.animate = function (child, override) {
+        if (override === void 0) { override = true; }
+        if (typeof child === 'boolean') {
+            return this.getAnimationFactory().create(this, child);
+        }
+        else {
+            var target = child === undefined ? this : child;
+            return this.getAnimationFactory().create(target, override);
+        }
+    };
+    XObject.prototype.stopAnimation = function (element) {
+        if (element === void 0) { element = this; }
+        this.getAnimationFactory().removeByTarget(element);
     };
     XObject.prototype.invalidateCache = function () {
         if (this.cacheState === CacheState.DISABLED) {

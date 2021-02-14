@@ -1,5 +1,4 @@
 import { Animation, AnimationTarget } from '../animation/Animation';
-import { AnimationFactory } from '../animation/AnimationFactory';
 import { ResourceRegistry } from '../resource/ResourceRegistry';
 import { Ticker } from '../Ticker';
 import { Container } from './Container';
@@ -28,7 +27,6 @@ export declare type StageOptions = {
 export declare class Stage extends Container {
     canvas: HTMLCanvasElement;
     readonly ticker: Ticker;
-    readonly animationFactory: AnimationFactory;
     readonly resourceRegistry: ResourceRegistry;
     readonly option: StageOptions;
     private touchItems;

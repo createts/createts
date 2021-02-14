@@ -1,3 +1,5 @@
+import { Animation, AnimationTarget } from '../animation/Animation';
+import { AnimationFactory } from '../animation/AnimationFactory';
 import { Event, EventDispatcher } from '../base/Event';
 import { Matrix2D } from '../base/Matrix2D';
 import { Point } from '../base/Point';
@@ -160,6 +162,12 @@ export class XObject extends EventDispatcher<XObjectEvent> {
   private cacheState: CacheState = CacheState.DISABLED;
 
   /**
+   * The animationFactory object manages the animations of children elements, this is optional, if
+   * not set, use its parent's animationFactory.
+   */
+  animationFactory?: AnimationFactory;
+
+  /**
    * Creates a XObject instance.
    * @param opt The options to create this object.
    */
@@ -271,6 +279,67 @@ export class XObject extends EventDispatcher<XObjectEvent> {
   public uncache() {
     this.cacheState = CacheState.DISABLED;
     delete this.cacheCanvas;
+  }
+
+  /**
+   * Returns available animation factory.
+   */
+  public getAnimationFactory(): AnimationFactory | undefined {
+    let element: XObject | undefined = this;
+    while (element) {
+      if (element.animationFactory) {
+        return element.animationFactory;
+      }
+      element = element.parent;
+    }
+    return undefined;
+  }
+
+  /**
+   * A wrapper function to use its animationFactory to create animation for the given object.
+   *
+   * ```typescript
+   *
+   * const element = ...;
+   *
+   * element.animate(true).css({color: 'red'}, 1000, 'linear');
+   * ```
+   *
+   * It can be used to create animation for other object, i.e.
+   *
+   * ```typescript
+   *
+   * const element1 = ...;
+   * const element2 = ...;
+   *
+   * element1.animate(element2, true).css({color: 'red'}, 1000, 'linear');
+   * ```
+   *
+   * @param element The target element to create the animation for, or `override` it type is boolean.
+   * @param override Whether to remove the existing animation of this element.
+   */
+  public animate(child?: AnimationTarget | boolean, override: boolean = true): Animation {
+    if (typeof child === 'boolean') {
+      return this.getAnimationFactory().create(this, child);
+    } else {
+      const target = child === undefined ? this : child;
+      return this.getAnimationFactory().create(target, override);
+    }
+  }
+
+  /**
+   * A wrapper function to use this its animationFactory to stop animation for the given object.
+   *
+   * ```typescript
+   *
+   * const element = ...;
+   *
+   * element.stopAnimation();
+   * ```
+   * @param element The target element to create the animation for, default is `this`.
+   */
+  public stopAnimation(element: AnimationTarget = this) {
+    this.getAnimationFactory().removeByTarget(element);
   }
 
   /**
