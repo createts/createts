@@ -13,10 +13,11 @@ export enum ImageClipRotation {
 export class ImageClip {
   private rect: Rect;
   private rotation: ImageClipRotation;
+  private scale = 1;
 
   public static of(clip: string): ImageClip {
     const pieces = clip.split(/\s+/);
-    if (pieces.length != 4 && pieces.length != 5) {
+    if (pieces.length != 4 && pieces.length != 5 && pieces.length != 6) {
       console.warn('invalid clip value:', clip);
       return undefined;
     }
@@ -48,12 +49,25 @@ export class ImageClip {
         return undefined;
       }
     }
-    return new ImageClip(new Rect(x, y, width, height), rotation);
+    let scale = 1;
+    if (pieces.length > 5) {
+      scale = parseFloat(pieces[5]);
+      if (isNaN(scale)) {
+        console.warn('invalid clip value:', clip);
+        return undefined;
+      }
+    }
+    return new ImageClip(new Rect(x, y, width, height), rotation, scale);
   }
 
-  public constructor(rect: Rect, rotation: ImageClipRotation = ImageClipRotation.Rotation0) {
+  public constructor(
+    rect: Rect,
+    rotation: ImageClipRotation = ImageClipRotation.Rotation0,
+    scale = 1.0
+  ) {
     this.rect = rect;
     this.rotation = rotation;
+    this.scale = scale;
   }
 
   public setRect(rect: Rect) {
@@ -64,18 +78,28 @@ export class ImageClip {
     this.rotation = rotation;
   }
 
+  public setScale(scale: number) {
+    this.scale = scale;
+  }
+
   public getWidth(): number {
-    return this.rotation === ImageClipRotation.Rotation90 ||
+    return (
+      this.scale *
+      (this.rotation === ImageClipRotation.Rotation90 ||
       this.rotation === ImageClipRotation.Rotation270
-      ? this.rect.height
-      : this.rect.width;
+        ? this.rect.height
+        : this.rect.width)
+    );
   }
 
   public getHeight(): number {
-    return this.rotation === ImageClipRotation.Rotation90 ||
+    return (
+      this.scale *
+      (this.rotation === ImageClipRotation.Rotation90 ||
       this.rotation === ImageClipRotation.Rotation270
-      ? this.rect.width
-      : this.rect.height;
+        ? this.rect.width
+        : this.rect.height)
+    );
   }
 
   public draw(ctx: CanvasRenderingContext2D, image: HTMLImageElement, rect: Rect) {
@@ -95,7 +119,17 @@ export class ImageClip {
         break;
       case ImageClipRotation.Rotation90:
         ctx.save();
-        let mtx = new Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
+        let mtx = new Matrix2D().appendTransform(
+          0,
+          rect.height * this.scale,
+          1,
+          1,
+          270,
+          0,
+          0,
+          0,
+          0
+        );
         ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
         ctx.drawImage(
           image,
@@ -112,7 +146,17 @@ export class ImageClip {
         break;
       case ImageClipRotation.Rotation180:
         ctx.save();
-        mtx = new Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
+        mtx = new Matrix2D().appendTransform(
+          rect.width * this.scale,
+          rect.height * this.scale,
+          1,
+          1,
+          180,
+          0,
+          0,
+          0,
+          0
+        );
         ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
         ctx.drawImage(
           image,
@@ -129,7 +173,7 @@ export class ImageClip {
         break;
       case ImageClipRotation.Rotation270:
         ctx.save();
-        mtx = new Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
+        mtx = new Matrix2D().appendTransform(rect.width * this.scale, 0, 1, 1, 90, 0, 0, 0, 0);
         ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
         ctx.drawImage(
           image,

@@ -32,7 +32,7 @@ var ImageClip = /*#__PURE__*/function () {
     value: function of(clip) {
       var pieces = clip.split(/\s+/);
 
-      if (pieces.length != 4 && pieces.length != 5) {
+      if (pieces.length != 4 && pieces.length != 5 && pieces.length != 6) {
         console.warn('invalid clip value:', clip);
         return undefined;
       }
@@ -76,19 +76,33 @@ var ImageClip = /*#__PURE__*/function () {
         }
       }
 
-      return new ImageClip(new _base.Rect(x, y, width, height), rotation);
+      var scale = 1;
+
+      if (pieces.length > 5) {
+        scale = parseFloat(pieces[5]);
+
+        if (isNaN(scale)) {
+          console.warn('invalid clip value:', clip);
+          return undefined;
+        }
+      }
+
+      return new ImageClip(new _base.Rect(x, y, width, height), rotation, scale);
     }
   }]);
 
   function ImageClip(rect) {
     var rotation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ImageClipRotation.Rotation0;
+    var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1.0;
 
     _classCallCheck(this, ImageClip);
 
     this.rect = void 0;
     this.rotation = void 0;
+    this.scale = 1;
     this.rect = rect;
     this.rotation = rotation;
+    this.scale = scale;
   }
 
   _createClass(ImageClip, [{
@@ -102,14 +116,19 @@ var ImageClip = /*#__PURE__*/function () {
       this.rotation = rotation;
     }
   }, {
+    key: "setScale",
+    value: function setScale(scale) {
+      this.scale = scale;
+    }
+  }, {
     key: "getWidth",
     value: function getWidth() {
-      return this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.height : this.rect.width;
+      return this.scale * (this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.height : this.rect.width);
     }
   }, {
     key: "getHeight",
     value: function getHeight() {
-      return this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.width : this.rect.height;
+      return this.scale * (this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.width : this.rect.height);
     }
   }, {
     key: "draw",
@@ -121,7 +140,7 @@ var ImageClip = /*#__PURE__*/function () {
 
         case ImageClipRotation.Rotation90:
           ctx.save();
-          var mtx = new _base.Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
+          var mtx = new _base.Matrix2D().appendTransform(0, rect.height * this.scale, 1, 1, 270, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
           ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
           ctx.restore();
@@ -129,7 +148,7 @@ var ImageClip = /*#__PURE__*/function () {
 
         case ImageClipRotation.Rotation180:
           ctx.save();
-          mtx = new _base.Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
+          mtx = new _base.Matrix2D().appendTransform(rect.width * this.scale, rect.height * this.scale, 1, 1, 180, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
           ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
           ctx.restore();
@@ -137,7 +156,7 @@ var ImageClip = /*#__PURE__*/function () {
 
         case ImageClipRotation.Rotation270:
           ctx.save();
-          mtx = new _base.Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
+          mtx = new _base.Matrix2D().appendTransform(rect.width * this.scale, 0, 1, 1, 90, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
           ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
           ctx.restore();
