@@ -2791,6 +2791,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
 var HtmlParser_1 = __webpack_require__(/*! ../parser/HtmlParser */ "./src/parser/HtmlParser.ts");
+var ImageClip_1 = __webpack_require__(/*! ../resource/ImageClip */ "./src/resource/ImageClip.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var XObject_1 = __webpack_require__(/*! ./XObject */ "./src/components/XObject.ts");
 var Img = (function (_super) {
@@ -2801,8 +2802,11 @@ var Img = (function (_super) {
             if (options.attributes.src) {
                 _this.setSrc(options.attributes.src);
             }
-            if (options.attributes.sourcerect) {
-                _this.sourceRect = Rect_1.Rect.of(options.attributes.sourcerect);
+            if (options.attributes.clip) {
+                _this.setImageClip(ImageClip_1.ImageClip.of(options.attributes.clip));
+            }
+            else if (options.attributes.sourcerect) {
+                _this.setSourceRect(Rect_1.Rect.of(options.attributes.sourcerect));
             }
         }
         return _this;
@@ -2825,14 +2829,23 @@ var Img = (function (_super) {
         return this;
     };
     Img.prototype.setSourceRect = function (sourceRect) {
-        this.sourceRect = sourceRect;
+        if (!this.imageClip) {
+            this.imageClip = new ImageClip_1.ImageClip(sourceRect);
+        }
+        else {
+            this.imageClip.setRect(sourceRect);
+        }
+        return this;
+    };
+    Img.prototype.setImageClip = function (imageClip) {
+        this.imageClip = imageClip;
         return this;
     };
     Img.prototype.calculateSize = function () {
         _super.prototype.calculateSize.call(this);
         if (!this.style.width) {
-            if (this.sourceRect) {
-                this.rect.width = this.sourceRect.width;
+            if (this.imageClip) {
+                this.rect.width = this.imageClip.getWidth();
             }
             else if (this.image) {
                 this.rect.width = this.image.width;
@@ -2845,8 +2858,8 @@ var Img = (function (_super) {
             }
         }
         if (!this.style.height) {
-            if (this.sourceRect) {
-                this.rect.height = this.sourceRect.height;
+            if (this.imageClip) {
+                this.rect.height = this.imageClip.getHeight();
             }
             else if (this.image) {
                 this.rect.height = this.image.height;
@@ -2871,8 +2884,8 @@ var Img = (function (_super) {
             return;
         }
         var rect = this.getContentRect();
-        if (this.sourceRect) {
-            ctx.drawImage(image, this.sourceRect.x, this.sourceRect.y, this.sourceRect.width, this.sourceRect.height, rect.x, rect.y, rect.width, rect.height);
+        if (this.imageClip) {
+            this.imageClip.draw(ctx, image, rect);
         }
         else {
             ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height);
@@ -5094,6 +5107,119 @@ __export(__webpack_require__(/*! ./HtmlParser */ "./src/parser/HtmlParser.ts"));
 
 /***/ }),
 
+/***/ "./src/resource/ImageClip.ts":
+/*!***********************************!*\
+  !*** ./src/resource/ImageClip.ts ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var base_1 = __webpack_require__(/*! ../base */ "./src/base/index.ts");
+var ImageClipRotation;
+(function (ImageClipRotation) {
+    ImageClipRotation[ImageClipRotation["Rotation0"] = 0] = "Rotation0";
+    ImageClipRotation[ImageClipRotation["Rotation90"] = 90] = "Rotation90";
+    ImageClipRotation[ImageClipRotation["Rotation180"] = 180] = "Rotation180";
+    ImageClipRotation[ImageClipRotation["Rotation270"] = 270] = "Rotation270";
+})(ImageClipRotation = exports.ImageClipRotation || (exports.ImageClipRotation = {}));
+var ImageClip = (function () {
+    function ImageClip(rect, rotation) {
+        if (rotation === void 0) { rotation = ImageClipRotation.Rotation0; }
+        this.rect = rect;
+        this.rotation = rotation;
+    }
+    ImageClip.of = function (clip) {
+        var pieces = clip.split(/\s+/);
+        if (pieces.length != 4 && pieces.length != 5) {
+            console.warn('invalid clip value:', clip);
+            return undefined;
+        }
+        var x = parseFloat(pieces[0]);
+        if (isNaN(x)) {
+            console.warn('invalid clip value:', clip);
+            return undefined;
+        }
+        var y = parseFloat(pieces[1]);
+        if (isNaN(y)) {
+            console.warn('invalid clip value:', clip);
+            return undefined;
+        }
+        var width = parseFloat(pieces[2]);
+        if (isNaN(width)) {
+            console.warn('invalid clip value:', clip);
+            return undefined;
+        }
+        var height = parseFloat(pieces[3]);
+        if (isNaN(height)) {
+            console.warn('invalid clip value:', clip);
+            return undefined;
+        }
+        var rotation = 0;
+        if (pieces.length > 4) {
+            rotation = parseInt(pieces[4]);
+            if (rotation !== 0 && rotation !== 90 && rotation !== 180 && rotation != 270) {
+                console.warn('invalid clip value:', clip);
+                return undefined;
+            }
+        }
+        return new ImageClip(new base_1.Rect(x, y, width, height), rotation);
+    };
+    ImageClip.prototype.setRect = function (rect) {
+        this.rect = rect;
+    };
+    ImageClip.prototype.setRotation = function (rotation) {
+        this.rotation = rotation;
+    };
+    ImageClip.prototype.getWidth = function () {
+        return this.rotation === ImageClipRotation.Rotation90 ||
+            this.rotation === ImageClipRotation.Rotation270
+            ? this.rect.height
+            : this.rect.width;
+    };
+    ImageClip.prototype.getHeight = function () {
+        return this.rotation === ImageClipRotation.Rotation90 ||
+            this.rotation === ImageClipRotation.Rotation270
+            ? this.rect.width
+            : this.rect.height;
+    };
+    ImageClip.prototype.draw = function (ctx, image, rect) {
+        switch (this.rotation) {
+            case ImageClipRotation.Rotation0:
+                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+                break;
+            case ImageClipRotation.Rotation90:
+                ctx.save();
+                var mtx = new base_1.Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
+                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+                ctx.restore();
+                break;
+            case ImageClipRotation.Rotation180:
+                ctx.save();
+                mtx = new base_1.Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
+                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+                ctx.restore();
+                break;
+            case ImageClipRotation.Rotation270:
+                ctx.save();
+                mtx = new base_1.Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
+                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
+                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+                ctx.restore();
+                break;
+        }
+    };
+    return ImageClip;
+}());
+exports.ImageClip = ImageClip;
+
+
+/***/ }),
+
 /***/ "./src/resource/ResourceRegistry.ts":
 /*!******************************************!*\
   !*** ./src/resource/ResourceRegistry.ts ***!
@@ -5385,6 +5511,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(/*! ./ResourceRegistry */ "./src/resource/ResourceRegistry.ts"));
+__export(__webpack_require__(/*! ./ImageClip */ "./src/resource/ImageClip.ts"));
 
 
 /***/ }),

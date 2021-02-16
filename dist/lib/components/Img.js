@@ -9,6 +9,8 @@ var _Rect = require("../base/Rect");
 
 var _HtmlParser = require("../parser/HtmlParser");
 
+var _ImageClip = require("../resource/ImageClip");
+
 var _ResourceRegistry = require("../resource/ResourceRegistry");
 
 var _XObject2 = require("./XObject");
@@ -52,15 +54,17 @@ var Img = /*#__PURE__*/function (_XObject) {
     _this = _super.call(this, options);
     _this.src = void 0;
     _this.image = void 0;
-    _this.sourceRect = void 0;
+    _this.imageClip = void 0;
 
     if (options && options.attributes) {
       if (options.attributes.src) {
         _this.setSrc(options.attributes.src);
       }
 
-      if (options.attributes.sourcerect) {
-        _this.sourceRect = _Rect.Rect.of(options.attributes.sourcerect);
+      if (options.attributes.clip) {
+        _this.setImageClip(_ImageClip.ImageClip.of(options.attributes.clip));
+      } else if (options.attributes.sourcerect) {
+        _this.setSourceRect(_Rect.Rect.of(options.attributes.sourcerect));
       }
     }
 
@@ -95,7 +99,18 @@ var Img = /*#__PURE__*/function (_XObject) {
   }, {
     key: "setSourceRect",
     value: function setSourceRect(sourceRect) {
-      this.sourceRect = sourceRect;
+      if (!this.imageClip) {
+        this.imageClip = new _ImageClip.ImageClip(sourceRect);
+      } else {
+        this.imageClip.setRect(sourceRect);
+      }
+
+      return this;
+    }
+  }, {
+    key: "setImageClip",
+    value: function setImageClip(imageClip) {
+      this.imageClip = imageClip;
       return this;
     }
     /**
@@ -108,8 +123,8 @@ var Img = /*#__PURE__*/function (_XObject) {
       _get(_getPrototypeOf(Img.prototype), "calculateSize", this).call(this);
 
       if (!this.style.width) {
-        if (this.sourceRect) {
-          this.rect.width = this.sourceRect.width;
+        if (this.imageClip) {
+          this.rect.width = this.imageClip.getWidth();
         } else if (this.image) {
           this.rect.width = this.image.width;
         } else if (this.src) {
@@ -122,8 +137,8 @@ var Img = /*#__PURE__*/function (_XObject) {
       }
 
       if (!this.style.height) {
-        if (this.sourceRect) {
-          this.rect.height = this.sourceRect.height;
+        if (this.imageClip) {
+          this.rect.height = this.imageClip.getHeight();
         } else if (this.image) {
           this.rect.height = this.image.height;
         } else if (this.src) {
@@ -152,8 +167,8 @@ var Img = /*#__PURE__*/function (_XObject) {
 
       var rect = this.getContentRect();
 
-      if (this.sourceRect) {
-        ctx.drawImage(image, this.sourceRect.x, this.sourceRect.y, this.sourceRect.width, this.sourceRect.height, rect.x, rect.y, rect.width, rect.height);
+      if (this.imageClip) {
+        this.imageClip.draw(ctx, image, rect);
       } else {
         ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height);
       }

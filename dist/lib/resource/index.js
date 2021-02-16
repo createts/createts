@@ -15,3 +15,15 @@ Object.keys(_ResourceRegistry).forEach(function (key) {
     }
   });
 });
+
+var _ImageClip = require("./ImageClip");
+
+Object.keys(_ImageClip).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _ImageClip[key];
+    }
+  });
+});

@@ -1,12 +1,13 @@
 import { Rect } from '../base/Rect';
 import { HtmlParser } from '../parser/HtmlParser';
+import { ImageClip } from '../resource/ImageClip';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { IXObjectOptions, XObject, XObjectEvent } from './XObject';
 
 export class Img extends XObject {
   private src?: string;
   private image?: HTMLImageElement;
-  private sourceRect?: Rect;
+  private imageClip?: ImageClip;
 
   constructor(options?: IXObjectOptions) {
     super(options);
@@ -14,8 +15,10 @@ export class Img extends XObject {
       if (options.attributes.src) {
         this.setSrc(options.attributes.src);
       }
-      if (options.attributes.sourcerect) {
-        this.sourceRect = Rect.of(options.attributes.sourcerect);
+      if (options.attributes.clip) {
+        this.setImageClip(ImageClip.of(options.attributes.clip));
+      } else if (options.attributes.sourcerect) {
+        this.setSourceRect(Rect.of(options.attributes.sourcerect));
       }
     }
   }
@@ -23,7 +26,7 @@ export class Img extends XObject {
   public setSrc(src: string): Img {
     if (this.src !== src) {
       this.src = src;
-      ResourceRegistry.DefaultInstance.add(this.src, ResourceType.IMAGE).then(image => {
+      ResourceRegistry.DefaultInstance.add(this.src, ResourceType.IMAGE).then((image) => {
         this.dispatchEvent(new XObjectEvent('update', true, true, this));
       });
     }
@@ -39,7 +42,16 @@ export class Img extends XObject {
   }
 
   public setSourceRect(sourceRect: Rect): Img {
-    this.sourceRect = sourceRect;
+    if (!this.imageClip) {
+      this.imageClip = new ImageClip(sourceRect);
+    } else {
+      this.imageClip.setRect(sourceRect);
+    }
+    return this;
+  }
+
+  public setImageClip(imageClip: ImageClip): Img {
+    this.imageClip = imageClip;
     return this;
   }
 
@@ -49,8 +61,8 @@ export class Img extends XObject {
   public calculateSize() {
     super.calculateSize();
     if (!this.style.width) {
-      if (this.sourceRect) {
-        this.rect.width = this.sourceRect.width;
+      if (this.imageClip) {
+        this.rect.width = this.imageClip.getWidth();
       } else if (this.image) {
         this.rect.width = this.image.width;
       } else if (this.src) {
@@ -61,8 +73,8 @@ export class Img extends XObject {
       }
     }
     if (!this.style.height) {
-      if (this.sourceRect) {
-        this.rect.height = this.sourceRect.height;
+      if (this.imageClip) {
+        this.rect.height = this.imageClip.getHeight();
       } else if (this.image) {
         this.rect.height = this.image.height;
       } else if (this.src) {
@@ -86,18 +98,8 @@ export class Img extends XObject {
       return;
     }
     const rect = this.getContentRect();
-    if (this.sourceRect) {
-      ctx.drawImage(
-        image,
-        this.sourceRect.x,
-        this.sourceRect.y,
-        this.sourceRect.width,
-        this.sourceRect.height,
-        rect.x,
-        rect.y,
-        rect.width,
-        rect.height
-      );
+    if (this.imageClip) {
+      this.imageClip.draw(ctx, image, rect);
     } else {
       ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height);
     }
