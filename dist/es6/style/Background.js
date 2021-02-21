@@ -1883,6 +1883,9 @@ export var Background = /*#__PURE__*/function () {
 
         case 'linear-gradient':
           return LinearGradientSource.of(func.arguments);
+
+        case '9patch':
+          return NinePatchSource.of(func.arguments);
       }
 
       return undefined;

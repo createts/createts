@@ -1212,6 +1212,8 @@ export class Background {
         return URLSource.of(func.arguments);
       case 'linear-gradient':
         return LinearGradientSource.of(func.arguments);
+      case '9patch':
+        return NinePatchSource.of(func.arguments);
     }
     return undefined;
   }
