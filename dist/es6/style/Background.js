@@ -15,9 +15,11 @@ import { Color } from '../base/Color';
 import { Rect } from '../base/Rect';
 import { CSSTokenizer } from '../parser/CSSTokenizer';
 import { FunctionParser } from '../parser/FunctionParser';
+import { ImageClip } from '../resource';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Runtime } from '../runtime/Runtime';
 import { EnumUtils } from '../utils/EnumUtils';
+import { StyleUtils } from '../utils/StyleUtils';
 /**
  * The global tokenizer to split background tokens.
  */
@@ -73,7 +75,9 @@ var URLSource = /*#__PURE__*/function () {
     _classCallCheck(this, URLSource);
 
     this.url = void 0;
+    this.imageClip = void 0;
     this.url = url;
+    this.imageClip = ImageClip.of(url);
     ResourceRegistry.DefaultInstance.add(url, ResourceType.IMAGE);
   }
   /**
@@ -85,9 +89,24 @@ var URLSource = /*#__PURE__*/function () {
 
 
   _createClass(URLSource, [{
-    key: "getSource",
-    value: function getSource(width, height) {
-      return ResourceRegistry.DefaultInstance.get(this.url);
+    key: "draw",
+    value: function draw(ctx, rect, srcRect) {
+      this.imageClip.draw(ctx, rect, srcRect);
+    }
+  }, {
+    key: "ready",
+    value: function ready() {
+      return this.imageClip.ready();
+    }
+  }, {
+    key: "width",
+    value: function width(originRect) {
+      return this.imageClip.getWidth();
+    }
+  }, {
+    key: "height",
+    value: function height(originRect) {
+      return this.imageClip.getHeight();
     }
     /**
      * Returns a string representation of this object.
@@ -127,7 +146,7 @@ var URLSource = /*#__PURE__*/function () {
  * example:
  *
  * ```css
- * background-image: linear-gradient('sample.png');
+ * background-image: linear-gradient(red, yellow, blue);
  * ```
  *
  * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
@@ -172,14 +191,14 @@ var LinearGradientSource = /*#__PURE__*/function () {
 
 
   _createClass(LinearGradientSource, [{
-    key: "getSource",
-    value: function getSource(width, height) {
+    key: "draw",
+    value: function draw(ctx, rect, srcRect) {
       if (this.parameters.length === 0) {
         return undefined;
       }
 
-      width = Math.round(width);
-      height = Math.round(height);
+      var width = Math.round(rect.width);
+      var height = Math.round(rect.height);
 
       if (this.canvas && this.canvas.width === width && this.canvas.height === height) {
         return this.canvas;
@@ -197,9 +216,9 @@ var LinearGradientSource = /*#__PURE__*/function () {
         this.canvas.height = height;
       }
 
-      var ctx = this.canvas.getContext('2d');
+      var canvasCtx = this.canvas.getContext('2d');
 
-      if (!ctx) {
+      if (!canvasCtx) {
         return undefined;
       }
 
@@ -210,23 +229,23 @@ var LinearGradientSource = /*#__PURE__*/function () {
         var where = this.parameters[0].substring(2).replace(/\s+/g, '');
 
         if (where === 'left') {
-          gradient = ctx.createLinearGradient(width - 1, 0, 0, 0);
+          gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, 0);
         } else if (where === 'right') {
-          gradient = ctx.createLinearGradient(0, 0, width - 1, 0);
+          gradient = canvasCtx.createLinearGradient(0, 0, width - 1, 0);
         } else if (where === 'top') {
-          gradient = ctx.createLinearGradient(0, height - 1, 0, 0);
+          gradient = canvasCtx.createLinearGradient(0, height - 1, 0, 0);
         } else if (where === 'bottom') {
-          gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+          gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
         } else if (where === 'lefttop') {
-          gradient = ctx.createLinearGradient(width - 1, height - 1, 0, 0);
+          gradient = canvasCtx.createLinearGradient(width - 1, height - 1, 0, 0);
         } else if (where === 'leftbottom') {
-          gradient = ctx.createLinearGradient(width - 1, 0, 0, height - 1);
+          gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, height - 1);
         } else if (where === 'righttop') {
-          gradient = ctx.createLinearGradient(0, height - 1, width - 1, 0);
+          gradient = canvasCtx.createLinearGradient(0, height - 1, width - 1, 0);
         } else if (where === 'rightbottom') {
-          gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+          gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
         } else {
-          gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+          gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
         }
 
         i++;
@@ -235,12 +254,12 @@ var LinearGradientSource = /*#__PURE__*/function () {
         // const deg = parseFloat(this.parameters[0]);
         // const r = Math.sqrt(width * width / 4 + height * height * 4);
         // const x = r * Math.
-        gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+        gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
         i++;
       }
 
       if (!gradient) {
-        gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+        gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
       }
 
       for (var last = -1; i < this.parameters.length; ++i) {
@@ -282,9 +301,24 @@ var LinearGradientSource = /*#__PURE__*/function () {
       } // Set the fill style and draw a rectangle
 
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
-      return this.canvas;
+      canvasCtx.fillStyle = gradient;
+      canvasCtx.fillRect(0, 0, width, height);
+      ctx.drawImage(this.canvas, 0, 0, width, height, rect.x, rect.y, rect.width, rect.height);
+    }
+  }, {
+    key: "ready",
+    value: function ready() {
+      return true;
+    }
+  }, {
+    key: "width",
+    value: function width(originRect) {
+      return originRect.width;
+    }
+  }, {
+    key: "height",
+    value: function height(originRect) {
+      return originRect.height;
     }
     /**
      * Returns a string representation of this object.
@@ -321,6 +355,218 @@ var LinearGradientSource = /*#__PURE__*/function () {
   }]);
 
   return LinearGradientSource;
+}();
+/**
+ * The NinePatchSource class implements IBackgroundImage for 9-patch function, for
+ * example:
+ *
+ * ```css
+ * background-image: 9patch('sample.png', 10, 20, 20, 10);
+ * ```
+ *
+ * The image will be splitted to 9 patches, the 4 corners are fixed size, and others
+ * will be extended to fill the whole area.
+ * <pre>
+ * |---------------------------------|
+ * |      |        ↑         |       |
+ * |      |       top        |       |
+ * |      |        ↓         |       |
+ * |------|------------------|-------|
+ * |      |                  |       |
+ * |←left→|                  |←right→|
+ * |      |                  |       |
+ * |------|------------------|-------|
+ * |      |        ↑         |       |
+ * |      |      bottom      |       |
+ * |      |        ↓         |       |
+ * |------|------------------|-------|
+ * </pre>
+ */
+
+
+var NinePatchSource = /*#__PURE__*/function () {
+  _createClass(NinePatchSource, null, [{
+    key: "of",
+
+    /**
+     * Create a LinearGradientSource instance form augments of linear-gradient function.
+     * @param value the arguments of linear-gradient function.
+     * @returns LinearGradientSource instance with given arguments.
+     */
+    value: function of(args) {
+      var padding = StyleUtils.parse4Dirs(args[1]);
+      return new NinePatchSource(ImageClip.of(args[0]), padding[0], padding[1], padding[2], padding[3]);
+    }
+    /**
+     * The source image clip.
+     */
+
+  }]);
+
+  /**
+   * Create a NinePatchSource instance form augments of 9patch function.
+   * @param imageClip the source image clip.
+   */
+  function NinePatchSource(imageClip, top, right, bottom, left) {
+    _classCallCheck(this, NinePatchSource);
+
+    this.args = void 0;
+    this.imageClip = void 0;
+    this.top = void 0;
+    this.right = void 0;
+    this.bottom = void 0;
+    this.left = void 0;
+    this.imageClip = imageClip;
+    this.top = top;
+    this.right = right;
+    this.bottom = bottom;
+    this.left = left;
+  }
+  /**
+   * Returns a drawable instance (canvas) for the specified size.
+   * @param width Specified drawable width.
+   * @param height Specified drawable height.
+   * @returns A canvas with given size and drawn by the linear-gradient function.
+   */
+
+
+  _createClass(NinePatchSource, [{
+    key: "draw",
+    value: function draw(ctx, rect, srcRect) {
+      if (!this.ready()) return;
+      var width = this.imageClip.getWidth();
+      var height = this.imageClip.getHeight();
+      var left = this.left.getValue(width);
+      var right = this.right.getValue(height);
+      var xcenter = width - left - right;
+
+      if (xcenter < 0) {
+        left = Math.round(left / (left + right) * width);
+        right = width - left;
+        xcenter = 0;
+      }
+
+      if (left + right > rect.width) {
+        left = Math.round(left / (left + right) * rect.width);
+        right = rect.width - left;
+        xcenter = 0;
+      }
+
+      var top = this.top.getValue(height);
+      var bottom = this.bottom.getValue(height);
+      var ycenter = height - top - bottom;
+
+      if (ycenter < 0) {
+        top = Math.round(top / (top + bottom) * height);
+        bottom = height - top;
+        ycenter = 0;
+      }
+
+      if (top + bottom > rect.height) {
+        top = Math.round(top / (top + bottom) * rect.height);
+        bottom = rect.height - top;
+        ycenter = 0;
+      } // draw top
+
+
+      if (top > 0) {
+        if (left > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.x, rect.y, left, top), new Rect(0, 0, left, top));
+        }
+
+        if (xcenter > 0 && rect.width - left - right > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.x + left, rect.y, rect.width - left - right, top), new Rect(left, 0, xcenter, top));
+        }
+
+        if (right > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.width - right, rect.y, right, top), new Rect(width - right, 0, right, top));
+        }
+      } // draw middle
+
+
+      if (ycenter > 0) {
+        var h = rect.height - top - bottom;
+        var y1 = rect.y + top;
+
+        if (h > 0) {
+          if (left > 0) {
+            this.imageClip.draw(ctx, new Rect(rect.x, y1, left, h), new Rect(0, top, left, ycenter));
+          }
+
+          if (xcenter > 0 && rect.width - left - right > 0) {
+            this.imageClip.draw(ctx, new Rect(rect.x + left, y1, rect.width - left - right, h), new Rect(left, top, xcenter, ycenter));
+          }
+
+          if (right > 0) {
+            this.imageClip.draw(ctx, new Rect(rect.width - right, y1, right, h), new Rect(width - right, top, right, ycenter));
+          }
+        }
+      } // draw bottom
+
+
+      if (bottom > 0) {
+        var _y = rect.y + rect.height - bottom;
+
+        var y2 = height - bottom;
+
+        if (left > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.x, _y, left, bottom), new Rect(0, y2, left, bottom));
+        }
+
+        if (xcenter > 0 && rect.width - left - right > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.x + left, _y, rect.width - left - right, bottom), new Rect(left, y2, xcenter, bottom));
+        }
+
+        if (right > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.width - right, _y, right, bottom), new Rect(width - right, y2, right, bottom));
+        }
+      }
+    }
+    /**
+     * Returns a string representation of this object.
+     * @returns a string representation of this object.
+     */
+
+  }, {
+    key: "toString",
+    value: function toString() {
+      return "9patch(".concat(this.args.join(','), ")");
+    }
+  }, {
+    key: "ready",
+    value: function ready() {
+      return true;
+    }
+  }, {
+    key: "width",
+    value: function width(originRect) {
+      return originRect.width;
+    }
+  }, {
+    key: "height",
+    value: function height(originRect) {
+      return originRect.height;
+    }
+    /**
+     * Creates a new LinearGradientSource with the same arguments.
+     * @returns a clone of this instance.
+     */
+
+  }, {
+    key: "clone",
+    value: function clone() {
+      return new NinePatchSource(this.imageClip.clone(), this.top.clone(), this.right.clone(), this.bottom.clone(), this.left.clone());
+    }
+    /**
+     * A callback function to destroy current instance.
+     */
+
+  }, {
+    key: "destroy",
+    value: function destroy() {}
+  }]);
+
+  return NinePatchSource;
 }();
 /**
  * The background-repeat type for horizontal and vertical axes.
@@ -1050,20 +1296,22 @@ export var Background = /*#__PURE__*/function () {
       // Color only.
       if (this.image.length === 0 && this.color && this.color.a > 0) {
         ctx.fillStyle = this.color.toString();
-        var rect;
+
+        var _rect;
+
         var clip = Background.getFromArray(this.clip, 0, BackgroundClip.BORDER_BOX);
 
         switch (clip) {
           case BackgroundClip.PADDING_BOX:
-            rect = target.getPaddingRect();
+            _rect = target.getPaddingRect();
             break;
 
           case BackgroundClip.CONTENT_BOX:
-            rect = target.getContentRect();
+            _rect = target.getContentRect();
             break;
 
           default:
-            rect = new Rect(0, 0, target.rect.width, target.rect.height);
+            _rect = new Rect(0, 0, target.rect.width, target.rect.height);
             break;
         }
 
@@ -1073,7 +1321,7 @@ export var Background = /*#__PURE__*/function () {
           innerRect.clip(ctx);
         }
 
-        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        ctx.fillRect(_rect.x, _rect.y, _rect.width, _rect.height);
         return;
       }
 
@@ -1085,33 +1333,32 @@ export var Background = /*#__PURE__*/function () {
         }
 
         var origin = Background.getFromArray(this.origin, i, BackgroundClip.BORDER_BOX);
-        var originRect = void 0;
+
+        var _originRect = void 0;
 
         switch (origin) {
           case BackgroundClip.PADDING_BOX:
             {
-              originRect = target.getPaddingRect();
+              _originRect = target.getPaddingRect();
               break;
             }
 
           case BackgroundClip.CONTENT_BOX:
             {
-              originRect = target.getContentRect();
+              _originRect = target.getContentRect();
               break;
             }
 
           default:
-            originRect = new Rect(0, 0, target.rect.width, target.rect.height);
+            _originRect = new Rect(0, 0, target.rect.width, target.rect.height);
             break;
         }
 
-        if (originRect.width < 1 || originRect.height < 1) {
+        if (_originRect.width < 1 || _originRect.height < 1) {
           continue;
         }
 
-        var img = source.getSource(originRect.width, originRect.height);
-
-        if (!img) {
+        if (!source.ready()) {
           continue;
         }
 
@@ -1149,42 +1396,42 @@ export var Background = /*#__PURE__*/function () {
           ctx.fillRect(clipRect.x, clipRect.y, clipRect.width, clipRect.height);
         }
 
-        var srcWidth = img.width;
-        var srcHeight = img.height;
+        var srcWidth = source.width(_originRect);
+        var srcHeight = source.height(_originRect);
         var scaledWidth = srcWidth;
         var scaledHeight = srcHeight;
-        var destX = originRect.x;
-        var destY = originRect.y; // Image size
+        var destX = _originRect.x;
+        var destY = _originRect.y; // Image size
 
         var size = this.size.length > i ? this.size[i] : BackgroundSize.DEFAULT; // Background size
 
         if (size.xType === BackgroundSizeType.CONTAIN) {
           var ratio = srcWidth / srcHeight;
 
-          if (ratio > originRect.width / originRect.height) {
-            scaledWidth = originRect.width;
+          if (ratio > _originRect.width / _originRect.height) {
+            scaledWidth = _originRect.width;
             scaledHeight = scaledWidth / ratio;
           } else {
-            scaledHeight = originRect.height;
+            scaledHeight = _originRect.height;
             scaledWidth = scaledHeight * ratio;
           }
         } else if (size.xType === BackgroundSizeType.COVER) {
           var _ratio = srcWidth / srcHeight;
 
-          if (_ratio < originRect.width / originRect.height) {
-            scaledWidth = originRect.width;
+          if (_ratio < _originRect.width / _originRect.height) {
+            scaledWidth = _originRect.width;
             scaledHeight = scaledWidth / _ratio;
           } else {
-            scaledHeight = originRect.height;
+            scaledHeight = _originRect.height;
             scaledWidth = scaledHeight * _ratio;
           }
         } else {
           if (size.xType === BackgroundSizeType.VALUE) {
-            scaledWidth = size.x.getValue(originRect.width);
+            scaledWidth = size.x.getValue(_originRect.width);
           }
 
           if (size.yType === BackgroundSizeType.VALUE) {
-            scaledHeight = size.y.getValue(originRect.height);
+            scaledHeight = size.y.getValue(_originRect.height);
           }
         }
 
@@ -1207,25 +1454,25 @@ export var Background = /*#__PURE__*/function () {
         var gapY = 0;
 
         if (repeatX === BackgroundRepeatType.SPACE) {
-          var count = Math.floor(originRect.width / scaledWidth);
+          var count = Math.floor(_originRect.width / scaledWidth);
 
           if (count === 1) {
-            gapX = originRect.width;
+            gapX = _originRect.width;
           } else {
-            gapX = (originRect.width - count * scaledWidth) / (count - 1);
+            gapX = (_originRect.width - count * scaledWidth) / (count - 1);
           }
 
-          destX = originRect.x;
+          destX = _originRect.x;
 
           while (destX > clipRect.x) {
             destX -= gapX + scaledWidth;
           }
         } else if (repeatX === BackgroundRepeatType.ROUND) {
-          var _count = Math.max(1, Math.floor(originRect.width / scaledWidth + 0.5));
+          var _count = Math.max(1, Math.floor(_originRect.width / scaledWidth + 0.5));
 
-          scaledWidth = originRect.width / _count;
+          scaledWidth = _originRect.width / _count;
           srcScaleX = scaledWidth / srcWidth;
-          destX = originRect.x;
+          destX = _originRect.x;
 
           while (destX > clipRect.x) {
             destX -= scaledWidth;
@@ -1235,16 +1482,16 @@ export var Background = /*#__PURE__*/function () {
             var position = this.position[i];
 
             if (position.xDir === BackgroundPositionType.CENTER) {
-              destX += (originRect.width - scaledWidth) * 50 / 100;
+              destX += (_originRect.width - scaledWidth) * 50 / 100;
             } else if (position.xDir === BackgroundPositionType.RIGHT) {
               if (position.x.unit === BaseValueUnit.PERCENTAGE) {
-                destX += (originRect.width - scaledWidth) * (100 - position.x.numberValue) / 100;
+                destX += (_originRect.width - scaledWidth) * (100 - position.x.numberValue) / 100;
               } else {
-                destX += originRect.width - scaledWidth - position.x.numberValue;
+                destX += _originRect.width - scaledWidth - position.x.numberValue;
               }
             } else {
               if (position.x.unit === BaseValueUnit.PERCENTAGE) {
-                destX += (originRect.width - scaledWidth) * position.x.numberValue / 100;
+                destX += (_originRect.width - scaledWidth) * position.x.numberValue / 100;
               } else {
                 destX += position.x.numberValue;
               }
@@ -1259,25 +1506,25 @@ export var Background = /*#__PURE__*/function () {
         }
 
         if (repeatY === BackgroundRepeatType.SPACE) {
-          var _count2 = Math.floor(originRect.height / scaledHeight);
+          var _count2 = Math.floor(_originRect.height / scaledHeight);
 
           if (_count2 === 1) {
-            gapY = originRect.height;
+            gapY = _originRect.height;
           } else {
-            gapY = (originRect.height - _count2 * scaledHeight) / (_count2 - 1);
+            gapY = (_originRect.height - _count2 * scaledHeight) / (_count2 - 1);
           }
 
-          destY = originRect.y;
+          destY = _originRect.y;
 
           while (destY > clipRect.y) {
             destY -= gapY + scaledHeight;
           }
         } else if (repeatY === BackgroundRepeatType.ROUND) {
-          var _count3 = Math.max(1, Math.floor(originRect.height / scaledHeight + 0.5));
+          var _count3 = Math.max(1, Math.floor(_originRect.height / scaledHeight + 0.5));
 
-          scaledHeight = originRect.height / _count3;
+          scaledHeight = _originRect.height / _count3;
           srcScaleY = scaledHeight / srcHeight;
-          destY = originRect.y;
+          destY = _originRect.y;
 
           while (destY > clipRect.y) {
             destY -= scaledHeight;
@@ -1287,16 +1534,16 @@ export var Background = /*#__PURE__*/function () {
             var _position = this.position[i];
 
             if (_position.yDir === BackgroundPositionType.CENTER) {
-              destY += (originRect.height - scaledHeight) * 50 / 100;
+              destY += (_originRect.height - scaledHeight) * 50 / 100;
             } else if (_position.yDir === BackgroundPositionType.BOTTOM) {
               if (_position.x.unit === BaseValueUnit.PERCENTAGE) {
-                destY += (originRect.height - scaledHeight) * (100 - _position.y.numberValue) / 100;
+                destY += (_originRect.height - scaledHeight) * (100 - _position.y.numberValue) / 100;
               } else {
-                destY += originRect.height - scaledHeight - _position.y.numberValue;
+                destY += _originRect.height - scaledHeight - _position.y.numberValue;
               }
             } else {
               if (_position.y.unit === BaseValueUnit.PERCENTAGE) {
-                destY += (originRect.height - scaledHeight) * _position.y.numberValue / 100;
+                destY += (_originRect.height - scaledHeight) * _position.y.numberValue / 100;
               } else {
                 destY += _position.y.numberValue;
               }
@@ -1317,7 +1564,7 @@ export var Background = /*#__PURE__*/function () {
           var x = destX;
 
           do {
-            this.drawImage(ctx, img, scaledWidth, scaledHeight, srcScaleX, srcScaleY, x, destY, clipRect);
+            this.drawImage(ctx, source, scaledWidth, scaledHeight, srcScaleX, srcScaleY, x, destY, clipRect);
             x += gapX + scaledWidth;
           } while (x < clipRight && repeatX !== BackgroundRepeatType.NO_REPEAT);
 
@@ -1360,7 +1607,7 @@ export var Background = /*#__PURE__*/function () {
 
   }, {
     key: "drawImage",
-    value: function drawImage(ctx, img, imgWidth, imgHeight, imageScaleX, imageScaleY, destX, destY, clip) {
+    value: function drawImage(ctx, source, imgWidth, imgHeight, imageScaleX, imageScaleY, destX, destY, clip) {
       var srcX = 0;
       var srcY = 0;
 
@@ -1385,7 +1632,7 @@ export var Background = /*#__PURE__*/function () {
         srcHeight = clip.height + clip.y - destY;
       }
 
-      ctx.drawImage(img, srcX / imageScaleX, srcY / imageScaleY, srcWidth / imageScaleX, srcHeight / imageScaleY, destX, destY, srcWidth, srcHeight);
+      source.draw(ctx, new Rect(destX, destY, srcWidth, srcHeight), new Rect(srcX / imageScaleX, srcY / imageScaleY, srcWidth / imageScaleX, srcHeight / imageScaleY));
     }
   }], [{
     key: "of",

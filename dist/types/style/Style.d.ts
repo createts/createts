@@ -121,7 +121,6 @@ export declare class Style {
     private fillSnapshotForAnimation;
     private static calculateAnimationBaseValue;
     private static parseBorderRadius;
-    private static parse4Dirs;
     private normalize;
 }
 //# sourceMappingURL=Style.d.ts.map

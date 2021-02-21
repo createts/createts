@@ -5,6 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 import { Matrix2D, Rect } from '../base';
+import { ResourceRegistry } from './ResourceRegistry';
 /**
  * Rotation types for an image clip, only 0/90/180/270 deg is supported.
  */
@@ -18,123 +19,197 @@ export var ImageClipRotation;
   ImageClipRotation[ImageClipRotation["Rotation270"] = 270] = "Rotation270";
 })(ImageClipRotation || (ImageClipRotation = {}));
 
+var REG_IMAGE_CLIP = /^(.+)#([0-9\.]+),([0-9\.]+),([0-9\.]+),([0-9\.]+)@?(0|90|180|270)?$/;
 export var ImageClip = /*#__PURE__*/function () {
   _createClass(ImageClip, null, [{
     key: "of",
+
+    /**
+     * Contruct an ImageClip instance from a string, the sytax is
+     * ```
+     * <image url>#<x>,<y>,<width>,<height>@<rotation>)
+     * ```
+     *
+     * It can be used in Img type, i.e.
+     * ```html
+     * <img src='sample.png#10,20,200,300@270' />
+     * <img src='sample.png#10,20,200,300' />
+     * <img src='sample.png' />
+     * ```
+     * @param clip a encoded string presents an image clip.
+     */
     value: function of(clip) {
-      var pieces = clip.split(/\s+/);
+      var silent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var matched = clip.match(REG_IMAGE_CLIP);
 
-      if (pieces.length != 4 && pieces.length != 5 && pieces.length != 6) {
-        console.warn('invalid clip value:', clip);
-        return undefined;
-      }
-
-      var x = parseFloat(pieces[0]);
-
-      if (isNaN(x)) {
-        console.warn('invalid clip value:', clip);
-        return undefined;
-      }
-
-      var y = parseFloat(pieces[1]);
-
-      if (isNaN(y)) {
-        console.warn('invalid clip value:', clip);
-        return undefined;
-      }
-
-      var width = parseFloat(pieces[2]);
-
-      if (isNaN(width)) {
-        console.warn('invalid clip value:', clip);
-        return undefined;
-      }
-
-      var height = parseFloat(pieces[3]);
-
-      if (isNaN(height)) {
-        console.warn('invalid clip value:', clip);
-        return undefined;
-      }
-
-      var rotation = 0;
-
-      if (pieces.length > 4) {
-        rotation = parseInt(pieces[4]);
-
-        if (rotation !== 0 && rotation !== 90 && rotation !== 180 && rotation != 270) {
-          console.warn('invalid clip value:', clip);
-          return undefined;
+      if (!matched) {
+        if (clip.indexOf('#') < 0) {
+          return new ImageClip(clip);
+        } else if (!silent) {
+          console.warn("invalid image clip:".concat(clip));
         }
+
+        return undefined;
       }
 
-      var scale = 1;
-
-      if (pieces.length > 5) {
-        scale = parseFloat(pieces[5]);
-
-        if (isNaN(scale)) {
-          console.warn('invalid clip value:', clip);
-          return undefined;
-        }
-      }
-
-      return new ImageClip(new Rect(x, y, width, height), rotation, scale);
+      return new ImageClip(matched[1], new Rect(parseFloat(matched[2]), parseFloat(matched[3]), parseFloat(matched[4]), parseFloat(matched[5])), matched[6] ? parseInt(matched[6]) : 0);
     }
   }]);
 
-  function ImageClip(rect) {
-    var rotation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ImageClipRotation.Rotation0;
-    var scale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1.0;
+  function ImageClip(src, rect) {
+    var rotation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ImageClipRotation.Rotation0;
+    var scale = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1.0;
 
     _classCallCheck(this, ImageClip);
 
+    this.src = void 0;
+    this.image = void 0;
     this.rect = void 0;
     this.rotation = void 0;
     this.scale = 1;
+    this.src = src;
     this.rect = rect;
     this.rotation = rotation;
     this.scale = scale;
   }
 
   _createClass(ImageClip, [{
+    key: "ready",
+    value: function ready() {
+      return !!this.getImage();
+    }
+  }, {
+    key: "getSrc",
+    value: function getSrc() {
+      return this.src;
+    }
+  }, {
+    key: "setImage",
+    value: function setImage(image) {
+      this.image = image;
+      return this;
+    }
+  }, {
+    key: "setSrc",
+    value: function setSrc(src) {
+      this.src = src;
+      return this;
+    }
+  }, {
+    key: "getRect",
+    value: function getRect() {
+      return this.rect;
+    }
+  }, {
+    key: "getRotation",
+    value: function getRotation() {
+      return this.rotation;
+    }
+  }, {
+    key: "getScale",
+    value: function getScale() {
+      return this.scale;
+    }
+  }, {
     key: "setRect",
     value: function setRect(rect) {
       this.rect = rect;
+      return this;
     }
   }, {
     key: "setRotation",
     value: function setRotation(rotation) {
       this.rotation = rotation;
+      return this;
     }
   }, {
     key: "setScale",
     value: function setScale(scale) {
       this.scale = scale;
+      return this;
+    }
+  }, {
+    key: "getImage",
+    value: function getImage() {
+      return this.image ? this.image : ResourceRegistry.DefaultInstance.get(this.src);
     }
   }, {
     key: "getWidth",
     value: function getWidth() {
-      return this.scale * (this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.height : this.rect.width);
+      if (!this.rect) {
+        var image = this.getImage();
+        return image ? (this.needChangeSize() ? image.height : image.width) * this.scale : 0;
+      } else {
+        return this.scale * (this.needChangeSize() ? this.rect.height : this.rect.width);
+      }
+    }
+  }, {
+    key: "needChangeSize",
+    value: function needChangeSize() {
+      return this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270;
     }
   }, {
     key: "getHeight",
     value: function getHeight() {
-      return this.scale * (this.rotation === ImageClipRotation.Rotation90 || this.rotation === ImageClipRotation.Rotation270 ? this.rect.width : this.rect.height);
+      if (!this.rect) {
+        var image = this.getImage();
+        return image ? (this.needChangeSize() ? image.width : image.height) * this.scale : 0;
+      } else {
+        return this.scale * (this.needChangeSize() ? this.rect.width : this.rect.height);
+      }
     }
   }, {
     key: "draw",
-    value: function draw(ctx, image, rect) {
+    value: function draw(ctx, rect, src) {
+      var image = this.getImage();
+      if (!image) return;
+      var x = this.rect ? this.rect.x : 0;
+      var y = this.rect ? this.rect.y : 0;
+      var w = this.rect ? this.rect.width : image.width;
+      var h = this.rect ? this.rect.height : image.height;
+
+      if (src) {
+        switch (this.rotation) {
+          case ImageClipRotation.Rotation0:
+            x += src.x;
+            y += src.y;
+            w = src.width;
+            h = src.height;
+            break;
+
+          case ImageClipRotation.Rotation90:
+            x += src.y;
+            y += h - src.x - src.width;
+            w = src.height;
+            h = src.width;
+            break;
+
+          case ImageClipRotation.Rotation180:
+            x += w - src.x - src.width;
+            y += h - src.y - src.height;
+            w = src.width;
+            h = src.height;
+            break;
+
+          case ImageClipRotation.Rotation270:
+            x += h - src.y - src.height;
+            y += w - src.x - src.width;
+            w = src.width;
+            h = src.height;
+            break;
+        }
+      }
+
       switch (this.rotation) {
         case ImageClipRotation.Rotation0:
-          ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
           break;
 
         case ImageClipRotation.Rotation90:
           ctx.save();
           var mtx = new Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
           ctx.restore();
           break;
 
@@ -142,7 +217,7 @@ export var ImageClip = /*#__PURE__*/function () {
           ctx.save();
           mtx = new Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
           ctx.restore();
           break;
 
@@ -150,10 +225,15 @@ export var ImageClip = /*#__PURE__*/function () {
           ctx.save();
           mtx = new Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
           ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
           ctx.restore();
           break;
       }
+    }
+  }, {
+    key: "clone",
+    value: function clone() {
+      return new ImageClip(this.src, this.rect.clone(), this.rotation, this.scale).setImage(this.image);
     }
   }]);
 

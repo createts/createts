@@ -15,6 +15,8 @@ var _EnumUtils = require("../utils/EnumUtils");
 
 var _StringUtils = require("../utils/StringUtils");
 
+var _StyleUtils = require("../utils/StyleUtils");
+
 var _Background = require("./Background");
 
 var _Border = require("./Border");
@@ -216,7 +218,7 @@ var Style = /*#__PURE__*/function () {
             break;
 
           case 'padding':
-            var paddings = Style.parse4Dirs(value);
+            var paddings = _StyleUtils.StyleUtils.parse4Dirs(value);
 
             if (paddings) {
               this.paddingTop = paddings[0];
@@ -235,7 +237,7 @@ var Style = /*#__PURE__*/function () {
             break;
 
           case 'margin':
-            var margins = Style.parse4Dirs(value);
+            var margins = _StyleUtils.StyleUtils.parse4Dirs(value);
 
             if (margins) {
               this.marginTop = margins[0];
@@ -1083,14 +1085,15 @@ var Style = /*#__PURE__*/function () {
         var ps = value.toString().split('/');
 
         if (ps.length === 1) {
-          var _borderRadius = Style.parse4Dirs(ps[0]);
+          var _borderRadius = _StyleUtils.StyleUtils.parse4Dirs(ps[0]);
 
           if (_borderRadius) {
             return [new _BorderRadius.BorderRadius(_borderRadius[0]), new _BorderRadius.BorderRadius(_borderRadius[1]), new _BorderRadius.BorderRadius(_borderRadius[2]), new _BorderRadius.BorderRadius(_borderRadius[3])];
           }
         } else if (ps.length === 2) {
-          var borderRadius1 = Style.parse4Dirs(ps[0]);
-          var borderRadius2 = Style.parse4Dirs(ps[1]);
+          var borderRadius1 = _StyleUtils.StyleUtils.parse4Dirs(ps[0]);
+
+          var borderRadius2 = _StyleUtils.StyleUtils.parse4Dirs(ps[1]);
 
           if (borderRadius1 && borderRadius2) {
             return [new _BorderRadius.BorderRadius(borderRadius1[0], borderRadius2[0]), new _BorderRadius.BorderRadius(borderRadius1[1], borderRadius2[1]), new _BorderRadius.BorderRadius(borderRadius1[2], borderRadius2[2]), new _BorderRadius.BorderRadius(borderRadius1[3], borderRadius2[3])];
@@ -1098,23 +1101,6 @@ var Style = /*#__PURE__*/function () {
         }
 
         console.warn("invalid border radius:".concat(value));
-        return undefined;
-      }
-    }
-  }, {
-    key: "parse4Dirs",
-    value: function parse4Dirs(value) {
-      var pieces = value.trim().split(/\s+/);
-
-      if (pieces.length === 1) {
-        return [_BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[0])];
-      } else if (pieces.length === 2) {
-        return [_BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[1]), _BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[1])];
-      } else if (pieces.length === 3) {
-        return [_BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[1]), _BaseValue.BaseValue.of(pieces[2]), _BaseValue.BaseValue.of(pieces[1])];
-      } else if (pieces.length === 4) {
-        return [_BaseValue.BaseValue.of(pieces[0]), _BaseValue.BaseValue.of(pieces[1]), _BaseValue.BaseValue.of(pieces[2]), _BaseValue.BaseValue.of(pieces[3])];
-      } else {
         return undefined;
       }
     }

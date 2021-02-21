@@ -52,8 +52,6 @@ var Img = /*#__PURE__*/function (_XObject) {
     _classCallCheck(this, Img);
 
     _this = _super.call(this, options);
-    _this.src = void 0;
-    _this.image = void 0;
     _this.imageClip = void 0;
 
     if (options && options.attributes) {
@@ -61,11 +59,13 @@ var Img = /*#__PURE__*/function (_XObject) {
         _this.setSrc(options.attributes.src);
       }
 
-      if (options.attributes.clip) {
-        _this.setImageClip(_ImageClip.ImageClip.of(options.attributes.clip));
-      } else if (options.attributes.sourcerect) {
+      if (options.attributes.sourcerect) {
         _this.setSourceRect(_Rect.Rect.of(options.attributes.sourcerect));
       }
+    }
+
+    if (!_this.imageClip) {
+      _this.imageClip = _ImageClip.ImageClip.of('');
     }
 
     return _this;
@@ -76,41 +76,24 @@ var Img = /*#__PURE__*/function (_XObject) {
     value: function setSrc(src) {
       var _this2 = this;
 
-      if (this.src !== src) {
-        this.src = src;
+      this.imageClip = _ImageClip.ImageClip.of(src);
 
-        _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.src, _ResourceRegistry.ResourceType.IMAGE).then(function (image) {
-          _this2.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, _this2));
-        });
-      }
+      _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.imageClip.getSrc(), _ResourceRegistry.ResourceType.IMAGE).then(function (image) {
+        _this2.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, _this2));
+      });
 
       return this;
     }
   }, {
     key: "setImage",
     value: function setImage(image) {
-      if (this.image !== image) {
-        this.image = image;
-        this.dispatchEvent(new _XObject2.XObjectEvent('update', true, true, this));
-      }
-
+      this.imageClip.setImage(image);
       return this;
     }
   }, {
     key: "setSourceRect",
     value: function setSourceRect(sourceRect) {
-      if (!this.imageClip) {
-        this.imageClip = new _ImageClip.ImageClip(sourceRect);
-      } else {
-        this.imageClip.setRect(sourceRect);
-      }
-
-      return this;
-    }
-  }, {
-    key: "setImageClip",
-    value: function setImageClip(imageClip) {
-      this.imageClip = imageClip;
+      this.imageClip.setRect(sourceRect);
       return this;
     }
     /**
@@ -123,55 +106,17 @@ var Img = /*#__PURE__*/function (_XObject) {
       _get(_getPrototypeOf(Img.prototype), "calculateSize", this).call(this);
 
       if (!this.style.width) {
-        if (this.imageClip) {
-          this.rect.width = this.imageClip.getWidth();
-        } else if (this.image) {
-          this.rect.width = this.image.width;
-        } else if (this.src) {
-          var image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
-
-          if (image) {
-            this.rect.width = image.width;
-          }
-        }
+        this.rect.width = this.imageClip.getWidth();
       }
 
       if (!this.style.height) {
-        if (this.imageClip) {
-          this.rect.height = this.imageClip.getHeight();
-        } else if (this.image) {
-          this.rect.height = this.image.height;
-        } else if (this.src) {
-          var _image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
-
-          if (_image) {
-            this.rect.height = _image.height;
-          }
-        }
+        this.rect.height = this.imageClip.getHeight();
       }
     }
   }, {
     key: "drawContent",
     value: function drawContent(ctx) {
-      var image;
-
-      if (this.image) {
-        image = this.image;
-      } else if (this.src) {
-        image = _ResourceRegistry.ResourceRegistry.DefaultInstance.get(this.src);
-      }
-
-      if (!image) {
-        return;
-      }
-
-      var rect = this.getContentRect();
-
-      if (this.imageClip) {
-        this.imageClip.draw(ctx, image, rect);
-      } else {
-        ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height);
-      }
+      this.imageClip.draw(ctx, this.getContentRect());
     }
   }]);
 

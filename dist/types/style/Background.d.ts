@@ -1,5 +1,6 @@
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
+import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
 import { XObject } from '../components/XObject';
 export declare enum BackgroundAttachment {
@@ -9,7 +10,10 @@ interface IBgAttribute<T> {
     clone(): T;
 }
 interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
-    getSource(width: number, height: number): any;
+    draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
+    ready(): boolean;
+    width(originRect: Rect): number;
+    height(originRect: Rect): number;
     toString(): string;
     destroy(): void;
 }

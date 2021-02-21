@@ -2802,94 +2802,42 @@ var Img = (function (_super) {
             if (options.attributes.src) {
                 _this.setSrc(options.attributes.src);
             }
-            if (options.attributes.clip) {
-                _this.setImageClip(ImageClip_1.ImageClip.of(options.attributes.clip));
-            }
-            else if (options.attributes.sourcerect) {
+            if (options.attributes.sourcerect) {
                 _this.setSourceRect(Rect_1.Rect.of(options.attributes.sourcerect));
             }
+        }
+        if (!_this.imageClip) {
+            _this.imageClip = ImageClip_1.ImageClip.of('');
         }
         return _this;
     }
     Img.prototype.setSrc = function (src) {
         var _this = this;
-        if (this.src !== src) {
-            this.src = src;
-            ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.src, ResourceRegistry_1.ResourceType.IMAGE).then(function (image) {
-                _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
-            });
-        }
+        this.imageClip = ImageClip_1.ImageClip.of(src);
+        ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.imageClip.getSrc(), ResourceRegistry_1.ResourceType.IMAGE).then(function (image) {
+            _this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, _this));
+        });
         return this;
     };
     Img.prototype.setImage = function (image) {
-        if (this.image !== image) {
-            this.image = image;
-            this.dispatchEvent(new XObject_1.XObjectEvent('update', true, true, this));
-        }
+        this.imageClip.setImage(image);
         return this;
     };
     Img.prototype.setSourceRect = function (sourceRect) {
-        if (!this.imageClip) {
-            this.imageClip = new ImageClip_1.ImageClip(sourceRect);
-        }
-        else {
-            this.imageClip.setRect(sourceRect);
-        }
-        return this;
-    };
-    Img.prototype.setImageClip = function (imageClip) {
-        this.imageClip = imageClip;
+        this.imageClip.setRect(sourceRect);
         return this;
     };
     Img.prototype.calculateSize = function () {
         _super.prototype.calculateSize.call(this);
         if (!this.style.width) {
-            if (this.imageClip) {
-                this.rect.width = this.imageClip.getWidth();
-            }
-            else if (this.image) {
-                this.rect.width = this.image.width;
-            }
-            else if (this.src) {
-                var image = ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
-                if (image) {
-                    this.rect.width = image.width;
-                }
-            }
+            this.rect.width = this.imageClip.getWidth();
         }
         if (!this.style.height) {
-            if (this.imageClip) {
-                this.rect.height = this.imageClip.getHeight();
-            }
-            else if (this.image) {
-                this.rect.height = this.image.height;
-            }
-            else if (this.src) {
-                var image = ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
-                if (image) {
-                    this.rect.height = image.height;
-                }
-            }
+            this.rect.height = this.imageClip.getHeight();
         }
     };
     Img.prototype.drawContent = function (ctx) {
-        var image;
-        if (this.image) {
-            image = this.image;
-        }
-        else if (this.src) {
-            image = ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
-        }
-        if (!image) {
-            return;
-        }
-        var rect = this.getContentRect();
-        if (this.imageClip) {
-            this.imageClip.draw(ctx, image, rect);
-        }
-        else {
-            ctx.drawImage(image, rect.x, rect.y, rect.width, rect.height);
-        }
+        this.imageClip.draw(ctx, this.getContentRect());
     };
     return Img;
 }(XObject_1.XObject));
@@ -5118,6 +5066,7 @@ __export(__webpack_require__(/*! ./HtmlParser */ "./src/parser/HtmlParser.ts"));
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_1 = __webpack_require__(/*! ../base */ "./src/base/index.ts");
+var ResourceRegistry_1 = __webpack_require__(/*! ./ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var ImageClipRotation;
 (function (ImageClipRotation) {
     ImageClipRotation[ImageClipRotation["Rotation0"] = 0] = "Rotation0";
@@ -5125,109 +5074,158 @@ var ImageClipRotation;
     ImageClipRotation[ImageClipRotation["Rotation180"] = 180] = "Rotation180";
     ImageClipRotation[ImageClipRotation["Rotation270"] = 270] = "Rotation270";
 })(ImageClipRotation = exports.ImageClipRotation || (exports.ImageClipRotation = {}));
+var REG_IMAGE_CLIP = /^(.+)#([0-9\.]+),([0-9\.]+),([0-9\.]+),([0-9\.]+)@?(0|90|180|270)?$/;
 var ImageClip = (function () {
-    function ImageClip(rect, rotation, scale) {
+    function ImageClip(src, rect, rotation, scale) {
         if (rotation === void 0) { rotation = ImageClipRotation.Rotation0; }
         if (scale === void 0) { scale = 1.0; }
         this.scale = 1;
+        this.src = src;
         this.rect = rect;
         this.rotation = rotation;
         this.scale = scale;
     }
-    ImageClip.of = function (clip) {
-        var pieces = clip.split(/\s+/);
-        if (pieces.length != 4 && pieces.length != 5 && pieces.length != 6) {
-            console.warn('invalid clip value:', clip);
-            return undefined;
-        }
-        var x = parseFloat(pieces[0]);
-        if (isNaN(x)) {
-            console.warn('invalid clip value:', clip);
-            return undefined;
-        }
-        var y = parseFloat(pieces[1]);
-        if (isNaN(y)) {
-            console.warn('invalid clip value:', clip);
-            return undefined;
-        }
-        var width = parseFloat(pieces[2]);
-        if (isNaN(width)) {
-            console.warn('invalid clip value:', clip);
-            return undefined;
-        }
-        var height = parseFloat(pieces[3]);
-        if (isNaN(height)) {
-            console.warn('invalid clip value:', clip);
-            return undefined;
-        }
-        var rotation = 0;
-        if (pieces.length > 4) {
-            rotation = parseInt(pieces[4]);
-            if (rotation !== 0 && rotation !== 90 && rotation !== 180 && rotation != 270) {
-                console.warn('invalid clip value:', clip);
-                return undefined;
+    ImageClip.of = function (clip, silent) {
+        if (silent === void 0) { silent = false; }
+        var matched = clip.match(REG_IMAGE_CLIP);
+        if (!matched) {
+            if (clip.indexOf('#') < 0) {
+                return new ImageClip(clip);
             }
-        }
-        var scale = 1;
-        if (pieces.length > 5) {
-            scale = parseFloat(pieces[5]);
-            if (isNaN(scale)) {
-                console.warn('invalid clip value:', clip);
-                return undefined;
+            else if (!silent) {
+                console.warn("invalid image clip:" + clip);
             }
+            return undefined;
         }
-        return new ImageClip(new base_1.Rect(x, y, width, height), rotation, scale);
+        return new ImageClip(matched[1], new base_1.Rect(parseFloat(matched[2]), parseFloat(matched[3]), parseFloat(matched[4]), parseFloat(matched[5])), (matched[6] ? parseInt(matched[6]) : 0));
+    };
+    ImageClip.prototype.ready = function () {
+        return !!this.getImage();
+    };
+    ImageClip.prototype.getSrc = function () {
+        return this.src;
+    };
+    ImageClip.prototype.setImage = function (image) {
+        this.image = image;
+        return this;
+    };
+    ImageClip.prototype.setSrc = function (src) {
+        this.src = src;
+        return this;
+    };
+    ImageClip.prototype.getRect = function () {
+        return this.rect;
+    };
+    ImageClip.prototype.getRotation = function () {
+        return this.rotation;
+    };
+    ImageClip.prototype.getScale = function () {
+        return this.scale;
     };
     ImageClip.prototype.setRect = function (rect) {
         this.rect = rect;
+        return this;
     };
     ImageClip.prototype.setRotation = function (rotation) {
         this.rotation = rotation;
+        return this;
     };
     ImageClip.prototype.setScale = function (scale) {
         this.scale = scale;
+        return this;
+    };
+    ImageClip.prototype.getImage = function () {
+        return this.image
+            ? this.image
+            : ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.src);
     };
     ImageClip.prototype.getWidth = function () {
-        return (this.scale *
-            (this.rotation === ImageClipRotation.Rotation90 ||
-                this.rotation === ImageClipRotation.Rotation270
-                ? this.rect.height
-                : this.rect.width));
+        if (!this.rect) {
+            var image = this.getImage();
+            return image ? (this.needChangeSize() ? image.height : image.width) * this.scale : 0;
+        }
+        else {
+            return this.scale * (this.needChangeSize() ? this.rect.height : this.rect.width);
+        }
+    };
+    ImageClip.prototype.needChangeSize = function () {
+        return (this.rotation === ImageClipRotation.Rotation90 ||
+            this.rotation === ImageClipRotation.Rotation270);
     };
     ImageClip.prototype.getHeight = function () {
-        return (this.scale *
-            (this.rotation === ImageClipRotation.Rotation90 ||
-                this.rotation === ImageClipRotation.Rotation270
-                ? this.rect.width
-                : this.rect.height));
+        if (!this.rect) {
+            var image = this.getImage();
+            return image ? (this.needChangeSize() ? image.width : image.height) * this.scale : 0;
+        }
+        else {
+            return this.scale * (this.needChangeSize() ? this.rect.width : this.rect.height);
+        }
     };
-    ImageClip.prototype.draw = function (ctx, image, rect) {
+    ImageClip.prototype.draw = function (ctx, rect, src) {
+        var image = this.getImage();
+        if (!image)
+            return;
+        var x = this.rect ? this.rect.x : 0;
+        var y = this.rect ? this.rect.y : 0;
+        var w = this.rect ? this.rect.width : image.width;
+        var h = this.rect ? this.rect.height : image.height;
+        if (src) {
+            switch (this.rotation) {
+                case ImageClipRotation.Rotation0:
+                    x += src.x;
+                    y += src.y;
+                    w = src.width;
+                    h = src.height;
+                    break;
+                case ImageClipRotation.Rotation90:
+                    x += src.y;
+                    y += h - src.x - src.width;
+                    w = src.height;
+                    h = src.width;
+                    break;
+                case ImageClipRotation.Rotation180:
+                    x += w - src.x - src.width;
+                    y += h - src.y - src.height;
+                    w = src.width;
+                    h = src.height;
+                    break;
+                case ImageClipRotation.Rotation270:
+                    x += h - src.y - src.height;
+                    y += w - src.x - src.width;
+                    w = src.width;
+                    h = src.height;
+                    break;
+            }
+        }
         switch (this.rotation) {
             case ImageClipRotation.Rotation0:
-                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
                 break;
             case ImageClipRotation.Rotation90:
                 ctx.save();
                 var mtx = new base_1.Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
                 ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
                 ctx.restore();
                 break;
             case ImageClipRotation.Rotation180:
                 ctx.save();
                 mtx = new base_1.Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
                 ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.width, rect.height);
+                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
                 ctx.restore();
                 break;
             case ImageClipRotation.Rotation270:
                 ctx.save();
                 mtx = new base_1.Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
                 ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, this.rect.x, this.rect.y, this.rect.width, this.rect.height, rect.x, rect.y, rect.height, rect.width);
+                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
                 ctx.restore();
                 break;
         }
+    };
+    ImageClip.prototype.clone = function () {
+        return new ImageClip(this.src, this.rect.clone(), this.rotation, this.scale).setImage(this.image);
     };
     return ImageClip;
 }());
@@ -6123,9 +6121,11 @@ var Color_1 = __webpack_require__(/*! ../base/Color */ "./src/base/Color.ts");
 var Rect_1 = __webpack_require__(/*! ../base/Rect */ "./src/base/Rect.ts");
 var CSSTokenizer_1 = __webpack_require__(/*! ../parser/CSSTokenizer */ "./src/parser/CSSTokenizer.ts");
 var FunctionParser_1 = __webpack_require__(/*! ../parser/FunctionParser */ "./src/parser/FunctionParser.ts");
+var resource_1 = __webpack_require__(/*! ../resource */ "./src/resource/index.ts");
 var ResourceRegistry_1 = __webpack_require__(/*! ../resource/ResourceRegistry */ "./src/resource/ResourceRegistry.ts");
 var Runtime_1 = __webpack_require__(/*! ../runtime/Runtime */ "./src/runtime/Runtime.ts");
 var EnumUtils_1 = __webpack_require__(/*! ../utils/EnumUtils */ "./src/utils/EnumUtils.ts");
+var StyleUtils_1 = __webpack_require__(/*! ../utils/StyleUtils */ "./src/utils/StyleUtils.ts");
 var BG_TOKENIZER = new CSSTokenizer_1.CSSTokenizer('/');
 var BackgroundAttachment;
 (function (BackgroundAttachment) {
@@ -6134,13 +6134,23 @@ var BackgroundAttachment;
 var URLSource = (function () {
     function URLSource(url) {
         this.url = url;
+        this.imageClip = resource_1.ImageClip.of(url);
         ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(url, ResourceRegistry_1.ResourceType.IMAGE);
     }
     URLSource.of = function (args) {
         return new URLSource(args[0]);
     };
-    URLSource.prototype.getSource = function (width, height) {
-        return ResourceRegistry_1.ResourceRegistry.DefaultInstance.get(this.url);
+    URLSource.prototype.draw = function (ctx, rect, srcRect) {
+        this.imageClip.draw(ctx, rect, srcRect);
+    };
+    URLSource.prototype.ready = function () {
+        return this.imageClip.ready();
+    };
+    URLSource.prototype.width = function (originRect) {
+        return this.imageClip.getWidth();
+    };
+    URLSource.prototype.height = function (originRect) {
+        return this.imageClip.getHeight();
     };
     URLSource.prototype.toString = function () {
         return "url(" + this.url + ")";
@@ -6160,12 +6170,12 @@ var LinearGradientSource = (function () {
     LinearGradientSource.of = function (args) {
         return new LinearGradientSource(args);
     };
-    LinearGradientSource.prototype.getSource = function (width, height) {
+    LinearGradientSource.prototype.draw = function (ctx, rect, srcRect) {
         if (this.parameters.length === 0) {
             return undefined;
         }
-        width = Math.round(width);
-        height = Math.round(height);
+        var width = Math.round(rect.width);
+        var height = Math.round(rect.height);
         if (this.canvas && this.canvas.width === width && this.canvas.height === height) {
             return this.canvas;
         }
@@ -6178,8 +6188,8 @@ var LinearGradientSource = (function () {
         if (this.canvas.height !== height) {
             this.canvas.height = height;
         }
-        var ctx = this.canvas.getContext('2d');
-        if (!ctx) {
+        var canvasCtx = this.canvas.getContext('2d');
+        if (!canvasCtx) {
             return undefined;
         }
         var i = 0;
@@ -6187,40 +6197,40 @@ var LinearGradientSource = (function () {
         if (this.parameters[0].startsWith('to')) {
             var where = this.parameters[0].substring(2).replace(/\s+/g, '');
             if (where === 'left') {
-                gradient = ctx.createLinearGradient(width - 1, 0, 0, 0);
+                gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, 0);
             }
             else if (where === 'right') {
-                gradient = ctx.createLinearGradient(0, 0, width - 1, 0);
+                gradient = canvasCtx.createLinearGradient(0, 0, width - 1, 0);
             }
             else if (where === 'top') {
-                gradient = ctx.createLinearGradient(0, height - 1, 0, 0);
+                gradient = canvasCtx.createLinearGradient(0, height - 1, 0, 0);
             }
             else if (where === 'bottom') {
-                gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+                gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
             }
             else if (where === 'lefttop') {
-                gradient = ctx.createLinearGradient(width - 1, height - 1, 0, 0);
+                gradient = canvasCtx.createLinearGradient(width - 1, height - 1, 0, 0);
             }
             else if (where === 'leftbottom') {
-                gradient = ctx.createLinearGradient(width - 1, 0, 0, height - 1);
+                gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, height - 1);
             }
             else if (where === 'righttop') {
-                gradient = ctx.createLinearGradient(0, height - 1, width - 1, 0);
+                gradient = canvasCtx.createLinearGradient(0, height - 1, width - 1, 0);
             }
             else if (where === 'rightbottom') {
-                gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+                gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
             }
             else {
-                gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+                gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
             }
             i++;
         }
         else if (this.parameters[0].endsWith('deg')) {
-            gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+            gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
             i++;
         }
         if (!gradient) {
-            gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+            gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
         }
         for (var last = -1; i < this.parameters.length; ++i) {
             var parts = this.parameters[i].split(/\s+/);
@@ -6257,9 +6267,18 @@ var LinearGradientSource = (function () {
                 }
             }
         }
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-        return this.canvas;
+        canvasCtx.fillStyle = gradient;
+        canvasCtx.fillRect(0, 0, width, height);
+        ctx.drawImage(this.canvas, 0, 0, width, height, rect.x, rect.y, rect.width, rect.height);
+    };
+    LinearGradientSource.prototype.ready = function () {
+        return true;
+    };
+    LinearGradientSource.prototype.width = function (originRect) {
+        return originRect.width;
+    };
+    LinearGradientSource.prototype.height = function (originRect) {
+        return originRect.height;
     };
     LinearGradientSource.prototype.toString = function () {
         return "linear-gradient(" + this.parameters.join(',') + ")";
@@ -6274,6 +6293,107 @@ var LinearGradientSource = (function () {
         }
     };
     return LinearGradientSource;
+}());
+var NinePatchSource = (function () {
+    function NinePatchSource(imageClip, top, right, bottom, left) {
+        this.imageClip = imageClip;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+        this.left = left;
+    }
+    NinePatchSource.of = function (args) {
+        var padding = StyleUtils_1.StyleUtils.parse4Dirs(args[1]);
+        return new NinePatchSource(resource_1.ImageClip.of(args[0]), padding[0], padding[1], padding[2], padding[3]);
+    };
+    NinePatchSource.prototype.draw = function (ctx, rect, srcRect) {
+        if (!this.ready())
+            return;
+        var width = this.imageClip.getWidth();
+        var height = this.imageClip.getHeight();
+        var left = this.left.getValue(width);
+        var right = this.right.getValue(height);
+        var xcenter = width - left - right;
+        if (xcenter < 0) {
+            left = Math.round((left / (left + right)) * width);
+            right = width - left;
+            xcenter = 0;
+        }
+        if (left + right > rect.width) {
+            left = Math.round((left / (left + right)) * rect.width);
+            right = rect.width - left;
+            xcenter = 0;
+        }
+        var top = this.top.getValue(height);
+        var bottom = this.bottom.getValue(height);
+        var ycenter = height - top - bottom;
+        if (ycenter < 0) {
+            top = Math.round((top / (top + bottom)) * height);
+            bottom = height - top;
+            ycenter = 0;
+        }
+        if (top + bottom > rect.height) {
+            top = Math.round((top / (top + bottom)) * rect.height);
+            bottom = rect.height - top;
+            ycenter = 0;
+        }
+        if (top > 0) {
+            if (left > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x, rect.y, left, top), new Rect_1.Rect(0, 0, left, top));
+            }
+            if (xcenter > 0 && rect.width - left - right > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, rect.y, rect.width - left - right, top), new Rect_1.Rect(left, 0, xcenter, top));
+            }
+            if (right > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, rect.y, right, top), new Rect_1.Rect(width - right, 0, right, top));
+            }
+        }
+        if (ycenter > 0) {
+            var h = rect.height - top - bottom;
+            var y1 = rect.y + top;
+            if (h > 0) {
+                if (left > 0) {
+                    this.imageClip.draw(ctx, new Rect_1.Rect(rect.x, y1, left, h), new Rect_1.Rect(0, top, left, ycenter));
+                }
+                if (xcenter > 0 && rect.width - left - right > 0) {
+                    this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, y1, rect.width - left - right, h), new Rect_1.Rect(left, top, xcenter, ycenter));
+                }
+                if (right > 0) {
+                    this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, y1, right, h), new Rect_1.Rect(width - right, top, right, ycenter));
+                }
+            }
+        }
+        if (bottom > 0) {
+            var y1 = rect.y + rect.height - bottom;
+            var y2 = height - bottom;
+            if (left > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x, y1, left, bottom), new Rect_1.Rect(0, y2, left, bottom));
+            }
+            if (xcenter > 0 && rect.width - left - right > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, y1, rect.width - left - right, bottom), new Rect_1.Rect(left, y2, xcenter, bottom));
+            }
+            if (right > 0) {
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, y1, right, bottom), new Rect_1.Rect(width - right, y2, right, bottom));
+            }
+        }
+    };
+    NinePatchSource.prototype.toString = function () {
+        return "9patch(" + this.args.join(',') + ")";
+    };
+    NinePatchSource.prototype.ready = function () {
+        return true;
+    };
+    NinePatchSource.prototype.width = function (originRect) {
+        return originRect.width;
+    };
+    NinePatchSource.prototype.height = function (originRect) {
+        return originRect.height;
+    };
+    NinePatchSource.prototype.clone = function () {
+        return new NinePatchSource(this.imageClip.clone(), this.top.clone(), this.right.clone(), this.bottom.clone(), this.left.clone());
+    };
+    NinePatchSource.prototype.destroy = function () { };
+    return NinePatchSource;
 }());
 var BackgroundRepeatType;
 (function (BackgroundRepeatType) {
@@ -6925,8 +7045,7 @@ var Background = (function () {
             if (originRect.width < 1 || originRect.height < 1) {
                 continue;
             }
-            var img = source.getSource(originRect.width, originRect.height);
-            if (!img) {
+            if (!source.ready()) {
                 continue;
             }
             var clipRect = void 0;
@@ -6954,8 +7073,8 @@ var Background = (function () {
                 ctx.fillStyle = this.color.toString();
                 ctx.fillRect(clipRect.x, clipRect.y, clipRect.width, clipRect.height);
             }
-            var srcWidth = img.width;
-            var srcHeight = img.height;
+            var srcWidth = source.width(originRect);
+            var srcHeight = source.height(originRect);
             var scaledWidth = srcWidth;
             var scaledHeight = srcHeight;
             var destX = originRect.x;
@@ -7111,7 +7230,7 @@ var Background = (function () {
             do {
                 var x = destX;
                 do {
-                    this.drawImage(ctx, img, scaledWidth, scaledHeight, srcScaleX, srcScaleY, x, destY, clipRect);
+                    this.drawImage(ctx, source, scaledWidth, scaledHeight, srcScaleX, srcScaleY, x, destY, clipRect);
                     x += gapX + scaledWidth;
                 } while (x < clipRight && repeatX !== BackgroundRepeatType.NO_REPEAT);
                 destY += gapY + scaledHeight;
@@ -7131,7 +7250,7 @@ var Background = (function () {
         Background.cloneArray(this.position, cloned.position);
         return cloned;
     };
-    Background.prototype.drawImage = function (ctx, img, imgWidth, imgHeight, imageScaleX, imageScaleY, destX, destY, clip) {
+    Background.prototype.drawImage = function (ctx, source, imgWidth, imgHeight, imageScaleX, imageScaleY, destX, destY, clip) {
         var srcX = 0;
         var srcY = 0;
         if (destX < clip.x) {
@@ -7150,7 +7269,7 @@ var Background = (function () {
         if (srcHeight + destY > clip.height + clip.y) {
             srcHeight = clip.height + clip.y - destY;
         }
-        ctx.drawImage(img, srcX / imageScaleX, srcY / imageScaleY, srcWidth / imageScaleX, srcHeight / imageScaleY, destX, destY, srcWidth, srcHeight);
+        source.draw(ctx, new Rect_1.Rect(destX, destY, srcWidth, srcHeight), new Rect_1.Rect(srcX / imageScaleX, srcY / imageScaleY, srcWidth / imageScaleX, srcHeight / imageScaleY));
     };
     return Background;
 }());
@@ -7602,6 +7721,7 @@ var BaseValue_1 = __webpack_require__(/*! ../base/BaseValue */ "./src/base/BaseV
 var Color_1 = __webpack_require__(/*! ../base/Color */ "./src/base/Color.ts");
 var EnumUtils_1 = __webpack_require__(/*! ../utils/EnumUtils */ "./src/utils/EnumUtils.ts");
 var StringUtils_1 = __webpack_require__(/*! ../utils/StringUtils */ "./src/utils/StringUtils.ts");
+var StyleUtils_1 = __webpack_require__(/*! ../utils/StyleUtils */ "./src/utils/StyleUtils.ts");
 var Background_1 = __webpack_require__(/*! ./Background */ "./src/style/Background.ts");
 var Border_1 = __webpack_require__(/*! ./Border */ "./src/style/Border.ts");
 var BorderRadius_1 = __webpack_require__(/*! ./BorderRadius */ "./src/style/BorderRadius.ts");
@@ -7721,7 +7841,7 @@ var Style = (function () {
                     this[key] = BaseValue_1.BaseValue.of(value);
                     break;
                 case 'padding':
-                    var paddings = Style.parse4Dirs(value);
+                    var paddings = StyleUtils_1.StyleUtils.parse4Dirs(value);
                     if (paddings) {
                         this.paddingTop = paddings[0];
                         this.paddingRight = paddings[1];
@@ -7736,7 +7856,7 @@ var Style = (function () {
                     this[key] = BaseValue_1.BaseValue.of(value);
                     break;
                 case 'margin':
-                    var margins = Style.parse4Dirs(value);
+                    var margins = StyleUtils_1.StyleUtils.parse4Dirs(value);
                     if (margins) {
                         this.marginTop = margins[0];
                         this.marginRight = margins[1];
@@ -8384,7 +8504,7 @@ var Style = (function () {
         else {
             var ps = value.toString().split('/');
             if (ps.length === 1) {
-                var borderRadius = Style.parse4Dirs(ps[0]);
+                var borderRadius = StyleUtils_1.StyleUtils.parse4Dirs(ps[0]);
                 if (borderRadius) {
                     return [
                         new BorderRadius_1.BorderRadius(borderRadius[0]),
@@ -8395,8 +8515,8 @@ var Style = (function () {
                 }
             }
             else if (ps.length === 2) {
-                var borderRadius1 = Style.parse4Dirs(ps[0]);
-                var borderRadius2 = Style.parse4Dirs(ps[1]);
+                var borderRadius1 = StyleUtils_1.StyleUtils.parse4Dirs(ps[0]);
+                var borderRadius2 = StyleUtils_1.StyleUtils.parse4Dirs(ps[1]);
                 if (borderRadius1 && borderRadius2) {
                     return [
                         new BorderRadius_1.BorderRadius(borderRadius1[0], borderRadius2[0]),
@@ -8407,44 +8527,6 @@ var Style = (function () {
                 }
             }
             console.warn("invalid border radius:" + value);
-            return undefined;
-        }
-    };
-    Style.parse4Dirs = function (value) {
-        var pieces = value.trim().split(/\s+/);
-        if (pieces.length === 1) {
-            return [
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[0])
-            ];
-        }
-        else if (pieces.length === 2) {
-            return [
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[1]),
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[1])
-            ];
-        }
-        else if (pieces.length === 3) {
-            return [
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[1]),
-                BaseValue_1.BaseValue.of(pieces[2]),
-                BaseValue_1.BaseValue.of(pieces[1])
-            ];
-        }
-        else if (pieces.length === 4) {
-            return [
-                BaseValue_1.BaseValue.of(pieces[0]),
-                BaseValue_1.BaseValue.of(pieces[1]),
-                BaseValue_1.BaseValue.of(pieces[2]),
-                BaseValue_1.BaseValue.of(pieces[3])
-            ];
-        }
-        else {
             return undefined;
         }
     };
@@ -9182,6 +9264,65 @@ exports.StringUtils = StringUtils;
 
 /***/ }),
 
+/***/ "./src/utils/StyleUtils.ts":
+/*!*********************************!*\
+  !*** ./src/utils/StyleUtils.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseValue_1 = __webpack_require__(/*! ../base/BaseValue */ "./src/base/BaseValue.ts");
+var StyleUtils = (function () {
+    function StyleUtils() {
+    }
+    StyleUtils.parse4Dirs = function (value) {
+        var pieces = value.trim().split(/\s+/);
+        if (pieces.length === 1) {
+            return [
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[0])
+            ];
+        }
+        else if (pieces.length === 2) {
+            return [
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[1]),
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[1])
+            ];
+        }
+        else if (pieces.length === 3) {
+            return [
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[1]),
+                BaseValue_1.BaseValue.of(pieces[2]),
+                BaseValue_1.BaseValue.of(pieces[1])
+            ];
+        }
+        else if (pieces.length === 4) {
+            return [
+                BaseValue_1.BaseValue.of(pieces[0]),
+                BaseValue_1.BaseValue.of(pieces[1]),
+                BaseValue_1.BaseValue.of(pieces[2]),
+                BaseValue_1.BaseValue.of(pieces[3])
+            ];
+        }
+        else {
+            return undefined;
+        }
+    };
+    return StyleUtils;
+}());
+exports.StyleUtils = StyleUtils;
+
+
+/***/ }),
+
 /***/ "./src/utils/URLUtils.ts":
 /*!*******************************!*\
   !*** ./src/utils/URLUtils.ts ***!
@@ -9268,6 +9409,7 @@ __export(__webpack_require__(/*! ./EnumUtils */ "./src/utils/EnumUtils.ts"));
 __export(__webpack_require__(/*! ./LatestList */ "./src/utils/LatestList.ts"));
 __export(__webpack_require__(/*! ./LayoutUtils */ "./src/utils/LayoutUtils.ts"));
 __export(__webpack_require__(/*! ./StringUtils */ "./src/utils/StringUtils.ts"));
+__export(__webpack_require__(/*! ./StyleUtils */ "./src/utils/StyleUtils.ts"));
 __export(__webpack_require__(/*! ./URLUtils */ "./src/utils/URLUtils.ts"));
 
 

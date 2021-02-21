@@ -15,6 +15,7 @@ import { BaseValue, BaseValueUnit } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { EnumUtils } from '../utils/EnumUtils';
 import { StringUtils } from '../utils/StringUtils';
+import { StyleUtils } from '../utils/StyleUtils';
 import { Background } from './Background';
 import { Border } from './Border';
 import { BorderRadius } from './BorderRadius';
@@ -188,7 +189,7 @@ export var Style = /*#__PURE__*/function () {
             break;
 
           case 'padding':
-            var paddings = Style.parse4Dirs(value);
+            var paddings = StyleUtils.parse4Dirs(value);
 
             if (paddings) {
               this.paddingTop = paddings[0];
@@ -207,7 +208,7 @@ export var Style = /*#__PURE__*/function () {
             break;
 
           case 'margin':
-            var margins = Style.parse4Dirs(value);
+            var margins = StyleUtils.parse4Dirs(value);
 
             if (margins) {
               this.marginTop = margins[0];
@@ -1053,14 +1054,14 @@ export var Style = /*#__PURE__*/function () {
         var ps = value.toString().split('/');
 
         if (ps.length === 1) {
-          var _borderRadius = Style.parse4Dirs(ps[0]);
+          var _borderRadius = StyleUtils.parse4Dirs(ps[0]);
 
           if (_borderRadius) {
             return [new BorderRadius(_borderRadius[0]), new BorderRadius(_borderRadius[1]), new BorderRadius(_borderRadius[2]), new BorderRadius(_borderRadius[3])];
           }
         } else if (ps.length === 2) {
-          var borderRadius1 = Style.parse4Dirs(ps[0]);
-          var borderRadius2 = Style.parse4Dirs(ps[1]);
+          var borderRadius1 = StyleUtils.parse4Dirs(ps[0]);
+          var borderRadius2 = StyleUtils.parse4Dirs(ps[1]);
 
           if (borderRadius1 && borderRadius2) {
             return [new BorderRadius(borderRadius1[0], borderRadius2[0]), new BorderRadius(borderRadius1[1], borderRadius2[1]), new BorderRadius(borderRadius1[2], borderRadius2[2]), new BorderRadius(borderRadius1[3], borderRadius2[3])];
@@ -1068,23 +1069,6 @@ export var Style = /*#__PURE__*/function () {
         }
 
         console.warn("invalid border radius:".concat(value));
-        return undefined;
-      }
-    }
-  }, {
-    key: "parse4Dirs",
-    value: function parse4Dirs(value) {
-      var pieces = value.trim().split(/\s+/);
-
-      if (pieces.length === 1) {
-        return [BaseValue.of(pieces[0]), BaseValue.of(pieces[0]), BaseValue.of(pieces[0]), BaseValue.of(pieces[0])];
-      } else if (pieces.length === 2) {
-        return [BaseValue.of(pieces[0]), BaseValue.of(pieces[1]), BaseValue.of(pieces[0]), BaseValue.of(pieces[1])];
-      } else if (pieces.length === 3) {
-        return [BaseValue.of(pieces[0]), BaseValue.of(pieces[1]), BaseValue.of(pieces[2]), BaseValue.of(pieces[1])];
-      } else if (pieces.length === 4) {
-        return [BaseValue.of(pieces[0]), BaseValue.of(pieces[1]), BaseValue.of(pieces[2]), BaseValue.of(pieces[3])];
-      } else {
         return undefined;
       }
     }

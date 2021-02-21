@@ -7,5 +7,6 @@ export * from './EnumUtils';
 export * from './LatestList';
 export * from './LayoutUtils';
 export * from './StringUtils';
+export * from './StyleUtils';
 export * from './URLUtils';
 //# sourceMappingURL=index.d.ts.map

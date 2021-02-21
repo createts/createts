@@ -112,6 +112,18 @@ Object.keys(_StringUtils).forEach(function (key) {
   });
 });
 
+var _StyleUtils = require("./StyleUtils");
+
+Object.keys(_StyleUtils).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _StyleUtils[key];
+    }
+  });
+});
+
 var _URLUtils = require("./URLUtils");
 
 Object.keys(_URLUtils).forEach(function (key) {

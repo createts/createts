@@ -5,9 +5,11 @@ import { RoundRect } from '../base/RoundRect';
 import { XObject } from '../components/XObject';
 import { CSSTokenizer } from '../parser/CSSTokenizer';
 import { FunctionParser } from '../parser/FunctionParser';
+import { ImageClip } from '../resource';
 import { ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
 import { Runtime } from '../runtime/Runtime';
 import { EnumUtils } from '../utils/EnumUtils';
+import { StyleUtils } from '../utils/StyleUtils';
 
 /**
  * The global tokenizer to split background tokens.
@@ -35,7 +37,10 @@ interface IBgAttribute<T> {
  * Currently we only support image and linear-gradient(beta).
  */
 interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
-  getSource(width: number, height: number): any;
+  draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
+  ready(): boolean;
+  width(originRect: Rect): number;
+  height(originRect: Rect): number;
   toString(): string;
   destroy(): void;
 }
@@ -65,12 +70,15 @@ class URLSource implements IBackgroundImage {
    */
   private url: string;
 
+  private imageClip: ImageClip;
+
   /**
    * Construct an URLSource instance with image url.
    * @param url image url.
    */
   constructor(url: string) {
     this.url = url;
+    this.imageClip = ImageClip.of(url);
     ResourceRegistry.DefaultInstance.add(url, ResourceType.IMAGE);
   }
 
@@ -80,8 +88,20 @@ class URLSource implements IBackgroundImage {
    * @param height The required height.
    * @returns The image instance of this url if it is loaded.
    */
-  public getSource(width: number, height: number): any {
-    return ResourceRegistry.DefaultInstance.get(this.url);
+  public draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect) {
+    this.imageClip.draw(ctx, rect, srcRect);
+  }
+
+  public ready(): boolean {
+    return this.imageClip.ready();
+  }
+
+  public width(originRect: Rect): number {
+    return this.imageClip.getWidth();
+  }
+
+  public height(originRect: Rect): number {
+    return this.imageClip.getHeight();
   }
 
   /**
@@ -113,7 +133,7 @@ class URLSource implements IBackgroundImage {
  * example:
  *
  * ```css
- * background-image: linear-gradient('sample.png');
+ * background-image: linear-gradient(red, yellow, blue);
  * ```
  *
  * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
@@ -150,12 +170,12 @@ class LinearGradientSource implements IBackgroundImage {
    * @param height Specified drawable height.
    * @returns A canvas with given size and drawn by the linear-gradient function.
    */
-  public getSource(width: number, height: number) {
+  public draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect) {
     if (this.parameters.length === 0) {
       return undefined;
     }
-    width = Math.round(width);
-    height = Math.round(height);
+    const width = Math.round(rect.width);
+    const height = Math.round(rect.height);
     if (this.canvas && this.canvas.width === width && this.canvas.height === height) {
       return this.canvas;
     }
@@ -168,8 +188,8 @@ class LinearGradientSource implements IBackgroundImage {
     if (this.canvas.height !== height) {
       this.canvas.height = height;
     }
-    const ctx = this.canvas.getContext('2d');
-    if (!ctx) {
+    const canvasCtx = this.canvas.getContext('2d');
+    if (!canvasCtx) {
       return undefined;
     }
 
@@ -178,23 +198,23 @@ class LinearGradientSource implements IBackgroundImage {
     if (this.parameters[0].startsWith('to')) {
       const where = this.parameters[0].substring(2).replace(/\s+/g, '');
       if (where === 'left') {
-        gradient = ctx.createLinearGradient(width - 1, 0, 0, 0);
+        gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, 0);
       } else if (where === 'right') {
-        gradient = ctx.createLinearGradient(0, 0, width - 1, 0);
+        gradient = canvasCtx.createLinearGradient(0, 0, width - 1, 0);
       } else if (where === 'top') {
-        gradient = ctx.createLinearGradient(0, height - 1, 0, 0);
+        gradient = canvasCtx.createLinearGradient(0, height - 1, 0, 0);
       } else if (where === 'bottom') {
-        gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+        gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
       } else if (where === 'lefttop') {
-        gradient = ctx.createLinearGradient(width - 1, height - 1, 0, 0);
+        gradient = canvasCtx.createLinearGradient(width - 1, height - 1, 0, 0);
       } else if (where === 'leftbottom') {
-        gradient = ctx.createLinearGradient(width - 1, 0, 0, height - 1);
+        gradient = canvasCtx.createLinearGradient(width - 1, 0, 0, height - 1);
       } else if (where === 'righttop') {
-        gradient = ctx.createLinearGradient(0, height - 1, width - 1, 0);
+        gradient = canvasCtx.createLinearGradient(0, height - 1, width - 1, 0);
       } else if (where === 'rightbottom') {
-        gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+        gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
       } else {
-        gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+        gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
       }
       i++;
     } else if (this.parameters[0].endsWith('deg')) {
@@ -202,12 +222,12 @@ class LinearGradientSource implements IBackgroundImage {
       // const deg = parseFloat(this.parameters[0]);
       // const r = Math.sqrt(width * width / 4 + height * height * 4);
       // const x = r * Math.
-      gradient = ctx.createLinearGradient(0, 0, width - 1, height - 1);
+      gradient = canvasCtx.createLinearGradient(0, 0, width - 1, height - 1);
       i++;
     }
 
     if (!gradient) {
-      gradient = ctx.createLinearGradient(0, 0, 0, height - 1);
+      gradient = canvasCtx.createLinearGradient(0, 0, 0, height - 1);
     }
 
     for (let last = -1; i < this.parameters.length; ++i) {
@@ -244,10 +264,22 @@ class LinearGradientSource implements IBackgroundImage {
     }
 
     // Set the fill style and draw a rectangle
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
+    canvasCtx.fillStyle = gradient;
+    canvasCtx.fillRect(0, 0, width, height);
 
-    return this.canvas;
+    ctx.drawImage(this.canvas, 0, 0, width, height, rect.x, rect.y, rect.width, rect.height);
+  }
+
+  public ready(): boolean {
+    return true;
+  }
+
+  public width(originRect: Rect): number {
+    return originRect.width;
+  }
+
+  public height(originRect: Rect): number {
+    return originRect.height;
   }
 
   /**
@@ -275,6 +307,237 @@ class LinearGradientSource implements IBackgroundImage {
       this.canvas = undefined;
     }
   }
+}
+
+/**
+ * The NinePatchSource class implements IBackgroundImage for 9-patch function, for
+ * example:
+ *
+ * ```css
+ * background-image: 9patch('sample.png', 10, 20, 20, 10);
+ * ```
+ *
+ * The image will be splitted to 9 patches, the 4 corners are fixed size, and others
+ * will be extended to fill the whole area.
+ * <pre>
+ * |---------------------------------|
+ * |      |        ↑         |       |
+ * |      |       top        |       |
+ * |      |        ↓         |       |
+ * |------|------------------|-------|
+ * |      |                  |       |
+ * |←left→|                  |←right→|
+ * |      |                  |       |
+ * |------|------------------|-------|
+ * |      |        ↑         |       |
+ * |      |      bottom      |       |
+ * |      |        ↓         |       |
+ * |------|------------------|-------|
+ * </pre>
+ */
+class NinePatchSource implements IBackgroundImage {
+  private args: string[];
+  /**
+   * Create a LinearGradientSource instance form augments of linear-gradient function.
+   * @param value the arguments of linear-gradient function.
+   * @returns LinearGradientSource instance with given arguments.
+   */
+  public static of(args: string[]): NinePatchSource {
+    const padding = StyleUtils.parse4Dirs(args[1]);
+    return new NinePatchSource(
+      ImageClip.of(args[0]),
+      padding[0],
+      padding[1],
+      padding[2],
+      padding[3]
+    );
+  }
+
+  /**
+   * The source image clip.
+   */
+  private imageClip: ImageClip;
+  /**
+   * The top padding.
+   */
+  private top: BaseValue;
+
+  /**
+   * The right padding.
+   */
+  private right: BaseValue;
+
+  /**
+   * The bottom padding.
+   */
+  private bottom: BaseValue;
+
+  /**
+   * The left padding.
+   */
+  private left: BaseValue;
+  /**
+   * Create a NinePatchSource instance form augments of 9patch function.
+   * @param imageClip the source image clip.
+   */
+  constructor(
+    imageClip: ImageClip,
+    top: BaseValue,
+    right: BaseValue,
+    bottom: BaseValue,
+    left: BaseValue
+  ) {
+    this.imageClip = imageClip;
+    this.top = top;
+    this.right = right;
+    this.bottom = bottom;
+    this.left = left;
+  }
+
+  /**
+   * Returns a drawable instance (canvas) for the specified size.
+   * @param width Specified drawable width.
+   * @param height Specified drawable height.
+   * @returns A canvas with given size and drawn by the linear-gradient function.
+   */
+  public draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect) {
+    if (!this.ready()) return;
+    const width = this.imageClip.getWidth();
+    const height = this.imageClip.getHeight();
+    let left = this.left.getValue(width);
+    let right = this.right.getValue(height);
+    let xcenter = width - left - right;
+    if (xcenter < 0) {
+      left = Math.round((left / (left + right)) * width);
+      right = width - left;
+      xcenter = 0;
+    }
+    if (left + right > rect.width) {
+      left = Math.round((left / (left + right)) * rect.width);
+      right = rect.width - left;
+      xcenter = 0;
+    }
+    let top = this.top.getValue(height);
+    let bottom = this.bottom.getValue(height);
+    let ycenter = height - top - bottom;
+    if (ycenter < 0) {
+      top = Math.round((top / (top + bottom)) * height);
+      bottom = height - top;
+      ycenter = 0;
+    }
+    if (top + bottom > rect.height) {
+      top = Math.round((top / (top + bottom)) * rect.height);
+      bottom = rect.height - top;
+      ycenter = 0;
+    }
+
+    // draw top
+    if (top > 0) {
+      if (left > 0) {
+        this.imageClip.draw(ctx, new Rect(rect.x, rect.y, left, top), new Rect(0, 0, left, top));
+      }
+      if (xcenter > 0 && rect.width - left - right > 0) {
+        this.imageClip.draw(
+          ctx,
+          new Rect(rect.x + left, rect.y, rect.width - left - right, top),
+          new Rect(left, 0, xcenter, top)
+        );
+      }
+      if (right > 0) {
+        this.imageClip.draw(
+          ctx,
+          new Rect(rect.width - right, rect.y, right, top),
+          new Rect(width - right, 0, right, top)
+        );
+      }
+    }
+
+    // draw middle
+    if (ycenter > 0) {
+      const h = rect.height - top - bottom;
+      const y1 = rect.y + top;
+      if (h > 0) {
+        if (left > 0) {
+          this.imageClip.draw(ctx, new Rect(rect.x, y1, left, h), new Rect(0, top, left, ycenter));
+        }
+        if (xcenter > 0 && rect.width - left - right > 0) {
+          this.imageClip.draw(
+            ctx,
+            new Rect(rect.x + left, y1, rect.width - left - right, h),
+            new Rect(left, top, xcenter, ycenter)
+          );
+        }
+        if (right > 0) {
+          this.imageClip.draw(
+            ctx,
+            new Rect(rect.width - right, y1, right, h),
+            new Rect(width - right, top, right, ycenter)
+          );
+        }
+      }
+    }
+
+    // draw bottom
+    if (bottom > 0) {
+      const y1 = rect.y + rect.height - bottom;
+      const y2 = height - bottom;
+      if (left > 0) {
+        this.imageClip.draw(ctx, new Rect(rect.x, y1, left, bottom), new Rect(0, y2, left, bottom));
+      }
+      if (xcenter > 0 && rect.width - left - right > 0) {
+        this.imageClip.draw(
+          ctx,
+          new Rect(rect.x + left, y1, rect.width - left - right, bottom),
+          new Rect(left, y2, xcenter, bottom)
+        );
+      }
+      if (right > 0) {
+        this.imageClip.draw(
+          ctx,
+          new Rect(rect.width - right, y1, right, bottom),
+          new Rect(width - right, y2, right, bottom)
+        );
+      }
+    }
+  }
+
+  /**
+   * Returns a string representation of this object.
+   * @returns a string representation of this object.
+   */
+  public toString(): string {
+    return `9patch(${this.args.join(',')})`;
+  }
+
+  public ready(): boolean {
+    return true;
+  }
+
+  public width(originRect: Rect): number {
+    return originRect.width;
+  }
+
+  public height(originRect: Rect): number {
+    return originRect.height;
+  }
+
+  /**
+   * Creates a new LinearGradientSource with the same arguments.
+   * @returns a clone of this instance.
+   */
+  public clone(): IBackgroundImage {
+    return new NinePatchSource(
+      this.imageClip.clone(),
+      this.top.clone(),
+      this.right.clone(),
+      this.bottom.clone(),
+      this.left.clone()
+    );
+  }
+  /**
+   * A callback function to destroy current instance.
+   */
+  public destroy() {}
 }
 
 /**
@@ -1262,8 +1525,7 @@ export class Background {
         continue;
       }
 
-      const img = source.getSource(originRect.width, originRect.height);
-      if (!img) {
+      if (!source.ready()) {
         continue;
       }
 
@@ -1293,8 +1555,9 @@ export class Background {
         ctx.fillRect(clipRect.x, clipRect.y, clipRect.width, clipRect.height);
       }
 
-      const srcWidth = img.width;
-      const srcHeight = img.height;
+      const srcWidth = source.width(originRect);
+      const srcHeight = source.height(originRect);
+
       let scaledWidth = srcWidth;
       let scaledHeight = srcHeight;
       let destX = originRect.x;
@@ -1444,7 +1707,7 @@ export class Background {
         do {
           this.drawImage(
             ctx,
-            img,
+            source,
             scaledWidth,
             scaledHeight,
             srcScaleX,
@@ -1492,7 +1755,7 @@ export class Background {
    */
   private drawImage(
     ctx: CanvasRenderingContext2D,
-    img: HTMLImageElement,
+    source: IBackgroundImage,
     imgWidth: number,
     imgHeight: number,
     imageScaleX: number,
@@ -1519,16 +1782,15 @@ export class Background {
     if (srcHeight + destY > clip.height + clip.y) {
       srcHeight = clip.height + clip.y - destY;
     }
-    ctx.drawImage(
-      img,
-      srcX / imageScaleX,
-      srcY / imageScaleY,
-      srcWidth / imageScaleX,
-      srcHeight / imageScaleY,
-      destX,
-      destY,
-      srcWidth,
-      srcHeight
+    source.draw(
+      ctx,
+      new Rect(destX, destY, srcWidth, srcHeight),
+      new Rect(
+        srcX / imageScaleX,
+        srcY / imageScaleY,
+        srcWidth / imageScaleX,
+        srcHeight / imageScaleY
+      )
     );
   }
 }
