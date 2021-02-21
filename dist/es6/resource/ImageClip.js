@@ -178,8 +178,8 @@ export var ImageClip = /*#__PURE__*/function () {
             break;
 
           case ImageClipRotation.Rotation90:
-            x += src.y;
-            y += h - src.x - src.width;
+            x += w - src.y - src.height;
+            y += src.x;
             w = src.height;
             h = src.width;
             break;
@@ -192,10 +192,10 @@ export var ImageClip = /*#__PURE__*/function () {
             break;
 
           case ImageClipRotation.Rotation270:
-            x += h - src.y - src.height;
-            y += w - src.x - src.width;
-            w = src.width;
-            h = src.height;
+            x += src.y;
+            y += h - src.x - src.width;
+            w = src.height;
+            h = src.width;
             break;
         }
       }
@@ -207,25 +207,26 @@ export var ImageClip = /*#__PURE__*/function () {
 
         case ImageClipRotation.Rotation90:
           ctx.save();
-          var mtx = new Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
-          ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
+          var mtx = new Matrix2D();
+          ctx.translate(rect.x, rect.y);
+          ctx.rotate(-Math.PI / 2);
+          ctx.drawImage(image, x, y, w, h, -rect.height, 0, rect.height, rect.width);
           ctx.restore();
           break;
 
         case ImageClipRotation.Rotation180:
           ctx.save();
-          mtx = new Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
-          ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
+          ctx.translate(rect.x, rect.y);
+          ctx.rotate(Math.PI);
+          ctx.drawImage(image, x, y, w, h, -rect.width, -rect.height, rect.width, rect.height);
           ctx.restore();
           break;
 
         case ImageClipRotation.Rotation270:
           ctx.save();
-          mtx = new Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
-          ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-          ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
+          ctx.translate(rect.x, rect.y);
+          ctx.rotate(Math.PI / 2);
+          ctx.drawImage(image, x, y, w, h, 0, -rect.width, rect.height, rect.width);
           ctx.restore();
           break;
       }

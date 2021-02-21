@@ -441,6 +441,8 @@ var NinePatchSource = /*#__PURE__*/function () {
     this.right = right;
     this.bottom = bottom;
     this.left = left;
+
+    _ResourceRegistry.ResourceRegistry.DefaultInstance.add(this.imageClip.getSrc(), _ResourceRegistry.ResourceType.IMAGE);
   }
   /**
    * Returns a drawable instance (canvas) for the specified size.
@@ -457,7 +459,7 @@ var NinePatchSource = /*#__PURE__*/function () {
       var width = this.imageClip.getWidth();
       var height = this.imageClip.getHeight();
       var left = this.left.getValue(width);
-      var right = this.right.getValue(height);
+      var right = this.right.getValue(width);
       var xcenter = width - left - right;
 
       if (xcenter < 0) {
@@ -499,14 +501,14 @@ var NinePatchSource = /*#__PURE__*/function () {
         }
 
         if (right > 0) {
-          this.imageClip.draw(ctx, new _Rect.Rect(rect.width - right, rect.y, right, top), new _Rect.Rect(width - right, 0, right, top));
+          this.imageClip.draw(ctx, new _Rect.Rect(rect.x + rect.width - right, rect.y, right, top), new _Rect.Rect(width - right, 0, right, top));
         }
       } // draw middle
 
 
       if (ycenter > 0) {
-        var h = rect.height - top - bottom;
         var y1 = rect.y + top;
+        var h = rect.height - top - bottom;
 
         if (h > 0) {
           if (left > 0) {

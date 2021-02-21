@@ -392,6 +392,7 @@ class NinePatchSource implements IBackgroundImage {
     this.right = right;
     this.bottom = bottom;
     this.left = left;
+    ResourceRegistry.DefaultInstance.add(this.imageClip.getSrc(), ResourceType.IMAGE);
   }
 
   /**
@@ -405,7 +406,7 @@ class NinePatchSource implements IBackgroundImage {
     const width = this.imageClip.getWidth();
     const height = this.imageClip.getHeight();
     let left = this.left.getValue(width);
-    let right = this.right.getValue(height);
+    let right = this.right.getValue(width);
     let xcenter = width - left - right;
     if (xcenter < 0) {
       left = Math.round((left / (left + right)) * width);
@@ -446,7 +447,7 @@ class NinePatchSource implements IBackgroundImage {
       if (right > 0) {
         this.imageClip.draw(
           ctx,
-          new Rect(rect.width - right, rect.y, right, top),
+          new Rect(rect.x + rect.width - right, rect.y, right, top),
           new Rect(width - right, 0, right, top)
         );
       }
@@ -454,8 +455,8 @@ class NinePatchSource implements IBackgroundImage {
 
     // draw middle
     if (ycenter > 0) {
-      const h = rect.height - top - bottom;
       const y1 = rect.y + top;
+      const h = rect.height - top - bottom;
       if (h > 0) {
         if (left > 0) {
           this.imageClip.draw(ctx, new Rect(rect.x, y1, left, h), new Rect(0, top, left, ycenter));

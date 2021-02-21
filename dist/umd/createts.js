@@ -5178,8 +5178,8 @@ var ImageClip = (function () {
                     h = src.height;
                     break;
                 case ImageClipRotation.Rotation90:
-                    x += src.y;
-                    y += h - src.x - src.width;
+                    x += w - src.y - src.height;
+                    y += src.x;
                     w = src.height;
                     h = src.width;
                     break;
@@ -5190,10 +5190,10 @@ var ImageClip = (function () {
                     h = src.height;
                     break;
                 case ImageClipRotation.Rotation270:
-                    x += h - src.y - src.height;
-                    y += w - src.x - src.width;
-                    w = src.width;
-                    h = src.height;
+                    x += src.y;
+                    y += h - src.x - src.width;
+                    w = src.height;
+                    h = src.width;
                     break;
             }
         }
@@ -5203,23 +5203,24 @@ var ImageClip = (function () {
                 break;
             case ImageClipRotation.Rotation90:
                 ctx.save();
-                var mtx = new base_1.Matrix2D().appendTransform(0, rect.height, 1, 1, 270, 0, 0, 0, 0);
-                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
+                var mtx = new base_1.Matrix2D();
+                ctx.translate(rect.x, rect.y);
+                ctx.rotate(-Math.PI / 2);
+                ctx.drawImage(image, x, y, w, h, -rect.height, 0, rect.height, rect.width);
                 ctx.restore();
                 break;
             case ImageClipRotation.Rotation180:
                 ctx.save();
-                mtx = new base_1.Matrix2D().appendTransform(rect.width, rect.height, 1, 1, 180, 0, 0, 0, 0);
-                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.width, rect.height);
+                ctx.translate(rect.x, rect.y);
+                ctx.rotate(Math.PI);
+                ctx.drawImage(image, x, y, w, h, -rect.width, -rect.height, rect.width, rect.height);
                 ctx.restore();
                 break;
             case ImageClipRotation.Rotation270:
                 ctx.save();
-                mtx = new base_1.Matrix2D().appendTransform(rect.width, 0, 1, 1, 90, 0, 0, 0, 0);
-                ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-                ctx.drawImage(image, x, y, w, h, rect.x, rect.y, rect.height, rect.width);
+                ctx.translate(rect.x, rect.y);
+                ctx.rotate(Math.PI / 2);
+                ctx.drawImage(image, x, y, w, h, 0, -rect.width, rect.height, rect.width);
                 ctx.restore();
                 break;
         }
@@ -6301,6 +6302,7 @@ var NinePatchSource = (function () {
         this.right = right;
         this.bottom = bottom;
         this.left = left;
+        ResourceRegistry_1.ResourceRegistry.DefaultInstance.add(this.imageClip.getSrc(), ResourceRegistry_1.ResourceType.IMAGE);
     }
     NinePatchSource.of = function (args) {
         var padding = StyleUtils_1.StyleUtils.parse4Dirs(args[1]);
@@ -6312,7 +6314,7 @@ var NinePatchSource = (function () {
         var width = this.imageClip.getWidth();
         var height = this.imageClip.getHeight();
         var left = this.left.getValue(width);
-        var right = this.right.getValue(height);
+        var right = this.right.getValue(width);
         var xcenter = width - left - right;
         if (xcenter < 0) {
             left = Math.round((left / (left + right)) * width);
@@ -6345,12 +6347,12 @@ var NinePatchSource = (function () {
                 this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, rect.y, rect.width - left - right, top), new Rect_1.Rect(left, 0, xcenter, top));
             }
             if (right > 0) {
-                this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, rect.y, right, top), new Rect_1.Rect(width - right, 0, right, top));
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + rect.width - right, rect.y, right, top), new Rect_1.Rect(width - right, 0, right, top));
             }
         }
         if (ycenter > 0) {
-            var h = rect.height - top - bottom;
             var y1 = rect.y + top;
+            var h = rect.height - top - bottom;
             if (h > 0) {
                 if (left > 0) {
                     this.imageClip.draw(ctx, new Rect_1.Rect(rect.x, y1, left, h), new Rect_1.Rect(0, top, left, ycenter));
