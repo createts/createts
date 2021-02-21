@@ -6361,7 +6361,7 @@ var NinePatchSource = (function () {
                     this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, y1, rect.width - left - right, h), new Rect_1.Rect(left, top, xcenter, ycenter));
                 }
                 if (right > 0) {
-                    this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, y1, right, h), new Rect_1.Rect(width - right, top, right, ycenter));
+                    this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + rect.width - right, y1, right, h), new Rect_1.Rect(width - right, top, right, ycenter));
                 }
             }
         }
@@ -6375,7 +6375,7 @@ var NinePatchSource = (function () {
                 this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + left, y1, rect.width - left - right, bottom), new Rect_1.Rect(left, y2, xcenter, bottom));
             }
             if (right > 0) {
-                this.imageClip.draw(ctx, new Rect_1.Rect(rect.width - right, y1, right, bottom), new Rect_1.Rect(width - right, y2, right, bottom));
+                this.imageClip.draw(ctx, new Rect_1.Rect(rect.x + rect.width - right, y1, right, bottom), new Rect_1.Rect(width - right, y2, right, bottom));
             }
         }
     };

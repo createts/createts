@@ -499,7 +499,7 @@ var NinePatchSource = /*#__PURE__*/function () {
           }
 
           if (right > 0) {
-            this.imageClip.draw(ctx, new Rect(rect.width - right, y1, right, h), new Rect(width - right, top, right, ycenter));
+            this.imageClip.draw(ctx, new Rect(rect.x + rect.width - right, y1, right, h), new Rect(width - right, top, right, ycenter));
           }
         }
       } // draw bottom
@@ -519,7 +519,7 @@ var NinePatchSource = /*#__PURE__*/function () {
         }
 
         if (right > 0) {
-          this.imageClip.draw(ctx, new Rect(rect.width - right, _y, right, bottom), new Rect(width - right, y2, right, bottom));
+          this.imageClip.draw(ctx, new Rect(rect.x + rect.width - right, _y, right, bottom), new Rect(width - right, y2, right, bottom));
         }
       }
     }
