@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Background = exports.BackgroundSizeType = exports.BackgroundClip = exports.BackgroundRepeatType = exports.BackgroundAttachment = void 0;
+exports.Background = exports.BackgroundSizeType = exports.BackgroundClip = exports.BackgroundRepeatType = exports.NinePatchSource = exports.LinearGradientSource = exports.URLSource = exports.BackgroundAttachment = void 0;
 
 var _BaseValue = require("../base/BaseValue");
 
@@ -170,6 +170,8 @@ var URLSource = /*#__PURE__*/function () {
  * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
  */
 
+
+exports.URLSource = URLSource;
 
 var LinearGradientSource = /*#__PURE__*/function () {
   _createClass(LinearGradientSource, null, [{
@@ -403,6 +405,8 @@ var LinearGradientSource = /*#__PURE__*/function () {
  */
 
 
+exports.LinearGradientSource = LinearGradientSource;
+
 var NinePatchSource = /*#__PURE__*/function () {
   _createClass(NinePatchSource, null, [{
     key: "of",
@@ -596,6 +600,7 @@ var NinePatchSource = /*#__PURE__*/function () {
  */
 
 
+exports.NinePatchSource = NinePatchSource;
 var BackgroundRepeatType;
 /**
  * The background-repeat property sets how background images are repeated. A background image can
@@ -1362,7 +1367,7 @@ var Background = /*#__PURE__*/function () {
       for (var i = this.image.length - 1; i >= 0; --i) {
         var source = this.image[i];
 
-        if (!source) {
+        if (!source || !source.ready()) {
           continue;
         }
 
@@ -1389,10 +1394,6 @@ var Background = /*#__PURE__*/function () {
         }
 
         if (_originRect.width < 1 || _originRect.height < 1) {
-          continue;
-        }
-
-        if (!source.ready()) {
           continue;
         }
 

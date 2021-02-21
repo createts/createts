@@ -25,9 +25,7 @@ test('should parse image layer', function () {
   var background = _Background.Background.of('red left 5% / 15% 60% repeat-x url("./star.png")');
 
   expect(background.color).toEqual(_Color.Color.RED);
-  expect(background.image[0]).toEqual({
-    url: './star.png'
-  });
+  expect(background.image[0]).toEqual(_Background.URLSource.of(['./star.png']));
   expect(background.repeat[0]).toEqual({
     x: 'repeat',
     y: 'no-repeat'
@@ -51,9 +49,7 @@ test('should parse multiple image layer', function () {
   var background = _Background.Background.of('red left 5% / 15% 60% repeat-x url("./star.png"), no-repeat center/contain url("./createts.png")');
 
   expect(background.color).toEqual(_Color.Color.RED);
-  expect(background.image[0]).toEqual({
-    url: './star.png'
-  });
+  expect(background.image[0]).toEqual(_Background.URLSource.of(['./star.png']));
   expect(background.repeat[0]).toEqual({
     x: 'repeat',
     y: 'no-repeat'
@@ -72,9 +68,7 @@ test('should parse multiple image layer', function () {
     yDir: 'top',
     y: _BaseValue.BaseValue.of('5%')
   });
-  expect(background.image[1]).toEqual({
-    url: './createts.png'
-  });
+  expect(background.image[1]).toEqual(_Background.URLSource.of(['./createts.png']));
   expect(background.repeat[1]).toEqual({
     x: 'no-repeat',
     y: 'no-repeat'

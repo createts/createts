@@ -36,7 +36,7 @@ interface IBgAttribute<T> {
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
  * Currently we only support image and linear-gradient(beta).
  */
-interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
+export interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
   draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
   ready(): boolean;
   width(originRect: Rect): number;
@@ -55,7 +55,7 @@ interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
  * The URLSource instance holds the image url and ask ResourceRegistry to download the image form
  * this url and provide it as background image.
  */
-class URLSource implements IBackgroundImage {
+export class URLSource implements IBackgroundImage {
   /**
    * Creates an URLSource instance from url(<image path>) function.
    * @param args The arguments of url function.
@@ -138,7 +138,7 @@ class URLSource implements IBackgroundImage {
  *
  * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
  */
-class LinearGradientSource implements IBackgroundImage {
+export class LinearGradientSource implements IBackgroundImage {
   /**
    * Create a LinearGradientSource instance form augments of linear-gradient function.
    * @param value the arguments of linear-gradient function.
@@ -335,7 +335,7 @@ class LinearGradientSource implements IBackgroundImage {
  * |------|------------------|-------|
  * </pre>
  */
-class NinePatchSource implements IBackgroundImage {
+export class NinePatchSource implements IBackgroundImage {
   private args: string[];
   /**
    * Create a LinearGradientSource instance form augments of linear-gradient function.
@@ -1505,7 +1505,7 @@ export class Background {
 
     for (let i = this.image.length - 1; i >= 0; --i) {
       const source = this.image[i];
-      if (!source) {
+      if (!source || !source.ready()) {
         continue;
       }
       const origin = Background.getFromArray(this.origin, i, BackgroundClip.BORDER_BOX);
@@ -1525,10 +1525,6 @@ export class Background {
       }
 
       if (originRect.width < 1 || originRect.height < 1) {
-        continue;
-      }
-
-      if (!source.ready()) {
         continue;
       }
 

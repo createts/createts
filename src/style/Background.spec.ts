@@ -1,7 +1,7 @@
 import { BaseValue } from '../base/BaseValue';
 import { Color } from '../base/Color';
 import { Resource, ResourceRegistry, ResourceType } from '../resource/ResourceRegistry';
-import { Background, BackgroundClip } from './Background';
+import { Background, BackgroundClip, URLSource } from './Background';
 
 // Disable loading image.
 // TODO: move image loading while attach style to element?
@@ -19,7 +19,7 @@ test('should parse color', () => {
 test('should parse image layer', () => {
   const background = Background.of('red left 5% / 15% 60% repeat-x url("./star.png")');
   expect(background.color).toEqual(Color.RED);
-  expect(background.image[0]).toEqual({ url: './star.png' });
+  expect(background.image[0]).toEqual(URLSource.of(['./star.png']));
   expect(background.repeat[0]).toEqual({ x: 'repeat', y: 'no-repeat' });
   expect(background.clip[0]).toEqual(BackgroundClip.CONTENT_BOX);
   expect(background.origin[0]).toEqual(BackgroundClip.PADDING_BOX);
@@ -42,7 +42,7 @@ test('should parse multiple image layer', () => {
     'red left 5% / 15% 60% repeat-x url("./star.png"), no-repeat center/contain url("./createts.png")'
   );
   expect(background.color).toEqual(Color.RED);
-  expect(background.image[0]).toEqual({ url: './star.png' });
+  expect(background.image[0]).toEqual(URLSource.of(['./star.png']));
   expect(background.repeat[0]).toEqual({ x: 'repeat', y: 'no-repeat' });
   expect(background.clip[0]).toEqual(BackgroundClip.CONTENT_BOX);
   expect(background.origin[0]).toEqual(BackgroundClip.PADDING_BOX);
@@ -58,7 +58,7 @@ test('should parse multiple image layer', () => {
     yDir: 'top',
     y: BaseValue.of('5%')
   });
-  expect(background.image[1]).toEqual({ url: './createts.png' });
+  expect(background.image[1]).toEqual(URLSource.of(['./createts.png']));
   expect(background.repeat[1]).toEqual({ x: 'no-repeat', y: 'no-repeat' });
   expect(background.clip[1]).toEqual(BackgroundClip.CONTENT_BOX);
   expect(background.origin[1]).toEqual(BackgroundClip.PADDING_BOX);

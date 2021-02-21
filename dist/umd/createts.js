@@ -6164,6 +6164,7 @@ var URLSource = (function () {
     };
     return URLSource;
 }());
+exports.URLSource = URLSource;
 var LinearGradientSource = (function () {
     function LinearGradientSource(value) {
         this.parameters = value;
@@ -6295,6 +6296,7 @@ var LinearGradientSource = (function () {
     };
     return LinearGradientSource;
 }());
+exports.LinearGradientSource = LinearGradientSource;
 var NinePatchSource = (function () {
     function NinePatchSource(imageClip, top, right, bottom, left) {
         this.imageClip = imageClip;
@@ -6397,6 +6399,7 @@ var NinePatchSource = (function () {
     NinePatchSource.prototype.destroy = function () { };
     return NinePatchSource;
 }());
+exports.NinePatchSource = NinePatchSource;
 var BackgroundRepeatType;
 (function (BackgroundRepeatType) {
     BackgroundRepeatType["REPEAT"] = "repeat";
@@ -7028,7 +7031,7 @@ var Background = (function () {
         }
         for (var i = this.image.length - 1; i >= 0; --i) {
             var source = this.image[i];
-            if (!source) {
+            if (!source || !source.ready()) {
                 continue;
             }
             var origin_3 = Background.getFromArray(this.origin, i, BackgroundClip.BORDER_BOX);
@@ -7047,9 +7050,6 @@ var Background = (function () {
                     break;
             }
             if (originRect.width < 1 || originRect.height < 1) {
-                continue;
-            }
-            if (!source.ready()) {
                 continue;
             }
             var clipRect = void 0;

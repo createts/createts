@@ -3,18 +3,62 @@ import { Color } from '../base/Color';
 import { Rect } from '../base/Rect';
 import { RoundRect } from '../base/RoundRect';
 import { XObject } from '../components/XObject';
+import { ImageClip } from '../resource';
 export declare enum BackgroundAttachment {
     SCROLL = "scroll"
 }
 interface IBgAttribute<T> {
     clone(): T;
 }
-interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
+export interface IBackgroundImage extends IBgAttribute<IBackgroundImage> {
     draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
     ready(): boolean;
     width(originRect: Rect): number;
     height(originRect: Rect): number;
     toString(): string;
+    destroy(): void;
+}
+export declare class URLSource implements IBackgroundImage {
+    static of(args: string[]): URLSource;
+    private url;
+    private imageClip;
+    constructor(url: string);
+    draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
+    ready(): boolean;
+    width(originRect: Rect): number;
+    height(originRect: Rect): number;
+    toString(): string;
+    clone(): IBackgroundImage;
+    destroy(): void;
+}
+export declare class LinearGradientSource implements IBackgroundImage {
+    static of(args: string[]): LinearGradientSource;
+    private parameters;
+    private canvas?;
+    constructor(value: string[]);
+    draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): HTMLCanvasElement;
+    ready(): boolean;
+    width(originRect: Rect): number;
+    height(originRect: Rect): number;
+    toString(): string;
+    clone(): IBackgroundImage;
+    destroy(): void;
+}
+export declare class NinePatchSource implements IBackgroundImage {
+    private args;
+    static of(args: string[]): NinePatchSource;
+    private imageClip;
+    private top;
+    private right;
+    private bottom;
+    private left;
+    constructor(imageClip: ImageClip, top: BaseValue, right: BaseValue, bottom: BaseValue, left: BaseValue);
+    draw(ctx: CanvasRenderingContext2D, rect: Rect, srcRect?: Rect): void;
+    toString(): string;
+    ready(): boolean;
+    width(originRect: Rect): number;
+    height(originRect: Rect): number;
+    clone(): IBackgroundImage;
     destroy(): void;
 }
 export declare enum BackgroundRepeatType {

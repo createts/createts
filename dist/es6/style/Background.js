@@ -49,7 +49,7 @@ export var BackgroundAttachment;
  * The URLSource instance holds the image url and ask ResourceRegistry to download the image form
  * this url and provide it as background image.
  */
-var URLSource = /*#__PURE__*/function () {
+export var URLSource = /*#__PURE__*/function () {
   _createClass(URLSource, null, [{
     key: "of",
 
@@ -152,8 +152,7 @@ var URLSource = /*#__PURE__*/function () {
  * see: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
  */
 
-
-var LinearGradientSource = /*#__PURE__*/function () {
+export var LinearGradientSource = /*#__PURE__*/function () {
   _createClass(LinearGradientSource, null, [{
     key: "of",
 
@@ -383,8 +382,7 @@ var LinearGradientSource = /*#__PURE__*/function () {
  * </pre>
  */
 
-
-var NinePatchSource = /*#__PURE__*/function () {
+export var NinePatchSource = /*#__PURE__*/function () {
   _createClass(NinePatchSource, null, [{
     key: "of",
 
@@ -573,7 +571,6 @@ var NinePatchSource = /*#__PURE__*/function () {
  * The background-repeat type for horizontal and vertical axes.
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
  */
-
 
 export var BackgroundRepeatType;
 /**
@@ -1329,7 +1326,7 @@ export var Background = /*#__PURE__*/function () {
       for (var i = this.image.length - 1; i >= 0; --i) {
         var source = this.image[i];
 
-        if (!source) {
+        if (!source || !source.ready()) {
           continue;
         }
 
@@ -1356,10 +1353,6 @@ export var Background = /*#__PURE__*/function () {
         }
 
         if (_originRect.width < 1 || _originRect.height < 1) {
-          continue;
-        }
-
-        if (!source.ready()) {
           continue;
         }
 
